@@ -99,6 +99,8 @@ class TiendaControllerShippingMethods extends TiendaController
         $row->bind($_POST);
         if ( $row->save() ) 
         {
+            $model->clearCache();
+            
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
         } 
@@ -151,6 +153,8 @@ class TiendaControllerShippingMethods extends TiendaController
                 $error = true;
             }
         }
+        
+        $model->clearCache();
         
         if ($error)
         {

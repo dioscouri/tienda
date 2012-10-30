@@ -15,6 +15,8 @@ Tienda::load( 'TiendaModelOrders', 'models.orders' );
 
 class TiendaModelPOS extends TiendaModelOrders
 {
+    public $cache_enabled = false;
+    
     function getTable($name='Orders', $prefix='TiendaTable', $options = array())
     {
         return parent::getTable( $name, $prefix, $options );

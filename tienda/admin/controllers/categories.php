@@ -293,6 +293,8 @@ class TiendaControllerCategories extends TiendaController
 				}
 			}
 		}
+		
+		$model->clearCache();
 
 		if ($error)
 		{

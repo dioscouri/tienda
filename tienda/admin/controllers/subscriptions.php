@@ -78,6 +78,9 @@ class TiendaControllerSubscriptions extends TiendaController
         $row->subscription_id = JRequest::getInt('id');
         if ($row->save())
         {
+            $model = $this->getModel( $this->get('suffix') );
+            $model->clearCache();
+            
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
         }

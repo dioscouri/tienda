@@ -106,8 +106,18 @@ class TiendaControllerZones extends TiendaController
 		$zonerelation->zone_id = $zoneid;
 		$zonerelation->geozone_id = $geozoneid;
 
-		$html = ($zonerelation->save()) ? TiendaHTML::zoneRelationsList($geozoneid) : $zonerelation->getError();
-
+		if ($zonerelation->save())
+		{
+		    $model = $this->getModel( 'zonerelations' );
+		    $model->clearCache();
+		
+		    $html = TiendaHTML::zoneRelationsList($geozoneid);
+		}
+		else
+		{
+		    $html = $zonerelation->getError();
+		}
+		
 		// set response array
 		$response = array();
 		$response['msg'] = $html;
@@ -133,8 +143,18 @@ class TiendaControllerZones extends TiendaController
 		$zonerelation = JTable::getInstance( 'Zonerelations', 'TiendaTable' );
 		$zonerelation->load( $zrid );
 
-		$html = ($zonerelation->delete()) ? TiendaHTML::zoneRelationsList($geozoneid) : $zonerelation->getError();
+		if ($zonerelation->delete()) 
+		{
+		    $model = $this->getModel( 'zonerelations' );
+		    $model->clearCache();
 
+		    $html = TiendaHTML::zoneRelationsList($geozoneid);
+		} 
+		else 
+		{
+		    $html = $zonerelation->getError();
+		}
+		
 		// set response array
 		$response = array();
 		$response['msg'] = $html;

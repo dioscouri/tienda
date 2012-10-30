@@ -208,6 +208,8 @@ class TiendaControllerGroups extends TiendaController
 			}
 		}
 
+		$model->clearCache();
+		
 		if ($error)
 		{
 			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;

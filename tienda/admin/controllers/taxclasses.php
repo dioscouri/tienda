@@ -69,6 +69,8 @@ class TiendaControllerTaxclasses extends TiendaController
         
         if ( $row->save() ) 
         {
+            $model->clearCache();
+            
             $dispatcher = JDispatcher::getInstance();
             $dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
             $this->messagetype  = 'notice';
@@ -120,6 +122,8 @@ class TiendaControllerTaxclasses extends TiendaController
                 $error = true;
             }
         }
+        
+        $model->clearCache();
         
         if ($error)
         {

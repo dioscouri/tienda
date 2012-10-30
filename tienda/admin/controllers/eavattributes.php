@@ -192,6 +192,8 @@ class TiendaControllerEavAttributes extends TiendaController
 				}
 			}
 		}
+		
+		$model->clearCache();
 
 		if ($error)
 		{

@@ -740,6 +740,8 @@ class TiendaControllerProducts extends TiendaController
 				}
 			}
 		}
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -827,6 +829,8 @@ class TiendaControllerProducts extends TiendaController
 				$error = true;
 			}
 		}
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -896,6 +900,8 @@ class TiendaControllerProducts extends TiendaController
 		
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
@@ -950,6 +956,8 @@ class TiendaControllerProducts extends TiendaController
 				$error = true;
 			}
 		}
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -1017,6 +1025,8 @@ class TiendaControllerProducts extends TiendaController
 		
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
@@ -1065,6 +1075,8 @@ class TiendaControllerProducts extends TiendaController
 				$error = true;
 			}
 		}
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -1134,6 +1146,8 @@ class TiendaControllerProducts extends TiendaController
         
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
@@ -1183,6 +1197,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		$row->reorder();
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -1293,6 +1309,8 @@ class TiendaControllerProducts extends TiendaController
         
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
@@ -1326,6 +1344,8 @@ class TiendaControllerProducts extends TiendaController
 		
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 		}
@@ -1388,6 +1408,8 @@ class TiendaControllerProducts extends TiendaController
 		}
 		$row->reorder();
 
+		$model->clearCache();
+		
 		if ($error)
 		{
 			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
@@ -1439,6 +1461,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		$row->reorder();
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -1529,6 +1553,8 @@ class TiendaControllerProducts extends TiendaController
 
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 			$this->messagetype  = 'notice';
@@ -1578,6 +1604,8 @@ class TiendaControllerProducts extends TiendaController
 
 		if ( $row->save() )
 		{
+		    $model->clearCache();
+		    
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterSave'.$this->get('suffix'), array( $row ) );
 			$this->messagetype  = 'notice';
@@ -1664,6 +1692,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		$row->reorder();
+		
+		$model->clearCache();
 
 		if ($error)
 		{
@@ -1788,6 +1818,8 @@ class TiendaControllerProducts extends TiendaController
 			{
 				JFactory::getApplication()->enqueueMessage( $row->getError(), 'notice' );
 			}
+			
+			$model->clearCache();
 
 			$this->message = JText::_('COM_TIENDA_UPDATE_SUCCESSFUL');
 			$this->messagetype = 'message';

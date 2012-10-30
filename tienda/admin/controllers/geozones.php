@@ -13,412 +13,416 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class TiendaControllerGeozones extends TiendaController
 {
-	/**
-	 * constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
+    /**
+     * constructor
+     */
+    function __construct()
+    {
+        parent::__construct();
 
-		$this->set('suffix', 'geozones');
-		$this->registerTask( 'selected_enable', 'selected_switch' );
-		$this->registerTask( 'selected_disable', 'selected_switch' );
-		$this->registerTask( 'plugin_enable', 'plugin_switch' );
-		$this->registerTask( 'plugin_disable', 'plugin_switch' );
-	}
+        $this->set('suffix', 'geozones');
+        $this->registerTask( 'selected_enable', 'selected_switch' );
+        $this->registerTask( 'selected_disable', 'selected_switch' );
+        $this->registerTask( 'plugin_enable', 'plugin_switch' );
+        $this->registerTask( 'plugin_disable', 'plugin_switch' );
+    }
 
-	/**
-	 * Sets the model's state
-	 *
-	 * @return array()
-	 */
-	function _setModelState()
-	{
-		$state = parent::_setModelState();
-		$app = JFactory::getApplication();
-		$model = $this->getModel( $this->get('suffix') );
-		$ns = $this->getNamespace();
+    /**
+     * Sets the model's state
+     *
+     * @return array()
+     */
+    function _setModelState()
+    {
+        $state = parent::_setModelState();
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $this->get('suffix') );
+        $ns = $this->getNamespace();
 
-		$state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
-		$state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
-		$state['filter_name']       = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-		$state['filter_geozonetype'] = $app->getUserStateFromRequest($ns.'geozonetype', 'filter_geozonetype', '', '');
+        $state['filter_id_from']    = $app->getUserStateFromRequest($ns.'id_from', 'filter_id_from', '', '');
+        $state['filter_id_to']      = $app->getUserStateFromRequest($ns.'id_to', 'filter_id_to', '', '');
+        $state['filter_name']       = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['filter_geozonetype'] = $app->getUserStateFromRequest($ns.'geozonetype', 'filter_geozonetype', '', '');
 
-		foreach (@$state as $key=>$value)
-		{
-			$model->setState( $key, $value );
-		}
-		return $state;
-	}
-	 
-	/**
-	 * Loads view for assigning product to categories
-	 *
-	 * @return unknown_type
-	 */
-	function selectzones()
-	{
-		$this->set('suffix', 'zones');
-		$state = parent::_setModelState();
-		$app = JFactory::getApplication();
-		$model = $this->getModel( $this->get('suffix') );
-		$ns = $this->getNamespace();
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
+        return $state;
+    }
 
-		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$row = $model->getTable( 'geozones' );
-		$row->load( $id );
+    /**
+     * Loads view for assigning product to categories
+     *
+     * @return unknown_type
+     */
+    function selectzones()
+    {
+        $this->set('suffix', 'zones');
+        $state = parent::_setModelState();
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $this->get('suffix') );
+        $ns = $this->getNamespace();
 
-		$state['filter_associated']   = $app->getUserStateFromRequest($ns.'associated', 'filter_associated', '', '');
-		if ($state['filter_associated'])
-		{
-			$state['filter_geozoneid']   = $id;
-		}
-		$state['filter_countryid']   = $app->getUserStateFromRequest($ns.'countryid', 'filter_countryid', '', '');
-		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.zone_name', 'cmd');
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $row = $model->getTable( 'geozones' );
+        $row->load( $id );
 
-		foreach (@$state as $key=>$value)
-		{
-			$model->setState( $key, $value );
-		}
+        $state['filter_associated']   = $app->getUserStateFromRequest($ns.'associated', 'filter_associated', '', '');
+        if ($state['filter_associated'])
+        {
+            $state['filter_geozoneid']   = $id;
+        }
+        $state['filter_countryid']   = $app->getUserStateFromRequest($ns.'countryid', 'filter_countryid', '', '');
+        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.zone_name', 'cmd');
 
-		$view   = $this->getView( 'geozones', 'html' );
-		$view->set( '_controller', 'geozones' );
-		$view->set( '_view', 'geozones' );
-		$view->set( 'leftMenu', false );
-		$view->set( '_action', "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$model->getId() );
-		$view->setModel( $model, true );
-		$view->assign( 'state', $model->getState() );
-		$view->assign( 'row', $row );
-		$view->setLayout( 'selectzones' );
-		$view->setTask(true);
-		$view->display();
-	}
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
 
-	/**
-	 *
-	 * @return unknown_type
-	 */
-	function selected_switch()
-	{
-		$error = false;
-		$this->messagetype  = '';
-		$this->message      = '';
+        $view   = $this->getView( 'geozones', 'html' );
+        $view->set( '_controller', 'geozones' );
+        $view->set( '_view', 'geozones' );
+        $view->set( 'leftMenu', false );
+        $view->set( '_action', "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$model->getId() );
+        $view->setModel( $model, true );
+        $view->assign( 'state', $model->getState() );
+        $view->assign( 'row', $row );
+        $view->setLayout( 'selectzones' );
+        $view->setTask(true);
+        $view->display();
+    }
 
-		$model = $this->getModel($this->get('suffix'));
-		$row = $model->getTable();
+    /**
+     *
+     * @return unknown_type
+     */
+    function selected_switch()
+    {
+        $error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
 
-		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
-		$task = JRequest::getVar( 'task' );
-		$vals = explode('_', $task);
+        $model = $this->getModel($this->get('suffix'));
+        $row = $model->getTable();
 
-		$field = $vals['0'];
-		$action = $vals['1'];
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $cids = JRequest::getVar('cid', array (0), 'request', 'array');
+        $task = JRequest::getVar( 'task' );
+        $vals = explode('_', $task);
 
-		switch (strtolower($action))
-		{
-			case "switch":
-				$switch = '1';
-				break;
-			case "disable":
-				$enable = '0';
-				$switch = '0';
-				break;
-			case "enable":
-				$enable = '1';
-				$switch = '0';
-				break;
-			default:
-				$this->messagetype  = 'notice';
-				$this->message      = JText::_('COM_TIENDA_INVALID_TASK');
-				$this->setRedirect( $redirect, $this->message, $this->messagetype );
-				return;
-				break;
-		}
+        $field = $vals['0'];
+        $action = $vals['1'];
 
-		$keynames = array();
-		foreach (@$cids as $cid)
-		{
-			$table = JTable::getInstance('ZoneRelations', 'TiendaTable');
-			$keynames["geozone_id"] = $id;
-			$keynames["zone_id"] = $cid;
-			$table->load( $keynames );
-			if ($switch)
-			{
-				if (!empty($table->zone_id))
-				{
-					if (!$table->delete())
-					{
-						$this->message .= $cid.': '.$table->getError().'<br/>';
-						$this->messagetype = 'notice';
-						$error = true;
-					}
-				}
-				else
-				{
-					$table->geozone_id = $id;
-					$table->zone_id = $cid;
-					if (!$table->save())
-					{
-						$this->message .= $cid.': '.$table->getError().'<br/>';
-						$this->messagetype = 'notice';
-						$error = true;
-					}
-				}
-			}
-			else
-			{
-				switch ($enable)
-				{
-					case "1":
-						$table->geozone_id = $id;
-						$table->zone_id = $cid;
-						if (!$table->save())
-						{
-							$this->message .= $cid.': '.$table->getError().'<br/>';
-							$this->messagetype = 'notice';
-							$error = true;
-						}
-						break;
-					case "0":
-					default:
-						if (!$table->delete())
-						{
-							$this->message .= $cid.': '.$table->getError().'<br/>';
-							$this->messagetype = 'notice';
-							$error = true;
-						}
-						break;
-				}
-			}
-		}
+        switch (strtolower($action))
+        {
+            case "switch":
+                $switch = '1';
+                break;
+            case "disable":
+                $enable = '0';
+                $switch = '0';
+                break;
+            case "enable":
+                $enable = '1';
+                $switch = '0';
+                break;
+            default:
+                $this->messagetype  = 'notice';
+                $this->message      = JText::_('COM_TIENDA_INVALID_TASK');
+                $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                return;
+                break;
+        }
 
-		if ($error)
-		{
-			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
-		}
-		else
-		{
-			$this->message = "";
-		}
+        $keynames = array();
+        foreach (@$cids as $cid)
+        {
+            $table = JTable::getInstance('ZoneRelations', 'TiendaTable');
+            $keynames["geozone_id"] = $id;
+            $keynames["zone_id"] = $cid;
+            $table->load( $keynames );
+            if ($switch)
+            {
+                if (!empty($table->zone_id))
+                {
+                    if (!$table->delete())
+                    {
+                        $this->message .= $cid.': '.$table->getError().'<br/>';
+                        $this->messagetype = 'notice';
+                        $error = true;
+                    }
+                }
+                else
+                {
+                    $table->geozone_id = $id;
+                    $table->zone_id = $cid;
+                    if (!$table->save())
+                    {
+                        $this->message .= $cid.': '.$table->getError().'<br/>';
+                        $this->messagetype = 'notice';
+                        $error = true;
+                    }
+                }
+            }
+            else
+            {
+                switch ($enable)
+                {
+                    case "1":
+                        $table->geozone_id = $id;
+                        $table->zone_id = $cid;
+                        if (!$table->save())
+                        {
+                            $this->message .= $cid.': '.$table->getError().'<br/>';
+                            $this->messagetype = 'notice';
+                            $error = true;
+                        }
+                        break;
+                    case "0":
+                    default:
+                        if (!$table->delete())
+                        {
+                            $this->message .= $cid.': '.$table->getError().'<br/>';
+                            $this->messagetype = 'notice';
+                            $error = true;
+                        }
+                        break;
+                }
+            }
+        }
 
-		$redirect = JRequest::getVar( 'return' ) ?
-		base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
-		$redirect = JRoute::_( $redirect, false );
-		$this->setRedirect( $redirect, $this->message, $this->messagetype );
-	}
+        $model->clearCache();
 
-	/**
-	 * Saves the zip code ranges for all the enabled zones in the list
-	 *
-	 * @return unknown_type
-	 */
-	function savezipranges()
-	{
-		$error = false;
-		$this->messagetype  = '';
-		$this->message      = '';
-		$model = $this->getModel('zonerelations');
-		$row = $model->getTable();
+        if ($error)
+        {
+            $this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
+        }
+        else
+        {
+            $this->message = "";
+        }
 
-		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
-		$ranges = JRequest::getVar('zip_range', array(0), 'request', 'array');
+        $redirect = JRequest::getVar( 'return' ) ?
+        base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
+        $redirect = JRoute::_( $redirect, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
 
-		foreach($cids as $cid)
-		{
-			$keynames["geozone_id"] = $id;
-			$keynames["zone_id"] = $cid;
-			$row->load( $keynames );
+    /**
+     * Saves the zip code ranges for all the enabled zones in the list
+     *
+     * @return unknown_type
+     */
+    function savezipranges()
+    {
+        $error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
+        $model = $this->getModel('zonerelations');
+        $row = $model->getTable();
 
-			if (!empty($row->zone_id))
-			{
-				$row->zip_range = $ranges[$cid];
-				if (!$row->save())
-				{
-					$this->message .= $cid.': '.$row->getError().'<br/>';
-					$this->messagetype = 'notice';
-					$error = true;
-				}
-			}
-		}
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $cids = JRequest::getVar('cid', array(0), 'request', 'array');
+        $ranges = JRequest::getVar('zip_range', array(0), 'request', 'array');
 
-		if ($error)
-		{
-			$this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
-		}
-		else
-		{
-			$this->message = "";
-		}
+        foreach($cids as $cid)
+        {
+            $keynames["geozone_id"] = $id;
+            $keynames["zone_id"] = $cid;
+            $row->load( $keynames );
 
-		$redirect = "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
-		$redirect = JRoute::_( $redirect, false );
+            if (!empty($row->zone_id))
+            {
+                $row->zip_range = $ranges[$cid];
+                if (!$row->save())
+                {
+                    $this->message .= $cid.': '.$row->getError().'<br/>';
+                    $this->messagetype = 'notice';
+                    $error = true;
+                }
+            }
+        }
 
-		$this->setRedirect( $redirect, $this->message, $this->messagetype );
-	}
+        $model->clearCache();
 
-	/**
-	 * Method to add/remove the geozone to plugin parameter
-	 */
-	function plugin_switch()
-	{
-		$error = false;
-		$this->messagetype  = '';
-		$this->message      = '';
+        if ($error)
+        {
+            $this->message = JText::_('COM_TIENDA_ERROR') . " - " . $this->message;
+        }
+        else
+        {
+            $this->message = "";
+        }
 
-		$type = JRequest::getVar('type');
-		Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
-		$suffix = TiendaHelperPlugin::getSuffix($type);
+        $redirect = "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
+        $redirect = JRoute::_( $redirect, false );
 
-		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
-		$task = JRequest::getVar( 'task' );
-		$vals = explode('_', $task);
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
 
-		$field = $vals['0'];
-		$action = $vals['1'];
+    /**
+     * Method to add/remove the geozone to plugin parameter
+     */
+    function plugin_switch()
+    {
+        $error = false;
+        $this->messagetype  = '';
+        $this->message      = '';
 
-		switch (strtolower($action))
-		{
-			case "switch":
-				$switch = '1';
-				break;
-			case "disable":
-				$enable = '0';
-				$switch = '0';
-				break;
-			case "enable":
-				$enable = '1';
-				$switch = '0';
-				break;
-			default:
-				$this->messagetype  = 'notice';
-				$this->message      = JText::_('COM_TIENDA_INVALID_TASK');
-				$this->setRedirect( $redirect, $this->message, $this->messagetype );
-				return;
-				break;
-		}
+        $type = JRequest::getVar('type');
+        Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
+        $suffix = TiendaHelperPlugin::getSuffix($type);
 
-		$model = $this->getModel($suffix);
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $cids = JRequest::getVar('cid', array (0), 'request', 'array');
+        $task = JRequest::getVar( 'task' );
+        $vals = explode('_', $task);
 
-		$keynames = array();
-		foreach (@$cids as $cid)
-		{
-			$row = $model->getTable();
-			
-			if(version_compare(JVERSION,'1.6.0','ge')) {
-	        // Joomla! 1.6+ code here
-	        $keynames["extension_id"] = $cid;
-	    } else {
-	        // Joomla! 1.5 code here
-	        $keynames["id"] = $cid;
-	    }
-			
-			
-			$row->load( $keynames );
-			 
-			$params = new DSCParameter($row->params);
-			 
-			$geozones = explode(',',$params->get('geozones'));
+        $field = $vals['0'];
+        $action = $vals['1'];
 
+        switch (strtolower($action))
+        {
+            case "switch":
+                $switch = '1';
+                break;
+            case "disable":
+                $enable = '0';
+                $switch = '0';
+                break;
+            case "enable":
+                $enable = '1';
+                $switch = '0';
+                break;
+            default:
+                $this->messagetype  = 'notice';
+                $this->message      = JText::_('COM_TIENDA_INVALID_TASK');
+                $this->setRedirect( $redirect, $this->message, $this->messagetype );
+                return;
+                break;
+        }
 
-			if ($switch)
-			{
-				if (in_array($id, $geozones))
-				{
-					$geozones = explode(',',$params->get('geozones'));
-					$geozones = array_diff($geozones, array($id));
-				}
-				else
-				{
-					$geozones[] = $id;
-				}
-			}
-			else
-			{
-				switch($enable)
-				{
-					case "1":
-						$geozones[] = $id;
-						break;
-					case "0":
-					default:
-						$geozones = explode(',',$params->get('geozones'));
-						$geozones = array_diff($geozones, array($id));
-						break;
-				}
-			}
-			 
-			$geozones = array_filter($geozones, 'strlen'); //remove empty values
-			$params->set( 'geozones', implode(',', array_unique($geozones)) );  //remove duplicate
-			$row->params = trim( $params->toString() );
+        $model = $this->getModel($suffix);
 
-			if (!$row->save())
-			{
-				$this->message .= $cid.': '.$row->getError().'<br/>';
-				$this->messagetype = 'notice';
-				$error = true;
-			}
-		}
+        $keynames = array();
+        foreach (@$cids as $cid)
+        {
+            $row = $model->getTable();
+            	
+            if(version_compare(JVERSION,'1.6.0','ge')) {
+                // Joomla! 1.6+ code here
+                $keynames["extension_id"] = $cid;
+            } else {
+                // Joomla! 1.5 code here
+                $keynames["id"] = $cid;
+            }
 
-		if($error)
-		{
-			$this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
-		}
-		 
-		$redirect = JRoute::_( "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$id, false );
-		$this->setRedirect( $redirect, $this->message, $this->messagetype );
-	}
+            $row->load( $keynames );
 
-	/**
-	 * Method to assign payment/shipping methods to the geozones
-	 */
-	function selectplugins()
-	{
-		$type = JRequest::getVar('type');
-		Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
-		$suffix = TiendaHelperPlugin::getSuffix($type);
+            $params = new DSCParameter($row->params);
 
-		$state = parent::_setModelState();
-		$app = JFactory::getApplication();
-		$model = $this->getModel( $suffix );
-		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
+            $geozones = explode(',',$params->get('geozones'));
 
-		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$row = $model->getTable( 'geozones' );
-		$row->load( $id );
+            if ($switch)
+            {
+                if (in_array($id, $geozones))
+                {
+                    $geozones = explode(',',$params->get('geozones'));
+                    $geozones = array_diff($geozones, array($id));
+                }
+                else
+                {
+                    $geozones[] = $id;
+                }
+            }
+            else
+            {
+                switch($enable)
+                {
+                    case "1":
+                        $geozones[] = $id;
+                        break;
+                    case "0":
+                    default:
+                        $geozones = explode(',',$params->get('geozones'));
+                        $geozones = array_diff($geozones, array($id));
+                        break;
+                }
+            }
 
-		$state['filter_enabled'] = '1';
-		$state['filter_name']   = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
-		$state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.name', 'cmd');
+            $geozones = array_filter($geozones, 'strlen'); //remove empty values
+            $params->set( 'geozones', implode(',', array_unique($geozones)) );  //remove duplicate
+            $row->params = trim( $params->toString() );
 
-		foreach (@$state as $key=>$value)
-		{
-			$model->setState( $key, $value );
-		}
+            if (!$row->save())
+            {
+                $this->message .= $cid.': '.$row->getError().'<br/>';
+                $this->messagetype = 'notice';
+                $error = true;
+            }
+        }
 
-		$view   = $this->getView( 'geozones', 'html' );
-		$view->set( '_controller', 'geozones' );
-		$view->set( '_view', 'geozones' );
-		$view->set( 'leftMenu', false );
-		$view->set( '_action', "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$model->getId() );
-		$view->setModel( $model, true );
+        $model->clearCache();
 
-		$items = $model->getList();
-		foreach($items as $item)
-		{
-			$params = new DSCParameter($item->params);
-			$item->geozones = explode(',',$params->get('geozones'));
-		}
+        if($error)
+        {
+            $this->message = JText::_('COM_TIENDA_ERROR') . ": " . $this->message;
+        }
+        	
+        $redirect = JRoute::_( "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$id, false );
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
 
-		$view->assign( 'suffix', $suffix );
-		$view->assign( 'state', $model->getState() );
-		$view->assign( 'row', $row );
-		$view->setLayout( 'selectplugins' );
-		$view->setTask(true);
-		$view->display();
-	}
+    /**
+     * Method to assign payment/shipping methods to the geozones
+     */
+    function selectplugins()
+    {
+        $type = JRequest::getVar('type');
+        Tienda::load( "TiendaHelperPlugin", 'helpers.plugin' );
+        $suffix = TiendaHelperPlugin::getSuffix($type);
+
+        $state = parent::_setModelState();
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $suffix );
+        $ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
+
+        $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+        $row = $model->getTable( 'geozones' );
+        $row->load( $id );
+
+        $state['filter_enabled'] = '1';
+        $state['filter_name']   = $app->getUserStateFromRequest($ns.'name', 'filter_name', '', '');
+        $state['order']     = $app->getUserStateFromRequest($ns.'.filter_order', 'filter_order', 'tbl.name', 'cmd');
+
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );
+        }
+
+        $view   = $this->getView( 'geozones', 'html' );
+        $view->set( '_controller', 'geozones' );
+        $view->set( '_view', 'geozones' );
+        $view->set( 'leftMenu', false );
+        $view->set( '_action', "index.php?option=com_tienda&controller=geozones&task=selectplugins&type={$type}&tmpl=component&id=".$model->getId() );
+        $view->setModel( $model, true );
+
+        $items = $model->getList();
+        foreach($items as $item)
+        {
+            $params = new DSCParameter($item->params);
+            $item->geozones = explode(',',$params->get('geozones'));
+        }
+
+        $view->assign( 'suffix', $suffix );
+        $view->assign( 'state', $model->getState() );
+        $view->assign( 'row', $row );
+        $view->setLayout( 'selectplugins' );
+        $view->setTask(true);
+        $view->display();
+    }
 }
 
 ?>
