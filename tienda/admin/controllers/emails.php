@@ -29,7 +29,7 @@ class TiendaControllerEmails extends TiendaController
 	 * (non-PHPdoc)
 	 * @see tienda/admin/TiendaController::edit()
 	 */
-	function edit()
+	function edit($cachable=false, $urlparams = false)
 	{
         $id = JRequest::getVar('id', 'en-GB');
         
