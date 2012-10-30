@@ -207,10 +207,10 @@ class TiendaModelSubscriptions extends TiendaModelBase
         return $list;
     }
     
-   	public function getItem( $emptyState=true )
+   	public function getItem( $pk=null, $refresh=false, $emptyState=true )
     {
         Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-        if ($item = parent::getItem($emptyState))
+        if ($item = parent::getItem($pk, $refresh, $emptyState))
         {
             $item->link = 'index.php?option=com_tienda&view=subscriptions&task=edit&id='.$item->subscription_id;
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;

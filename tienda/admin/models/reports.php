@@ -75,7 +75,7 @@ class TiendaModelReports extends TiendaModelBase
 	 *
 	 * @return database->loadObject() record
 	 */
-	public function getItem( $emptyState=true )
+	public function getItem( $pk=null, $refresh=false, $emptyState=true )
 	{
 		if (empty( $this->_item ))
 		{

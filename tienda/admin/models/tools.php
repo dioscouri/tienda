@@ -75,7 +75,7 @@ class TiendaModelTools extends TiendaModelBase
 	 *
 	 * @return database->loadObject() record
 	 */
-	public function getItem( $emptyState=true )
+	public function getItem( $pk=null, $refresh=false, $emptyState=true )
 	{
 		parent::getItem( $emptyState );
 		// adding this in the model so we don't have to have if statemnets all over the views and controllers'

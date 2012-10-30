@@ -139,17 +139,14 @@ class TiendaModelProductFiles extends TiendaModelBase
 		return $this->_list;
 	}
 	
-	public function getItem( $emptyState = true )
+	public function getItem( $pk=null, $refresh=false, $emptyState=true )
 	{
-		if( empty( $this->_item ) )
+		if ( $item = parent::getItem( $pk, $refresh, $emptyState ) )
 		{
-			if( $item = &parent::getItem( $emptyState ) )
-			{
-				$item->productfile_path = $this->correctPath( $item->productfile_path );
-			}
-			$this->_item = $item;
+			$item->productfile_path = $this->correctPath( $item->productfile_path );
 		}
-		return $this->_item;
+
+		return $item;
 	}
 	
 	public function correctPath( $act_path )

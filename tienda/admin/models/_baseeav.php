@@ -184,11 +184,11 @@ class TiendaModelEav extends TiendaModelBase
 	 * @param	boolean	$emptyState
 	 * @param	boolean	$getEav
 	 */
-	public function getItem( $emptyState = true, $getEav = true )
+	public function getItem( $refresh = true, $getEav = true, $emptyState=true )
 	{
 		if (empty( $this->_item ))
 		{
-			$item = parent::getItem( $emptyState );
+			$item = parent::getItem( $refresh );
 
 			if (empty($item))
 			{

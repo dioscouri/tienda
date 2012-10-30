@@ -652,7 +652,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                             <?php echo JText::_('COM_TIENDA_PRODUCT_QUANTITIES'); ?>:
                         </td>
                         <td>
-                            <div class="note well"><?php echo JText::_('COM_TIENDA_PRODUCT_INVENTORY_IS_DISABLED._ENABLE_IT_TO_SET_QUANTITIES'); ?></div>
+                            <div class="note well"><?php echo JText::_('COM_TIENDA_PRODUCT_INVENTORY_IS_DISABLED_ENABLE_IT_TO_SET_QUANTITIES'); ?></div>
                         </td>
                 </tr>
                 <?php

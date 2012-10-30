@@ -481,11 +481,11 @@ class TiendaModelProducts extends TiendaModelEav
 		return $this->_list;
 	}
 	
-	function getItem( $emptyState = true, $getEav = true )
+	function getItem( $refresh = true, $getEav = true, $emptyState=true )
 	{
 		if ( empty( $this->_item ) )
 		{
-			$item = parent::getItem( $emptyState, $getEav );
+			$item = parent::getItem( $refresh, $getEav );
 			
 			if ( empty( $item ) )
 			{
