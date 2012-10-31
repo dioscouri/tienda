@@ -478,18 +478,50 @@ class TiendaModelProducts extends TiendaModelEav
         ) );
     }
     
-    /**
-     * Clean the cache
-     *
-     * @return  void
-     *
-     * @since   11.1
-     */
-    public function clearCache()
-    {
-        parent::clearCache();
-         
-        // TODO Clear ALL cache that is related to products, incl prices, relationships, etc
-    }
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCache()
+	{
+	    parent::clearCache();
+	    self::clearCacheAuxiliary();
+	}
+	
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCacheAuxiliary()
+	{
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	
+	    $model = DSCModel::getInstance('ProductAttributeOptions', 'TiendaModel');
+	    $model->clearCache();
+	     
+	    $model = DSCModel::getInstance('ProductAttributeOptionValues', 'TiendaModel');
+	    $model->clearCache();
+	     
+	    $model = DSCModel::getInstance('ProductAttributes', 'TiendaModel');
+	    $model->clearCache();
+	     
+	    $model = DSCModel::getInstance('ProductCompare', 'TiendaModel');
+	    $model->clearCache();
+	     
+	    $model = DSCModel::getInstance('ProductFiles', 'TiendaModel');
+	    $model->clearCache();
+	     
+	    $model = DSCModel::getInstance('ProductPrices', 'TiendaModel');
+	    $model->clearCache();
+	     
+	    $model = DSCModel::getInstance('ProductRelations', 'TiendaModel');
+	    $model->clearCache();
+	}
 
 }

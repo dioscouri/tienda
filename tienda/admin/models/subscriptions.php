@@ -232,7 +232,7 @@ class TiendaModelSubscriptions extends TiendaModelBase
         return $item;
     }
 
-	/*
+	/**
 	 * Gets list of all subscriptions by issue x-days before expiring
 	 *
 	 * @$days Number of days before expiring (0 stands for expired now)
@@ -268,5 +268,33 @@ class TiendaModelSubscriptions extends TiendaModelBase
 		$q->where( 'DATE_FORMAT( tbl.`publishing_date`, \'%Y-%m-%d\' ) = \''.$date.'\'' );
 		$db->setQuery( (string)$q );
 		return $db->loadObjectList();
+	}
+	
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCache()
+	{
+	    parent::clearCache();
+	    self::clearCacheAuxiliary();
+	}
+	
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCacheAuxiliary()
+	{
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	
+	    $model = DSCModel::getInstance('SubscriptionHistory', 'TiendaModel');
+	    $model->clearCache();
 	}
 }

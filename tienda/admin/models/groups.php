@@ -83,4 +83,32 @@ class TiendaModelGroups extends TiendaModelBase
 		}
 		return $list;
 	}
+	
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCache()
+	{
+	    parent::clearCache();
+	    self::clearCacheAuxiliary();
+	}
+	
+	/**
+	 * Clean the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function clearCacheAuxiliary()
+	{
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	
+	    $model = DSCModel::getInstance('UserGroups', 'TiendaModel');
+	    $model->clearCache();
+	}
 }
