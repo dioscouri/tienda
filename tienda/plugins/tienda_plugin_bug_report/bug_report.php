@@ -90,7 +90,7 @@ class plgTiendaBug_report extends JPlugin
 		ob_start();
 		$option = JRequest::getCmd('option');
 		
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$path = JPATH_ADMINISTRATOR.'/components/com_admin/';
 		
 		require_once($path.'admin.admin.html.php');

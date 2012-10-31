@@ -253,7 +253,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 	{	
 		if ( !$userID ) return;	
 		// get referre ID on login	
-		$db	   =& JFactory::getDBO();
+		$db	   = JFactory::getDBO();
 		$query = "SELECT referreid FROM #__alpha_userpoints WHERE `userid`='$userID'";
 		$db->setQuery( $query );
 		$referreid = $db->loadResult();
@@ -287,7 +287,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 			{
 				JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
 				// save new points into alpha_userpoints_rules table
-				$row =& JTable::getInstance('Rules');
+				$row = JTable::getInstance('Rules');
 				$row->id			   = NULL;
 				$row->rule_name		   = 'Tienda Award AlphaUserPoints';
 				$row->rule_description = 'Rule for awarding points on Tienda action';

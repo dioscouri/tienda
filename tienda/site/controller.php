@@ -134,7 +134,7 @@ class TiendaController extends DSCControllerSite
 		// this sets the default view
 		JRequest::setVar( 'view', JRequest::getVar( 'view', 'products' ) );
 		
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd( 'view', $this->getName() );
@@ -165,7 +165,7 @@ class TiendaController extends DSCControllerSite
 		// Display the view
 		if ($cachable && $viewType != 'feed') {
 			global $option;
-			$cache =& JFactory::getCache($option, 'view');
+			$cache = JFactory::getCache($option, 'view');
 			$cache->get($view, 'display');
 		} else {
 			$view->display();

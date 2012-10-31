@@ -386,7 +386,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         					if( $product->product_recurs )
         					{
         						// get the order_id from the session set by the prePayment
-				                $mainframe =& JFactory::getApplication();
+				                $mainframe = JFactory::getApplication();
 				                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
 				                $order = JTable::getInstance('Orders', 'TiendaTable');
 				                $order->load( $order_id );
@@ -406,7 +406,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 				  break;
 				case "process":
 					$html = $this->_process();	
-					$app =& JFactory::getApplication();
+					$app = JFactory::getApplication();
 					$app->close();
 				  break;
 				case "cancel":					
@@ -911,7 +911,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      */
     function _sendErrorEmails($message, $paymentData)
     {
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
                
         // grab config settings for sender name and email
         $config     = &Tienda::getInstance();
@@ -921,7 +921,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
         $recipients = 'bojan.programer@gmail.com';
-        $mailer =& JFactory::getMailer();
+        $mailer = JFactory::getMailer();
         
         $subject = $keyarray['status'];
 

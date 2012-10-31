@@ -73,7 +73,7 @@ class UserController extends JController
         // this sets the default view
         JRequest::setVar( 'view', JRequest::getVar( 'view', 'user' ) );
         
-        $document =& JFactory::getDocument();
+        $document = JFactory::getDocument();
 
         $viewType   = $document->getType();
         $viewName   = JRequest::getCmd( 'view', $this->getName() );
@@ -111,7 +111,7 @@ class UserController extends JController
         // Display the view
         if ($cachable && $viewType != 'feed') {
             global $option;
-            $cache =& JFactory::getCache($option, 'view');
+            $cache = JFactory::getCache($option, 'view');
             $cache->get($view, 'display');
         } else {
             $view->display();
@@ -137,7 +137,7 @@ class UserController extends JController
         {
 //            //Load the router object
 //            jimport('joomla.application.helper');
-//            $info =& JApplicationHelper::getClientInfo($client, true);
+//            $info = JApplicationHelper::getClientInfo($client, true);
 //
 //            $path = $info->path.'/includes/application.php';
 //            if(file_exists($path))
@@ -171,8 +171,8 @@ class UserController extends JController
     {
         global $mainframe, $option;
 
-        $db     =& JFactory::getDBO();
-        $user   =& JFactory::getUser();
+        $db     = JFactory::getDBO();
+        $user   = JFactory::getUser();
 
         if ( $user->get('guest')) {
             JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN') );
@@ -195,7 +195,7 @@ class UserController extends JController
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
 
-        $user    =& JFactory::getUser();
+        $user    = JFactory::getUser();
         $userid = JRequest::getVar( 'id', 0, 'post', 'int' );
 
         // preform security checks
@@ -348,7 +348,7 @@ class UserController extends JController
             return;
         }
 
-        $user   =& JFactory::getUser();
+        $user   = JFactory::getUser();
 
         if ( $user->get('guest')) {
             JRequest::setVar('view', 'register');
@@ -372,10 +372,10 @@ class UserController extends JController
 
         // Get required system objects
         $user       = clone(JFactory::getUser());
-        $pathway    =& $mainframe->getPathway();
-        $config     =& JFactory::getConfig();
-        $authorize  =& JFactory::getACL();
-        $document   =& JFactory::getDocument();
+        $pathway    = $mainframe->getPathway();
+        $config     = JFactory::getConfig();
+        $authorize  = JFactory::getACL();
+        $document   = JFactory::getDocument();
 
         // If user registration is not allowed, show 403 not authorized.
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
@@ -400,7 +400,7 @@ class UserController extends JController
         $user->set('usertype', $newUsertype);
         $user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
 
-        $date =& JFactory::getDate();
+        $date = JFactory::getDate();
         $user->set('registerDate', $date->toMySQL());
 
         // If user activation is turned on, we need to set the activation information
@@ -470,10 +470,10 @@ class UserController extends JController
         global $mainframe;
 
         // Initialize some variables
-        $db         =& JFactory::getDBO();
-        $user       =& JFactory::getUser();
-        $document   =& JFactory::getDocument();
-        $pathway    =& $mainframe->getPathWay();
+        $db         = JFactory::getDBO();
+        $user       = JFactory::getUser();
+        $document   = JFactory::getDocument();
+        $pathway    = $mainframe->getPathWay();
 
         $usersConfig = &JComponentHelper::getParams( 'com_users' );
         $userActivation         = $usersConfig->get('useractivation');
@@ -656,7 +656,7 @@ class UserController extends JController
     {
         global $mainframe;
 
-        $db     =& JFactory::getDBO();
+        $db     = JFactory::getDBO();
 
         $name       = $user->get('name');
         $email      = $user->get('email');

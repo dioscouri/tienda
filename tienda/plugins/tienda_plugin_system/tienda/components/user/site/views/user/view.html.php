@@ -42,7 +42,7 @@ class UserViewUser extends JView
             return;
         }
 
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
 
         // Get the page/component configuration
         $params = &$mainframe->getParams();
@@ -77,7 +77,7 @@ class UserViewUser extends JView
         // Load the form validation behavior
         JHTML::_('behavior.formvalidation');
 
-        $user     =& JFactory::getUser();
+        $user     = JFactory::getUser();
         $params = &$mainframe->getParams();
 
         // check to see if Frontend User Params have been enabled

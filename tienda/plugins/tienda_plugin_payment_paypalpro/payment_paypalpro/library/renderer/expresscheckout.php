@@ -31,7 +31,7 @@ class plgTiendaPayment_Paypalpro_Renderer_Expresscheckout extends plgTiendaPayme
 	 */
 	function renderForm( $row, $prepop = array() ) 
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$secure_post = $this->_params->get( 'secure_post', '0' );
 		
 		/*
@@ -41,8 +41,8 @@ class plgTiendaPayment_Paypalpro_Renderer_Expresscheckout extends plgTiendaPayme
 		
 		$vars->action_url = JRoute::_("index.php?option=com_tienda&controller=checkout&task=confirmPayment&orderpayment_type={$this->_plugin_type}&paction=process_express_checkout", false, $secure_post);
 		$vars->prepop = $prepop;
-		$vars->user =& $user;
-		$vars->row =& $row;		
+		$vars->user = $user;
+		$vars->row = $row;		
 		$vars->token_input = JHTML::_( 'form.token' );
 		
 		$html = $this->_getLayout('expresscheckout_form', $vars);

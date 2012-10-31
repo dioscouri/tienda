@@ -64,7 +64,7 @@ if (empty($controller_name))
 
 // include lang files
 $element = strtolower( 'com_user' );
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
     

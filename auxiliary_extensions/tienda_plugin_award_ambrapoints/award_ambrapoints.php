@@ -320,7 +320,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         if (empty($errors) && !empty($points))
         {
             if ($points == '1') { $string = 'point'; } else { $string = 'points'; }
-            $lang =& JFactory::getLanguage();
+            $lang = JFactory::getLanguage();
             $lang->load( 'com_ambra', JPATH_ADMINISTRATOR );
             $login_note		=AmbraConfig::getInstance()->get('login_point_notification', '');
             $avatar_note	=AmbraConfig::getInstance()->get('avatar_point_notification', '');

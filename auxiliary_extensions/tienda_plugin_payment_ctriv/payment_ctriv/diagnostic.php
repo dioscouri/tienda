@@ -51,7 +51,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
     {
         if (!$this->tableExists( $table ))
         {
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             $db->setQuery( $definition );
             if (!$db->query())
             {
@@ -69,7 +69,7 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
      */
     function tableExists( $table )
     {
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         
         // Manually replace the Joomla Tables prefix. Automatically it fails
         // because the table name is between single-quotes

@@ -207,7 +207,7 @@ class TiendaControllerProductCompare extends TiendaController
 		{
 			if ($module->module == 'mod_tienda_cart')
 			{
-				$mainframe =& JFactory::getApplication();
+				$mainframe = JFactory::getApplication();
 				$mainframe->setUserState( 'mod_usercart.isAjax', '1' );
 
 				echo ( json_encode( array('msg'=>JModuleHelper::renderModule($module)) ) );

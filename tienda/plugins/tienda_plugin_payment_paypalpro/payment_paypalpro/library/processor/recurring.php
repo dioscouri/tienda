@@ -128,10 +128,10 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 			$this->setError(JText::sprintf('COM_TIENDA_PAYPALPRO_MESSAGE_STATUS_INVALID', @$this->_data['payment_status']));
 		}
 
-		if (!($user =& $this->_getUser($this->_response['payer_email'], $this->_response['recurring_payment_id']))) {			
+		if (!($user = $this->_getUser($this->_response['payer_email'], $this->_response['recurring_payment_id']))) {			
 			$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
-			$user =& JFactory::getUser();
+			$user = JFactory::getUser();
 			$user->set('id', 0);
 		}		
 		
@@ -142,7 +142,7 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 			'is_recurring' => true
 		);
 		
-		$payment_data->user =& $user;
+		$payment_data->user = $user;
 		$payment_data->payment_details = $this->_getFormattedPaymentDetails();
 		$payment_data->transaction_id = $this->_response['txn_id'];
 		$payment_data->payment_amount = $this->_response['mc_gross'];
@@ -277,7 +277,7 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 	 */
 	function _getIsFirstRecPayment($field_name = 'recurring_payment_id')
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$keyword = $field_name . " = " . $this->_response['recurring_payment_id'];
 		
 		$q = "SELECT COUNT(id) "	
@@ -301,7 +301,7 @@ class plgTiendaPayment_Paypalpro_Processor_Recurring extends plgTiendaPayment_Pa
 	 */
 	function _updateSignupSubs()
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$payment_details = $this->_getFormattedPaymentDetails();
 			
 		$q = "

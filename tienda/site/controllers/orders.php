@@ -192,7 +192,7 @@ class TiendaControllerOrders extends TiendaController
         $model->getId();
         $order = $model->getTable( 'orders' );
         $order->load( $model->getId() );        
-        $row =& $model->getItem();
+        $row = $model->getItem();
         $row->order_ships = $order->order_ships;
         $orderitems = $order->getItems();
         

@@ -19,8 +19,8 @@
 	
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 function	fetchArray( &$xmldoc, $path, $tag, $fields ){
-	$response =& $xmldoc->getElementByPath( $path );
-	$children =& $response->getAllChildren();
+	$response = $xmldoc->getElementByPath( $path );
+	$children = $response->getAllChildren();
 	
 	$count = 0 ;
 	$array = array();

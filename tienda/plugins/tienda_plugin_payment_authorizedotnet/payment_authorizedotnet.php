@@ -100,7 +100,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         // Process the payment        
         $vars = new JObject();
         
-        $app =& JFactory::getApplication();
+        $app = JFactory::getApplication();
         $paction = JRequest::getVar( 'paction' );
         
         switch ($paction)
@@ -306,10 +306,10 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $config = Tienda::getInstance();
         
         if ($user_id) {
-            $user =& JFactory::getUser($user_id);
+            $user = JFactory::getUser($user_id);
         }
         else {
-            $user =& JFactory::getUser();   
+            $user = JFactory::getUser();   
         }   
         
         if ($user->id) {
@@ -328,7 +328,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
         $details['password2']   = $details['password'];
         $details['block']       = $config->get('block_automatically_registered') ? '1' : '0';
         
-        if ($user =& TiendaHelperUser::createNewUser( $details )) {
+        if ($user = TiendaHelperUser::createNewUser( $details )) {
             if ( ! $config->get('block_automatically_registered')) {
                 // login the new user
                 $login = TiendaHelperUser::login( $details, '1' );
@@ -440,7 +440,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
             # x_recurring_billing   // required if x_echeck_type=WEB    //  TRUE, FALSE
 
         // joomla info
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $submitted_email            = !empty($data['email']) ? $data['email'] : '';
         $auth_userid                = $user->id;
         $auth_useremail             = empty($user->id) ? $submitted_email : $user->email;
@@ -613,10 +613,10 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
 
         $auth_x_delim_char          = "|";              # not to be changed
         
-        if ( ! ($user =& $this->_getUser( $submitted_values ))) {
+        if ( ! ($user = $this->_getUser( $submitted_values ))) {
             $errors[] = JText::_('COM_TIENDA_AUTHORIZEDOTNET_MESSAGE_UNKNOWN_USER');
 
-            $user =& JFactory::getUser();
+            $user = JFactory::getUser();
             $user->set('id', 0);
         }       
         

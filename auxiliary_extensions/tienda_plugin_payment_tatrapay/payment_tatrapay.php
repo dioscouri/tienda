@@ -80,7 +80,7 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
         // Process the payment        
         $vars = new JObject();
         
-        $app =& JFactory::getApplication();
+        $app = JFactory::getApplication();
         $paction = JRequest::getVar( 'paction' );
         
         switch ($paction)

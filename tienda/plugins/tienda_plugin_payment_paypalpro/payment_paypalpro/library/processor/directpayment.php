@@ -81,7 +81,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			return false;
 		}
 		
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if (!$user->id) {
 			// require email address for guest users
 			jimport( 'joomla.mail.helper' ); 
@@ -208,10 +208,10 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
-			if ( ! ($user =& $this->_getUser($this->_getUserEmail()))) {			
+			if ( ! ($user = $this->_getUser($this->_getUserEmail()))) {			
 				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				$user->set('id', 0);
 			}
 			
@@ -225,7 +225,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			// prepare a new payment entry for storing
 			$payment_data = new JObject();
 		
-			$payment_data->user =& $user;
+			$payment_data->user = $user;
 			$payment_data->orderpayment_id= $subsrc_type_obj->orderpayment_id;
 			$payment_data->order_id= $subsrc_type_obj->order_id;
 			$payment_data->payment_details = $this->_getFormattedPaymentDetails();
@@ -340,10 +340,10 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
-			if ( ! ($user =& $this->_getUser($this->_getUserEmail()))) {			
+			if ( ! ($user = $this->_getUser($this->_getUserEmail()))) {			
 				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				$user->set('id', 0);
 			}
 			
@@ -360,7 +360,7 @@ class plgTiendaPayment_Paypalpro_Processor_Directpayment extends plgTiendaPaymen
 			// prepare a new payment entry for storing
 			$payment_data = new JObject();
 		
-			$payment_data->user =& $user;
+			$payment_data->user = $user;
 			$payment_data->payment_details = $this->_getFormattedPaymentDetails();
 			$payment_data->transaction_id = $this->_response['PROFILEID'];
 			$payment_data->payment_amount = $amount;

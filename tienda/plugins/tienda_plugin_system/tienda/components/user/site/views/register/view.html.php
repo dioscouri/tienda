@@ -37,8 +37,8 @@ class UserViewRegister extends JView
             return;
         }
 
-        $pathway  =& $mainframe->getPathway();
-        $document =& JFactory::getDocument();
+        $pathway  = $mainframe->getPathway();
+        $document = JFactory::getDocument();
         $params = &$mainframe->getParams();
 
         // Page Title
@@ -62,7 +62,7 @@ class UserViewRegister extends JView
         // Load the form validation behavior
         JHTML::_('behavior.formvalidation');
 
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $this->assignRef('user', $user);
         $this->assignRef('params',      $params);
         parent::display($tpl);

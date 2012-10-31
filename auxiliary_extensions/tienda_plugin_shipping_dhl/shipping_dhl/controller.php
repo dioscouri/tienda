@@ -54,7 +54,7 @@ class TiendaControllerShippingDhl extends TiendaControllerShippingPlugin
         $field = $vals['0'];
         $action = $vals['1'];
 
-        $database =& JFactory::getDBO();
+        $database = JFactory::getDBO();
         $query = "SELECT `params` FROM `#__plugins` WHERE `id` = '$id'";
         $database->setQuery($query);
         $jparams = new DSCParameter($database->loadObject()->params);

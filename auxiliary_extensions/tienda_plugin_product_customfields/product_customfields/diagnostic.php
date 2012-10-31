@@ -68,7 +68,7 @@ class TiendaHelperDiagnosticsProductCustomFields extends TiendaHelperDiagnostics
     {
         if (!$this->columnExists( $table, $column ))
         {
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             $query = "ALTER TABLE `".$table."` ADD `".$column."` ".$attributes."";
             $db->setQuery(str_replace('#__', $db->_table_prefix, $query));
             if (!$db->query())
@@ -82,7 +82,7 @@ class TiendaHelperDiagnosticsProductCustomFields extends TiendaHelperDiagnostics
       
     function columnExists( $table, $column )
     {
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         
         // Manually replace the Joomla Tables prefix. Automatically it fails
         // because the table name is between single-quotes

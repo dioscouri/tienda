@@ -144,7 +144,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		$vars->data =$data;
 			
 		// saving the productpayment_id which will use to update the Transaction fail condition
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 
 		// After getiing the response if the transaction will fail it will used
 		$session->set( 'orderpayment_id', $data['orderpayment_id'] );
@@ -575,7 +575,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 
 				 $error = JText::_('Payment Declined Recipit could not recived or null  ');
 				 // saving the orderpayment_id which will use to update the Transaction fail condition
-				 //                $session =& JFactory::getSession();
+				 //                $session = JFactory::getSession();
 				 //                var_dump($session);
 				 //				$data->orderpayment_id=; // Set the order pament Id from session which saved at the time of payment creation
 				 return $error ;

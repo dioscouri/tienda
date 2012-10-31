@@ -129,7 +129,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
                 $vars->message = $this->_process();
                 $html = $this->_getLayout('message', $vars);
                 echo $html; // TODO Remove this
-                $app =& JFactory::getApplication();
+                $app = JFactory::getApplication();
                 $app->close();
               break;
             case "cancel":
@@ -338,7 +338,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
      */
     function _sendErrorEmails($message, $paymentData)
     {
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
                 
         // grab config settings for sender name and email
         $config     = &Tienda::getInstance();
@@ -348,7 +348,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
         $recipients = $this->_getAdmins();
-        $mailer =& JFactory::getMailer();
+        $mailer = JFactory::getMailer();
         
         $subject = JText::sprintf('PAYSON EMAIL PAYMENT NOT VALIDATED SUBJECT', $sitename);
 
@@ -374,7 +374,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
      */
     function _getAdmins()
     {
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $q = "SELECT name, email FROM #__users "
            . "WHERE LOWER(usertype) = \"super administrator\" "
            . "AND sendEmail = 1 "

@@ -144,10 +144,10 @@ function	submit( $var ){
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 function	fetchArray( &$xmldoc, $path, $tag, $fields ){
-	$response =& $xmldoc->getElementByPath( $path );
+	$response = $xmldoc->getElementByPath( $path );
 	if( ! is_object($response) ) return array() ;
 	
-	$children =& $response->getAllChildren();
+	$children = $response->getAllChildren();
 	
 	$count = 0 ;
 	$array = array();

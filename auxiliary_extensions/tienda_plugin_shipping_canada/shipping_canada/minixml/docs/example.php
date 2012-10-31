@@ -58,7 +58,7 @@ MiniXMLElement) and set attributes, add content or child elements.
 Since our document is empty, the only available element is the 
 &quot;root&quot; element.
 
-	$xmlRoot =& $xmlDoc-&gt;<font color="#ee3333">getRoot</font>();
+	$xmlRoot = $xmlDoc-&gt;<font color="#ee3333">getRoot</font>();
 
 Notice the reference assignment operator, <B>=&amp;</B>.  This is to ensure
 that we work with the element itself instead of a mere copy.
@@ -86,7 +86,7 @@ set a few attributes and content.
 You can also create orphan elements (that have no assigned parents), using the 
 MiniXMLDoc object:
 
-	$orphan =& $xmlDoc-&gt;<font color="#ee3333">createElement</font>('song');
+	$orphan = $xmlDoc-&gt;<font color="#ee3333">createElement</font>('song');
 	$orphan-&gt;<font color="#ee3333">text</font>('tomorrow, tomorrow');
 	
 When you are done, make sure to link the orphan to some parent element (or it
@@ -105,19 +105,19 @@ Which will display:<div align="center"><TABLE BGCOLOR="#EEEEEE" CELLPADDING="9">
 
 
 	$xmlDoc = new MiniXMLDoc();
-	$xmlRoot =& $xmlDoc->getRoot();
-	$childElement =& $xmlRoot->createChild('achild');
+	$xmlRoot = $xmlDoc->getRoot();
+	$childElement = $xmlRoot->createChild('achild');
 	$childElement->attribute('name', 'annie');
 	$childElement->attribute('eyes', '#0000FF');
 	$childElement->attribute('hair', '#FF0000');
 	
 	$childElement->text('This element has attributes and children, such as this');
 	
-	  $image =& $childElement->createChild('image');
+	  $image = $childElement->createChild('image');
 	  $image->attribute('location', 'http://psychogenic.com/image.png');
 	
 	$childElement->text('image and little');
-	 $orphan =& $xmlDoc->createElement('song');
+	 $orphan = $xmlDoc->createElement('song');
 	 $orphan->text('tomorrow, tomorrow');
 	 $childElement->appendChild($orphan);
 	 
@@ -147,15 +147,15 @@ Then use any of these methods:
 <font color="#ee3333">getElement</font>(NAME)
 Will return the first child (or subchild) found with name NAME.
 
-	$returnedElement =& $rootEl-&gt;<font color="#ee3333">getElement</font>('elementName');
+	$returnedElement = $rootEl-&gt;<font color="#ee3333">getElement</font>('elementName');
 
 <font color="#ee3333">getElementByPath</font>(PATH)
 If you wish to access a particular sub element, <font color="#ee3333">getElementByPath</font>() 
 will return the matching element if found.  For instance, with the example 
 XML generated above we could access the image element from the root element by 
-calling $returnedElement =& $rootEl-&gt;<font color="#ee3333">getElementByPath</font>('achild/image');
+calling $returnedElement = $rootEl-&gt;<font color="#ee3333">getElementByPath</font>('achild/image');
 
-	$returnedElement =& $rootEl-&gt;<font color="#ee3333">getElementByPath</font>('rel/path/to/elementName');
+	$returnedElement = $rootEl-&gt;<font color="#ee3333">getElementByPath</font>('rel/path/to/elementName');
 
 
 <font color="#ee3333">getAllChildren</font>([NAME])	
@@ -163,7 +163,7 @@ In cases where an element has many children with the same name and path, you can
 access an array of all <i>immediate</i> children, eg 
 
 
-	$elChildren =& $rootEl-&gt;<font color="#ee3333">getAllChildren</font>();
+	$elChildren = $rootEl-&gt;<font color="#ee3333">getAllChildren</font>();
 	
 	for($i = 0; $i < $rootEl-&gt;<font color="#ee3333">numChildren</font>(); $i++)
 	{
@@ -324,7 +324,7 @@ $xmlDoc = new MiniXMLDoc();
 **
 */
 
-$xmlRoot =& $xmlDoc->getRoot();
+$xmlRoot = $xmlDoc->getRoot();
 
 /* I've imagined a fictitious structure for this request but 
 ** they're usually something like this... 
@@ -337,15 +337,15 @@ $xmlRoot =& $xmlDoc->getRoot();
 ** use '=' and the $parent->appendChild($child) but the 
 ** append is easy to forget...
 */
-$rateReq =& $xmlRoot->createChild('partRateRequest');
+$rateReq = $xmlRoot->createChild('partRateRequest');
 
  /* Now we'll create a vendor and a parts list element for the
  ** request and fill those up.
  */
 
- $vendor =& $rateReq->createChild('vendor');
+ $vendor = $rateReq->createChild('vendor');
    
-   $accessid =& $vendor->createChild('accessid');
+   $accessid = $vendor->createChild('accessid');
    /* Set up a few attributes for this element.
    ** notice that accessid will have attributes but no
    ** content (text or whatever) or children.
@@ -356,7 +356,7 @@ $rateReq =& $xmlRoot->createChild('partRateRequest');
  /* Now we list the parts we are interested.  This element is
  ** directly under the partRateRequest element.
  */
- $partList =& $rateReq->createChild('partList');
+ $partList = $rateReq->createChild('partList');
  
  /* Now, we add a <partnum>XXX</partnum> element for 
  ** each part in our array.  
@@ -652,14 +652,14 @@ print "\n\n</CODE></PRE><FONT SIZE=\"-2\">" . $returnedXMLDoc->getValue() . "</F
 ** be modifying the response it doesn't matter if we work on
 ** a copy.  
 */
-$rateResp =& $returnedXMLDoc->getElement('partsRateReply');
+$rateResp = $returnedXMLDoc->getElement('partsRateReply');
 
 /* We can now use the rateResponse element to get access 
 ** to it's children.
 */
-$status =& $rateResp->getElement('status');
+$status = $rateResp->getElement('status');
 
-$statusMessage =& $status->getElement('message');
+$statusMessage = $status->getElement('message');
 
 print "<BR>Status message is " . $statusMessage->getValue() . "<BR>\n";
 
@@ -683,7 +683,7 @@ print "<BR>Status Code is " . $statusCode->getValue(). "<BR>\n";
 */
 
 /* First get the element */
-$partList =& $returnedXMLDoc->getElementByPath('partsRateReply/partList');
+$partList = $returnedXMLDoc->getElementByPath('partsRateReply/partList');
 
 /* Now get the list of children */
 $partListChildren = $partList->getAllChildren('part');

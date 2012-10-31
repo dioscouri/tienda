@@ -263,7 +263,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             case "display_message":
                 $checkout = JRequest::getInt('checkout');
                 // get the order_id from the session set by the prePayment
-                $mainframe =& JFactory::getApplication();
+                $mainframe = JFactory::getApplication();
                 $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
                 $order = JTable::getInstance('Orders', 'TiendaTable');
                 $order->load( $order_id );
@@ -285,7 +285,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 $vars->message = $this->_process();
                 $html = $this->_getLayout('message', $vars);
                 echo $html; // TODO Remove this
-                $app =& JFactory::getApplication();
+                $app = JFactory::getApplication();
                 $app->close();
               break;
             case "cancel":
@@ -700,7 +700,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      */
     function _sendErrorEmails($message, $paymentData)
     {
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
                 
         // grab config settings for sender name and email
         $config     = &Tienda::getInstance();
@@ -710,7 +710,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $siteurl    = $config->get( 'siteurl', JURI::root() );
         
         $recipients = $this->_getAdmins();
-        $mailer =& JFactory::getMailer();
+        $mailer = JFactory::getMailer();
         
         $subject = JText::sprintf('PAYPAL EMAIL PAYMENT NOT VALIDATED SUBJECT', $sitename);
 
@@ -736,7 +736,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      */
     function _getAdmins()
     {
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $q = "SELECT name, email FROM #__users "
            . "WHERE LOWER(usertype) = \"super administrator\" "
            . "AND sendEmail = 1 "

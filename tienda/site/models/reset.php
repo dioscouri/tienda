@@ -159,7 +159,7 @@ class TiendaModelReset extends JModel
 
 		// Fire the onBeforeStoreUser trigger
 		JPluginHelper::importPlugin('user');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onBeforeStoreUser', array($user->getProperties(), false));
 
 		// Build the query

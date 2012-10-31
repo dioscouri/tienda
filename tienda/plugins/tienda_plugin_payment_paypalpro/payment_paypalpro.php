@@ -235,7 +235,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //            case "display_message":
 //                $checkout = JRequest::getInt('checkout');
 //                // get the order_id from the session set by the prePayment
-//                $mainframe =& JFactory::getApplication();
+//                $mainframe = JFactory::getApplication();
 //                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
 //                $order = JTable::getInstance('Orders', 'TiendaTable');
 //                $order->load( $order_id );
@@ -257,7 +257,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //                $vars->message = $this->_process();
 //                $html = $this->_getLayout('message', $vars);
 //                echo $html; // TODO Remove this
-//                $app =& JFactory::getApplication();
+//                $app = JFactory::getApplication();
 //                $app->close();
 //              break;
 //            case "cancel":

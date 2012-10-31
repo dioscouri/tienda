@@ -271,7 +271,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	{
 		$newEl = new MiniXMLElementComment();
 		
-		$appendedComment =& $this->appendChild($newEl);
+		$appendedComment = $this->appendChild($newEl);
 		$appendedComment->text($contents);
 		
 		return $appendedComment;
@@ -293,7 +293,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	** Returns the appended DOCTYPE element. You will normally use the returned
 	** element to add ENTITY elements, like
 	
-	** $newDocType =& $xmlRoot->docType('spec SYSTEM "spec.dtd"');
+	** $newDocType = $xmlRoot->docType('spec SYSTEM "spec.dtd"');
 	** $newDocType->entity('doc.audience', 'public review and discussion');
 	*/
 	
@@ -301,7 +301,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	{
 		
 		$newElement = new MiniXMLElementDocType($definition);
-		$appendedElement =& $this->appendChild($newElement);
+		$appendedElement = $this->appendChild($newElement);
 		
 		return $appendedElement;
 	}
@@ -317,7 +317,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	{
 		
 		$newElement = new MiniXMLElementEntity($name, $value);
-		$appendedEl =& $this->appendChild($newElement);
+		$appendedEl = $this->appendChild($newElement);
 		
 		return $appendedEl;
 	}
@@ -334,7 +334,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	function & cdata ($contents)
 	{
 		$newElement = new MiniXMLElementCData($contents);
-		$appendedChild =& $this->appendChild($newElement);
+		$appendedChild = $this->appendChild($newElement);
 		
 		return $appendedChild;
 	}
@@ -501,15 +501,15 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	**	  </partList>
 	**	 </partRateRequest>
 	**
-	**	$partRate =& $xmlDocument->getElement('partRateRequest');
+	**	$partRate = $xmlDocument->getElement('partRateRequest');
 	**
-	** 	$accessid =& $partRate->getElementByPath('vendor/accessid');
+	** 	$accessid = $partRate->getElementByPath('vendor/accessid');
 	**
 	** Will return what you expect (the accessid element with attributes user = "myusername"
 	** and password = "mypassword").
 	**
 	** BUT be careful:
-	**	$accessid =& $partRate->getElementByPath('partList/partNum');
+	**	$accessid = $partRate->getElementByPath('partList/partNum');
 	**
 	** will return the partNum element with the value "DA42".  Other partNums are 
 	** inaccessible by getElementByPath() - Use MiniXMLElement::getAllChildren() instead.
@@ -551,7 +551,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 		}
 		
 		/* We require only children named '$named' */
-		$allkids =& $this->getAllChildren($named);
+		$allkids = $this->getAllChildren($named);
 		
 		return count($allkids);
 		
@@ -733,7 +733,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 		
 		/* Add the child to the list */
 		$idx = $this->xnumChildren++;
-		$this->xchildren[$idx] =& $child;
+		$this->xchildren[$idx] = $child;
 		
 		return $this->xchildren[$idx];
 		
@@ -823,10 +823,10 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 	**
 	** Returns a reference to the new child element
 	**
-	** Note: don't forget to use the =& (reference assignment) operator
+	** Note: don't forget to use the = (reference assignment) operator
 	** when calling createChild:
 	**
-	**	$newChild =& $myElement->createChild('newChildName');
+	**	$newChild = $myElement->createChild('newChildName');
 	**
 	*/
 	function & createChild ($name, $value=NULL)
@@ -843,7 +843,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 		
 		$child = new MiniXMLElement($name);
 		
-		$appendedChild =& $this->appendChild($child);
+		$appendedChild = $this->appendChild($child);
 		
 		if (! is_null($value))
 		{
@@ -887,7 +887,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 		{
 			if ($this->xchildren[$idx] == $child)
 			{
-				$foundChild =& $this->xchildren[$idx];
+				$foundChild = $this->xchildren[$idx];
 			} else {
 				$idx++;
 			}
@@ -929,7 +929,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 			return $emptyArray;
 		}
 		
-		$retList =& $this->xchildren;
+		$retList = $this->xchildren;
 		
 		$idx = 0;
 		while ($idx < $this->xnumChildren)
@@ -948,7 +948,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 		
 	function & remove ()
 	{
-		$parent =& $this->parent();
+		$parent = $this->parent();
 		
 		if (!$parent)
 		{
@@ -956,7 +956,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 			return NULL;
 		}
 		
-		$removed =& $parent->removeChild($this);
+		$removed = $parent->removeChild($this);
 		
 		return $removed;
 	}
@@ -1243,7 +1243,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 				$existing = NULL;
 				if (isset($retHash[$name]))
 				{
-					$existing =& $retHash[$name];
+					$existing = $retHash[$name];
 				}
 				
 				
@@ -1256,7 +1256,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 						$newArray = array();
 						array_push($newArray, $existing);
 						array_push($newArray, $struct);
-						$retHash[$name] =& $newArray;
+						$retHash[$name] = $newArray;
 					}
 				} else {
 					
@@ -1345,7 +1345,7 @@ class MiniXMLElement extends MiniXMLTreeComponent {
 		
 		$newNode = new MiniXMLNode($value, $escapeEntities);
 		
-		$appendedNode =& $this->appendNode($newNode);
+		$appendedNode = $this->appendNode($newNode);
 		
 		return $appendedNode;
 	}

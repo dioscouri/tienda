@@ -307,7 +307,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
      */
     function downloadFile() 
     {
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $order_id = intval( JRequest::getvar( 'id', '', 'request', 'int' ) );
         $filename = JRequest::getvar( 'filename', '', 'request', 'string' );
         $path = $this->getStickerPath($order_id, false);

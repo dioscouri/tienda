@@ -165,7 +165,7 @@ class MiniXMLDoc {
 	** If the optional VALUE (string or numeric) parameter is passed,
 	** the new element's text/numeric content will be set using VALUE.
 	**
-	** Returns a reference to the newly created element (use the =& operator)
+	** Returns a reference to the newly created element (use the = operator)
 	*/
 	function &createElement ($name=NULL, $value=NULL)
 	{
@@ -237,13 +237,13 @@ class MiniXMLDoc {
 	**	  </partList>
 	**	 </partRateRequest>
 	**
-	** 	$accessid =& $xmlDocument->getElementByPath('partRateRequest/vendor/accessid');
+	** 	$accessid = $xmlDocument->getElementByPath('partRateRequest/vendor/accessid');
 	**
 	** Will return what you expect (the accessid element with attributes user = "myusername"
 	** and password = "mypassword").
 	**
 	** BUT be careful:
-	**	$accessid =& $xmlDocument->getElementByPath('partRateRequest/partList/partNum');
+	**	$accessid = $xmlDocument->getElementByPath('partRateRequest/partList/partNum');
 	**
 	** will return the partNum element with the value "DA42".  Other partNums are 
 	** inaccessible by getElementByPath() - Use MiniXMLElement::getAllChildren() instead.
@@ -296,7 +296,7 @@ class MiniXMLDoc {
 					
 					$serializedObj = unserialize($tmpFileContents);
 					
-					$sRoot =& $serializedObj->getRoot();
+					$sRoot = $serializedObj->getRoot();
 					if ($sRoot)
 					{
 						if (MINIXML_DEBUG > 0)
@@ -514,7 +514,7 @@ class MiniXMLDoc {
 	function _fromArray_extractAssociativeARRAY ($name, &$value, &$parent, &$params)
 	{
 		
-		$thisElement =& $parent->createChild($name);
+		$thisElement = $parent->createChild($name);
 		
 		foreach ($value as $key => $val)
 		{
@@ -628,7 +628,7 @@ class MiniXMLDoc {
 				{
 					_MiniXMLLog ("Got unary $uname");
 					$ufinaltxt = $mcp[$this->xRegexIndex['uendtxt']][$i];
-					$newElement =& $parentElement->createChild($uname);
+					$newElement = $parentElement->createChild($uname);
 					$this->_extractAttributesFromString($newElement, $mcp[$this->xRegexIndex['uattr']][$i]);
 					if ($ufinaltxt)
 					{
@@ -645,7 +645,7 @@ class MiniXMLDoc {
 				} elseif ($doctypecont) {
 					//_MiniXMLLog ("Got doctype $doctypedef '" . $mcp[11][$i] . "'");
 					$newElement = new MiniXMLElementDocType($mcp[$this->xRegexIndex['doctypedef']][$i]);
-					$appendedChild =& $parentElement->appendChild($newElement);
+					$appendedChild = $parentElement->appendChild($newElement);
 					$this->fromSubString($appendedChild, $doctypecont, $regex);
 					
 				} elseif ($entityname ) {
@@ -672,7 +672,7 @@ class MiniXMLDoc {
 					$finaltxt = $mcp[$this->xRegexIndex['biendtxt']][$i];
 					$otherTags = $mcp[$this->xRegexIndex['birest']][$i];
 					
-					$newElement =& $parentElement->createChild($mcp[$this->xRegexIndex['biname']][$i]);
+					$newElement = $parentElement->createChild($mcp[$this->xRegexIndex['biname']][$i]);
 					$this->_extractAttributesFromString($newElement, $mcp[$this->xRegexIndex['biattr']][$i]);
 					
 					

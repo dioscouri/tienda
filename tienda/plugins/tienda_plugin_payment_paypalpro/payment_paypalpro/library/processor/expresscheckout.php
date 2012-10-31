@@ -370,10 +370,10 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
-			if ( ! ($user =& $this->_getUser($this->_data['user_id'], $this->_response['PAYPAL_EMAIL'], $this->_data['PayerID']))) {			
+			if ( ! ($user = $this->_getUser($this->_data['user_id'], $this->_response['PAYPAL_EMAIL'], $this->_data['PayerID']))) {			
 				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				$user->set('id', 0);
 			}
 			
@@ -386,7 +386,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			
 			// prepare a new payment entry for storing
 			$payment_data = new JObject();
-			$payment_data->user =& $user;
+			$payment_data->user = $user;
 			$payment_data->orderpayment_id= $subsrc_type_obj->orderpayment_id;
 			$payment_data->order_id= $subsrc_type_obj->order_id;
 			$payment_data->payment_details = $this->_getFormattedPaymentDetails();
@@ -506,10 +506,10 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		}
 		
 		if (!empty($this->_response['ACK']) && (strtolower($this->_response['ACK']) == 'success' || strtolower($this->_response['ACK']) == 'successwithwarning')) {
-			if ( ! ($user =& $this->_getUser($this->_data['user_id'], $this->_response['PAYPAL_EMAIL'], $this->_data['PayerID']))) {		
+			if ( ! ($user = $this->_getUser($this->_data['user_id'], $this->_response['PAYPAL_EMAIL'], $this->_data['PayerID']))) {		
 				$this->setError(JText::_('COM_TIENDA_PAYPALPRO_MESSAGE_UNKNOWN_USER'));
 
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				$user->set('id', 0);
 			}
 			
@@ -526,7 +526,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 			// prepare a new payment entry for storing
 			$payment_data = new JObject();
 		
-			$payment_data->user =& $user;
+			$payment_data->user = $user;
 			$payment_data->payment_details = $this->_getFormattedPaymentDetails();
 			$payment_data->transaction_id = $this->_response['PROFILEID'];
 			$payment_data->payment_amount = $amount;
@@ -632,7 +632,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
  	 */
     function _getUserEmail()
     {
-    	$user =& JFactory::getUser();
+    	$user = JFactory::getUser();
     	
     	if ($user->get('id')) {
     		return $user->get('email');
@@ -649,7 +649,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
      */
     function _getUserID()
     {
-    	$user =& JFactory::getUser();
+    	$user = JFactory::getUser();
     	return $user->get('id');
     }
     
@@ -693,7 +693,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
      */
     function _redirectToPayPal()
     {
-    	$app =& JFactory::getApplication();
+    	$app = JFactory::getApplication();
     	
     	$url  = $this->_params->get('sandbox') ? 'https://www.sandbox.paypal.com/webscr' : 'https://www.paypal.com/webscr';
     	$url .= '?cmd=_express-checkout&token=' . $this->_response['TOKEN'];
@@ -714,9 +714,9 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 	 */
 	function & _getUser($id, $email, $unique_gateway_id = false)
 	{
-		$config =& Tienda::getInstance();
+		$config = Tienda::getInstance();
 		
-		$user =& JFactory::getUser($id);
+		$user = JFactory::getUser($id);
 		if ($user->id) {
 			return $user;
 		}
@@ -724,7 +724,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		// try to find out if the email is registered
 		jimport('joomla.user.helper');
 		if ($id = JUserHelper::getUserId($email)) {
-			$user =& JFactory::getUser($id);
+			$user = JFactory::getUser($id);
 			
 			if ($user->id) {
 				return $user;
@@ -734,7 +734,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		if ($unique_gateway_id) {
 			// try to find a user in the payment_details if he ever made a payment
 			if ($id = $this->_findUserId($unique_gateway_id, 'PAYERID')) {		
-				$user =& JFactory::getUser($id);
+				$user = JFactory::getUser($id);
 				if ($user->id) {
 					return $user;
 				}			
@@ -756,7 +756,7 @@ class plgTiendaPayment_Paypalpro_Processor_Expresscheckout extends plgTiendaPaym
 		$details['password2'] 	= $details['password'];
 		$details['block'] 		= $config->get('block_automatically_registered') ? '1' : '0';
 		
-		if ($user =& TiendaHelperUser::createNewUser( $details, $msg )) {
+		if ($user = TiendaHelperUser::createNewUser( $details, $msg )) {
 			if ( ! $config->get('block_automatically_registered')) {
 				// login the new user
 				$login = TiendaHelperUser::login( $details, '1' );

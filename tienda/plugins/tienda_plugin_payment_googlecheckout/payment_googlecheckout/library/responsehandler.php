@@ -9,7 +9,7 @@
 	require_once( $pathXplode[0] .'/index.php' );
 
 	jimport( 'joomla.plugin.plugin');
-    $plugin =& JPluginHelper::getPlugin('tienda', 'payment_googlecheckout');
+    $plugin = JPluginHelper::getPlugin('tienda', 'payment_googlecheckout');
    	$params = new DSCParameter($plugin->params);
    	
    	chdir("..");

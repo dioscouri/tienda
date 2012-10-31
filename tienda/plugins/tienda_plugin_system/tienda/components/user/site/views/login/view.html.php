@@ -36,7 +36,7 @@ class UserViewLogin extends JView
 		$pathway	=& $mainframe->getPathway();
 		$image		= '';
 
-		$menu   =& JSite::getMenu();
+		$menu   = JSite::getMenu();
 		$item   = $menu->getActive();
 		if($item)
 			$params	=& $menu->getParams($item->id);
@@ -101,7 +101,7 @@ class UserViewLogin extends JView
 			$url = base64_encode($params->get($type));
 		}
 
-		$errors =& JError::getErrors();
+		$errors = JError::getErrors();
 
 		$this->assign('image' , $image);
 		$this->assign('type'  , $type);

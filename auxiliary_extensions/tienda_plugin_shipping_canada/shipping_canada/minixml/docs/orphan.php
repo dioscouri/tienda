@@ -10,24 +10,24 @@ require_once('minixml.inc.php');
 	
 	# Fetch the ROOT element for the document
 	# (an instance of XML::Mini::Element)
-	$xmlElement =& $xmlDoc->getRoot();
+	$xmlElement = $xmlDoc->getRoot();
 	
 	# Create a sub element
-	$newChild =& $xmlElement->createChild('mychild');
+	$newChild = $xmlElement->createChild('mychild');
 	
 	$newChild->text('hello mommy');
 	
 	
 	# Create an orphan element
 	
-	$orphan =& $xmlDoc->createElement('annie');
+	$orphan = $xmlDoc->createElement('annie');
 	$orphan->attribute('hair', '#ff0000');
 	$orphan->text('tomorrow, tomorrow');
 	
 	# Adopt the orphan
 	$newChild->prependChild($orphan);
 
-	$toy =& $xmlDoc->createElement('toy');
+	$toy = $xmlDoc->createElement('toy');
 	$toy->attribute('color', '#0000ff');
 	$toy->createChild('type', 'teddybear');
 

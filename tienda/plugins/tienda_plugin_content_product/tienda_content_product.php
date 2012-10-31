@@ -209,7 +209,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     				$inventoryList[''] = '0';
     			}
     		}
-            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher = JDispatcher::getInstance();
             
             ob_start();
             $dispatcher->trigger( 'onBeforeDisplayProduct', array( $row->product_id ) );

@@ -102,7 +102,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         // Process the payment        
         $vars = new JObject();
         
-        $app =& JFactory::getApplication();
+        $app = JFactory::getApplication();
         $paction = JRequest::getVar( 'paction' );
         
         switch ($paction)
@@ -405,10 +405,10 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         $config = Tienda::getInstance();
         
         if ($user_id) {
-            $user =& JFactory::getUser($user_id);
+            $user = JFactory::getUser($user_id);
         }
         else {
-            $user =& JFactory::getUser();   
+            $user = JFactory::getUser();   
         }   
         
         if ($user->id) {
@@ -427,7 +427,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         $details['password2']   = $details['password'];
         $details['block']       = $config->get('block_automatically_registered') ? '1' : '0';
         
-        if ($user =& TiendaHelperUser::createNewUser( $details )) {
+        if ($user = TiendaHelperUser::createNewUser( $details )) {
             if ( ! $config->get('block_automatically_registered')) {
                 // login the new user
                 $login = TiendaHelperUser::login( $details, '1' );
@@ -498,7 +498,7 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         $paymenttype           =  '01';
 
         // joomla info
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $sagepayments_userid                = $user->id;
         
         // order info
@@ -664,10 +664,10 @@ class plgTiendaPayment_sagepayments extends TiendaPaymentPlugin
         $order_status = '0';
         
         $posted = false;
-        if ( ! ($user =& $this->_getUser( $submitted_values ))) {
+        if ( ! ($user = $this->_getUser( $submitted_values ))) {
             $errors[] = JText::_('Sagepayments Message Unknown User');
 
-            $user =& JFactory::getUser();
+            $user = JFactory::getUser();
             $user->set('id', 0);
         }
         $send_email = false;

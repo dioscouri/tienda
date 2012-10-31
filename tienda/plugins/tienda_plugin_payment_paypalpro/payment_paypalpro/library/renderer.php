@@ -105,7 +105,7 @@ class plgTiendaPayment_Paypalpro_Renderer extends JObject
      */
     function setParams(&$params)
     {
-    	$this->_params =& $params;
+    	$this->_params = $params;
     }
     
 	/**

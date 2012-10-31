@@ -83,7 +83,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
      */
     function setParams(&$params)
     {
-    	$this->_params =& $params;
+    	$this->_params = $params;
     }
     
 	/**
@@ -152,7 +152,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 				$this->_subscr_type_obj = null;
 			}
 			else {
-				$this->_subscr_type_obj =& $type;
+				$this->_subscr_type_obj = $type;
 			}
     	}   	
     	
@@ -219,7 +219,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
      */
     function _getUserEmail()
     {
-    	$user =& JFactory::getUser();
+    	$user = JFactory::getUser();
     	
     	if ($user->get('id')) {
     		return $user->get('email');
@@ -259,10 +259,10 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
     	$subscr_obj =  $this->getSubscrTypeObj();
     	
     	if ($user_id) {
-    		$user =& JFactory::getUser($user_id);
+    		$user = JFactory::getUser($user_id);
     	}
     	else {
-    		$user =& JFactory::getUser();
+    		$user = JFactory::getUser();
     	}
     	
     	$desc =  $subscr_obj->get('id') . ':' . $subscr_obj->get('title') . (' - [ ' . ($user->get('id') ? $user->get('username') : JText::_('COM_TIENDA_PAYPALPRO_NEW_USER='))  . ' ]');
@@ -305,7 +305,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 	function _log($text, $type = 'message')
 	{
 		if ($this->_is_log) {
-			$app =& JFactory::getApplication();
+			$app = JFactory::getApplication();
 			
 			// make sure we are dealing with a string
 			if (is_array($text) || is_object($text)) {
@@ -335,9 +335,9 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 	 */
 	function & _getUser($email, $unique_gateway_id = false)
 	{
-		$config =& Tienda::getInstance();
+		$config = Tienda::getInstance();
 		
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user->id) {
 			return $user;
 		}
@@ -345,7 +345,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 		if ($unique_gateway_id) {
 			// try to find a user in the payment_details if he ever made a payment
 			if ($id = $this->_findUserId($unique_gateway_id)) {			
-				$user =& JFactory::getUser($id);
+				$user = JFactory::getUser($id);
 				if ($user->id) {
 					return $user;
 				}			
@@ -355,7 +355,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 		// try to find out if the email is registered
 		jimport('joomla.user.helper');
 		if ($id = JUserHelper::getUserId($email)) {
-			$user =& JFactory::getUser($id);
+			$user = JFactory::getUser($id);
 			
 			if ($user->id) {
 				return $user;
@@ -377,7 +377,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 		$details['password2'] 	= $details['password'];
 		$details['block'] 		= $config->get('block_automatically_registered') ? '1' : '0';
 		
-		if ($user =& TiendaHelperUser::createNewUser( $details, $msg )) {
+		if ($user = TiendaHelperUser::createNewUser( $details, $msg )) {
 			if ( ! $config->get('block_automatically_registered')) {
 				// login the new user
 				$login = TiendaHelperUser::login( $details, '1' );
@@ -400,7 +400,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 	 */
 	function _findUserId($id, $field_name = 'PROFILEID')
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$keyword = $field_name . " = " . $id; 
 		
 		$q = "SELECT created_by "	
@@ -522,10 +522,10 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
 	{
 		$duration = $duration * $this->_getDuration($duration_unit);
 			
-		$p_date =& JFactory::getDate($payment_date);			
+		$p_date = JFactory::getDate($payment_date);			
 		$expires_date = $p_date->toUnix() + ( $duration * 24 * 3600 );
 		
-		$expires_datetime =& JFactory::getDate($expires_date);
+		$expires_datetime = JFactory::getDate($expires_date);
 		$expires_datetime = $expires_datetime->toMySQL();
 		
 		return $expires_datetime;

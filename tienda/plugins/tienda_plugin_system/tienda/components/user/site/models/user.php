@@ -112,7 +112,7 @@ class UserModelUser extends TiendaModelBase
             return false;
         }
 
-        $session =& JFactory::getSession();
+        $session = JFactory::getSession();
         $session->set('user', $user);
 
         // check if username has been changed
@@ -140,7 +140,7 @@ class UserModelUser extends TiendaModelBase
         // Lets load the content if it doesn't already exist
         if (empty($this->_data))
         {
-            $this->_data =& JFactory::getUser();
+            $this->_data = JFactory::getUser();
             return (boolean) $this->_data;
         }
         return true;

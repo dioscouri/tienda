@@ -34,7 +34,7 @@ class plgButtonTienda extends JPlugin
      */
     function onDisplay($name)
     {
-        $doc =& JFactory::getDocument();
+        $doc = JFactory::getDocument();
         $doc->addStyleSheet( JURI::root(true).'/plugins/editors-xtd/tienda/css/stylesheet.css');
 
         $js = "

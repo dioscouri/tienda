@@ -69,9 +69,9 @@ class plgTiendaPayment_Paypalpro_Renderer_Helper extends plgTiendaPayment_Paypal
 		if ($articleid)
 		{
 			global $mainframe;
-			$dispatcher	   =& JDispatcher::getInstance();
+			$dispatcher	   = JDispatcher::getInstance();
 
-			$article =& JTable::getInstance('content');
+			$article = JTable::getInstance('content');
 			$article->load( $articleid );
 			$article->text = $article->introtext . chr(13).chr(13) . $article->fulltext;
 

@@ -96,7 +96,7 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         // Process the payment        
         $vars = new JObject();
         
-        $app =& JFactory::getApplication();
+        $app = JFactory::getApplication();
         $paction = JRequest::getVar( 'paction' );
         
         switch ($paction)
@@ -445,10 +445,10 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $config = Tienda::getInstance();
         
         if ($user_id) {
-            $user =& JFactory::getUser($user_id);
+            $user = JFactory::getUser($user_id);
         }
         else {
-            $user =& JFactory::getUser();   
+            $user = JFactory::getUser();   
         }   
         
         if ($user->id) {
@@ -467,7 +467,7 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $details['password2']   = $details['password'];
         $details['block']       = $config->get('block_automatically_registered') ? '1' : '0';
         
-        if ($user =& TiendaHelperUser::createNewUser( $details )) {
+        if ($user = TiendaHelperUser::createNewUser( $details )) {
             if ( ! $config->get('block_automatically_registered')) {
                 // login the new user
                 $login = TiendaHelperUser::login( $details, '1' );
@@ -533,7 +533,7 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $paymenttype           =  'PAYMENT';
 
         // joomla info
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $submitted_email            = !empty($data['email']) ? $data['email'] : '';
         $sagepay_userid                = $user->id;
         $sagepay_useremail             = empty($user->id) ? $submitted_email : $user->email;
@@ -725,10 +725,10 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $sagepay_del_val = '=';
         $posted = false;
         $text_posted = 'The VendorTxCode \''.$submitted_values['VendorTxCode'].'\' has been used before';
-        if ( ! ($user =& $this->_getUser( $submitted_values ))) {
+        if ( ! ($user = $this->_getUser( $submitted_values ))) {
             $errors[] = JText::_('Sagepay Message Unknown User');
 
-            $user =& JFactory::getUser();
+            $user = JFactory::getUser();
             $user->set('id', 0);
         }
         $send_email = false;

@@ -124,7 +124,7 @@ class TiendaControllerWishlists extends TiendaController
 		
 		$dispatcher = JDispatcher::getInstance();
 		$model  = $this->getModel( $this->get('suffix') );
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $cids = JRequest::getVar('cid', array(0), '', 'array');        
         
         foreach ($cids as $key=>$wishlist_id)
@@ -200,7 +200,7 @@ class TiendaControllerWishlists extends TiendaController
 		
 		$dispatcher = JDispatcher::getInstance();
 		$model  = $this->getModel( $this->get('suffix') );
-        $user =& JFactory::getUser();
+        $user = JFactory::getUser();
         $cids = JRequest::getVar('cid', array(0), '', 'array');
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );

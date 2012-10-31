@@ -109,7 +109,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		//$vars->post_url = JRoute::_("index.php?option=com_tienda&controller=payment&task=process&ptype={$this->_element}&paction=proceed&tmpl=component");
 		$vars->button_url = $this->_getPostUrl(false);
 		$vars->note = JText::_('COM_TIENDA_GOOGLECHECKOUT_NOTE_DEFAULT');
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		$vars->r = base64_encode($url);
 		// Include all the required files
@@ -286,7 +286,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$vars->message = $this->_process();
 				$html = $this->_getLayout('message', $vars);
 				echo $html; // TODO Remove this
-				$app =& JFactory::getApplication();
+				$app = JFactory::getApplication();
 				$app->close();
 				break;
 			case "cancel":
@@ -406,7 +406,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$path = JPATH_ROOT . '/cache';
 
 			$response->SetLogFiles($path . '/google_error.log', $path . '/google_message.log', L_ALL);
-			$this->_logObj =& $response->log;
+			$this->_logObj = $response->log;
 		}
 
 		// retrieve the XML sent in the HTTP POST request to the ResponseHandler

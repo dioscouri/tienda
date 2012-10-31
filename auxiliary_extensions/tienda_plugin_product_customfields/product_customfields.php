@@ -257,7 +257,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
         $query->select( 'max(tbl.cartitem_customfields_id) as customfields_id' );
         $query->from( '#__tienda_carts AS tbl' );
 
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $db->setQuery( (string) $query );
         $cart = $db->loadObject();
  
