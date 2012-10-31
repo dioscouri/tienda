@@ -515,7 +515,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		}
 	}
 
-	function onDisplayOrderItems($orderitems)
+	public static function onDisplayOrderItems($orderitems)
 	{
 		//trigger the onDisplayOrderItem for each orderitem
 		$dispatcher = JDispatcher::getInstance();
@@ -545,7 +545,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 *
 	 * @return string Order number (or order ID in case of order number is not present)
 	 */
-	function displayOrderNumber( $order )
+	public static function displayOrderNumber( $order )
 	{
 		return empty( $order->order_number ) ? $order->order_id : $order->order_number;
 	}

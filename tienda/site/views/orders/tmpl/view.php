@@ -26,7 +26,7 @@
 	<span><?php echo JText::_('COM_TIENDA_ORDER_DETAIL'); ?> </span>
 </div>
 
-<?php if ($menu =& TiendaMenu::getInstance()) { $menu->display(); } ?>
+<?php if ($menu = TiendaMenu::getInstance()) { $menu->display(); } ?>
 <div style="float: right;">
 <?php
 	if( $row->user_id > 0 )
