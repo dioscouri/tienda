@@ -120,8 +120,5 @@ class TiendaModelGeozones extends TiendaModelBase
 	
 	    $model = DSCModel::getInstance('ZoneRelations', 'TiendaModel');
 	    $model->clearCache();
-	
-	    $model = DSCModel::getInstance('Zones', 'TiendaModel');
-	    $model->clearCache();
 	}
 }

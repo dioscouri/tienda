@@ -24,7 +24,6 @@ class TiendaViewBase extends DSCViewAdmin
 		//including core JS because it needs to be included in modals and since we have so many including here keeps that from failing. 
 		JHTML::_('behavior.modal');
 		JHTML::_('script', 'core.js', 'media/system/js/');
-		JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
 		DSC::loadBootstrap();
 		
 		parent::display($tpl);

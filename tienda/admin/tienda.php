@@ -21,7 +21,7 @@ Tienda::load( 'Tienda', 'defines' );
 // Load Custom Language File if needed (com_tienda_custom)
 if(Tienda::getInstance()->get('custom_language_file', '0'))
 {
-	$lang =& JFactory::getLanguage();
+	$lang = JFactory::getLanguage();
 	$extension = 'com_tienda_custom';
 	$base_dir = JPATH_ADMINISTRATOR;
 	$lang->load($extension, $base_dir, null, true);
@@ -63,6 +63,9 @@ DSCLoader::discover('TiendaHelper', $parentPath, true);
 
 $parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/library';
 DSCLoader::discover('Tienda', $parentPath, true);
+
+JHTML::_('script', 'common.js', 'media/dioscouri/js/');
+JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
 
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );

@@ -17,22 +17,24 @@ class TiendaUrl extends DSCUrl {
 	{
 		$html = "";
 		
+		JHTML::_('behavior.modal', 'a.tienda-modal');
+		
 		if (!empty($options['update']))
 		{
-		    JHTML::_('behavior.modal', 'a.modal', array('onClose'=>'\function(){Dsc.update();}') );
+		    $onclose = 'onClose: function(){ Dsc.update(); },';
 		}
             else
 		{
-		    JHTML::_('behavior.modal');
+		    $onclose = '';
 		}
 
 		// set the $handler_string based on the user's browser
-        $handler_string = "{handler:'iframe',size:{x: window.innerWidth-80, y: window.innerHeight-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
+        $handler_string = "{handler:'iframe', ". $onclose ." size:{x: window.innerWidth-80, y: window.innerHeight-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";
 	    $browser = DSC::getClass( 'DSCBrowser', 'library.browser' );
         if ( $browser->getBrowser() == DSCBrowser::BROWSER_IE ) 
         {
             // if IE, use 
-            $handler_string = "{handler:'iframe',size:{x:window.getSize().scrollSize.x-80, y: window.getSize().size.y-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";            
+            $handler_string = "{handler:'iframe', ". $onclose ." size:{x:window.getSize().scrollSize.x-80, y: window.getSize().size.y-80}, onShow:$('sbox-window').setStyles({'padding': 0})}";            
         }
 		
 		$handler = (!empty($options['img']))
@@ -45,13 +47,13 @@ class TiendaUrl extends DSCUrl {
 			{
 				$options['height'] = 480;
 			}
-			$handler = "{handler: 'iframe', size: {x: ".$options['width'].", y: ".$options['height']. "}}";
+			$handler = "{handler: 'iframe', ". $onclose ." size: {x: ".$options['width'].", y: ".$options['height']. "}}";
 		}
 
 		$id = (!empty($options['id'])) ? $options['id'] : '';
 		$class = (!empty($options['class'])) ? $options['class'] : '';
 		
-		$html	= "<a class=\"modal\" href=\"$url\" rel=\"$handler\" >\n";
+		$html	= "<a class=\"tienda-modal\" href=\"$url\" rel=\"$handler\" >\n";
 		$html 	.= "<span class=\"".$class."\" id=\"".$id."\" >\n";
         $html   .= "$text\n";
 		$html 	.= "</span>\n";
