@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
     
-    class TiendaHelperEmail extends TiendaHelperBase
+class TiendaHelperEmail extends TiendaHelperBase
 {
     /**
      * Protected! Use getInstance()
@@ -222,7 +222,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $mainframe = JFactory::getApplication();
         $type = strtolower($type);  
 
-        $lang = &JFactory::getLanguage();
+        $lang = JFactory::getLanguage();
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
         
         $return = new stdClass();
@@ -230,7 +230,7 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $return->subject = '';
 
         // get config settings
-        $config = &TiendaConfig::getInstance();
+        $config = TiendaConfig::getInstance();
         $sitename = $config->get( 'sitename', $mainframe->getCfg('sitename') );
         $siteurl = $config->get( 'siteurl', JURI::root() );
         

@@ -220,7 +220,7 @@ class TiendaHelperShipping extends TiendaHelperBase
 	 * 
 	 * @return Hash as a string
 	 */
-	public function generateShippingHash( $values )
+	public static function generateShippingHash( $values )
 	{
 		static $sw = '';
 		// using values shipping_type, shipping_price, shipping_name, shipping_code, shipping_tax, shipping_extra, shipping_tracking_id

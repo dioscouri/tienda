@@ -77,6 +77,8 @@
             <?php echo $hidden_fields; ?>
         <?php endforeach; ?>
         <?php 
+    } else {
+        echo "No Params";
     }
     ?>
 

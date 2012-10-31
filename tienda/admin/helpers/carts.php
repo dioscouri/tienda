@@ -392,7 +392,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function removeOrderItems( $order_id )
+	public static function removeOrderItems( $order_id )
 	{
 		// load the order to get the user_id
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );

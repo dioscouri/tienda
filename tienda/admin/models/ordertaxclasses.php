@@ -14,7 +14,6 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelOrderTaxClasses extends TiendaModelBase 
 {
-	
     protected function _buildQueryWhere(&$query)
     {
        	$filter     	= $this->getState('filter');
@@ -35,16 +34,4 @@ class TiendaModelOrderTaxClasses extends TiendaModelBase
         	$query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));
        	}
     }
-    
-	public function getList()
-	{
-		$list = parent::getList(); 
-		
-		// If no item in the list, return an array()
-        if( empty( $list ) ){
-        	return array();
-        }
-
-		return $list;
-	}    
 }

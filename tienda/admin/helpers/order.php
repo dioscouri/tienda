@@ -147,7 +147,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function updateProductQuantities( $order_id, $delta='-' )
+	public static function updateProductQuantities( $order_id, $delta='-' )
 	{
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
@@ -294,18 +294,20 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @return $string DSCParameter formatted string
 	 */
 
-	function currencyToParameters($currency_id){
-		 
-		if(!is_numeric($currency_id))
-		return false;
+	public static function currencyToParameters($currency_id)
+	{
+		if (!is_numeric($currency_id)) {
+    		return false;
+		}
 		 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = &JModel::getInstance('Currencies', 'TiendaModel' );
+		$model = JModel::getInstance('Currencies', 'TiendaModel' );
 		$table = $model->getTable();
 
 		// Load the currency
-		if(!$table->load($currency_id))
-		return false;
+		if (!$table->load($currency_id)) {
+    		return false;
+		}
 			
 		// Convert this into a DSCParameter formatted string
 		// a bit rough, but works smoothly and is extensible (works even if you add another parameter to the curremcy table
@@ -317,7 +319,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		unset($currency_parameters->currency_enabled);
 		 
 		$param = new DSCParameter('');
-		$param->bind($currency_parameters);
+		$param->loadObject($currency_parameters);
 		 
 		return $param->toString();
 	}
@@ -405,7 +407,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 *
 	 * return html
 	 */
-	function getOrderHtmlForEmail( $order_id )
+	public static function getOrderHtmlForEmail( $order_id )
 	{
 		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin( 'tienda' );
