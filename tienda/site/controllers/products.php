@@ -2248,7 +2248,12 @@ class TiendaControllerProducts extends TiendaController
             Tienda::load( "TiendaHelperRoute", 'helpers.route' );
             $router = new TiendaHelperRoute();
             $url = $redirect; // set above
-            $redirect = "index.php?option=com_user&view=login&return=".base64_encode( $url );
+            $option_users_component = 'com_users';
+            if(!version_compare(JVERSION,'1.6.0','ge')) {
+                // Joomla! 1.5 code here
+                $option_users_component = 'com_user';
+            }
+            $redirect = "index.php?option=".$option_users_component."&view=login&return=".base64_encode( $url );
             $redirect = JRoute::_( $redirect, false );
             JFactory::getApplication()->redirect( $redirect );
             return;
