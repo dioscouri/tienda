@@ -9,6 +9,8 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
@@ -31,4 +33,5 @@ $ratings = $helper->getRatings();
 $found = $helper->getCondition();
 $trackcatcount = $helper->getTrackCatCount();
 $filters = $helper->getFilters();
-require( JModuleHelper::getLayoutPath( 'mod_tienda_layered_navigation' ) );
+
+require JModuleHelper::getLayoutPath('mod_tienda_layered_navigation', $params->get('layout', 'default'));

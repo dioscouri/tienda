@@ -11,6 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
+
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
@@ -34,4 +37,4 @@ $num = count($products);
 $mainframe = JFactory::getApplication();
 $document = JFactory::getDocument();
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_products' ) );
+require JModuleHelper::getLayoutPath('mod_tienda_products', $params->get('layout', 'default'));

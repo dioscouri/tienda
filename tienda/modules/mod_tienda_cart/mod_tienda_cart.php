@@ -10,6 +10,9 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
+
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
@@ -71,7 +74,7 @@ $orderTable->calculateTotals();
 
 if (!empty($items) || (empty($items) && $params->get('display_null')) )
 {
-    require( JModuleHelper::getLayoutPath( 'mod_tienda_cart' ) );    
+	require JModuleHelper::getLayoutPath('mod_tienda_cart', $params->get('layout', 'default'));
 }
     else 
 {

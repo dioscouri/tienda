@@ -9,6 +9,8 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
@@ -26,4 +28,6 @@ $helper = new modTiendaCategoriesHelper( $params );
 $items = $helper->getItems();
 $depthlevel = $params->get( 'depthlevel', '2' );
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_categories' ) );
+
+
+require JModuleHelper::getLayoutPath('mod_tienda_categories', $params->get('layout', 'default'));

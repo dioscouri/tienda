@@ -10,7 +10,8 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
-
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
     JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
@@ -25,4 +26,5 @@ $lang->load( $element, JPATH_ADMINISTRATOR );
 
 $helper = new modTiendaBreadcrumbsHelper( $params );
 $pathway = $helper->pathway();
-require( JModuleHelper::getLayoutPath( 'mod_tienda_breadcrumbs' ) );   
+
+require JModuleHelper::getLayoutPath('mod_tienda_breadcrumbs', $params->get('layout', 'default'));

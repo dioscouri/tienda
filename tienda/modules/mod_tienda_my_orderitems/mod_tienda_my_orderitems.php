@@ -10,6 +10,8 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
@@ -34,4 +36,4 @@ $num = count($products);
 $mainframe = JFactory::getApplication();
 $document = JFactory::getDocument();
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_my_orderitems' ) );
+require JModuleHelper::getLayoutPath('mod_tienda_my_orderitems', $params->get('layout', 'default'));

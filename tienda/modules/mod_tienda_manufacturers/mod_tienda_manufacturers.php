@@ -9,6 +9,8 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
 
 // Check the registry to see if our Tienda class has been overridden
 if ( !class_exists('Tienda') ) 
@@ -25,4 +27,4 @@ $lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
 $helper = new modTiendaManufacturersHelper( $params ); 
 $items = $helper->getItems();
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_manufacturers' ) );
+require JModuleHelper::getLayoutPath('mod_tienda_manufacturers', $params->get('layout', 'default'));

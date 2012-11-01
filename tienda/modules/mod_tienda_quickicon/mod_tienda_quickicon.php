@@ -10,6 +10,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
+
 $text = $params->get( 'text', 'Tienda Dashboard' );
 
 $doc = JFactory::getDocument();
@@ -20,4 +23,5 @@ if ( !class_exists('Tienda') )
     
 $img = Tienda::getURL()."images/tienda.png";
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_quickicon' ) );
+require JModuleHelper::getLayoutPath('mod_tienda_quickicon', $params->get('layout', 'default'));
+

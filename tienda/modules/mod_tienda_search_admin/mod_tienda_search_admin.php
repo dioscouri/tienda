@@ -10,6 +10,9 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+// if DSC is not loaded all is lost anyway
+if (!defined('_DSC')) { return; }
+
 $text = $params->get( 'text', 'Tienda Dashboard' );
 
 
@@ -24,4 +27,4 @@ if ( !class_exists('Tienda') )
 }
 Tienda::load( 'TiendaSelect', 'library.select' );   
 
-require( JModuleHelper::getLayoutPath( 'mod_tienda_search_admin' ) );
+require JModuleHelper::getLayoutPath('mod_tienda_search_admin', $params->get('layout', 'default'));
