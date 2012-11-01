@@ -98,7 +98,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                     <?php echo JText::_('COM_TIENDA_OVERALL_RATING'); ?>:
                 </td>
                 <td class="dsc-value">
-                    <?php echo $helper_product->getRatingImage( $this, @$row->product_rating ); ?>
+                    <?php echo $helper_product->getRatingImage( @$row->product_rating, $this ); ?>
                 </td>
             </tr>
             <tr>

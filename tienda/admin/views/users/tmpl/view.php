@@ -388,7 +388,7 @@ $config = Tienda::getInstance();
 									</td>
 									<td style="text-align:center;">
 									
-										<?php  echo $helper_product->getRatingImage(null, $procom->productcomment_rating ); ?>						
+										<?php  echo $helper_product->getRatingImage( $procom->productcomment_rating ); ?>						
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>

@@ -47,7 +47,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
     		<div id="validationmessage_comments" style="padding-top: 10px;"></div>
         <form action="<?php echo $click;?>" method="post" class="adminform" name="commentsForm" enctype="multipart/form-data" >    
             <div><?php echo JText::_('COM_TIENDA_RATING'); ?>: *</div>
-            <?php echo TiendaHelperProduct::getRatingImage( $this, 5, true  ); ?>
+            <?php echo TiendaHelperProduct::getRatingImage( 5, $this, true  ); ?>
             <?php if ($user->guest || !$user->id) {?>
             <div><?php echo JText::_('COM_TIENDA_NAME'); ?>: *</div>
             <div><input type="text" maxlength="100" class="inputbox" value="<?php echo base64_decode(JRequest::getVar('rn', ''));?>" size="40" name="user_name" id="user_name"/></div>
@@ -95,7 +95,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
                 </div>                
                 <div class="customerRating">
                     <span>
-                        <?php echo TiendaHelperProduct::getRatingImage( $this, $review->productcomment_rating ); ?>
+                        <?php echo TiendaHelperProduct::getRatingImage( $review->productcomment_rating, $this ); ?>
                 	</span>
                 </div>
             </div>                  

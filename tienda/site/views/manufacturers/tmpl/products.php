@@ -41,7 +41,7 @@ $citems = @$this->citems;
                     </div>
                     <?php if ( Tienda::getInstance()->get('product_review_enable', '0') ) { ?>  
                     <div class="product_rating">
-                       <?php echo TiendaHelperProduct::getRatingImage('', $item->product_rating ); ?>
+                       <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating ); ?>
                        <?php if (!empty($item->product_comments)) : ?>
                        <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
                        <?php endif; ?>

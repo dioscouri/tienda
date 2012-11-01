@@ -159,7 +159,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                     </div>
                      <?php if ( $config->get('product_review_enable', '0') ) { ?>
                     <div class="product_rating">
-                       <?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>
+                       <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating, $this ); ?>
                        <?php if (!empty($item->product_comments)) : ?>
                        <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
                        <?php endif; ?>

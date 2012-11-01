@@ -184,25 +184,25 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		 
 		Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 		$ratingFourthObj = new stdClass();
-		$ratingFourthObj->rating_name = TiendaHelperProduct::getRatingImage( null, 4 );
+		$ratingFourthObj->rating_name = TiendaHelperProduct::getRatingImage( 4 );
 		$ratingFourthObj->link = $link.'&filter_rating=4';
 		$ratingFourthObj->total = $ratingSecond;
 		$ratings[] = $ratingFourthObj;
 
 		$ratingThirdObj = new stdClass();
-		$ratingThirdObj->rating_name = TiendaHelperProduct::getRatingImage( null, 3 );
+		$ratingThirdObj->rating_name = TiendaHelperProduct::getRatingImage( 3 );
 		$ratingThirdObj->link = $link.'&filter_rating=3';
 		$ratingThirdObj->total = $ratingSecond;
 		$ratings[] = $ratingThirdObj;
 
 		$ratingSecondObj = new stdClass();
-		$ratingSecondObj->rating_name = TiendaHelperProduct::getRatingImage( null, 2 );
+		$ratingSecondObj->rating_name = TiendaHelperProduct::getRatingImage( 2 );
 		$ratingSecondObj->link = $link.'&filter_rating=2';
 		$ratingSecondObj->total = $ratingSecond;
 		$ratings[] = $ratingSecondObj;
 
 		$ratingFirstObj = new stdClass();
-		$ratingFirstObj->rating_name = TiendaHelperProduct::getRatingImage( null, 1 );
+		$ratingFirstObj->rating_name = TiendaHelperProduct::getRatingImage( 1 );
 		$ratingFirstObj->link = $link.'&filter_rating=1';
 		$ratingFirstObj->total = $ratingFirst;
 		$ratings[] = $ratingFirstObj;
@@ -704,7 +704,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		{
 			$ratingObj = new stdClass();
 			$ratingObj->label = JText::_('COM_TIENDA_RATING');
-			$ratingObj->value = TiendaHelperProduct::getRatingImage( null, (float) $this->_filter_rating ).' '.JText::_('COM_TIENDA_AND_UP');
+			$ratingObj->value = TiendaHelperProduct::getRatingImage( (float) $this->_filter_rating ).' '.JText::_('COM_TIENDA_AND_UP');
 			$ratingObj->link = $this->_link.'&filter_category='.$this->_filter_category.'&filter_rating=0';
 			$filters[] = $ratingObj;
 		}

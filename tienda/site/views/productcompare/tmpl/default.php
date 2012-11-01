@@ -69,7 +69,7 @@ $show_sku = Tienda::getInstance()->get('show_sku_productcompare', '1');
 				</td>			
 					<?php foreach($items as $item):?>
 				<td align="center" class="border-left">
-					<?php echo TiendaHelperProduct::getRatingImage( $this, $item->product_rating ); ?>								
+					<?php echo TiendaHelperProduct::getRatingImage( $item->product_rating, $this ); ?>								
 				</td>
 					<?php endforeach;?>		
 			</tr>

@@ -298,7 +298,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		}
 		
 		$results = array( );
-		$dispatcher = &JDispatcher::getInstance( );
+		$dispatcher = JDispatcher::getInstance( );
 		$results = $dispatcher->trigger( "onIsWishlistItemAvailable", array( &$item ) );
 		for ( $i = 0; $i < count( $results ); $i++ )
 		{

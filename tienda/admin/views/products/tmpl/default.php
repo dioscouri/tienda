@@ -142,7 +142,7 @@
 					</a>
 					
 					<div class="product_rating">
-					   <?php echo $helper_product->getRatingImage( $this, $item->product_rating ); ?>
+					   <?php echo $helper_product->getRatingImage( $item->product_rating, $this ); ?>
 					   <?php if (!empty($item->product_comments)) : ?>
 					   <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
 					   <?php endif; ?>
