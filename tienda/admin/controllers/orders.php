@@ -1057,6 +1057,8 @@ class TiendaControllerOrders extends TiendaController
 					
 				$this->message      .= " :: ".JText::_('COM_TIENDA_ORDERHISTORY_SAVE_FAILED');
 			}
+			
+			$model->clearCache();
 
 			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger( 'onAfterUpdateStatus'.$this->get('suffix'), array( $row ) );
@@ -1208,6 +1210,9 @@ class TiendaControllerOrders extends TiendaController
 		 $counter++;
 
 		}
+		
+		$model->clearCache();
+		
 		$redirect = "index.php?option=com_tienda";
 		$redirect .= '&view='.$this->get('suffix');
 		$redirect = JRoute::_( $redirect, false );
