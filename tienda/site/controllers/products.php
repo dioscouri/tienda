@@ -448,7 +448,8 @@ class TiendaControllerProducts extends TiendaController
 
         // convert elements to array that can be binded
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $values = TiendaHelperBase::elementsToArray( $elements );
+		$helper = TiendaHelperBase::getInstance();
+        $values = $helper->elementsToArray( $elements );
 
         // merge current elements with post
         $request_arr = JRequest::get();
