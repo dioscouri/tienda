@@ -46,7 +46,7 @@ class TiendaController extends DSCControllerAdmin
 		$constant = 'page_tooltip_'.$key;
 		$config_title = $constant."_disabled";
 
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables/' );
 		unset($table);
 		$table = JTable::getInstance( 'config', 'TiendaTable' );

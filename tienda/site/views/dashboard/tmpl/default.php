@@ -96,7 +96,7 @@
 		    </td>
 		    <td style="vertical-align: top; width: 30%; min-width: 30%; padding-left: 5px;">
             <?php
-			$document	= &JFactory::getDocument();
+			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
 			$attribs 	= array();
 			$attribs['style'] = 'xhtml';

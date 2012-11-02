@@ -15,7 +15,7 @@ class JElementTax extends JElement {
 
 	function fetchElement($name, $value, & $node, $control_name) {
 
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		Tienda::load( 'TiendaSelect', 'library.select' );
 
 		$id = JRequest::getInt('cid');
@@ -25,7 +25,7 @@ class JElementTax extends JElement {
 			$params = new K2Parameter($K2Item->plugins, JPATH_PLUGINS.'/k2/tienda.xml', 'tienda');
 			$id = $params->get('productID');
 
-			$db = &JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = "SELECT tax_class_id FROM #__tienda_products WHERE product_id=".(int)$id;
 			$db->setQuery($query);
 			$tax = $db->loadResult();

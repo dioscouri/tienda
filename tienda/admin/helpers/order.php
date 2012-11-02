@@ -577,14 +577,14 @@ class TiendaHelperOrder extends TiendaHelperBase
 		return $return;
 	}
 
-	/*
+	/**
 	 * Method to calculate hash which will be used to access guest invoices
 	 * 
 	 * @param $order		Object of type TiendaTableOrders
 	 * 
 	 * @return	String containing the calculated hash
 	 */
-	function getHashInvoice( $order )
+	public static function getHashInvoice( $order )
 	{
 		$secret = Tienda::getInstance()->get( 'secret_word', '' );
 		$hash = $order->shipping_method_id.$order->order_total.$order->order_id.$order->ip_address.$secret.

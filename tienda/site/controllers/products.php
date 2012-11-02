@@ -665,7 +665,7 @@ class TiendaControllerProducts extends TiendaController
      */
     function downloadFile( )
     {
-        $user = &JFactory::getUser( );
+        $user = JFactory::getUser( );
         $productfile_id = intval( JRequest::getvar( 'id', '', 'request', 'int' ) );
         $product_id = intval( JRequest::getvar( 'product_id', '', 'request', 'int' ) );
         $link = 'index.php?option=com_tienda&controller=products&view=products&task=view&id=' . $product_id;
@@ -861,7 +861,7 @@ class TiendaControllerProducts extends TiendaController
         $keynames['user_id'] = $user->id;
         if ( empty( $user->id ) )
         {
-            $session = &JFactory::getSession( );
+            $session = JFactory::getSession( );
             $keynames['session_id'] = $session->getId( );
         }
         $keynames['product_id'] = $product_id;
@@ -918,7 +918,7 @@ class TiendaControllerProducts extends TiendaController
 
         // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
         $results = array( );
-        $dispatcher = &JDispatcher::getInstance( );
+        $dispatcher = JDispatcher::getInstance( );
         $results = $dispatcher->trigger( "onValidateAddToCart", array(
                 $item, $values
         ) );
@@ -1041,7 +1041,7 @@ class TiendaControllerProducts extends TiendaController
         $id_type = "user_id";
         if ( empty( $user->id ) )
         {
-            $session = &JFactory::getSession( );
+            $session = JFactory::getSession( );
             $cart_id = $session->getId( );
             $id_type = "session";
         }
@@ -1081,7 +1081,7 @@ class TiendaControllerProducts extends TiendaController
 
         // onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
         // once the extra field(s) have been set, they will get automatically saved
-        $dispatcher = &JDispatcher::getInstance( );
+        $dispatcher = JDispatcher::getInstance( );
         $results = $dispatcher->trigger( "onAfterCreateItemForAddToCart", array(
                 $item, $values, $files
         ) );
@@ -1105,7 +1105,7 @@ class TiendaControllerProducts extends TiendaController
 
         // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
         $results = array( );
-        $dispatcher = &JDispatcher::getInstance( );
+        $dispatcher = JDispatcher::getInstance( );
         $results = $dispatcher->trigger( "onBeforeAddToCart", array(
                 &$item, $values
         ) );
@@ -1125,7 +1125,7 @@ class TiendaControllerProducts extends TiendaController
         // if here, add to cart
 
         // After login, session_id is changed by Joomla, so store this for reference
-        $session = &JFactory::getSession( );
+        $session = JFactory::getSession( );
         $session->set( 'old_sessionid', $session->getId( ) );
 
         // add the item to the cart
@@ -1353,7 +1353,7 @@ class TiendaControllerProducts extends TiendaController
         $id_type = "user_id";
         if ( empty( $user->id ) )
         {
-            $session = &JFactory::getSession( );
+            $session = JFactory::getSession( );
             $cart_id = $session->getId( );
             $id_type = "session";
         }
@@ -1442,7 +1442,7 @@ class TiendaControllerProducts extends TiendaController
 
                 // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
                 $results = array( );
-                $dispatcher = &JDispatcher::getInstance( );
+                $dispatcher = JDispatcher::getInstance( );
                 $results = $dispatcher->trigger( "onValidateAddToCart", array(
                         $item, $values
                 ) );
@@ -1525,7 +1525,7 @@ class TiendaControllerProducts extends TiendaController
         $id_type = "user_id";
         if ( empty( $user->id ) )
         {
-            $session = &JFactory::getSession( );
+            $session = JFactory::getSession( );
             $cart_id = $session->getId( );
             $id_type = "session";
         }
@@ -1616,7 +1616,7 @@ class TiendaControllerProducts extends TiendaController
 
                 // no matter what, fire this validation plugin event for plugins that extend the checkout workflow
                 $results = array( );
-                $dispatcher = &JDispatcher::getInstance( );
+                $dispatcher = JDispatcher::getInstance( );
                 $results = $dispatcher->trigger( "onBeforeAddToCart", array(
                         $item, $values
                 ) );
@@ -1655,7 +1655,7 @@ class TiendaControllerProducts extends TiendaController
         }
 
         // After login, session_id is changed by Joomla, so store this for reference
-        $session = &JFactory::getSession( );
+        $session = JFactory::getSession( );
         $session->set( 'old_sessionid', $session->getId( ) );
 
         // get the 'success' redirect url
@@ -1705,7 +1705,7 @@ class TiendaControllerProducts extends TiendaController
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
         $helper = TiendaHelperBase::getInstance( );
-        $user = &JFactory::getUser( );
+        $user = JFactory::getUser( );
 
         // get elements from post
         $elements = json_decode( preg_replace( '/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
@@ -1895,7 +1895,7 @@ class TiendaControllerProducts extends TiendaController
             }
             else
             {
-                $dispatcher = &JDispatcher::getInstance( );
+                $dispatcher = JDispatcher::getInstance( );
                 $dispatcher->trigger( 'onAfterSaveProductComments', array(
                         $productreviews
                 ) );
@@ -1958,7 +1958,7 @@ class TiendaControllerProducts extends TiendaController
                     'user_id' => $user_id, 'productcomment_id' => $productcomment_id
             ) );
             	
-            $application = &JFactory::getApplication( );
+            $application = JFactory::getApplication( );
             if ( $report == 1 && !empty( $reviewhelpfulness->productcommentshelpfulness_id ) && empty( $reviewhelpfulness->reported ) )
             {
                 $reviewhelpfulness->reported = 1;

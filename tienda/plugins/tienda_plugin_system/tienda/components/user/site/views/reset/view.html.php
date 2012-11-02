@@ -80,7 +80,7 @@ class UserViewReset extends JView
 		} else {
 			$params->set('page_title',	JText::_('COM_TIENDA_FORGOT_YOUR_PASSWORD'));
 		}
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->setTitle( $params->get( 'page_title' ) );
 
 		$this->assignRef('params',		$params);

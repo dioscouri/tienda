@@ -30,7 +30,7 @@ class TiendaControllerProductFiles extends TiendaController
 	 */
 	function downloadFile( )
 	{
-		$user = &JFactory::getUser( );
+		$user = JFactory::getUser( );
 		$productfile_id = intval( JRequest::getvar( 'id', '', 'request', 'int' ) );
 		$product_id = intval( JRequest::getvar( 'product_id', '', 'request', 'int' ) );
 		$link = 'index.php?option=com_tienda&view=products&task=edit&id=' . $product_id;

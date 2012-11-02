@@ -196,7 +196,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		
 		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
 		// once the extra field(s) have been set, they will get automatically saved
-		$dispatcher = &JDispatcher::getInstance( );
+		$dispatcher = JDispatcher::getInstance( );
 		$results = $dispatcher->trigger( "onAfterCreateItemForAddToCart", array( $item, $values, $files ) );
 		foreach ( $results as $result )
 		{
@@ -233,7 +233,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		
 		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
 		$results = array( );
-		$dispatcher = &JDispatcher::getInstance( );
+		$dispatcher = JDispatcher::getInstance( );
 		$results = $dispatcher->trigger( "onBeforeAddToCart", array( &$item, $values ) );
 		for ( $i = 0; $i < count( $results ); $i++ )
 		{
@@ -248,7 +248,7 @@ class TiendaTableWishlists extends TiendaTableEav
 		// if here, add to cart
 		
 		// After login, session_id is changed by Joomla, so store this for reference
-		$session = &JFactory::getSession( );
+		$session = JFactory::getSession( );
 		$session->set( 'old_sessionid', $session->getId( ) );
 		
 		// add the item to the cart

@@ -15,9 +15,9 @@ class JElementTools extends JElement {
 
 	function fetchElement($name, $value, & $node, $control_name) {
 
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$js = "function jSelectProducts(id,title,object){
 					$('tiendaProductName').setProperty('value', title);
 					$('pluginstiendaproductID').setProperty('value', id);
@@ -43,7 +43,7 @@ class JElementTools extends JElement {
 			$params = new K2Parameter($K2Item->plugins, JPATH_PLUGINS.'/k2/tienda.xml', 'tienda');
 			$productID = $params->get('productID');
 			if($productID){
-				$db = &JFactory::getDBO();
+				$db = JFactory::getDBO();
 				$query = "SELECT * FROM #__tienda_products WHERE product_id=".(int)$productID;
 				$db->setQuery($query);
 				$product = $db->loadObject();

@@ -15,7 +15,7 @@ class JElementCategories extends JElement {
 	var	$_name = 'Categories';
 
 	function fetchElement($name, $value, &$node, $control_name) {
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT category.* FROM #__k2_categories AS category WHERE published = 1 ORDER BY parent, ordering";
 		$db->setQuery( $query );
 		$mitems = $db->loadObjectList();

@@ -41,7 +41,7 @@ class UserViewRemind extends JView
 	function display($tpl = null)
 	{
 		jimport('joomla.html.html');
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -59,7 +59,7 @@ class UserViewRemind extends JView
 		} else {
 			$params->set('page_title',	JText::_('COM_TIENDA_FORGOT_YOUR_USERNAME'));
 		}
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->setTitle( $params->get( 'page_title' ) );
 
 

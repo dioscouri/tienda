@@ -31,7 +31,7 @@ class TiendaViewElementProductMultiple extends JView
 		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
-		$db			= &JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
 		$document	= & JFactory::getDocument();

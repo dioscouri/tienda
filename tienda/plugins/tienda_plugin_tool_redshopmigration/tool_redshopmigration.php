@@ -160,7 +160,7 @@ class plgTiendaTool_RedShopMigration extends TiendaToolPlugin {
 		// grab all the data and insert it into the tienda tables
 		// if the host or database names are diff from the joomla one
 		$state = $this -> _getState();
-		$conf = &JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$jHost = $conf -> getValue('config.host');
 		$jDatabase = $conf -> getValue('config.db');
 

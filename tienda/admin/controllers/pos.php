@@ -1145,7 +1145,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->assign('product', $row);
 		$view->setLayout('viewproduct');
 
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		ob_start();
 		$dispatcher->trigger('onDisplayProductAttributeOptions', array($row->product_id));
@@ -1226,7 +1226,7 @@ class TiendaControllerPOS extends TiendaController
 
 		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
 		// once the extra field(s) have been set, they will get automatically saved
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger("onAfterCreateItemForAddToCart", array($item,
 		$post,
 		$files));
@@ -1240,7 +1240,7 @@ class TiendaControllerPOS extends TiendaController
 
 		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
 		$results = array();
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger("onBeforeAddToCart", array($item,
 		$post));
 
@@ -1339,7 +1339,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!empty($items))
 		{
 			//trigger the onDisplayCartItem for each cartitem
-			$dispatcher = &JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 
 			$i = 0;
 			$onDisplayCartItem = array();
@@ -1386,7 +1386,7 @@ class TiendaControllerPOS extends TiendaController
 		$product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
 		$quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');
 
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 
 		if(isset($post['remove']))
@@ -1995,7 +1995,7 @@ class TiendaControllerPOS extends TiendaController
 		$model->setState('filter_enabled', '1');
 		$plugins = $model->getList();
 
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$rates = array();
 
@@ -2172,7 +2172,7 @@ class TiendaControllerPOS extends TiendaController
 		if(count($payment_plugins) == 1)
 		{
 			$payment_plugins[0]->checked = true;
-			$dispatcher = &JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$results = $dispatcher->trigger("onGetPaymentForm", array($payment_plugins[0]->element,
 			''));
 
@@ -2207,7 +2207,7 @@ class TiendaControllerPOS extends TiendaController
 
 		if($plugins)
 		{
-			$dispatcher = &JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			foreach($plugins as $plugin)
 			{
 				$results = $dispatcher->trigger("onGetPaymentOptions", array($plugin->element,
@@ -2241,7 +2241,7 @@ class TiendaControllerPOS extends TiendaController
 			$element = JRequest::getVar('payment_element');
 		}
 		$results = array();
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger("onGetPaymentForm", array($element,
 		$values));
 
@@ -2274,7 +2274,7 @@ class TiendaControllerPOS extends TiendaController
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		$model = DSCModel::getInstance('Carts', 'TiendaModel');
 
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 		$model->setState('filter_user', $user_id);
 
@@ -2350,7 +2350,7 @@ class TiendaControllerPOS extends TiendaController
 				$orderItem->orderitem_attributes_price = $cartitem->orderitem_attributes_price;
 				$orderItem->orderitem_final_price = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
 
-				$dispatcher = &JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger("onGetAdditionalOrderitemKeyValues", array($cartitem));
 				foreach($results as $result)
 				{
@@ -2403,7 +2403,7 @@ class TiendaControllerPOS extends TiendaController
 
 	function saveOrder($values)
 	{
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 
 		$error = false;
@@ -2661,7 +2661,7 @@ class TiendaControllerPOS extends TiendaController
 		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 		$row->user_email = JFactory::getUser($user_id)->get('email');		
 

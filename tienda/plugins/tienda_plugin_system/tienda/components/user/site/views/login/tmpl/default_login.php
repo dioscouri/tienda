@@ -1,7 +1,7 @@
 <?php 
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
-$lang = &JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load( 'com_tienda', JPATH_SITE ); 
 ?>
 
@@ -22,7 +22,7 @@ $lang->load( 'com_tienda', JPATH_SITE );
                                 ' JLanguage.LOGIN_WITH_OPENID = \''.JText::_('COM_TIENDA_LOGIN_WITH_OPENID').'\';'.
                                 ' JLanguage.NORMAL_LOGIN = \''.JText::_('COM_TIENDA_NORMAL_LOGIN').'\';'.
                                 ' var modlogin = 1;';
-                $document = &JFactory::getDocument();
+                $document = JFactory::getDocument();
                 $document->addScriptDeclaration( $langScript );
                 JHTML::_('script', 'openid.js');
         endif; ?>

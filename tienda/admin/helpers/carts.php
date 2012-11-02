@@ -111,7 +111,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * Fetches the name of the cart model to use
 	 * @return string
 	 */
-	public function getSuffix()
+	public static function getSuffix()
 	{
 		return 'Carts';
 	}

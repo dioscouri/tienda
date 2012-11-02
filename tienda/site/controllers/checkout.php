@@ -2534,7 +2534,7 @@ class TiendaControllerCheckout extends TiendaController
         if( $order->user_id < Tienda::getGuestIdStart() )
         {
             Tienda::load( 'TiendaHelperCarts', 'helpers.cart' );
-            $session = &JFactory::getSession();
+            $session = JFactory::getSession();
             $helper = new TiendaHelperCarts();
             $helper->mergeSessionCartWithUserCart( $session->getId() , $order->user_id );
         }

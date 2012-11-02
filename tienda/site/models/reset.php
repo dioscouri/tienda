@@ -32,7 +32,7 @@ class TiendaModelReset extends JModel
 		jimport('joomla.mail.helper');
 		jimport('joomla.user.helper');
 
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Make sure the e-mail address is valid
 		if (!JMailHelper::isEmailAddress($email))
@@ -99,7 +99,7 @@ class TiendaModelReset extends JModel
 			return false;
 		}
 
-		$db	= &JFactory::getDBO();
+		$db	= JFactory::getDBO();
 		$db->setQuery('SELECT id FROM #__users WHERE block = 0 AND activation = '.$db->Quote($token));
 
 		// Verify the token
@@ -147,7 +147,7 @@ class TiendaModelReset extends JModel
 		}
 
 		// Get the necessary variables
-		$db			= &JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$id			= $mainframe->getUserState($this->_namespace.'id');
 		$token		= $mainframe->getUserState($this->_namespace.'token');
 		$salt		= JUserHelper::genRandomPassword(32);
@@ -205,8 +205,8 @@ class TiendaModelReset extends JModel
 	 */
 	function _sendConfirmationMail($email, $token)
 	{		
-		$config		= &JFactory::getConfig();
-		$uri		= &JFactory::getURI();
+		$config		= JFactory::getConfig();
+		$uri		= JFactory::getURI();
 		$url		= JURI::base().'index.php?option=com_tienda&view=reset&layout=confirm';
 		$sitename	= $config->getValue('sitename');
 

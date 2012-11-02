@@ -60,7 +60,7 @@ class UserViewUser extends JView
         } else {
             $params->set('page_title',  JText::_('COM_TIENDA_REGISTERED_AREA'));
         }
-        $document   = &JFactory::getDocument();
+        $document   = JFactory::getDocument();
         $document->setTitle( $params->get( 'page_title' ) );
 
         // Set pathway information
@@ -104,7 +104,7 @@ class UserViewUser extends JView
         } else {
             $params->set('page_title',  JText::_('COM_TIENDA_EDIT_YOUR_DETAILS'));
         }
-        $document   = &JFactory::getDocument();
+        $document   = JFactory::getDocument();
         $document->setTitle( $params->get( 'page_title' ) );
 
         $this->assignRef('user'  , $user);

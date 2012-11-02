@@ -53,7 +53,7 @@ class plgK2Tienda extends K2Plugin
 
 		if ($this->_isInstalled() && $productID && $type=='item' && $tab=='content') {
 
-			$db = &JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = "SELECT * FROM #__tienda_products WHERE product_id=".(int)$productID;
 			$db->setQuery($query, 0, 1);
 			$product = $db->loadObject();
@@ -88,7 +88,7 @@ class plgK2Tienda extends K2Plugin
 			$plugins->merge($tiendaParams);
 			$item->plugins = $plugins->toString();
 
-			$document = &JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$document->addStyleDeclaration('
 			.tiendaButton { display:inline-block; padding:0 6px; background:url("../plugins/k2/tienda/images/button.jpg") center center repeat-x; border:1px solid #cccccc; -moz-border-radius:6px; margin:3px;}
 			.tiendaButton a, .tiendaButton a:link, tiendaButton a:visited, tiendaButton a:hover, .tiendaButton a.modal, tiendaButton a.modal:visited, tiendaButton a.modal:hover, tiendaButton span { color:#333333; cursor:pointer; line-height:14px; text-decoration:none;}
@@ -208,7 +208,7 @@ class plgK2Tienda extends K2Plugin
 
 	function onK2AfterDisplay(&$item, &$params, $limitstart) {
 
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		if (!$this->_isInstalled() || $mainframe->isAdmin()) {
 			return null;
 		}

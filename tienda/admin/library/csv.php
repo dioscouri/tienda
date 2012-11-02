@@ -538,7 +538,7 @@ class TiendaCSV extends JObject
 		else // all fields are processed
 			$c = count( $fields );
 		
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		// go through all fields and process them
 		for($i = 0; $i < $c; $i++ )
 		{

@@ -306,7 +306,7 @@ class TiendaControllerCarts extends TiendaController
      */
     function update()
     {
-        $model 	= $this->getModel( strtolower(TiendaHelperCarts::getSuffix()) );
+        $model 	= $this->getModel( strtolower( TiendaHelperCarts::getSuffix() ) );
         $this->_setModelState();
 
         $user = JFactory::getUser();

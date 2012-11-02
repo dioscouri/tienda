@@ -27,7 +27,7 @@ class JElementQuantity extends JElement {
 			$productID = $params->get('productID');
 
 			if($productID){
-				$db = &JFactory::getDBO();
+				$db = JFactory::getDBO();
 				$query = "SELECT SUM(quantity) FROM #__tienda_productquantities WHERE product_id =".(int)$productID;
 				$db->setQuery($query);
 				$quantities = $db->loadResult();

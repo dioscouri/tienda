@@ -104,7 +104,7 @@ class TiendaController extends DSCControllerSite
 				$model->setState( 'task', $this->_task );
 	
 				// Lets get the application object and set menu information if its available
-				$app	= &JFactory::getApplication();
+				$app	= JFactory::getApplication();
 				$menu	= &$app->getMenu();
 				if (is_object( $menu ))
 				{

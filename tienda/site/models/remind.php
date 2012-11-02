@@ -38,7 +38,7 @@ class TiendaModelRemind extends JModel
 			return false;
 		}
 
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery('SELECT username FROM #__users WHERE email = '.$db->Quote($email), 0, 1);
 
 		// Get the username
@@ -69,8 +69,8 @@ class TiendaModelRemind extends JModel
 	 */
 	function _sendReminderMail($email, $username)
 	{
-		$config		= &JFactory::getConfig();
-		$uri		= &JFactory::getURI();
+		$config		= JFactory::getConfig();
+		$uri		= JFactory::getURI();
 		$url		= $uri->toString( array('scheme', 'host', 'port')).JRoute::_('index.php?option=com_user&view=login', false);
 
 		$from		= $config->getValue('mailfrom');

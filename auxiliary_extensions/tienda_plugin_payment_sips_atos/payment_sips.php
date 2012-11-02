@@ -458,7 +458,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
             //return;
         }
 
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         $date = & JFactory::getDate();
 
         $certif = $this->_getCertificateFilePath();
