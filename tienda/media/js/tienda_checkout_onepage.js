@@ -53,7 +53,7 @@ function tiendaGetPaymentOptions(container, form, msg, callback) {
  * @param shippingprefix
  * @return
  */
-function copyBillingAdToShippingAd(checkbox, form) {
+function tiendaCopyBillingAdToShippingAd(checkbox, form) {
 	var disable = false;
 	if (checkbox.checked) {
 		disable = true;
