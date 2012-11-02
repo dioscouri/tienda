@@ -55,7 +55,7 @@ else
 $doc = JFactory::getDocument();
 $uri = JURI::getInstance();
 $js = "var com_tienda = {};\n";
-$js.= "com_tienda.jbase = '".$uri->root()."../';\n";
+$js.= "com_tienda.jbase = '".$uri->root()."';\n";
 $doc->addScriptDeclaration($js);
 
 $parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/helpers';
