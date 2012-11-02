@@ -1754,6 +1754,8 @@ class TiendaControllerCheckout extends TiendaController
             // if it fails check, return message
             $response['error'] = '1';
             $response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_ERROR_WHILE_VALIDATING_THE_PARAMETERS'));
+            echo json_encode($response);
+            return;
         }
 
         // convert elements to array that can be binded
@@ -1769,6 +1771,9 @@ class TiendaControllerCheckout extends TiendaController
         {
             $error_message = $helper->generateMessage( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR')." :: ".$this->getError());
             $response['error'] = '1';
+            $response['msg'] = $error_message;
+            echo json_encode($response);
+            return;
         }
 
         $model = $this->getModel( 'Checkout', 'TiendaModel' );
