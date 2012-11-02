@@ -48,5 +48,45 @@ class TiendaTableConfig extends TiendaTable
             return true;
         }
 	}
+	
+	/**
+	 * Generic save function
+	 *
+	 * @access	public
+	 * @returns TRUE if completely successful, FALSE if partially or not successful
+	 */
+	function save($src='', $orderingFilter = '', $ignore = '')
+	{
+		$this->_isNew = false;
+		$key = $this->getKeyName();
+		if (empty($this->$key))
+		{
+			$this->_isNew = true;
+		}
+
+		if ( !$this->check() )
+		{
+			return false;
+		}
+
+		if ( !$this->store() )
+		{
+			return false;
+		}
+
+		if ( !$this->checkin() )
+		{
+			$this->setError( $this->_db->stderr() );
+			return false;
+		}
+
+
+		$this->setError('');
+
+		// TODO Move ALL onAfterSave plugin events here as opposed to in the controllers, duh
+		//$dispatcher = JDispatcher::getInstance();
+		//$dispatcher->trigger( 'onAfterSave'.$this->get('_suffix'), array( $this ) );
+		return true;
+	}
     
 }
