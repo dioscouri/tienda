@@ -20,9 +20,11 @@ function tiendaGetShippingRates( container, form, callback )
     
 	// loop through form elements and prepare an array of objects for passing to server
 	var str = tiendaGetFormInputData( form );
-	// execute Ajax request to server
+	
    	tiendaGrayOutAjaxDiv( container, Joomla.JText._( 'COM_TIENDA_UPDATING_SHIPPING_RATES' ) );
-   var a = new Request({
+   	
+   	// execute Ajax request to server
+    var a = new Request({
 		url : url,
 		method : "post",
 		data : {
@@ -31,18 +33,25 @@ function tiendaGetShippingRates( container, form, callback )
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
             $( container ).set('html',  resp.msg );
-            if( resp.default_rate != null ) // if only one rate was found - set it as default
-               	tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], callback != null );
-            else
-            	{
-            		tiendaDeleteShippingGrayDiv();
-                    if (typeof callback == 'function') {
-                        callback();
-                    }
-            	}
+            if( resp.default_rate && resp.default_rate != null ) { 
+                // if only one rate was found - set it as default
+                tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], callback != null );                
+            }
+            
+            if (typeof callback == 'function') {
+                callback();
+            }
             return true;
+        },
+        onFailure : function(response) {
+            tiendaDeleteShippingGrayDiv();
+        },
+        onException : function(response) {
+            tiendaDeleteShippingGrayDiv();
         }
     }).send();
+    
+    tiendaDeleteShippingGrayDiv();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra, code, combined )
@@ -250,6 +259,7 @@ function tiendaGrayOutAddressDiv( prefix )
 function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 {
 	obj = document.getElementById( obj_id );
+	console.log('tiendaCheckoutAutomaticShippingRatesUpdate.obj_id: ', obj_id);
 	// see, if you find can find payment_wrapper and update payment methods
 	if( $( 'onCheckoutPayment_wrapper' ) && obj_id.substr( 0, 8 ) == 'billing_' ) // found the payment_wrapper - update payment methods && this is a billing input
 	{
@@ -262,8 +272,10 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 			tiendaGetPaymentOptions('onCheckoutPayment_wrapper', document.adminForm, '' );
 	}
 
-	if( !$( 'shippingAddress' ) ) // no shipping
-		return;		
+	if( !$( 'shippingAddress' ) ) {
+	    // no shipping
+	    return;        
+	}		
 
 	only_shipping = !$( 'sameasbilling' ) || !$( 'sameasbilling' ).get( 'checked' );
 	if( only_shipping )
@@ -286,6 +298,9 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 		{
 			tiendaGrayOutAddressDiv();
 			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteAddressGrayDiv );
+		}
+		else {
+		    console.log('tiendaCheckoutAutomaticShippingRatesUpdate ORPHAN');
 		}
 	}
 }

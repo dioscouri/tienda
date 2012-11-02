@@ -560,7 +560,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 		text_element = '<div class="text">' + text + '</div>';
 
 	// make all texts in the countainer gray
-	tiendaSetColorInContainer(container, '#CFCFCF');
+	tiendaSetColorInContainer(container, '');
 	document.getElementById(container).innerHTML += '<div class="tiendaAjaxGrayDiv">' + img_loader + text_element + '</div>';
 }
 

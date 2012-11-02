@@ -1034,7 +1034,7 @@ class TiendaControllerCheckout extends TiendaController
         }
         else
         {
-            $html = TiendaSelect::zone( $zone_id, $prefix.'zone_id', $country_id, $attribs );
+            $html = TiendaSelect::zone( $zone_id, $prefix.'zone_id', $country_id, $attribs, $prefix.'zone_id' );
         }
          
         $response = array();
@@ -1241,7 +1241,7 @@ class TiendaControllerCheckout extends TiendaController
             $attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES').'\', \''.JText::_('COM_TIENDA_UPDATING_CART').'\', \''.JText::_('COM_TIENDA_UPDATING_ADDRESS').'\', \''.JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS').'\' ); ';
 
         Tienda::load( 'TiendaSelect', 'library.select' );
-        $zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id , $attribs );
+        $zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id , $attribs, $prefix.'zone_id' );
 
         $view->assign( 'default_country_id', $default_country_id );
         $view->assign( 'zones', $zones );

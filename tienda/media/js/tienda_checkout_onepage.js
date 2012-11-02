@@ -1,43 +1,43 @@
-/*window.addEvent("domready", function() {
- $$('.tienda-collapse-processed').addEvent('click', function() {
- var parent = this.getParent();
- if(parent.className == 'tienda-expanded')
- {
- parent.removeClass('tienda-expanded');
- parent.addClass('tienda-collapsed');
- }
- else
- {
- parent.removeClass('tienda-collapsed');
- parent.addClass('tienda-expanded');
- }
- });
-
- if( typeof( SqueezeBox ) !== 'undefined' )
- SqueezeBox.onkeypress = function(e) {
- switch (e.key) {
- case 'esc':
- this.close();
- break;
- }
- };
- });*/
 
 function tiendaGetPaymentOptions(container, form, msg, callback) {
 	var payment_plugin = $$('input[name=payment_plugin]:checked');
 
-	if (payment_plugin)
-		payment_plugin = payment_plugin.value;
+	if (payment_plugin) {
+	    payment_plugin = payment_plugin.value;
+	}		
+		
+	var str = tiendaGetFormInputData( form );
 	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
-	if (callback)
-		tiendaDoTask(url, container, form, msg, false, function() {
-			callback();
-			tiendaDeletePaymentGrayDiv();
-		});
-	else
-		tiendaDoTask(url, container, form, msg, false, tiendaDeletePaymentGrayDiv);
-
+	
 	tiendaGrayOutAjaxDiv('onCheckoutPayment_wrapper', Joomla.JText._('COM_TIENDA_UPDATING_PAYMENT_METHODS'));
+	
+    // execute Ajax request to server
+    var a = new Request({
+        url : url,
+        method : "post",
+        data : {
+            "elements" : JSON.encode(str)
+        },
+        onSuccess : function(response) {
+            var resp = JSON.decode(response, false);
+            $( container ).set('html',  resp.msg );
+            
+            if (typeof callback == 'function') {
+                callback();
+            }
+            return true;
+        },
+        onFailure : function(response) {
+            tiendaDeletePaymentGrayDiv();
+            tiendaDeleteAddressGrayDiv();
+            tiendaDeleteShippingGrayDiv();
+        },
+        onException : function(response) {
+            tiendaDeletePaymentGrayDiv();
+            tiendaDeleteAddressGrayDiv();
+            tiendaDeleteShippingGrayDiv();
+        }
+    }).send();	
 
 	if (payment_plugin) {
 		$$('#onCheckoutPayment_wrapper input[name=payment_plugin]').each(function(e) {
