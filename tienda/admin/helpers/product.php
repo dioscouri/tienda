@@ -1004,7 +1004,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param $geozones
      * @return object
      */
-    public function getTaxTotal( $product_id, $geozones, $price = null )
+    public static function getTaxTotal( $product_id, $geozones, $price = null )
     {
         $product_price = 0;
         if( $price )
