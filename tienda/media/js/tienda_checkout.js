@@ -259,7 +259,7 @@ function tiendaGrayOutAddressDiv( prefix )
 function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 {
 	obj = document.getElementById( obj_id );
-	console.log('tiendaCheckoutAutomaticShippingRatesUpdate.obj_id: ', obj_id);
+
 	// see, if you find can find payment_wrapper and update payment methods
 	if( $( 'onCheckoutPayment_wrapper' ) && obj_id.substr( 0, 8 ) == 'billing_' ) // found the payment_wrapper - update payment methods && this is a billing input
 	{
@@ -298,9 +298,6 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 		{
 			tiendaGrayOutAddressDiv();
 			tiendaGetShippingRates( 'onCheckoutShipping_wrapper', document.adminForm, tiendaDeleteAddressGrayDiv );
-		}
-		else {
-		    console.log('tiendaCheckoutAutomaticShippingRatesUpdate ORPHAN');
 		}
 	}
 }
