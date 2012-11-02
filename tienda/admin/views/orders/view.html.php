@@ -44,7 +44,6 @@ class TiendaViewOrders extends TiendaViewBase
 
 			case "view":
 				$this->_form($tpl);
-				echo $tpl.'#';
 				break;
 			case "form_addresses":
 				JRequest::setVar('hidemainmenu', '1');
