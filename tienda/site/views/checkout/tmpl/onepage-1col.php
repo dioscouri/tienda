@@ -35,7 +35,7 @@
 						array(
 							'width' => '490', 'height' => '320'
 						) );
-				$asktxt = "<a class=\"modal\" href='{$asklink}'>";
+				$asktxt = "<a class=\"tienda-modal\" href='{$asklink}'>";
 				$asktxt .= JText::_('COM_TIENDA_CLICK_HERE_TO_LOGIN');
 				$asktxt .= "</a>";
 		?>
