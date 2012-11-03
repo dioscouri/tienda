@@ -151,8 +151,6 @@ class TiendaModelOrders extends TiendaModelBase
         {
             $query->where('tbl.order_total <= '.(int) $filter_total_to);
         }
-		
-		FB::log($query);
     }
     
 	protected function _buildQueryFields(&$query)
