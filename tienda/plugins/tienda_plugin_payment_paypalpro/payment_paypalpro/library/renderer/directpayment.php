@@ -36,7 +36,7 @@ class plgTiendaPayment_Paypalpro_Renderer_Directpayment extends plgTiendaPayment
 	{
 		$user = JFactory::getUser();
 		$secure_post = $this->_params->get( 'secure_post', '0' );
-		$config = &Tienda::getInstance();
+		$config = Tienda::getInstance();
 		
 		/*
 		 * get all necessary data and prepare vars for assigning to the template

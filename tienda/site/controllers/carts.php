@@ -636,7 +636,7 @@ class TiendaControllerCarts extends TiendaController
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		$items = $cart_helper->getProductsInfo();
 		foreach ($items as $item)
 		{
@@ -781,7 +781,7 @@ private function addCouponCodes($values)
 		$orderitems = $order->getItems();
 
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		$order_helper = &TiendaHelperBase::getInstance( 'Order' );
+		$order_helper = TiendaHelperBase::getInstance( 'Order' );
 		$orderitems = $order->getItems();
 		Tienda::load('TiendaHelperTax', 'helpers.tax');
 		if ( $show_tax )
@@ -899,7 +899,7 @@ private function addCouponCodes($values)
 
 		// get the items and add them to the order
 		Tienda::load( "TiendaHelperBase", 'helpers._base' );
-		//$cart_helper = &TiendaHelperBase::getInstance( 'Carts' );
+		//$cart_helper = TiendaHelperBase::getInstance( 'Carts' );
 		//$items = $cart_helper->getProductsInfo();
 		//foreach ($items as $item)
 		//{

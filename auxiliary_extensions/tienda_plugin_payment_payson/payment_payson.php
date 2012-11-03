@@ -341,7 +341,7 @@ class plgTiendaPayment_payson extends TiendaPaymentPlugin
         $mainframe = JFactory::getApplication();
                 
         // grab config settings for sender name and email
-        $config     = &Tienda::getInstance();
+        $config     = Tienda::getInstance();
         $mailfrom   = $config->get( 'emails_defaultemail', $mainframe->getCfg('mailfrom') );
         $fromname   = $config->get( 'emails_defaultname', $mainframe->getCfg('fromname') );
         $sitename   = $config->get( 'sitename', $mainframe->getCfg('sitename') );

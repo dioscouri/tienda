@@ -284,7 +284,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 							
 			$referrerid = $this->getReferreid( JFactory::getUser()->id );
 			
-			$jnow = & JFactory::getDate();
+			$jnow = JFactory::getDate();
 			$now  = $jnow->toMySQL();	
 			
 			//AlphaUserPointsHelper::newpoints( 'function_name', '', '', '', -$amount_points);

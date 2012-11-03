@@ -47,7 +47,7 @@ class UserViewUser extends JView
         // Get the page/component configuration
         $params = &$mainframe->getParams();
 
-        $menus  = &JSite::getMenu();
+        $menus  = JSite::getMenu();
         $menu   = $menus->getActive();
 
         // because the application sets a default page title, we need to get it
@@ -81,7 +81,7 @@ class UserViewUser extends JView
         $params = &$mainframe->getParams();
 
         // check to see if Frontend User Params have been enabled
-        $usersConfig = &JComponentHelper::getParams( 'com_users' );
+        $usersConfig = JComponentHelper::getParams( 'com_users' );
         $check = $usersConfig->get('frontend_userparams');
 
         if ($check == '1' || $check == 1 || $check == NULL)
@@ -91,7 +91,7 @@ class UserViewUser extends JView
             }
         }
         $params->merge( $params );
-        $menus  = &JSite::getMenu();
+        $menus  = JSite::getMenu();
         $menu   = $menus->getActive();
 
         // because the application sets a default page title, we need to get it

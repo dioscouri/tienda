@@ -2414,7 +2414,7 @@ class TiendaControllerCheckout extends TiendaController
         if($pos_order)
         {
             // build URL for POS
-            $uri	 = & JURI::getInstance();
+            $uri	 = JURI::getInstance();
             $uriA = JRequest::get('get');
             $uriA['view'] = 'pos';
             $uriA['task'] = 'display';

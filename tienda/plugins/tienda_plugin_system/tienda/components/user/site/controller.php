@@ -342,7 +342,7 @@ class UserController extends JController
      */
     function register()
     {
-        $usersConfig = &JComponentHelper::getParams( 'com_users' );
+        $usersConfig = JComponentHelper::getParams( 'com_users' );
         if (!$usersConfig->get( 'allowUserRegistration' )) {
             JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
@@ -378,7 +378,7 @@ class UserController extends JController
         $document   = JFactory::getDocument();
 
         // If user registration is not allowed, show 403 not authorized.
-        $usersConfig = &JComponentHelper::getParams( 'com_users' );
+        $usersConfig = JComponentHelper::getParams( 'com_users' );
         if ($usersConfig->get('allowUserRegistration') == '0') {
             JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
@@ -475,7 +475,7 @@ class UserController extends JController
         $document   = JFactory::getDocument();
         $pathway    = $mainframe->getPathWay();
 
-        $usersConfig = &JComponentHelper::getParams( 'com_users' );
+        $usersConfig = JComponentHelper::getParams( 'com_users' );
         $userActivation         = $usersConfig->get('useractivation');
         $allowUserRegistration  = $usersConfig->get('allowUserRegistration');
 
@@ -662,7 +662,7 @@ class UserController extends JController
         $email      = $user->get('email');
         $username   = $user->get('username');
 
-        $usersConfig    = &JComponentHelper::getParams( 'com_users' );
+        $usersConfig    = JComponentHelper::getParams( 'com_users' );
         $sitename       = $mainframe->getCfg( 'sitename' );
         $useractivation = $usersConfig->get( 'useractivation' );
         $mailfrom       = $mainframe->getCfg( 'mailfrom' );

@@ -145,7 +145,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
     	if ($this->_subscr_type_obj === null) {
 //			$type = TiendaHelperPayment::getTable('Type');
 			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$type = &JTable::getInstance( 'orderpayments', 'TiendaTable' );			
+			$type = JTable::getInstance( 'orderpayments', 'TiendaTable' );			
 			
 			$type->load($this->_subscr_type_id); 			
 			if (!$type->id) {				
@@ -447,7 +447,7 @@ class plgTiendaPayment_Paypalpro_Processor extends JObject
     {
         $errors = $this->getErrors();
         JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = &JTable::getInstance( 'orderpayments', 'TiendaTable' );
+        $orderpayment = JTable::getInstance( 'orderpayments', 'TiendaTable' );
         $orderpayment->load($data->orderpayment_id);
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data->order_id );

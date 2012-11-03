@@ -115,7 +115,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
                 $checkout = JRequest::getInt('checkout');
 
                 // get the order_id from the session set by the prePayment
-                $mainframe = & JFactory::getApplication();
+                $mainframe = JFactory::getApplication();
                 $order_id = (int) $mainframe->getUserState('tienda.order_id');
                 $order = JTable::getInstance('Orders', 'TiendaTable');
                 $order->load($order_id);
@@ -130,7 +130,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
                 $vars->message = $this->_process();
                 $html = $this->_getLayout('message', $vars);
                 echo $html; // TODO Remove this
-                $app = & JFactory::getApplication();
+                $app = JFactory::getApplication();
                 $app->close();
                 break;
             case "cancel":
@@ -459,7 +459,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         }
 
         $user = JFactory::getUser();
-        $date = & JFactory::getDate();
+        $date = JFactory::getDate();
 
         $certif = $this->_getCertificateFilePath();
         $parcom = $this->_getParcomFilePath();
@@ -670,17 +670,17 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
      * @access protected
      */
     function _sendErrorEmail($message, $paymentData='') {
-        $mainframe = & JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
 
         // grab config settings for sender name and email
-        $config = &Tienda::getInstance();
+        $config = Tienda::getInstance();
         $mailfrom = $config->get('emails_defaultemail', $mainframe->getCfg('mailfrom'));
         $fromname = $config->get('emails_defaultname', $mainframe->getCfg('fromname'));
         $sitename = $config->get('sitename', $mainframe->getCfg('sitename'));
         $siteurl = $config->get('siteurl', JURI::root());
 
         $recipients = $this->_getAdmins();
-        $mailer = & JFactory::getMailer();
+        $mailer = JFactory::getMailer();
 
         $subject = JText::sprintf('TIENDA_SIPS_EMAIL_PAYMENT_ERROR_SUBJECT', $sitename);
 
@@ -704,7 +704,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
      * @access protected
      */
     function _getAdmins() {
-        $db = & JFactory::getDBO();
+        $db = JFactory::getDBO();
         $q = "SELECT name, email FROM #__users "
                 . "WHERE LOWER(usertype) = \"super administrator\" "
                 . "AND sendEmail = 1 "

@@ -95,11 +95,11 @@ class TiendaHelperBase extends DSCHelper
 	/*function checkDirectory($dir, $create = true)
 	{
 		$return = true;
-		if (!$exists = &JFolder::exists( $dir ) )
+		if (!$exists = JFolder::exists( $dir ) )
 		{
 			if ($create)
 			{
-				if (!$return = &JFolder::create( $dir ))
+				if (!$return = JFolder::create( $dir ))
 				{
 					$this->setError( "Attempted to Create Dir But Failed" );
 					//JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_CREATE_DIR_FAILED') . " " . $dir );
@@ -115,7 +115,7 @@ class TiendaHelperBase extends DSCHelper
 
 		if (!is_writable($dir))
 		{
-			if (!$change = &JPath::setPermissions( $dir ))
+			if (!$change = JPath::setPermissions( $dir ))
 			{
 				$this->setError( "Changing Permissions on Dir Failed" );
 				//JFactory::getApplication( )->enqueueMessage( JText::_('COM_TIENDA_CHANGING_DIR_PERMISSIONS_FAILED') . " " . $dir );
