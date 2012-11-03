@@ -566,8 +566,8 @@ class TiendaHelperEmail extends TiendaHelperBase
     	
     	$vendor_name = $config->get('shop_owner_name', 'Admin');
     	// set the email body
-        $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$vendor_name).",\n\n".$vendor_name;
-     	$text .= $sendObject->namefrom.JText::_('COM_TIENDA__HAS_SOME_INQUIRIES_ABOUT_THE_PRODUCT')." ".$sendObject->item->product_name." #{$sendObject->item->product_id} ".JText::_('COM_TIENDA_AND_HERES_WHAT_HE_HAS_TO_SAY')."-\n\n";
+        $text = sprintf(JText::_('COM_TIENDA_EMAIL_DEAR'),$vendor_name).",\n\n";
+     	$text .= $sendObject->namefrom.' '.JText::_('COM_TIENDA_HAS_SOME_INQUIRIES_ABOUT_THE_PRODUCT')." ".$sendObject->item->product_name." #{$sendObject->item->product_id} ".JText::_('COM_TIENDA_AND_HERES_WHAT_HE_HAS_TO_SAY')." -\n\n";
 		$text .= "------------------------------------------------------------------------------------------\n";
      	$text .= $sendObject->body;
      	$text .= "\n------------------------------------------------------------------------------------------";
