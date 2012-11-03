@@ -52,9 +52,8 @@ class TiendaTableOrderHistory extends TiendaTable
         		$helper = TiendaHelperBase::getInstance('Email');
         		
         		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
-				$model->clearCache();
-        		$model->setId($this->order_id);
-        		$order = $model->getItem();
+        		$model->setId($this->order_id); // this isn't necessary because you specify the requested PK id as a getItem() argument 
+        		$order = $model->getItem($this->order_id, true);
         		
         		$helper->sendEmailNotices($order, 'order');
         	}
