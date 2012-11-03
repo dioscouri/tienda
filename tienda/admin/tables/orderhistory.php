@@ -52,6 +52,7 @@ class TiendaTableOrderHistory extends TiendaTable
         		$helper = TiendaHelperBase::getInstance('Email');
         		
         		$model = Tienda::getClass("TiendaModelOrders", "models.orders");
+				$model->clearCache();
         		$model->setId($this->order_id);
         		$order = $model->getItem();
         		
