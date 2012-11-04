@@ -1,4 +1,9 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access');
+
+//var_dump($vars->data);
+//var_dump($vars->order);
+var_dump($vars->orderitems);
+ ?>
 
 <form action='<?php echo $vars->post_url; ?>' method='post'>
 
@@ -73,8 +78,16 @@
             $i =1;
             foreach ($vars->orderitems as $item) 
             {
-                ?>
-                <input type='hidden' name='amount_<?php echo $i;?>' value='<?php echo TiendaHelperBase::number( @$item->orderitem_price + @$item->orderitem_attributes_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
+             
+			 //TODO 
+			 /*
+			  * TiendaHelperBase::number( @$item->orderitem_price + @$item->orderitem_attributes_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); 
+			  *  THis doesn't work because it doesn't take into account pricing discounts from coupons
+			  * */
+			 
+			 
+			    ?>
+              <input type='hidden' name='amount_<?php echo $i;?>' value='<?php echo TiendaHelperBase::number( @$item->orderitem_final_price / @$item->orderitem_quantity, array( 'thousands' =>'', 'decimal'=> '.' ) ); ?>'>
                 <input type='hidden' name='item_name_<?php echo $i;?>' value='<?php echo $item->_description;?>'>
                 <input type='hidden' name='item_number_<?php echo $i;?>' value='<?php echo $item->product_id; ?>'>
                 <input type='hidden' name='quantity_<?php echo $i;?>' value='<?php echo $item->orderitem_quantity; ?>'>                   
