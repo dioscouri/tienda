@@ -1,8 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access');
 
-//var_dump($vars->data);
-//var_dump($vars->order);
-var_dump($vars->orderitems);
+
  ?>
 
 <form action='<?php echo $vars->post_url; ?>' method='post'>
