@@ -14,6 +14,8 @@ Tienda::load( 'TiendaModelEav', 'models._baseeav' );
 
 class TiendaModelCarts extends TiendaModelEav
 {
+    public $cache_enabled = false;
+    
 	protected function _buildQueryWhere(&$query)
 	{
 		$filter_user      = $this->getState('filter_user');
