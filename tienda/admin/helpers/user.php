@@ -139,7 +139,7 @@ class TiendaHelperUser extends DSCHelperUser
 		$config     = JFactory::getConfig();
 		$authorize  = JFactory::getACL();
 
-		$usersConfig = JComponentHelper::getParams( 'com_users' );
+		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 
 		// Initialize new usertype setting
 		$newUsertype = $usersConfig->get( 'new_usertype' );
@@ -282,10 +282,8 @@ class TiendaHelperUser extends DSCHelperUser
 			$core_user_new_gid = $product->product_parameters->get('core_user_new_gid');
 			if (!empty($core_user_change_gid))
 			{
-				$user = new JUser();
-				$user->load( $order->user_id );
-				$user->gid = $core_user_new_gid;
-				$user->save();
+				
+				DSCAcl::addgroup( $order->user_id,$core_user_new_gid);
 			}
 		}
 	}
