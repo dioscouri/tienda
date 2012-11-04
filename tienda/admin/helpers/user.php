@@ -139,7 +139,7 @@ class TiendaHelperUser extends DSCHelperUser
 		$config     = JFactory::getConfig();
 		$authorize  = JFactory::getACL();
 
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$usersConfig = JComponentHelper::getParams( 'com_users' );
 
 		// Initialize new usertype setting
 		$newUsertype = $usersConfig->get( 'new_usertype' );

@@ -114,7 +114,7 @@ class TiendaModelEav extends TiendaModelBase
 			{
 				// Join the table based on the type of the value
 				Tienda::load( "TiendaHelperBase", 'helpers._base' );
-				$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+				$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
 				$table_type = $eav_helper->getType( $attribute_alias );
 					
 				// Join!
@@ -164,7 +164,7 @@ class TiendaModelEav extends TiendaModelBase
 
 					// Join the table based on the type of the value
 					Tienda::load( "TiendaHelperBase", 'helpers._base' );
-					$eav_helper = &TiendaHelperBase::getInstance( 'Eav' );
+					$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
 					$table_type = $eav_helper->getType( $attribute_alias );
 
 					// Join the tables

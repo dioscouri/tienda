@@ -2238,6 +2238,7 @@ class TiendaControllerProducts extends TiendaController
             $session->set( 'old_sessionid', $session_id );
             	
             $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
+            $wishlist->load(array('session_id'=>$session_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv));
             $wishlist->session_id = $session_id;
             $wishlist->product_id = $product->product_id;
             $wishlist->product_attributes = $attributes_csv;

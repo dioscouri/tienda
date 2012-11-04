@@ -68,7 +68,7 @@ class UserViewLogin extends JView
 		$params->def( 'image_logout', 				'key.jpg' );
 		$params->def( 'image_login_align', 			'right' );
 		$params->def( 'image_logout_align', 		'right' );
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$usersConfig = JComponentHelper::getParams( 'com_users' );
 		$params->def( 'registration', 				$usersConfig->get( 'allowUserRegistration' ) );
 
 		if ( !$user->get('guest') )

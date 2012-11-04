@@ -82,7 +82,7 @@ class TiendaControllerOrders extends TiendaController
 		$model = $this->getModel( $this->get('suffix') );
 		$order = $model->getTable( 'orders' );
 		$order->load( $model->getId() );
-		$orderitems = &$order->getItems();
+		$orderitems = $order->getItems();
 		$row = $model->getItem();
 		
 		// Get the shop country name

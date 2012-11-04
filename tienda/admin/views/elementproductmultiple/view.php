@@ -34,7 +34,7 @@ class TiendaViewElementProductMultiple extends JView
 		$db			= JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
-		$document	= & JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->setTitle('Product Selection');
 
 		JHTML::_('behavior.modal');

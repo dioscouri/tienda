@@ -123,6 +123,7 @@
                 </td>
                  <td style="text-align: center;">
                     <?php echo JText::_('COM_TIENDA_COUPON_VALUE_TYPE_'.$item->coupon_value_type); ?>
+
                 </td>
 				<td style="text-align: center;">
 					<?php echo TiendaGrid::enable($item->coupon_enabled, $i, 'coupon_enabled.' ); ?>

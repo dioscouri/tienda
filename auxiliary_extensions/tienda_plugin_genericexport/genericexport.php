@@ -39,7 +39,7 @@ class plgTiendaGenericExport extends JPlugin
         $additional = 'exportParams='.base64_encode( json_encode( array( 'view' => $request['view'] )) );
         $url = 'index.php?option=com_tienda&task=doTask&element=genericexport&elementTask=export&exportFormat=csv&'.$additional;
 
-        $bar = & JToolBar::getInstance('toolbar');
+        $bar = JToolBar::getInstance('toolbar');
         $bar->prependButton( 'link', $name, $text, $url );
     }
     
@@ -107,7 +107,7 @@ class plgTiendaGenericExport extends JPlugin
     {
       // add 'Back' button
       $url = 'index.php?option=com_tienda&view=$'.$view;
-      $bar = & JToolBar::getInstance('toolbar');
+      $bar = JToolBar::getInstance('toolbar');
       $bar->prependButton( 'link', 'cancel', 'COM_TIENDA_BACK', $url );
       JToolBarHelper::title( JText::_('Generic export') );
 

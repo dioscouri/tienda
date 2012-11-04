@@ -296,7 +296,7 @@ class plgTiendaTool_GenericImporter extends TiendaToolPlugin
 		$db->setQuery( $q );
 		$id = $db->loadResult();
 		$url = 'index.php?option=com_tienda&view=tools&task=view&id='.$id;
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 		$bar->prependButton( 'link', 'Importer', 'Generic Importer', $url );
 	}
 

@@ -2,7 +2,7 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; 
 jimport('joomla.html.pane'); 
-$tabs = &JPane::getInstance( 'tabs' ); 
+$tabs = JPane::getInstance( 'tabs' ); 
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] ) ?>" method="post" class="adminform" name="adminForm" >

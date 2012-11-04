@@ -46,7 +46,7 @@ class UserViewRemind extends JView
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
-		$menus	= &JSite::getMenu();
+		$menus	= JSite::getMenu();
 		$menu	= $menus->getActive();
 
 		// because the application sets a default page title, we need to get it

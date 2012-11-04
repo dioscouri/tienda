@@ -833,7 +833,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             if ( !$this->validateAddress( $submitted_values, $this->shipping_input_prefix, @$submitted_values['shipping_address_id'], true ))
             {
-                $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR').$this->shipping_input_prefix." :: ".$this->getError() );
+                $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR')." :: ".$this->getError() );
                 $response['error'] = '1';
                 echo ( json_encode( $response ) );
                 return false;
@@ -2414,7 +2414,7 @@ class TiendaControllerCheckout extends TiendaController
         if($pos_order)
         {
             // build URL for POS
-            $uri	 = & JURI::getInstance();
+            $uri	 = JURI::getInstance();
             $uriA = JRequest::get('get');
             $uriA['view'] = 'pos';
             $uriA['task'] = 'display';

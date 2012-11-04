@@ -38,8 +38,8 @@ class TiendaHelperRoute extends DSCHelperRoute
 
             // method=upgrade KILLS all of the useful properties in the __menus table,
             // so we need to do this manually
-            // $menus      = &JApplication::getMenu('site', array());
-            // $component  = &JComponentHelper::getComponent('com_tienda');
+            // $menus      = JApplication::getMenu('site', array());
+            // $component  = JComponentHelper::getComponent('com_tienda');
             // $items      = $menus->getItems('componentid', $component->id);
             $items = self::getItems();
             
@@ -243,7 +243,7 @@ class TiendaHelperRoute extends DSCHelperRoute
     
         // get a menu item based on the Itemid or the currently active item
         $menu = $app->getMenu();
-//        $menu = &JSite::getMenu();
+//        $menu = JSite::getMenu();
     
         if (empty($query['Itemid'])) 
         {

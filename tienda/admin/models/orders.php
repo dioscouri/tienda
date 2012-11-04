@@ -151,8 +151,6 @@ class TiendaModelOrders extends TiendaModelBase
         {
             $query->where('tbl.order_total <= '.(int) $filter_total_to);
         }
-		
-		FB::log($query);
     }
     
 	protected function _buildQueryFields(&$query)
@@ -249,7 +247,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    if (empty( $this->_list ))
 	    {
 	        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-            $list = parent::getList();
+            $list = parent::getList($refresh);
             
             // If no item in the list, return an array()
             if( empty( $list ) ){
@@ -330,7 +328,7 @@ class TiendaModelOrders extends TiendaModelBase
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.orderitem_name' );
                 $model->setState( 'direction', 'ASC' );
-                $item->orderitems = $model->getList();
+                $item->orderitems = $model->getList($refresh);
                 foreach ($item->orderitems as $orderitem)
                 {
                     $model = JModel::getInstance( 'OrderItemAttributes', 'TiendaModel' );
@@ -358,7 +356,7 @@ class TiendaModelOrders extends TiendaModelBase
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.date_added' );
                 $model->setState( 'direction', 'ASC' );
-                $item->orderhistory = $model->getList();
+                $item->orderhistory = $model->getList($refresh);
                 $item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
                 
                 //retrieve the order's payments
@@ -366,27 +364,27 @@ class TiendaModelOrders extends TiendaModelBase
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.created_date' );
                 $model->setState( 'direction', 'ASC' );
-                $item->orderpayments = $model->getList();
+                $item->orderpayments = $model->getList($refresh);
                 
                 //retrieve the order's shippings
                 $model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.created_date' );
                 $model->setState( 'direction', 'ASC' );
-                $item->ordershippings = $model->getList();
+                $item->ordershippings = $model->getList($refresh);
                 
                 //retrieve the order's taxclasses
                 $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.ordertaxclass_description' );
                 $model->setState( 'direction', 'ASC' );
-                $item->ordertaxclasses = $model->getList();
+                $item->ordertaxclasses = $model->getList($refresh);
 
                 // retrieve the order's taxrates
                 $model = JModel::getInstance( 'OrderTaxRates', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.ordertaxclass_id, tbl.ordertaxrate_level' );
-                $item->ordertaxrates = $model->getList();
+                $item->ordertaxrates = $model->getList($refresh);
 
                 // retrieve the order's currency
                 // this loads the currency, using the FK is it is the same of the

@@ -21,7 +21,7 @@ class JElementQuantity extends JElement {
 
 		$id = JRequest::getInt('cid');
 		if($id){
-			$K2Item = &JTable::getInstance('K2Item', 'Table');
+			$K2Item = JTable::getInstance('K2Item', 'Table');
 			$K2Item->load($id);
 			$params = new K2Parameter($K2Item->plugins, JPATH_PLUGINS.'/k2/tienda.xml', 'tienda');
 			$productID = $params->get('productID');

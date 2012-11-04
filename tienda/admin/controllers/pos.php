@@ -174,7 +174,7 @@ class TiendaControllerPOS extends TiendaController
 
 		// determin if have item/s that need shippings
 		Tienda::load("TiendaHelperBase", 'helpers._base');
-		$product_helper = &TiendaHelperBase::getInstance('Product');
+		$product_helper = TiendaHelperBase::getInstance('Product');
 
 		$items = $order->getItems();
 
@@ -394,7 +394,7 @@ class TiendaControllerPOS extends TiendaController
 		// TODO find other way to do this check - there can be other offline payment types (new ones or created by users)
 		if( ($orderpayment_type == 'payment_offline' || $orderpayment_type == 'payment_ccoffline') && !$doneReloading)
 		{
-			$uri	 = & JURI::getInstance();		
+			$uri	 = JURI::getInstance();		
 			$query = $uri->getQuery();	
 			//reload the page since in payment_offline we are still in the modal
 			$doc = JFactory::getDocument();
@@ -1509,7 +1509,7 @@ class TiendaControllerPOS extends TiendaController
 		$tableProduct = JTable::getInstance('Products', 'TiendaTable');
 
 		$suffix = strtolower(TiendaHelperCarts::getSuffix());
-		$model = &DSCModel::getInstance('Carts', 'TiendaModel');
+		$model = DSCModel::getInstance('Carts', 'TiendaModel');
 
 		switch ($suffix)
 		{
@@ -1616,7 +1616,7 @@ class TiendaControllerPOS extends TiendaController
 		// set the order's addresses based on the form inputs
 		// set to user defaults
 		Tienda::load("TiendaHelperBase", 'helpers._base');
-		$user_helper = &TiendaHelperBase::getInstance('User');
+		$user_helper = TiendaHelperBase::getInstance('User');
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 		$billingAddress = $user_helper->getPrimaryAddress($user_id, 'billing');
 		$shippingAddress = $user_helper->getPrimaryAddress($user_id, 'shipping');
@@ -1670,8 +1670,8 @@ class TiendaControllerPOS extends TiendaController
 			$taxes = TiendaHelperTax::calculateGeozonesTax( $orderitems, 4, $geozones );
 		}
 
-		$product_helper = &TiendaHelperBase::getInstance('Product');
-		$order_helper = &TiendaHelperBase::getInstance('Order');
+		$product_helper = TiendaHelperBase::getInstance('Product');
+		$order_helper = TiendaHelperBase::getInstance('Order');
 
 		$showShipping = false;
 		$tax_sum = 0;
@@ -2280,7 +2280,7 @@ class TiendaControllerPOS extends TiendaController
 
 		Tienda::load("TiendaHelperBase", 'helpers._base');
 		Tienda::load("TiendaHelperCarts", 'helpers.carts');
-		$user_helper = &TiendaHelperBase::getInstance('User');
+		$user_helper = TiendaHelperBase::getInstance('User');
 		$filter_group = $user_helper->getUserGroup($user_id);
 		$model->setState('filter_group', $filter_group);
 

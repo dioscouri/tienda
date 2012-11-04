@@ -89,7 +89,7 @@ class TiendaToolPlugin extends TiendaPluginBase
             return false;
         }
 
-        $database = & JDatabase::getInstance( $option );
+        $database = JDatabase::getInstance( $option );
             
         // check that $newdatabase is_object and has method setQuery
         if (!is_object($database) || !method_exists($database, 'setQuery'))

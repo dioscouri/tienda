@@ -31,7 +31,7 @@ class UserViewRegister extends JView
         global $mainframe;
 
         // Check if registration is allowed
-        $usersConfig = &JComponentHelper::getParams( 'com_users' );
+        $usersConfig = JComponentHelper::getParams( 'com_users' );
         if (!$usersConfig->get( 'allowUserRegistration' )) {
             JError::raiseError( 403, JText::_('COM_TIENDA_ACCESS_FORBIDDEN'));
             return;
@@ -42,7 +42,7 @@ class UserViewRegister extends JView
         $params = &$mainframe->getParams();
 
         // Page Title
-        $menus  = &JSite::getMenu();
+        $menus  = JSite::getMenu();
         $menu   = $menus->getActive();
 
         // because the application sets a default page title, we need to get it

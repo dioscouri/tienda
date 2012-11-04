@@ -235,7 +235,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 							
 			$referrerid = $this->getReferreid( JFactory::getUser()->id );
 			
-			$jnow = & JFactory::getDate();
+			$jnow = JFactory::getDate();
 			$now  = $jnow->toMySQL();	
 			
 			//AlphaUserPointsHelper::newpoints( 'function_name', '', '', '', -$amount_points);

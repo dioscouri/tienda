@@ -304,5 +304,50 @@ class TiendaModelWishlists extends TiendaModelEav
 	            JFactory::getApplication()->enqueueMessage( $message );
 	        }
 	    }
+
+	    $this->clearSessionIds();
+	    $this->mergeUserItems( $user_id );
+	}
+	
+	public function clearSessionIds() 
+	{
+	    $query = new TiendaQuery();
+	    $query->update( '#__tienda_wishlists' );
+	    $query->set( "session_id = ''" );
+	    $query->where( "user_id > '0'" );
+	    $db = $this->getDBO();
+	    $db->setQuery( (string) $query );
+	    if (!$db->query()) {
+	    }	    
+	}
+	
+	public function mergeUserItems( $user_id )
+	{
+	    $table = $this->getTable();
+	    
+	    $this->emptyState();
+	    $this->setState('filter_user', $user_id );
+	    if ($items = $this->getList(true)) 
+	    {
+	        $done = array();
+	        foreach ($items as $item) 
+	        {
+	            if (empty($done[$item->product_id])) 
+	            {
+	                $done[$item->product_id] = $item;
+	            } 
+	            else 
+	            {
+	                $to_delete = $item->wishlist_id;
+	                if ($done[$item->product_id]->last_updated < $item->last_updated) 
+	                {
+	                    $done[$item->product_id] = $item;
+	                    $to_delete = $done[$item->product_id]->wishlist_id;
+	                }
+                    $table->delete($to_delete);
+	            }
+	        }
+	    }
+	    
 	}
 }

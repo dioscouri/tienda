@@ -137,7 +137,7 @@ class TiendaTableOrders extends TiendaTable
      */	
 	function save($src='', $orderingFilter = '', $ignore = '')
 	{
-        if ($return = parent::save())
+        if ($return = parent::save($src, $orderingFilter, $ignore))
         {
             // create the order_number when the order is saved, since it is based on the auto-inc value
             $order_number_prefix = Tienda::getInstance()->get('order_number_prefix');
@@ -366,21 +366,30 @@ class TiendaTableOrders extends TiendaTable
         // then calculate shipping total
         $this->calculateShippingTotals(); 
         
-				// coupons
+		// coupons
         $this->order_discount += $this->calculatePerOrderCouponValue($this->order_subtotal + $this->order_tax, 'price' );
         
         // this goes last, to be sure it gets the fully adjusted figures 
         $this->calculateVendorTotals();
         
         // sum totals
-        $total = 
+        $subtotal = 
             $this->order_subtotal 
             + $this->order_tax 
             + $this->order_shipping 
             + $this->order_shipping_tax
-            - $this->order_discount
-            - $this->order_credit
             ;
+            
+        $discount_total =
+            $this->order_discount
+            + $this->order_credit
+            ;
+            
+        if ($discount_total > $subtotal) {
+            $discount_total = $subtotal;
+        }
+        
+        $total = $subtotal - $discount_total;  
         
         // set object properties
         $this->order_total      = $total;
@@ -389,7 +398,7 @@ class TiendaTableOrders extends TiendaTable
         // so the plugins can override whatever they need to
         $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateOrderTotals", array( $this ) );
-    	    }
+    }
 
     /**
      * Calculates the product total (aka subtotal) 
@@ -539,8 +548,8 @@ class TiendaTableOrders extends TiendaTable
         $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
         $this->order_shipping_tax   = $this->shipping->shipping_tax;
   
-				$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
-		    $this->order_shipping = $this->order_shipping - $order_shipping_discount;
+		$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
+		$this->order_shipping = $this->order_shipping - $order_shipping_discount;
       	if( $this->order_shipping < 0)
       	{
       		$this->order_shipping = 0.00;
