@@ -175,7 +175,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param EavAttribute $eav
      * @param unknown_type $value
      */
-    function editForm($eav, $value = null)
+    public static function editForm($eav, $value = null)
     {
     	// Type of the field
     	switch($eav->eavattribute_type)
@@ -272,7 +272,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param EavAttribute $eav
      * @param unknown_type $value
      */
-    function showField($eav, $value = null)
+    public static function showField($eav, $value = null)
     {
     	$isAdmin = DSCAcl::isAdmin();
     	
@@ -307,7 +307,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @params $entity_type 	Type of the entity
      * @params $entity-id			Entity ID
      */
-    public function deleteEavValuesFromEntity( $entity_type, $entity_id, $entity_type_mirror = null, $entity_id_mirror = null )
+    public static function deleteEavValuesFromEntity( $entity_type, $entity_id, $entity_type_mirror = null, $entity_id_mirror = null )
     {
         if( !$entity_type_mirror )
             $entity_type_mirror = $entity_type;
