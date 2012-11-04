@@ -373,14 +373,23 @@ class TiendaTableOrders extends TiendaTable
         $this->calculateVendorTotals();
         
         // sum totals
-        $total = 
+        $subtotal = 
             $this->order_subtotal 
             + $this->order_tax 
             + $this->order_shipping 
             + $this->order_shipping_tax
-            - $this->order_discount
-            - $this->order_credit
             ;
+            
+        $discount_total =
+            $this->order_discount
+            + $this->order_credit
+            ;
+            
+        if ($discount_total > $subtotal) {
+            $discount_total = $subtotal;
+        }
+        
+        $total = $subtotal - $discount_total;  
         
         // set object properties
         $this->order_total      = $total;
@@ -389,7 +398,7 @@ class TiendaTableOrders extends TiendaTable
         // so the plugins can override whatever they need to
         $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateOrderTotals", array( $this ) );
-    	    }
+    }
 
     /**
      * Calculates the product total (aka subtotal) 
