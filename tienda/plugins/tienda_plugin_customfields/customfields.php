@@ -182,6 +182,8 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function onDisplayCartItem( $i, $item )
 	{
+	    $vars = new JObject();
+	    
 		// Get extra fields for products
 		$fields = $this->getCustomFields( 'products', $item->product_id, true, 2 );
 		
