@@ -94,7 +94,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param bool $no_post - only value from db will be used
      * @param bool $cache_values - If the values should be cached in the static array
      */
-    function getAttributeValue($eav, $entity_type, $entity_id, $no_post = false, $cache_values = true )
+    public static function getAttributeValue($eav, $entity_type, $entity_id, $no_post = false, $cache_values = true )
     {
     	// $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]
         static $sets;
@@ -210,7 +210,7 @@ class TiendaHelperEav extends TiendaHelperBase
      * @param EavAttribute $eav
      * @param unknown_type $value
      */
-    function showValue($eav, $value = null)
+    public static function showValue($eav, $value = null)
     {
     	// Type of the field
     	switch($eav->eavattribute_type)
@@ -301,27 +301,27 @@ class TiendaHelperEav extends TiendaHelperBase
     	
     }
 
-    /*
+    /**
      * This method removes all eav values from an entity with a specified ID
      * 
      * @params $entity_type 	Type of the entity
      * @params $entity-id			Entity ID
      */
-		function deleteEavValuesFromEntity( $entity_type, $entity_id, $entity_type_mirror = null, $entity_id_mirror = null )
-		{
-			if( !$entity_type_mirror )
-				$entity_type_mirror = $entity_type;
-			if( !$entity_id_mirror )
-				$entity_id_mirror = $entity_id;
-				
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$tbl_eav = JTable::getInstance( 'Eavvalues', 'TiendaTable' );
-			$eavs = TiendaHelperEav::getAttributes( $entity_type, $entity_id ); // get list of EAV fields
-			for( $i = 0, $c = count( $eavs ); $i < $c; $i++ )
-			{
-				$tbl_eav->setType( $eavs[$i]->eavattribute_type );
-				$tbl_eav->load( array( 'eaventity_type' => $entity_type_mirror, 'eaventity_id' => $entity_id_mirror, 'eavattribute_id' => $eavs[$i]->eavattribute_id ) );
-				$tbl_eav->delete();
-			}
-		}
+    public function deleteEavValuesFromEntity( $entity_type, $entity_id, $entity_type_mirror = null, $entity_id_mirror = null )
+    {
+        if( !$entity_type_mirror )
+            $entity_type_mirror = $entity_type;
+        if( !$entity_id_mirror )
+            $entity_id_mirror = $entity_id;
+
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $tbl_eav = JTable::getInstance( 'Eavvalues', 'TiendaTable' );
+        $eavs = TiendaHelperEav::getAttributes( $entity_type, $entity_id ); // get list of EAV fields
+        for( $i = 0, $c = count( $eavs ); $i < $c; $i++ )
+        {
+            $tbl_eav->setType( $eavs[$i]->eavattribute_type );
+            $tbl_eav->load( array( 'eaventity_type' => $entity_type_mirror, 'eaventity_id' => $entity_id_mirror, 'eavattribute_id' => $eavs[$i]->eavattribute_id ) );
+            $tbl_eav->delete();
+        }
+    }
 }
