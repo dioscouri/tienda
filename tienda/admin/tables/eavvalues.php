@@ -112,7 +112,7 @@ class TiendaTableEavValues extends TiendaTable
 		return parent::load( $oid, $reset );
 	}
 	
-	public function save()
+	public function save($src='', $orderingFilter = '', $ignore = '')
 	{
 		// Check the table activation status first
 		if(!$this->active)
@@ -121,7 +121,7 @@ class TiendaTableEavValues extends TiendaTable
 			$this->setType('');
 		}
 		
-		return parent::save();
+		return parent::save($src, $orderingFilter, $ignore);
 	}
 	
 	public function reset()

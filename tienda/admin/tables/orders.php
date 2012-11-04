@@ -137,7 +137,7 @@ class TiendaTableOrders extends TiendaTable
      */	
 	function save($src='', $orderingFilter = '', $ignore = '')
 	{
-        if ($return = parent::save())
+        if ($return = parent::save($src, $orderingFilter, $ignore))
         {
             // create the order_number when the order is saved, since it is based on the auto-inc value
             $order_number_prefix = Tienda::getInstance()->get('order_number_prefix');
@@ -366,7 +366,7 @@ class TiendaTableOrders extends TiendaTable
         // then calculate shipping total
         $this->calculateShippingTotals(); 
         
-				// coupons
+		// coupons
         $this->order_discount += $this->calculatePerOrderCouponValue($this->order_subtotal + $this->order_tax, 'price' );
         
         // this goes last, to be sure it gets the fully adjusted figures 
@@ -539,8 +539,8 @@ class TiendaTableOrders extends TiendaTable
         $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
         $this->order_shipping_tax   = $this->shipping->shipping_tax;
   
-				$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
-		    $this->order_shipping = $this->order_shipping - $order_shipping_discount;
+		$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
+		$this->order_shipping = $this->order_shipping - $order_shipping_discount;
       	if( $this->order_shipping < 0)
       	{
       		$this->order_shipping = 0.00;

@@ -71,7 +71,7 @@ class TiendaTableProductComments extends TiendaTable
             $isNew = true;
         }
         
-        if ($save = parent::save())
+        if ($save = parent::save($src, $orderingFilter, $ignore))
         {
             if ($this->productcomment_enabled && empty($this->rating_updated))
             {
