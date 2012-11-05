@@ -3734,7 +3734,7 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
             `created_date` DATETIME NOT NULL ,
             `modified_date` DATETIME NOT NULL ,
             INDEX (  `eavattribute_id` ,  `eaventity_id` ),
-            CONSTRAINT `fk_eavvaluesdatetime_eavattribute`
+            CONSTRAINT `fk_eavvaluestime_eavattribute`
                 FOREIGN KEY (`eavattribute_id` )
                 REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
                 ON DELETE CASCADE
