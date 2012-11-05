@@ -814,9 +814,15 @@ class TiendaControllerCheckout extends TiendaController
         $order->calculateTotals();
         if ( (float) $order->order_total == (float) '0.00' )
         {
+            if($this->onepage_checkout)
+            {
+                // no echo
+                return true;
+            }
+            
             $response['error'] = '0';
             echo ( json_encode( $response ) );
-            return false;
+            return true;
         }
 
         // fail if billing address is invalid
@@ -899,14 +905,45 @@ class TiendaControllerCheckout extends TiendaController
         }
         else
         {
+            $guest = false;
+            if( Tienda::getInstance()->get('guest_checkout_enabled') )
+            {
+                if( !$this->onepage_checkout )
+                {
+                    $guest = JFactory::getUser()->id ? 0 : 1;
+                }
+                else // normal checkout
+                {
+                    $guest = JRequest::getVar( 'guest', '0');
+                }
+                 
+                $guest = $guest ? true : false;
+            }
+            
+            $this->populateOrder($guest);
+            $this->addCouponCodes( $submitted_values );
+            
+            // bind what you can from the post
+            $this->_order->bind( $submitted_values );
+            
+            // set the shipping method
+            $this->_order->shipping = new JObject();
+            $this->_order->shipping->shipping_price      = @$submitted_values['shipping_price'];
+            $this->_order->shipping->shipping_extra      = @$submitted_values['shipping_extra'];
+            $this->_order->shipping->shipping_code      	= @$submitted_values['shipping_code'];
+            $this->_order->shipping->shipping_name       = @$submitted_values['shipping_name'];
+            $this->_order->shipping->shipping_tax        = @$submitted_values['shipping_tax'];
+            $this->_order->shipping->shipping_type				= @$submitted_values['shipping_plugin'];
+            
+            $this->_order->calculateTotals();
 
             // fail if no payment method selected
-            if (empty($submitted_values['_checked']['payment_plugin']) && !empty($submitted_values['order_total']) )
+            if (empty($submitted_values['_checked']['payment_plugin']) && (float)$this->_order->order_total != (float)'0.00')
             {
                 $response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD'));
                 $response['error'] = '1';
             }
-            elseif ( (float)$submitted_values['order_total'] == (float)'0.00' )
+            elseif ( (float)$this->_order->order_total == (float)'0.00' )
             {
                 $response['error'] = '0';
             }
@@ -1691,7 +1728,14 @@ class TiendaControllerCheckout extends TiendaController
 
             $view->assign( 'payment_form_div', $text );
         }
+        
+        $showPayment = true;
+        if ((float)$this->_order->order_total == (float)'0.00')
+        {
+            $showPayment = false;
+        }
 
+        $view->assign( 'showPayment', $showPayment );
         $view->assign( 'one_page', $this->onepage_checkout );
         ob_start();
         $view->display();
@@ -1760,7 +1804,7 @@ class TiendaControllerCheckout extends TiendaController
 
         // convert elements to array that can be binded
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $helper = TiendaHelperBase::getInstance();
+        $helper = new TiendaHelperBase();
         $submitted_values = $helper->elementsToArray( $elements );
 
         // Use AJAX to show plugins that are available
@@ -1787,6 +1831,25 @@ class TiendaControllerCheckout extends TiendaController
 
         $payment_plugins = $this->getPaymentOptions($this->_order);
         $view->assign( 'payment_plugins',  $payment_plugins);
+
+        $guest = false;
+        if( Tienda::getInstance()->get('guest_checkout_enabled') )
+        {
+            if( !$this->onepage_checkout )
+            {
+                $guest = JFactory::getUser()->id ? 0 : 1;
+            }
+            else // normal checkout
+            {
+                $guest = JRequest::getVar( 'guest', '0');
+            }
+             
+            $guest = $guest ? true : false;
+        }
+        
+        $this->populateOrder($guest);
+        $this->addCouponCodes( $submitted_values );
+        $this->_order->calculateTotals();        
 
         if (count($payment_plugins) == 1)
         {
@@ -1816,6 +1879,13 @@ class TiendaControllerCheckout extends TiendaController
             }
         }
 
+        $showPayment = true;
+        if ((float)$this->_order->order_total == (float)'0.00')
+        {
+            $showPayment = false;
+        }
+        $view->assign( 'showPayment', $showPayment );
+        
         ob_start();
         $view->display();
         $html = ob_get_contents();
@@ -1994,42 +2064,44 @@ class TiendaControllerCheckout extends TiendaController
                 $showPayment = false;
             }
         }
-        else
+        else {
             if ((float)$order->order_total == (float)'0.00')
             {
                 $showPayment = false;
             }
-            $view->assign( 'showPayment', $showPayment );
+        }
+        
+        $view->assign( 'showPayment', $showPayment );
 
-            // are there any enabled coupons?
-            $coupons_present = false;
-            $model = JModel::getInstance( 'Coupons', 'TiendaModel' );
-            $model->setState('filter_enabled', '1');
-            if ($coupons = $model->getList())
-            {
-                $coupons_present = true;
-            }
-            $view->assign( 'coupons_present', $coupons_present );
+        // are there any enabled coupons?
+        $coupons_present = false;
+        $model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+        $model->setState('filter_enabled', '1');
+        if ($coupons = $model->getList())
+        {
+            $coupons_present = true;
+        }
+        $view->assign( 'coupons_present', $coupons_present );
 
-            // assign userinfo for credits
-            $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
-            $userinfo->load( array( 'user_id'=>$user_id ) );
-            $userinfo->credits_total = (float) $userinfo->credits_total;
-            $view->assign('userinfo', $userinfo);
+        // assign userinfo for credits
+        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+        $userinfo->load( array( 'user_id'=>$user_id ) );
+        $userinfo->credits_total = (float) $userinfo->credits_total;
+        $view->assign('userinfo', $userinfo);
 
-            $dispatcher = JDispatcher::getInstance();
-            ob_start();
-            $dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
-            $view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
-            ob_end_clean();
-            $view->assign( 'payment_options_html', $paymentOptionsHtml );
-            ob_start();
-            $dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
-            $view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
-            ob_end_clean();
+        $dispatcher = JDispatcher::getInstance();
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );
+        $view->assign( 'onBeforeDisplaySelectPayment', ob_get_contents() );
+        ob_end_clean();
+        $view->assign( 'payment_options_html', $paymentOptionsHtml );
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplaySelectPayment', array( $order ) );
+        $view->assign( 'onAfterDisplaySelectPayment', ob_get_contents() );
+        ob_end_clean();
 
-            $view->display();
-            $this->footer();
+        $view->display();
+        $this->footer();
     }
 
     /**
@@ -2113,8 +2185,9 @@ class TiendaControllerCheckout extends TiendaController
             return $data;
         }
 
-        $orderpayment_type = $values['payment_plugin'];
+        $orderpayment_type = @$values['payment_plugin'];
         $transaction_status = JText::_('COM_TIENDA_INCOMPLETE');
+        
         // in the case of orders with a value of 0.00, use custom values
         if ( (float) $order->order_total == (float)'0.00' )
         {
@@ -2146,16 +2219,23 @@ class TiendaControllerCheckout extends TiendaController
         $mainframe->setUserState( 'tienda.order_id', $order->order_id );
         $mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
 
-        $dispatcher    = JDispatcher::getInstance();
-        $results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
-
-        // Display whatever comes back from Payment Plugin for the onPrePayment
         $html = "";
-        for ($i=0; $i<count($results); $i++)
+        if (!empty($values['payment_plugin'])) 
         {
-            $html .= $results[$i];
+            $dispatcher    = JDispatcher::getInstance();
+            $results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
+    
+            // Display whatever comes back from Payment Plugin for the onPrePayment
+            for ($i=0; $i<count($results); $i++)
+            {
+                $html .= $results[$i];
+            }
+        } 
+        else if ((float) $order->order_total == (float) '0.00') 
+        {
+            $data->redirect = JRoute::_( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
         }
-
+        
         $data->html = $html;
         $data->summary = $this->getOrderSummary();
         return $data;
@@ -2259,134 +2339,136 @@ class TiendaControllerCheckout extends TiendaController
                 $transaction_status = JText::_('COM_TIENDA_COMPLETE');
             }
         }
-        else
+        else {
             if ( (float) $order->order_total == (float)'0.00' )
             {
                 $orderpayment_type = 'free';
                 $transaction_status = JText::_('COM_TIENDA_COMPLETE');
             }
+        }
 
-            // Save an orderpayment with an Incomplete status
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
-            $orderpayment->order_id = $order->order_id;
-            $orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
-            $orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment
-            $orderpayment->orderpayment_amount = $order->order_total; // this is the expected payment amount.  payment plugin should verify actual payment amount against expected payment amount
-            if (!$orderpayment->save())
+        // Save an orderpayment with an Incomplete status
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment->order_id = $order->order_id;
+        $orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
+        $orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment
+        $orderpayment->orderpayment_amount = $order->order_total; // this is the expected payment amount.  payment plugin should verify actual payment amount against expected payment amount
+        if (!$orderpayment->save())
+        {
+            // Output error message and halt
+            JError::raiseNotice( 'Error Saving Pending Payment Record', $orderpayment->getError() );
+            return false;
+        }
+
+        // send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
+        $values["order_id"]             = $order->order_id;
+        $values["orderinfo"]            = $order->orderinfo;
+        $values["orderpayment_id"]      = $orderpayment->orderpayment_id;
+        $values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
+
+        // IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
+        $mainframe = JFactory::getApplication();
+        $mainframe->setUserState( 'tienda.order_id', $order->order_id );
+        $mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
+         
+        // 2. perform payment process
+        // this is the onPrePayment plugin event
+        // in the case of offsite payment plugins (like Paypal), they will display an order summary (perhaps with ****** for CC number)
+        // with a button that submits a form to the external site (button: "confirm order" or Paypal, MB, Alertpay, whatever)
+        // the return url will point to the method that fires the onPostPayment plugin event:
+        // target: index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=xxxxxx
+        // in the case of onsite payment plugins, they will display an order summary (perhaps with ****** for CC number)
+        // with a button that submits a form to the method that fires the onPostPayment plugin event ("confirm order")
+        // target: index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=xxxxxx
+        // onPostPayment, payment plugin to update order status with payment status
+
+        // in the case of orders with a value of 0.00, we redirect to the confirmPayment page
+        if( $order->isRecurring() )
+        {
+            if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
             {
-                // Output error message and halt
-                JError::raiseNotice( 'Error Saving Pending Payment Record', $orderpayment->getError() );
-                return false;
-            }
-
-            // send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-            $values["order_id"]             = $order->order_id;
-            $values["orderinfo"]            = $order->orderinfo;
-            $values["orderpayment_id"]      = $orderpayment->orderpayment_id;
-            $values["orderpayment_amount"]  = $orderpayment->orderpayment_amount;
-
-            // IMPORTANT: Store the order_id in the user's session for the postPayment "View Invoice" link
-            $mainframe = JFactory::getApplication();
-            $mainframe->setUserState( 'tienda.order_id', $order->order_id );
-            $mainframe->setUserState( 'tienda.orderpayment_id', $orderpayment->orderpayment_id );
-             
-            // 2. perform payment process
-            // this is the onPrePayment plugin event
-            // in the case of offsite payment plugins (like Paypal), they will display an order summary (perhaps with ****** for CC number)
-            // with a button that submits a form to the external site (button: "confirm order" or Paypal, MB, Alertpay, whatever)
-            // the return url will point to the method that fires the onPostPayment plugin event:
-            // target: index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=xxxxxx
-            // in the case of onsite payment plugins, they will display an order summary (perhaps with ****** for CC number)
-            // with a button that submits a form to the method that fires the onPostPayment plugin event ("confirm order")
-            // target: index.php?option=com_tienda&view=checkout&task=confirmPayment&orderpayment_type=xxxxxx
-            // onPostPayment, payment plugin to update order status with payment status
-
-            // in the case of orders with a value of 0.00, we redirect to the confirmPayment page
-            if( $order->isRecurring() )
-            {
-                if( (float)$order->getRecurringItem()->recurring_price == (float)'0.00' )
-                {
-                    JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
-                    return;
-                }
-            }
-            else
-                if ( (float) $order->order_total == (float)'0.00' )
-                {
-                    JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
-                    return;
-                }
-
-                $dispatcher    = JDispatcher::getInstance();
-                $results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
-
-                // Display whatever comes back from Payment Plugin for the onPrePayment
-                $html = "";
-                for ($i=0; $i<count($results); $i++)
-                {
-                    $html .= $results[$i];
-                }
-
-                // get all coupons and add them to the order
-                if (!empty($values['coupons']))
-                {
-                    foreach ($values['coupons'] as $coupon_id)
-                    {
-                        $coupon = JTable::getInstance('Coupons', 'TiendaTable');
-                        $coupon->load(array('coupon_id'=>$coupon_id));
-                        $order->addCoupon( $coupon );
-                    }
-                }
-
-                $this->addCoupons($values);
-                // get the order totals
-                $order->calculateTotals();
-
-                // get the order summary
-                $summary = $this->getOrderSummary();
-
-                // Get Addresses
-                $shipping_address = $order->getShippingAddress();
-                $billing_address = $order->getBillingAddress();
-
-                $shippingAddressArray = $showShipping ? $this->_shippingAddressArray : array();
-                $billingAddressArray = $this->_billingAddressArray;
-                 
-                $shippingMethodName = $values['shipping_name'];
-
-                $progress = $this->getProgress();
-
-                // Set display
-                $view = $this->getView( 'checkout', 'html' );
-                $view->setLayout('prepayment');
-                $view->set( '_doTask', true);
-                $view->assign('order', $order);
-                $view->assign('plugin_html', $html);
-                $view->assign('progress', $progress);
-                $view->assign('orderSummary', $summary);
-                $view->assign('shipping_info', $shippingAddressArray);
-                $view->assign('billing_info', $billingAddressArray);
-                $view->assign('shipping_method_name',$shippingMethodName);
-                $view->assign( 'showShipping', $showShipping );
-
-                // Get and Set Model
-                $model = $this->getModel('checkout');
-                $view->setModel( $model, true );
-
-                ob_start();
-                $dispatcher->trigger( 'onBeforeDisplayPrePayment', array( $order ) );
-                $view->assign( 'onBeforeDisplayPrePayment', ob_get_contents() );
-                ob_end_clean();
-
-                ob_start();
-                $dispatcher->trigger( 'onAfterDisplayPrePayment', array( $order ) );
-                $view->assign( 'onAfterDisplayPrePayment', ob_get_contents() );
-                ob_end_clean();
-
-                $view->display();
-
+                JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
                 return;
+            }
+        }
+        else {
+            if ( (float) $order->order_total == (float)'0.00' )
+            {
+                JFactory::getApplication()->redirect( 'index.php?option=com_tienda&view=checkout&task=confirmPayment' );
+                return;
+            }
+        }
+
+        $dispatcher    = JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onPrePayment", array( $values['payment_plugin'], $values ) );
+
+        // Display whatever comes back from Payment Plugin for the onPrePayment
+        $html = "";
+        for ($i=0; $i<count($results); $i++)
+        {
+            $html .= $results[$i];
+        }
+
+        // get all coupons and add them to the order
+        if (!empty($values['coupons']))
+        {
+            foreach ($values['coupons'] as $coupon_id)
+            {
+                $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+                $coupon->load(array('coupon_id'=>$coupon_id));
+                $order->addCoupon( $coupon );
+            }
+        }
+
+        $this->addCoupons($values);
+        // get the order totals
+        $order->calculateTotals();
+
+        // get the order summary
+        $summary = $this->getOrderSummary();
+
+        // Get Addresses
+        $shipping_address = $order->getShippingAddress();
+        $billing_address = $order->getBillingAddress();
+
+        $shippingAddressArray = $showShipping ? $this->_shippingAddressArray : array();
+        $billingAddressArray = $this->_billingAddressArray;
+         
+        $shippingMethodName = $values['shipping_name'];
+
+        $progress = $this->getProgress();
+
+        // Set display
+        $view = $this->getView( 'checkout', 'html' );
+        $view->setLayout('prepayment');
+        $view->set( '_doTask', true);
+        $view->assign('order', $order);
+        $view->assign('plugin_html', $html);
+        $view->assign('progress', $progress);
+        $view->assign('orderSummary', $summary);
+        $view->assign('shipping_info', $shippingAddressArray);
+        $view->assign('billing_info', $billingAddressArray);
+        $view->assign('shipping_method_name',$shippingMethodName);
+        $view->assign( 'showShipping', $showShipping );
+
+        // Get and Set Model
+        $model = $this->getModel('checkout');
+        $view->setModel( $model, true );
+
+        ob_start();
+        $dispatcher->trigger( 'onBeforeDisplayPrePayment', array( $order ) );
+        $view->assign( 'onBeforeDisplayPrePayment', ob_get_contents() );
+        ob_end_clean();
+
+        ob_start();
+        $dispatcher->trigger( 'onAfterDisplayPrePayment', array( $order ) );
+        $view->assign( 'onAfterDisplayPrePayment', ob_get_contents() );
+        ob_end_clean();
+
+        $view->display();
+
+        return;
     }
 
     /**
@@ -2572,13 +2654,47 @@ class TiendaControllerCheckout extends TiendaController
         $helper = TiendaHelperBase::getInstance();
         $submitted_values = $helper->elementsToArray( $elements );
 
-        if(empty($submitted_values['_checked']['payment_plugin']))
+        $guest = false;
+        if( Tienda::getInstance()->get('guest_checkout_enabled') )
+        {
+            if( !$this->onepage_checkout )
+            {
+                $guest = JFactory::getUser()->id ? 0 : 1;
+            }
+            else // normal checkout
+            {
+                $guest = JRequest::getVar( 'guest', '0');
+            }
+             
+            $guest = $guest ? true : false;
+        }
+        
+        $this->populateOrder($guest);
+        $this->addCouponCodes( $submitted_values );
+
+        // bind what you can from the post
+        $this->_order->bind( $submitted_values );
+        
+        // set the shipping method
+        $this->_order->shipping = new JObject();
+        $this->_order->shipping->shipping_price      = @$submitted_values['shipping_price'];
+        $this->_order->shipping->shipping_extra      = @$submitted_values['shipping_extra'];
+        $this->_order->shipping->shipping_code      	= @$submitted_values['shipping_code'];
+        $this->_order->shipping->shipping_name       = @$submitted_values['shipping_name'];
+        $this->_order->shipping->shipping_tax        = @$submitted_values['shipping_tax'];
+        $this->_order->shipping->shipping_type				= @$submitted_values['shipping_plugin'];
+        
+        $this->_order->calculateTotals();
+        
+        // fail if no payment method selected
+        if (empty($submitted_values['_checked']['payment_plugin']) && (float)$this->_order->order_total != (float)'0.00')
         {
             $response['msg'] = $helper->generateMessage(JText::_('Please select payment method'));
             $response['error'] = '1';
             echo ( json_encode( $response ) );
             return;
         }
+        
         // fail if not checked terms & condition
         if( $config->get('require_terms') && empty($submitted_values['_checked']['shipping_terms']) )
         {
@@ -2599,7 +2715,9 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         //override the payment plugin with the check value
-        $submitted_values['payment_plugin'] = $submitted_values['_checked']['payment_plugin'];
+        if (!empty($submitted_values['_checked']['payment_plugin'])) {
+            $submitted_values['payment_plugin'] = $submitted_values['_checked']['payment_plugin'];
+        }
 
         if(!$this->validateSelectShipping($submitted_values))
         {
@@ -2619,6 +2737,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             return;
         }
+        
         //check email if in correct format
         jimport('joomla.mail.helper');
         if(!JMailHelper::isEmailAddress($submitted_values['email_address']))
@@ -2770,6 +2889,9 @@ class TiendaControllerCheckout extends TiendaController
             $response['msg'] = $data->html;
             $response['summary'] = $data->summary;
             $response['error'] = '';
+            if (!empty($data->redirect)) {
+                $response['redirect'] = $data->redirect;
+            }
         }
         // encode and echo (need to echo to send back to browser)
         echo ( json_encode($response) );
@@ -2882,14 +3004,14 @@ class TiendaControllerCheckout extends TiendaController
                 // TODO What to do if saving order coupons fails?
                 $error = true;
             }
+            
+            $model->clearCache();
         }
 
         if ($error)
         {
             return false;
         }
-
-
 
         return true;
     }

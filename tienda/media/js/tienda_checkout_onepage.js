@@ -1,52 +1,3 @@
-
-function tiendaGetPaymentOptions(container, form, msg, callback) {
-	var payment_plugin = $$('input[name=payment_plugin]:checked');
-
-	if (payment_plugin) {
-	    payment_plugin = payment_plugin.value;
-	}		
-		
-	var str = tiendaGetFormInputData( form );
-	var url = 'index.php?option=com_tienda&view=checkout&task=updatePaymentOptions&format=raw';
-	
-	tiendaGrayOutAjaxDiv('onCheckoutPayment_wrapper', Joomla.JText._('COM_TIENDA_UPDATING_PAYMENT_METHODS'));
-	
-    // execute Ajax request to server
-    var a = new Request({
-        url : url,
-        method : "post",
-        data : {
-            "elements" : JSON.encode(str)
-        },
-        onSuccess : function(response) {
-            var resp = JSON.decode(response, false);
-            $( container ).set('html',  resp.msg );
-            
-            if (typeof callback == 'function') {
-                callback();
-            }
-            return true;
-        },
-        onFailure : function(response) {
-            tiendaDeletePaymentGrayDiv();
-            tiendaDeleteAddressGrayDiv();
-            tiendaDeleteShippingGrayDiv();
-        },
-        onException : function(response) {
-            tiendaDeletePaymentGrayDiv();
-            tiendaDeleteAddressGrayDiv();
-            tiendaDeleteShippingGrayDiv();
-        }
-    }).send();	
-
-	if (payment_plugin) {
-		$$('#onCheckoutPayment_wrapper input[name=payment_plugin]').each(function(e) {
-			if (e.get('value') == payment_plugin)
-				e.set('checked', true);
-		});
-	}
-}
-
 /**
  * Method to copy all data from Billing Address fields to Shipping Address fields
  * @param billingprefix
@@ -79,6 +30,11 @@ function tiendaSaveOnepageOrder(container, errcontainer, form) {
 			var resp = JSON.decode(response, false);
 
 			if (resp.error != '1') {
+			    if (resp.redirect) {
+			        window.location = resp.redirect;
+			        return;
+			    }
+			    
 				if ($(container)) {
 					$(container).set('html', resp.msg);
 				}

@@ -422,7 +422,9 @@ function tiendaAddCoupon(form, mult_enabled) {
 
 				// Push the code into the form
 				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				$('coupon_codes').set('html', cc_html);
+				if ($('coupon_codes').set('html', cc_html)) {
+				    tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form, '' );
+				}
 
 				// Clear the field
 				document.getElementById('new_coupon_code').value = '';
@@ -435,6 +437,7 @@ function tiendaAddCoupon(form, mult_enabled) {
 				if (mult_enabled != 1) {
 					tiendaShowHideDiv('coupon_code_form');
 				}
+				
 			} else {
 				if ($(container)) {
 					$(container).set('html', resp.msg);
@@ -539,7 +542,9 @@ function tiendaPutAjaxLoader(container, text, suffix) {
 	if (text != null && text != '')
 		text_element = '<span> ' + text + '</span>';
 	var img_loader = '<img src="' + window.com_tienda.jbase + 'media/com_tienda/images/ajax-loader' + suffix + '.gif' + '"/>';
-	$(container).set('html', img_loader + text_element);
+	if ($(container)) {
+	    $(container).set('html', img_loader + text_element);
+	}
 }
 
 /**
@@ -565,7 +570,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 }
 
 function tiendaSetColorInContainer(container, color) {
-	$(container).setStyle('color', color);
+	if ($(container)) { $(container).setStyle('color', color); }
 	$$('#' + container + ' *' ).each(function(el) {
 		el.setStyle('color', color);
 	});
