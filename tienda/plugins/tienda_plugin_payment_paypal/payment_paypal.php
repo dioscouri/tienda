@@ -257,7 +257,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $paction = JRequest::getVar('paction');
         
         $vars = new JObject();
-        
+        $vars->data = $data;
         switch ($paction) 
         {
             case "display_message":
@@ -276,7 +276,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 }
                     else
                 {
-                    $vars->message = JText::_('COM_TIENDA_PAYPAL_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION=');
+                    $vars->message = JText::_('COM_TIENDA_PAYPAL_MESSAGE_PAYMENT_ACCEPTED_FOR_VALIDATION');
                     $html = $this->_getLayout('message', $vars);
                     $html .= $this->_displayArticle();                    
                 }     

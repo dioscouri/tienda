@@ -78,7 +78,7 @@
             {
              
 			 //TODO 
-			 /*
+			 /* TiendaHelperBase::number( @$item->orderitem_final_price / @$item->orderitem_quantity, array( 'thousands' =>'', 'decimal'=> '.' ) );
 			  * TiendaHelperBase::number( @$item->orderitem_price + @$item->orderitem_attributes_price, array( 'thousands' =>'', 'decimal'=> '.' ) ); 
 			  *  THis doesn't work because it doesn't take into account pricing discounts from coupons
 			  * */
