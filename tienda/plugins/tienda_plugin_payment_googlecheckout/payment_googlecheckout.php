@@ -307,7 +307,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 	 *
 	 * @return unknown_type
 	 */
-	function _renderForm( $data )
+	function _renderForm(  )
 	{
 		$user = JFactory::getUser();
 		$vars = new JObject();
