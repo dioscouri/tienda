@@ -233,7 +233,7 @@ class Tienda extends DSC
 	public $secret_word = '';
 	public $password_min_length = '5';
 	public $password_req_alpha = '1';
-	public $password_req_num = '1';
+	public $password_req_num = '0';
 	public $password_req_spec = '0';
 	public $password_php_validate = '0';
 	public $content_plugins_product_desc = '0';

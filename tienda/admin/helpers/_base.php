@@ -776,7 +776,7 @@ class TiendaHelperBase extends DSCHelper
 	 * @param $length		Length of the word
 	 * @return 					Secret key as a string
 	 */
-	function generateSecretWord( $length = 32 )
+	public static function generateSecretWord( $length = 32 )
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+}{|:<>?,. ";
 		$len = strlen( $salt );
