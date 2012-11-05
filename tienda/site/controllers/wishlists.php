@@ -206,7 +206,7 @@ class TiendaControllerWishlists extends TiendaController
 		$model  = $this->getModel( $this->get('suffix') );
         $user = JFactory::getUser();
         $cids = JRequest::getVar('cid', array(0), '', 'array');
-FB::log($cids, 'cids: ');        
+
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute(); 
         $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
@@ -222,7 +222,7 @@ FB::log($cids, 'cids: ');
         
         $model->setState( 'filter_ids', $cids );
         $items = $model->getList();
-FB::log($items, 'items: ');
+
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
       	$view->assign( 'items', $items );      
         $view->set('hidemenu', true);

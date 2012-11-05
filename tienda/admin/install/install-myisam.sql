@@ -1403,6 +1403,29 @@ ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
+-- -----------------------------------------------------
+-- Table `#__tienda_eavvaluestime`
+-- -----------------------------------------------------
+
+CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluestime` (
+`eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`eavattribute_id` INT NOT NULL ,
+`eaventity_type` VARCHAR( 255 ) NOT NULL COMMENT 'table name of the entity',
+`eaventity_id` INT NOT NULL ,
+`eavvalue_value` TIME NOT NULL ,
+`created_date` DATETIME NOT NULL ,
+`modified_date` DATETIME NOT NULL ,
+INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+CONSTRAINT `fk_eavvaluesdatetime_eavattribute`
+    FOREIGN KEY (`eavattribute_id` )
+    REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
 
 -- --------------------------------------------------------
 -- Table structure for table `#__tienda_zones`

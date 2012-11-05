@@ -11,6 +11,9 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport('joomla.log.log');
+JLog::addLogger(array('text_file' => 'tienda.baseeav.php'), JLog::ALL, array('BaseEAV'));
+
 Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableEav extends TiendaTable
@@ -163,7 +166,7 @@ class TiendaTableEav extends TiendaTable
 				}
 			}
 		}
-
+		
 		if ( $return = parent::store( $updateNulls ))
 		{
 			// Store custom fields if needed
@@ -195,7 +198,7 @@ class TiendaTableEav extends TiendaTable
 					$table->eavvalue_value = $cf['value'];
 					$table->eaventity_type = $this->get('_suffix');
 					$stored = $table->store();
-
+					
 					// Log the errors
 					if(!$stored)
 					{

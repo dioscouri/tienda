@@ -1170,6 +1170,7 @@ class TiendaSelect extends DSCSelect
         $list[] = JHTML::_('select.option',  'text', JText::_('COM_TIENDA_TEXTAREA') );
         $list[] = JHTML::_('select.option',  'decimal', JText::_('COM_TIENDA_DECIMAL') );
         $list[] = JHTML::_('select.option',  'datetime', JText::_('COM_TIENDA_DATE_TIME') );
+        //$list[] = JHTML::_('select.option',  'time', JText::_('COM_TIENDA_TIME') ); // NO NEW FEATURES YET
         $list[] = JHTML::_('select.option',  'bool', JText::_('COM_TIENDA_BOOLEAN') );
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );

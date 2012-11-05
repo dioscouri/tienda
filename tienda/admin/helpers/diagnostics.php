@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.application.component.model' );
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
-class TiendaHelperDiagnostics extends TiendaHelperBase
+class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 {
 	/**
 	 * Redirects with message
@@ -36,6 +36,21 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		JRequest::setVar('task', '');
 		return;
 	}
+	
+	/**
+	 *
+	 * @param unknown_type $fieldname
+	 * @param unknown_type $value
+	 */
+	protected function setCompleted( $fieldname, $value='1' )
+	{
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+	    $config = JTable::getInstance( 'Config', 'TiendaTable' );
+	    $config->load( array( 'config_name'=>$fieldname ) );
+	    $config->config_name = $fieldname;
+	    $config->value = '1';
+	    $config->save();
+	}
 
 	/**
 	 * Performs basic checks on your installation to ensure it is OK
@@ -43,7 +58,20 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 	 */
 	function checkInstallation()
 	{
-		 
+
+	    $functions = array();
+	    $functions[] = 'checkEAVAttributesFormatStrftime';
+	    $functions[] = 'checkEAVAttributesFormatDate';
+	    //$functions[] = 'createTableEAVValuesTime'; // NO NEW FEATURES YET
+	    
+	    foreach ($functions as $function)
+	    {
+	        if (!$this->{$function}())
+	        {
+	            return $this->redirect( JText::_("COM_TIENDA_".$function."_FAILED") .' :: '. $this->getError(), 'error' );
+	        }
+	    }
+	    
 		// OLD CHECKS?
 		if (!Tienda::getInstance()->get('checkOldDiagnostics', '0'))
 		{
@@ -490,160 +518,6 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
     }
 
-	}
-
-	/**
-	 * Creates a table if it doesn't exist
-	 *
-	 * @param $table
-	 * @param $definition
-	 */
-	function createTable( $table, $definition )
-	{
-		if (!$this->tableExists( $table ))
-		{
-			$db = JFactory::getDBO();
-			$db->setQuery( $definition );
-			if (!$db->query())
-			{
-				$this->setError( $db->getErrorMsg() );
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Checks if a table exists
-	 *
-	 * @param $table
-	 */
-	function tableExists( $table )
-	{
-		$db = JFactory::getDBO();
-
-		// Manually replace the Joomla Tables prefix. Automatically it fails
-		// because the table name is between single-quotes
-		$db->setQuery(str_replace('#__', $db->_table_prefix, "SHOW TABLES LIKE '$table'"));
-		$result = $db->loadObject();
-
-		if ($result === null) return false;
-		else return true;
-	}
-
-	/**
-	 * Inserts fields into a table
-	 *
-	 * @param string $table
-	 * @param array $fields
-	 * @param array $definitions
-	 * @return boolean
-	 */
-	function insertTableFields($table, $fields, $definitions)
-	{
-		$database = JFactory::getDBO();
-		$fields = (array) $fields;
-		$errors = array();
-
-		foreach ($fields as $field)
-		{
-			$query = " SHOW COLUMNS FROM {$table} LIKE '{$field}' ";
-			$database->setQuery( $query );
-			$rows = $database->loadObjectList();
-			if (!$rows && !$database->getErrorNum())
-			{
-				$query = "ALTER TABLE `{$table}` ADD `{$field}` {$definitions[$field]}; ";
-				$database->setQuery( $query );
-				if (!$database->query())
-				{
-					$errors[] = $database->getErrorMsg();
-				}
-			}
-		}
-
-		if (!empty($errors))
-		{
-			$this->setError( implode('<br/>', $errors) );
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Changes fields in a table
-	 *
-	 * @param string $table
-	 * @param array $fields
-	 * @param array $definitions
-	 * @param array $newnames
-	 * @return boolean
-	 */
-	function changeTableFields($table, $fields, $definitions, $newnames)
-	{
-		$database = JFactory::getDBO();
-		$fields = (array) $fields;
-		$errors = array();
-
-		foreach ($fields as $field)
-		{
-			$query = " SHOW COLUMNS FROM {$table} LIKE '{$field}' ";
-			$database->setQuery( $query );
-			$rows = $database->loadObjectList();
-			if ($rows && !$database->getErrorNum())
-			{
-				$query = "ALTER TABLE `{$table}` CHANGE `{$field}` `{$newnames[$field]}` {$definitions[$field]}; ";
-				$database->setQuery( $query );
-				if (!$database->query())
-				{
-					$errors[] = $database->getErrorMsg();
-				}
-			}
-		}
-
-		if (!empty($errors))
-		{
-			$this->setError( implode('<br/>', $errors) );
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Drops fields from a table
-	 *
-	 * @param string $table
-	 * @param array $fields
-	 * @param array $definitions
-	 * @return boolean
-	 */
-	function dropTableFields($table, $fields)
-	{
-		$database = JFactory::getDBO();
-		$fields = (array) $fields;
-		$errors = array();
-
-		foreach ($fields as $field)
-		{
-			$query = " SHOW COLUMNS FROM {$table} LIKE '{$field}' ";
-			$database->setQuery( $query );
-			$rows = $database->loadObjectList();
-			if ($rows && !$database->getErrorNum())
-			{
-				$query = "ALTER TABLE `{$table}` DROP `{$field}`; ";
-				$database->setQuery( $query );
-				if (!$database->query())
-				{
-					$errors[] = $database->getErrorMsg();
-				}
-			}
-		}
-
-		if (!empty($errors))
-		{
-			$this->setError( implode('<br/>', $errors) );
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -3785,6 +3659,99 @@ class TiendaHelperDiagnostics extends TiendaHelperBase
 		}
 		return false;
 	}
-
+	
+	/**
+	 *
+	 * @return boolean
+	 */
+	private function checkEAVAttributesFormatStrftime()
+	{
+	    if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
+	    {
+	        return true;
+	    }
+	
+	    $table = '#__tienda_eavattributes';
+	    $definitions = array();
+	    $fields = array();
+	
+	    $fields[] = "eavattribute_format_strftime";
+	    $definitions["eavattribute_format_strftime"] = "varchar(255) NULL";
+	
+	    if ($this->insertTableFields( $table, $fields, $definitions ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/**
+	 *
+	 * @return boolean
+	 */
+	private function checkEAVAttributesFormatDate()
+	{
+	    if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
+	    {
+	        return true;
+	    }
+	
+	    $table = '#__tienda_eavattributes';
+	    $definitions = array();
+	    $fields = array();
+	
+	    $fields[] = "eavattribute_format_date";
+	    $definitions["eavattribute_format_date"] = "varchar(255) NULL";
+	
+	    if ($this->insertTableFields( $table, $fields, $definitions ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/**
+	 *
+	 * @return boolean
+	 */
+	private function createTableEAVValuesTime()
+	{
+	    if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
+	    {
+	        return true;
+	    }
+	
+	    $table = '#__tienda_eavvaluestime';
+		$definition = '
+            CREATE TABLE  IF NOT EXISTS `#__tienda_eavvaluestime` (
+            `eavvalue_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+            `eavattribute_id` INT NOT NULL ,
+            `eaventity_type` VARCHAR( 255 ) NOT NULL,
+            `eaventity_id` INT NOT NULL ,
+            `eavvalue_value` TIME NOT NULL ,
+            `created_date` DATETIME NOT NULL ,
+            `modified_date` DATETIME NOT NULL ,
+            INDEX (  `eavattribute_id` ,  `eaventity_id` ),
+            CONSTRAINT `fk_eavvaluesdatetime_eavattribute`
+                FOREIGN KEY (`eavattribute_id` )
+                REFERENCES `#__tienda_eavattributes` (`eavattribute_id` )
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+            )
+            ENGINE = InnoDB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci;		
+        ';
+	
+	    if ($this->createTable( $table, $definition ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}
+	
 }
 

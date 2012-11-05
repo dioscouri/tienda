@@ -115,7 +115,6 @@ class TiendaHelperEav extends TiendaHelperBase
             $keynames['eaventity_type'] = $entity_type;
             
             $loaded = $table->load($keynames);
-            
             if($loaded)
             {
                 // Fetch the value from the value tables
@@ -185,7 +184,8 @@ class TiendaHelperEav extends TiendaHelperBase
     			return TiendaSelect::booleans($value, $eav->eavattribute_alias, $attribs = array('class' => 'inputbox cf_'.$eav->eavattribute_alias, 'size' => '1'), $idtag = null, $allowAny = false, $title='Select State', $yes = 'Yes', $no = 'No' );
     			break;
     		case "datetime":
-    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", "%Y-%m-%d %H:%M:%p" );
+    		    $format = !empty($eav->eavattribute_format_strftime) ? $eav->eavattribute_format_strftime : '%Y-%m-%d %H:%M:%S';
+    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", $format );
     			break;
     		case "text":
     			$editor = JFactory::getEditor();
@@ -226,7 +226,9 @@ class TiendaHelperEav extends TiendaHelperBase
     			}
     			break;
     		case "datetime":
-    			return JHTML::date(date('Y-m-d H:i:s', strtotime( $value)), Tienda::getInstance()->get('date_format'));
+    		    $format = !empty($eav->eavattribute_format_date) ? $eav->eavattribute_format_date : 'Y-m-d H:i:s';
+    		    $datetime = date('Y-m-d H:i:s', strtotime( $value ));
+    			return JHTML::date($datetime, $format);
     			break;
     		case "text":
     			$dispatcher = JDispatcher::getInstance();

@@ -27,7 +27,7 @@ class TiendaTableEavValues extends TiendaTable
 	function TiendaTableEavValues( &$db )
 	{
 		
-		$this->allowed_types = array('int', 'varchar', 'decimal', 'text', 'datetime');		
+		$this->allowed_types = array('int', 'varchar', 'decimal', 'text', 'datetime', 'time');		
 		
 		// do NOT parent::__construct, do the two thing that we can do now
 		$this->_tbl_key	= 'eavvalue_id';

@@ -48,6 +48,16 @@ class TiendaTableEavAttributes extends TiendaTable
         }
         $this->eavattribute_alias = $this->stringDBSafe($this->eavattribute_alias);
         
+        if ($this->eavattribute_type == 'datetime' && empty($this->eavattribute_format_strftime))
+        {
+            $this->eavattribute_format_strftime = '%Y-%m-%d %H:%M:%S';
+        }
+        
+        if ($this->eavattribute_type == 'datetime' && empty($this->eavattribute_format_date))
+        {
+            $this->eavattribute_format_date = 'Y-m-d H:i:s';
+        }
+        
         return true;
     }
 }
