@@ -93,7 +93,9 @@
                     </div>
                 </th>
                 <th>
-                    <input id="filter_type" name="filter_type" value="<?php echo @$state->filter_type; ?>" size="25"/>
+
+                	<?php echo  TiendaSelect::paymentType(@$state->filter_type,'filter_type'); ?>
+           
                 </th>
                 <th>
                     <input id="filter_transaction" name="filter_transaction" value="<?php echo @$state->filter_transaction; ?>" size="25"/>
@@ -159,7 +161,7 @@
                     <?php } ?>
 				</td>
 				<td style="text-align: center;">
-					<?php echo $item->orderpayment_type; ?>
+					<?php  echo JText::_($item->orderpayment_type); ; ?>
 				</td>
                 <td style="text-align: center;">
                     <?php echo $item->transaction_id; ?>

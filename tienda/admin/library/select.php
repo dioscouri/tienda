@@ -170,6 +170,36 @@ class TiendaSelect extends DSCSelect
         
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }
+	 /**
+    * Generates a created/modified select list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function paymentType( $selected, $name = 'filter_type', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title='COM_TIENDA_SELECT_TYPE' )
+    {
+        $list = array();
+        if($allowAny) {
+            $list[] =  self::option('', "- ".JText::_( $title )." -" );
+        }
+		 $db = JFactory::getDbo();
+        $q = new DSCQuery();
+        
+        $q->select( 'SELECT DISTINCT orderpayment_type as type' );
+        $q->from( '#__tienda_orderpayments' );
+        
+	      $db->setQuery( $q );
+        $items = $db->loadObjectList();
+		
+		foreach($items as $item) {
+			$list[] = JHTML::_('select.option',  $item->type, JText::_($item->type) );
+		}
+        
+        
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
     
 	/**
 	 *

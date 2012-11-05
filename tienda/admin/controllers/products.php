@@ -1858,12 +1858,13 @@ class TiendaControllerProducts extends TiendaController
 		$helper = TiendaHelperBase::getInstance('Product', 'TiendaHelper');
 
 		$model = $this->getModel('Products', 'TiendaModel');
+		$count = $model->getTotal();
 		$model->setState('filter_id_from', $from_id);
 		$model->setState('filter_id_to', $to_id);
 			
 		$row = $model->getTable();
 			
-		$count = $model->getTotal();
+		
 			
 		$products = $model->getList();
 			
