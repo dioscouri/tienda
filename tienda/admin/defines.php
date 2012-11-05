@@ -143,26 +143,26 @@ class Tienda extends DSC
 	public $ask_question_modal					= '1';
 
 	//address management
-	public $show_field_address_name					= '3';
-	public $show_field_title					= '3';
+	public $show_field_address_name					= '0';
+	public $show_field_title					= '0';
 	public $show_field_name					= '3';
-	public $show_field_middle					= '3';
+	public $show_field_middle					= '0';
 	public $show_field_last					= '3';
-	public $show_field_company					= '3';
-	public $show_field_tax_number					= '3';
+	public $show_field_company					= '0';
+	public $show_field_tax_number					= '0';
 	public $show_field_address1				= '3';
-	public $show_field_address2				= '3';
+	public $show_field_address2				= '0';
 	public $show_field_zone					= '3';
 	public $show_field_country					= '3';
 	public $show_field_city					= '3';
 	public $show_field_zip						= '3';
-	public $show_field_phone					= '3';
-	public $show_field_cell					= '3';
-	public $show_field_fax						= '3';
+	public $show_field_phone					= '0';
+	public $show_field_cell					= '0';
+	public $show_field_fax						= '0';
 
 	// address validation management
-	public $validate_field_address_name				= '3';
-	public $validate_field_title				= '3';
+	public $validate_field_address_name				= '0';
+	public $validate_field_title				= '0';
 	public $validate_field_name				= '3';
 	public $validate_field_middle				= '0';
 	public $validate_field_last				= '3';
