@@ -109,6 +109,19 @@ class TiendaControllerGeozones extends TiendaController
 
         $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
         $cids = JRequest::getVar('cid', array (0), 'request', 'array');
+		$redirect = JRequest::getVar( 'return' ) ?
+        base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
+        $redirect = JRoute::_( $redirect, false );
+		
+        if(empty($cids[0])){
+        	
+        	$this->messagetype  = 'notice';
+            $this->message      = JText::_('COM_TIENDA_SELECT_GEOZONE_ERROR');       
+			$this->setRedirect( $redirect, $this->message, $this->messagetype );
+        		
+        	return;
+        } 
+		
         $task = JRequest::getVar( 'task' );
         $vals = explode('_', $task);
 
@@ -204,9 +217,7 @@ class TiendaControllerGeozones extends TiendaController
             $this->message = "";
         }
 
-        $redirect = JRequest::getVar( 'return' ) ?
-        base64_decode( JRequest::getVar( 'return' ) ) : "index.php?option=com_tienda&controller=geozones&task=selectzones&tmpl=component&id=".$id;
-        $redirect = JRoute::_( $redirect, false );
+     
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
 
