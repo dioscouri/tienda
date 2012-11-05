@@ -123,7 +123,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         
         // If here, create a commissions record
         JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_amigos/tables' );
-        if (!class_exists('AmigosConfig'))
+        if (!class_exists('Amigos'))
         {
             JLoader::import( 'com_amigos.defines', JPATH_ADMINISTRATOR.'/components' );    
         }        
@@ -131,7 +131,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         
         if (!empty($referral->accountid))
         {
-            $config = AmigosConfig::getInstance();
+            $config = Amigos::getInstance();
             $date = JFactory::getDate();
             
             if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
