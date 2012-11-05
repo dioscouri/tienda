@@ -31,7 +31,7 @@ class TiendaControllerPOS extends TiendaController
 		$this->registerTask( 'flag_deleted', 'flag' );
 	}
 	
-	function display($cachable=false)
+	function display($cachable=false, $urlparams = false)
 	{
 		$post = JRequest::get('post');
 		$step = JRequest::getVar('nextstep', 'step1');
@@ -55,7 +55,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			$this->$method_name($post);
 		}
-		parent::display();
+		parent::display($cachable, $urlparams);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class TiendaControllerPOS extends TiendaController
 		$session = JFactory::getSession();
 		$subtask = $session->get('subtask', 'shipping', 'tienda_pos');
 
-		$order = &$this->populateOrder();
+		$order = $this->populateOrder();
 		$view = $this->getView('pos', 'html');
 		$view->assign('step1_inactive', $this->step1Inactive());
 
@@ -318,7 +318,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 		
 		// remove unnecessary _db proprety which causes 'Request-URI Too Large' error
-		unset($order->orderinfo->_db);
+		//unset($order->orderinfo->_db);
 		
 		// send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 		$values["order_id"]             = $order->order_id;
@@ -986,7 +986,7 @@ class TiendaControllerPOS extends TiendaController
         }
         
         // get the order object so we can populate it
-        $order = &$this->populateOrder();	
+        $order = $this->populateOrder();	
 
         // bind what you can from the post
         $order->bind( $values );
@@ -1334,7 +1334,7 @@ class TiendaControllerPOS extends TiendaController
 
 		$model = $this->getModel('Carts');
 		$model->setState('filter_user', $user_id);
-		$items = &$model->getList();
+		$items = $model->getList();
 
 		if(!empty($items))
 		{
@@ -2144,7 +2144,7 @@ class TiendaControllerPOS extends TiendaController
 			return;
 		}
 
-		$order = &$this->populateOrder();		
+		$order = $this->populateOrder();		
 		
 		$this->setAddresses( $order , $submitted_values, false );
 	
