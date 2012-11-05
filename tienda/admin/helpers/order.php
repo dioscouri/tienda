@@ -26,7 +26,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function setOrderPaymentReceived( $order_id )
+	public static function setOrderPaymentReceived( $order_id )
 	{
 		$errors = array();
 		$error = false;
@@ -71,14 +71,14 @@ class TiendaHelperOrder extends TiendaHelperBase
 		return true;
 	}
 
-	/*
+	/**
 	 * This would cancel an order
 	 * and undo everything done by setOrderPaymentReceived()
 	 *
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function cancelOrder( $order_id )
+	public static function cancelOrder( $order_id )
 	{
 		return true;
 	}
@@ -91,7 +91,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function enableProductDownloads( $order_id )
+	public static function enableProductDownloads( $order_id )
 	{
 		$error = false;
 		$errorMsg = "";
@@ -332,7 +332,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function doCompletedOrderTasks( $order_id )
+	public static function doCompletedOrderTasks( $order_id )
 	{
 		$errors = array();
 		$error = false;
@@ -464,7 +464,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 * @param $order_id
 	 * @return unknown_type
 	 */
-	function enableNonRecurringSubscriptions( $order_id )
+	public static function enableNonRecurringSubscriptions( $order_id )
 	{
 		$error = false;
 		$errorMsg = "";
