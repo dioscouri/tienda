@@ -327,7 +327,7 @@ class TiendaTableEav extends TiendaTable
 		$db = $this->getDBO();
 
 		// initialize the query
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query->select( '*' );
 		$query->from( $this->getTableName() );
 		
