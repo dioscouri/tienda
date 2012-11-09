@@ -362,7 +362,7 @@ window.addEvent('domready', function() {
 <?php if( $this->showShipping  ):?>	
 	tiendaShowHideDiv( 'shipping_input_addressForm' );
 	<?php if( !@$this->shipping_address->address_id ): ?>
-		$( 'sameasbilling' ).addEvent( 'change', function() { tiendaCopyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES')?>', '<?php echo JText::_('COM_TIENDA_UPDATING_CART')?>', '<?php echo JText::_('COM_TIENDA_UPDATING_ADDRESS')?>', '<?php echo JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS')?>' ) } );
+	document.id( 'sameasbilling' ).addEvent( 'change', function() { tiendaCopyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm, '<?php echo JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES')?>', '<?php echo JText::_('COM_TIENDA_UPDATING_CART')?>', '<?php echo JText::_('COM_TIENDA_UPDATING_ADDRESS')?>', '<?php echo JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS')?>' ) } );
 	<?php endif; ?>
 <?php endif; ?>
 

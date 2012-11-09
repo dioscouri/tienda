@@ -42,7 +42,7 @@
 		
 		</span>
 	</label>
-	<input name="<?php echo $this->form_prefix; ?>address_name" id="<?php echo $this->form_prefix; ?>address_name" class="inputbox" type="text" maxlength="250" />&nbsp;
+	<input name="<?php echo $this->form_prefix; ?>address_name" id="<?php echo $this->form_prefix; ?>address_name" class="inputbox" type="text" maxlength="250" data-required="<?php echo $elements['address_name'][1] ? 'true' : false; ?>" />&nbsp;
 				<?php
 			}
 		}
@@ -59,7 +59,7 @@
 					endif;
 				?>
 			</label>
-			<input name="<?php echo $this->form_prefix; ?>title"	id="<?php echo $this->form_prefix; ?>title" class="inputbox"	type="text" maxlength="250" />
+			<input name="<?php echo $this->form_prefix; ?>title"	id="<?php echo $this->form_prefix; ?>title" class="inputbox"	type="text" maxlength="250" data-required="<?php echo $elements['title'][1] ? 'true' : false; ?>" />
 		</div>
 		<?php endif; ?>
 
@@ -72,7 +72,7 @@
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>			
 			</label>
-			<input name="<?php echo $this->form_prefix; ?>first_name"	id="<?php echo $this->form_prefix; ?>first_name" class="inputbox"	type="text" maxlength="250" />
+			<input name="<?php echo $this->form_prefix; ?>first_name"	id="<?php echo $this->form_prefix; ?>first_name" class="inputbox"	type="text" maxlength="250" data-required="<?php echo $elements['name'][1] ? 'true' : false; ?>" />
 		</div>
 		<?php endif; ?>
 
@@ -84,7 +84,7 @@
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
 			</label>
-			<input type="text" name="<?php echo $this->form_prefix; ?>middle_name" id="<?php echo $this->form_prefix; ?>middle_name" class="inputbox"	maxlength="250" />
+			<input type="text" name="<?php echo $this->form_prefix; ?>middle_name" id="<?php echo $this->form_prefix; ?>middle_name" class="inputbox"	maxlength="250" data-required="<?php echo $elements['middle'][1] ? 'true' : false; ?>" />
 		</div>
 		<?php endif; ?>
 	</div>
@@ -97,7 +97,7 @@
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
 		</label>
-		<input type="text" name="<?php echo $this->form_prefix; ?>last_name"	id="<?php echo $this->form_prefix; ?>last_name" class="inputbox" size="45" maxlength="250" />
+		<input type="text" name="<?php echo $this->form_prefix; ?>last_name"	id="<?php echo $this->form_prefix; ?>last_name" class="inputbox" size="45" maxlength="250" data-required="<?php echo $elements['last'][1] ? 'true' : false; ?>" />
 	</div>
 	<?php endif; ?>
 	
@@ -110,7 +110,7 @@
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
 			</label>
-			<input type="text" name="<?php echo $this->form_prefix; ?>company" id="<?php echo $this->form_prefix; ?>company" class="inputbox" size="48" maxlength="250" />
+			<input type="text" name="<?php echo $this->form_prefix; ?>company" id="<?php echo $this->form_prefix; ?>company" class="inputbox" size="48" maxlength="250" data-required="<?php echo $elements['company'][1] ? 'true' : false; ?>" />
 		</div>
 		<?php endif; ?>
 		<?php if( $elements['tax_number'][0] ) :?>
@@ -121,7 +121,7 @@
 					<?php echo TiendaGrid::required(); ?>
 				<?php endif;?>
 			</label>
-			<input type="text" name="<?php echo $this->form_prefix; ?>tax_number" id="<?php echo $this->form_prefix; ?>tax_number" class="inputbox" size="48" maxlength="250" />
+			<input type="text" name="<?php echo $this->form_prefix; ?>tax_number" id="<?php echo $this->form_prefix; ?>tax_number" class="inputbox" size="48" maxlength="250" data-required="<?php echo $elements['tax_number'][1] ? 'true' : false; ?>" />
 		</div>
 		<?php endif; ?>
 	</div>
@@ -134,7 +134,7 @@
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
 		</label>
-		<input type="text"	name="<?php echo $this->form_prefix; ?>address_1" id="<?php echo $this->form_prefix; ?>address_1" class="inputbox" size="48" maxlength="250" />
+		<input type="text"	name="<?php echo $this->form_prefix; ?>address_1" id="<?php echo $this->form_prefix; ?>address_1" class="inputbox" size="48" maxlength="250" data-required="<?php echo $elements['address1'][1] ? 'true' : false; ?>" />
 	</div>
 	<?php endif; ?>
 	
@@ -146,7 +146,7 @@
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
 		</label>
-		<input type="text" name="<?php echo $this->form_prefix; ?>address_2" id="<?php echo $this->form_prefix; ?>address_2" class="inputbox" size="48" maxlength="250" />
+		<input type="text" name="<?php echo $this->form_prefix; ?>address_2" id="<?php echo $this->form_prefix; ?>address_2" class="inputbox" size="48" maxlength="250" data-required="<?php echo $elements['address2'][1] ? 'true' : false; ?>" />
 	</div>
 	<?php endif; ?>
 
@@ -161,13 +161,14 @@
 		<?php
 		$url = "index.php?option=com_tienda&format=raw&controller=checkout&task=getzones&prefix={$this->form_prefix}&country_id=";
 
-		$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\' );}  );';
+		$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\' ); });';
 		if( $one_page )
 		{
 			$onchange = 'tiendaPutAjaxLoader( \''.$this->form_prefix.'zones_wrapper\' );'.
 									'tiendaDoTask( \''.$url.'\'+document.getElementById(\''.$this->form_prefix.'country_id\').value, \''.$this->form_prefix.'zones_wrapper\', \'\', \'\', false, '.
 									'function() {tiendaCheckoutAutomaticShippingRatesUpdate( \''.$this->form_prefix.'country_id\' ); '.
-									'	});';
+									'
+			});';
 		}
 
 		$attribs = array('class' => 'inputbox','size' => '1','onchange' => $onchange );
@@ -241,7 +242,7 @@
 				<?php echo TiendaGrid::required(); ?>
 			<?php endif;?>
 		</label>
-		<input name="<?php echo $this->form_prefix; ?>phone_1" id="<?php echo $this->form_prefix; ?>phone_1" class="inputbox" type="text" size="25" maxlength="250" />
+		<input name="<?php echo $this->form_prefix; ?>phone_1" id="<?php echo $this->form_prefix; ?>phone_1" class="inputbox" type="text" size="25" maxlength="250" data-required="<?php echo $elements['phone'][1] ? 'true' : false; ?>" />
 	</div>
 	<?php endif; ?>
 

@@ -7,10 +7,8 @@
 	Tienda::load('TiendaHelperImage', 'helpers.image');
 	$image = TiendaHelperImage::getLocalizedName("help_tooltip.png", Tienda::getPath('images'));
 	
-	$js_strings = array( 'COM_TIENDA_PASSWORD_VALID', 'COM_TIENDA_PASSWORD_INVALID',
-												'COM_TIENDA_PASSWORD_DO_NOT_MATCH', 'COM_TIENDA_PASSWORD_MATCH',
-												'COM_TIENDA_SUCCESS', 'COM_TIENDA_ERROR' );
-	TiendaHelperImage::addJsTranslationStrings( $js_strings );
+$js_strings = array( 'COM_TIENDA_PASSWORD_VALID', 'COM_TIENDA_PASSWORD_INVALID', 'COM_TIENDA_PASSWORD_DO_NOT_MATCH', 'COM_TIENDA_PASSWORD_MATCH', 'COM_TIENDA_SUCCESS', 'COM_TIENDA_ERROR', 'COM_TIENDA_PASSWORD_MIN_LENGTH', 'COM_TIENDA_PASSWORD_REQ_ALPHA', 'COM_TIENDA_PASSWORD_REQ_NUMBER', 'COM_TIENDA_PASSWORD_REQ_SPEC' );
+TiendaHelperImage::addJsTranslationStrings( $js_strings );
 ?>
 
 <div style="clear: both;width:100%;">

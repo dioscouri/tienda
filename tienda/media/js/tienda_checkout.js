@@ -308,11 +308,15 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
  */
 function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alpha, req_spec )
 {
+    val_errors = [];
 	var pass_ok = true;
 		
 	act_pass = $( psw ).get( 'value' );
 	if( act_pass.length < min_length ) // password is not long enough
 	{
+	    str = Joomla.JText._('COM_TIENDA_PASSWORD_MIN_LENGTH');
+	    str = str.replace('%s',min_length);
+	    val_errors.push(str);
 		pass_ok = false;
 	}
 	else
@@ -320,19 +324,34 @@ function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alp
 		if( req_num ) // checks, if the password contains a number
 		{
 			var patt_num = /\d/;
-			pass_ok = patt_num.test( act_pass );
+			has_num = patt_num.test( act_pass );
+			if (!has_num) {
+			    str = Joomla.JText._('COM_TIENDA_PASSWORD_REQ_NUMBER');
+			    val_errors.push(str);
+			    pass_ok = false;
+			}
 		}
 		
 		if( pass_ok && req_alpha ) // checks, if the password contains an alphabetical character
 		{
 			var patt_alpha = /[a-zA-Z]/;
-			pass_ok = patt_alpha.test( act_pass );
+			has_alpha = patt_alpha.test( act_pass );
+            if (!has_alpha) {
+                str = Joomla.JText._('COM_TIENDA_PASSWORD_REQ_ALPHA');
+                val_errors.push(str);
+                pass_ok = false;
+            }
 		}
 
 		if( pass_ok && req_spec ) // checks, if the password contains a special character ?!@#$%^&*{}[]()-=+.,:\\/\"<>'_;|
 		{
 			var patt_spec = /[\\/\|_\-\+=\.\"':;\[\]~<>!@?#$%\^&\*()]/;
-			pass_ok = patt_spec.test( act_pass );
+			has_special = patt_spec.test( act_pass );
+            if (!has_special) {
+                str = Joomla.JText._('COM_TIENDA_PASSWORD_REQ_SPEC');
+                val_errors.push(str);
+                pass_ok = false;
+            }
 		}
 	}
 
@@ -347,7 +366,9 @@ function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alp
 	{
 		val_img 	= 'remove_16.png';
 		val_alt	 	= Joomla.JText._( 'COM_TIENDA_ERROR' );
+		val_errors_string = val_errors.join(".\n");
 		val_text 	= Joomla.JText._( 'COM_TIENDA_PASSWORD_INVALID' );
+		val_text    = val_text + ' ' + val_errors_string;
 		val_class	= 'validation-fail';
 	}
 
