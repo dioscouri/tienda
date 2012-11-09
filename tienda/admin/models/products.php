@@ -253,6 +253,7 @@ class TiendaModelProducts extends TiendaModelEav
             $key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $filter_description ) ) ) . '%' );
             $query->where( 'LOWER(tbl.product_description) LIKE ' . $key );
         }
+
     }
 
     protected function _buildQueryJoins( &$query )
@@ -296,7 +297,7 @@ class TiendaModelProducts extends TiendaModelEav
         }
 
         $field[] = "
-        (
+       (
         SELECT
         prices.product_price
         FROM
