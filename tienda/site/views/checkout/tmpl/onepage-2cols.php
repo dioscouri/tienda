@@ -366,7 +366,7 @@ window.addEvent('domready', function() {
 <?php if( $this->showShipping  ):?>	
 	tiendaShowHideDiv( 'shipping_input_addressForm' );
 	<?php if( !@$this->shipping_address->address_id ): ?>
-		$( 'sameasbilling' ).addEvent( 'change', function() { tiendaCopyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm ) } );
+	document.id( 'sameasbilling' ).addEvent( 'change', function() { tiendaCopyBillingAdToShippingAd( document.getElementById( 'sameasbilling' ), document.adminForm ) } );
 	<?php endif; ?>
 <?php endif; ?>
 
