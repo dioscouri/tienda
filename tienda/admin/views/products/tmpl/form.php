@@ -1,10 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'uploadify.css', 'media/com_tienda/css/'); ?>
+
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'tienda_admin.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('script', 'Stickman.MultiUpload.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('script', 'swfobject.js', 'media/com_tienda/js/uploadify/'); ?>
-<?php JHTML::_('script', 'jquery.uploadify.v2.1.4.min.js', 'media/com_tienda/js/uploadify/'); ?>
 <?php JHTML::_('behavior.tooltip'); ?>
 
 <?php $form = @$this->form; ?>
@@ -386,8 +383,10 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </td>
                         <td>
                             <?php Tienda::load( 'TiendaHelperCategory', 'helpers.category' ); ?>
-                            <?php Tienda::load( 'TiendaUrl', 'library.url' ); ?>
-                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_SELECT_CATEGORIES')); ?>]
+                            <?php Tienda::load( 'TiendaUrl', 'library.url' ); 
+								 $options = array('update' => true ); 
+							 ?>
+                            [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=selectcategories&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_SELECT_CATEGORIES'), $options); ?>]
                             <?php $categories = $helper_product->getCategories( $row->product_id ); ?>
                             <div id="current_categories">
                                 <?php foreach (@$categories as $category) : ?>
@@ -453,13 +452,10 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
                         </label>
                     </td>
                     <td>
-                        <div class="multiupload" id="oldUploader"> 
-                        	<input name="product_full_image_new" type="file" size="40" />
-                        </div>
+                        
                         <div id="uploadifyImage">
-                        	<input id="uploadify_file_upload" type="file" name="uploadify_image" style="display: none;" width="120" height="30">
-							<div id="uploadify-queue" class="uploadifyQueue"></div>
-							<div id="uploadify-status-message"></div>
+                        	<?php echo  DSCImage::uploadifyElement('uploadify_file_upload','uploadify_image')?>
+                 
                         </div>
                         <div class="note well" style="clear:both">
 	                    	<?php echo JText::_('COM_TIENDA_UPLOAD_ZIP_IMAGES_MESSAGE'); ?>
@@ -1402,87 +1398,29 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 
 <?php $multiscript = Tienda::getInstance()->get( 'multiupload_script', 0 ); ?>
 <script type="text/javascript">
-window.addEvent('domready', function(){
-<?php switch( $multiscript ) { 
-	case '0' : ?>	
-	// Check flash version!
-	var flash = swfobject.getFlashPlayerVersion();
-	if(flash.major < 9 || $('product_id').value == 0 )
-	{
-		// Use normal uploader
-		$('oldUploader').setStyle('display', 'block');
-		$('uploadifyImage').setStyle('display', 'none');
-		new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
-	}
-	else
-	{
-		// Use flash uploader
-		$('uploadifyImage').setStyle('display', 'block');
-		$('oldUploader').setStyle('display', 'none');
-	
-	// Uploadify!
-    jQuery('#uploadify_file_upload').uploadify({
-        'uploader': '<?php echo Tienda::getUrl("js"); ?>uploadify/uploadify.swf',
-        'script': '<?php echo JURI::getInstance()->root(true); ?>/index.php',
-        'cancelImg': '<?php echo Tienda::getUrl("images"); ?>cancel.png',
-        'multi': true,
-        'auto': true,
-        'fileDataName': 'uploadify_image',
-        'fileExt': '*.jpg;*.gif;*.png',
-        'fileDesc': 'Image Files (.JPG, .GIF, .PNG)',
-        'queueID': 'uploadify-queue',
-        'method': 'POST',
-        'scriptData': {'option':'com_tienda','view':'products','task':'uploadifyImage','format':'raw','product_id': '<?php echo @$row->product_id ?>'},
-        'removeCompleted': false,
-        'buttonImage': false,
-        'onSelectOnce': function (event, data) {
-            jQuery('#uploadify-status-message').text(data.filesSelected + ' files have been added to the queue.');
-        },
-        'onAllComplete': function (event, data) {
-            jQuery('#uploadify-status-message').text(data.filesUploaded + ' files uploaded, ' + data.errors + ' errors.');
-            tiendaNewModal('<?php echo JText::_('COM_TIENDA_SAVING_THE_PRODUCT'); ?>');
-            submitbutton('apply');
-        }
-    });
-    }
- <?php break; ?>
-<?php	case 'multiupload' : ?>	
-		$('oldUploader').setStyle('display', 'block');
-		$('uploadifyImage').setStyle('display', 'none');
-		new MultiUpload( $( 'adminForm' ).product_full_image_new, 0, '[{id}]', false, true );
- <?php break; ?>
-<?php	case 'uploadify' : ?>	
-		// Use flash uploader
-		$('uploadifyImage').setStyle('display', 'block');
-		$('oldUploader').setStyle('display', 'none');
-	
-	// Uploadify!
-    jQuery('#uploadify_file_upload').uploadify({
-        'uploader': '<?php echo Tienda::getUrl("js"); ?>uploadify/uploadify.swf',
-        'script': '<?php echo JURI::getInstance()->root(true); ?>/index.php',
-        'cancelImg': '<?php echo Tienda::getUrl("images"); ?>cancel.png',
-        'multi': true,
-        'auto': true,
-        'fileDataName': 'uploadify_image',
-        'fileExt': '*.jpg;*.gif;*.png',
-        'fileDesc': 'Image Files (.JPG, .GIF, .PNG)',
-        'queueID': 'uploadify-queue',
-        'method': 'POST',
-        'scriptData': {'option':'com_tienda','view':'products','task':'uploadifyImage','format':'raw','product_id': '<?php echo @$row->product_id ?>'},
-        'removeCompleted': false,
-        'buttonImage': false,
-        'onSelectOnce': function (event, data) {
-            jQuery('#uploadify-status-message').text(data.filesSelected + ' files have been added to the queue.');
-        },
-        'onAllComplete': function (event, data) {
-            jQuery('#uploadify-status-message').text(data.filesUploaded + ' files uploaded, ' + data.errors + ' errors.');
-            tiendaNewModal('<?php echo JText::_('COM_TIENDA_SAVING_THE_PRODUCT'); ?>');
-            submitbutton('apply');
-        }
-    });
- <?php break; ?>
- <?php } ?>
-});
+<?php $timestamp = time();?>
+		jQuery(function() {
+			jQuery('#uploadify_file_upload').uploadifive({
+				'auto'             : false,
+				'method'   : 'post',
+				'formData'         : {
+									  
+									   'option':'com_tienda',
+									   'view':'products',
+									   'task':'uploadifyImage',
+									   'format':'raw',
+									   'product_id': '<?php echo @$row->product_id ?>'
+
+				                     },
+				'queueID'          : 'queue',
+				'uploadScript'     : '<?php echo JURI::getInstance()->root(true); ?>/index.php',
+				'onUploadComplete' : function(file, data) { console.log(data); }
+			});
+		});
+
+
+
+
 
 // showing/hiding elementes related to pro-rated payments
 function showProRatedFields()
