@@ -210,7 +210,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null )
+	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null, $disabled = array() )
  	{
 		// Build list
         $list = array();
@@ -247,8 +247,14 @@ class TiendaSelect extends DSCSelect
         	{
         		$level = 1;
         	}
-        	$list[] =  self::option( $item->category_id, str_repeat( '.&nbsp;', $level-1 ).JText::_($item->name), 'category_id', 'category_name' );
-        }
+			$disable = false;
+			if(in_array($item->category_id,$disabled)) {
+			$disable = true;	
+			}
+			
+        	$list[] =  self::option( $item->category_id, str_repeat( '.&nbsp;', $level-1 ).JText::_($item->name), 'category_id', 'category_name', $disable );
+       		
+	    }
 		return self::genericlist($list, $name, $attribs, 'category_id', 'category_name', $selected, $idtag );
  	}
 
