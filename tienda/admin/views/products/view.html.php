@@ -36,6 +36,7 @@ class TiendaViewProducts extends TiendaViewBase
             case "form_relations":              
             case "form":
                 JRequest::setVar('hidemainmenu', '1');
+				DSCImage::loadUploadify();
                 $this->_form($tpl);
               break;
             case "default":

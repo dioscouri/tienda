@@ -14,21 +14,12 @@
 
 	<?php echo TiendaGrid::pagetooltip( JRequest::getVar('view') ); ?>
 	
-    <table>
-        <tr>
-            <td align="left" width="100%">
-            	<?php
-                	$button = "<input type='button' class='btn btn-success' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />";
+   
+    <?php $button = "<input type='button' class='btn btn-success pull-left' value='".JText::_('COM_TIENDA_CREATE_NEW_USER')."' />";
                 	echo TiendaUrl::popup( $create_user_link, $button, array('update' => true) );
                 ?>
-            </td>
-            <td nowrap="nowrap">
-                <input type="text" name="filter" value="<?php echo @$state->filter; ?>" />
-                <button class="btn btn-primary" onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
-                <button class="btn btn-danger" onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
-            </td>
-        </tr>
-    </table>
+     <?php echo TiendaGrid::searchform(@$state->filter,JText::_('COM_TIENDA_SEARCH'), JText::_('COM_TIENDA_RESET') ) ?>
+	
 
 	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
