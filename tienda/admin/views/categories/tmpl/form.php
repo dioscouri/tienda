@@ -41,7 +41,7 @@
     						</label>
     					</td>
     					<td>
-    						<?php $disabled = array(); $disabled[] = $row->category_id; echo TiendaSelect::category(@$row->parent_id, 'parent_id', '', 'parent_id', false, true, 'Select Category', 'COM_TIENDA_NO_PARENT' , null , $disabled  ); ?>
+    						<?php $disabled = array( @$row->category_id ); echo TiendaSelect::category(@$row->parent_id, 'parent_id', '', 'parent_id', false, true, 'Select Category', 'COM_TIENDA_NO_PARENT' , null , $disabled  ); ?>
     					</td>
     				</tr>
     				<tr>
