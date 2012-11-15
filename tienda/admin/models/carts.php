@@ -131,7 +131,14 @@ class TiendaModelCarts extends TiendaModelEav
 		$query->select( $this->getState( 'select', 'tbl.*' ) );
 		$query->select( $field );
 	}
-
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+    {
+        $dispatcher = JDispatcher::getInstance( );
+        $dispatcher->trigger( 'onPrepare' . $this->getTable( )->get( '_suffix' ), array(
+                &$item
+        ) );
+    }
+	
 	public function getList($refresh = false, $getEav = true, $options = array())
 	{
 		static $pa, $pao;
