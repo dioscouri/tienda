@@ -792,13 +792,13 @@ COLLATE = utf8_general_ci;
 -- Table `#__tienda_orderhistory`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_orderhistory` (
-  `order_history_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `orderhistory_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `order_id` INT(11) NOT NULL DEFAULT '0' ,
   `order_state_id` INT(11) NOT NULL ,
   `date_added` DATETIME NOT NULL ,
   `notify_customer` INT(1) NULL DEFAULT '0' ,
   `comments` TEXT NULL DEFAULT NULL ,
-  PRIMARY KEY (`order_history_id`) ,
+  PRIMARY KEY (`orderhistory_id`) ,
   INDEX `fk_OrderState_OrderHistory` (`order_state_id` ASC) ,
   INDEX `fk_Orders_OrderHistory` (`order_id` ASC) ,
   CONSTRAINT `fk_OrderState_OrderHistory`

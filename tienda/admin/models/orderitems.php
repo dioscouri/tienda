@@ -34,8 +34,8 @@ class TiendaModelOrderItems extends TiendaModelEav
         $filter_subscriptions_datetype = $this->getState('filter_subscriptions_datetype');
         $filter_orderstates = $this->getState('filter_orderstates');
         $filter_paymentstatus = $this->getState('filter_paymentstatus') ;
-				$filter_id_from = $this->getState( 'filter_id_from' );
-				$filter_id_to = $this->getState( 'filter_id_to' );
+        $filter_id_from = $this->getState( 'filter_id_from' );
+        $filter_id_to = $this->getState( 'filter_id_to' );
         
         if ($filter)
        	{

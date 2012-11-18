@@ -18,6 +18,7 @@ class TiendaModelOrderInfo extends TiendaModelBase
     protected function _buildQueryWhere(&$query)
     {
        	$filter     = $this->getState('filter');
+       	$filter_orderid     = $this->getState('filter_orderid');
 
        	if ($filter) 
        	{
@@ -27,6 +28,11 @@ class TiendaModelOrderInfo extends TiendaModelBase
 			$where[] = 'LOWER(tbl.orderinfo_id) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');
+       	}
+       	
+       	if ($filter_orderid)
+       	{
+       	    $query->where('tbl.order_id = '.$this->_db->Quote($filter_orderid));
        	}
     }
         	

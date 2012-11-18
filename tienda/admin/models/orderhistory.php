@@ -26,7 +26,7 @@ class TiendaModelOrderHistory extends TiendaModelBase
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
 
 			$where = array();
-			$where[] = 'LOWER(tbl.order_history_id) LIKE '.$key;
+			$where[] = 'LOWER(tbl.orderhistory_id) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
