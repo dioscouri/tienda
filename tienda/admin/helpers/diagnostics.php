@@ -62,6 +62,7 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	    $functions = array();
 	    $functions[] = 'checkEAVAttributesFormatStrftime';
 	    $functions[] = 'checkEAVAttributesFormatDate';
+	    $functions[] = 'checkOrderHistoryID';
 	    //$functions[] = 'createTableEAVValuesTime'; // NO NEW FEATURES YET
 	    
 	    foreach ($functions as $function)
@@ -3746,6 +3747,33 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
         ';
 	
 	    if ($this->createTable( $table, $definition ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	private function checkOrderHistoryID()
+	{
+		if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
+	    {
+	        return true;
+	    }
+	
+	    $table = '#__tienda_orderhistory';
+	    $definitions = array();
+	    $fields = array();
+	
+	    $fields[] = "order_history_id";
+	    $newnames["order_history_id"] = "orderhistory_id";
+	    $definitions["order_history_id"] = "INT(11) NOT NULL AUTO_INCREMENT";
+	
+	    if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 	    {
 	        $this->setCompleted( __FUNCTION__ );
 	        return true;

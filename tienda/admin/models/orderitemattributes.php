@@ -30,6 +30,7 @@ class TiendaModelOrderItemAttributes extends TiendaModelBase
 						
 			$query->where('('.implode(' OR ', $where).')');
        	}
+       	
         if ($filter_orderitemid)
         {
             $query->where('tbl.orderitem_id = '.$filter_orderitemid);

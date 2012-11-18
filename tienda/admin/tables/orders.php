@@ -114,7 +114,7 @@ class TiendaTableOrders extends TiendaTable
 			$this->modified_date = $date->toMysql();
 		}
 		
-		return true;
+		return parent::check();
 	}
 
   function store($updateNulls=false)
@@ -1127,73 +1127,75 @@ class TiendaTableOrders extends TiendaTable
         return $this->_recurringItem;
     }
     
-    function delete( $oid=null )
+    public function delete( $oid=null )
     {
+        $delete = array();
+        
         $k = $this->_tbl_key;
         if ($oid) {
             $this->$k = intval( $oid );
         }
         
         // this should all be a transaction...
+        // Delete all the orderitems, orderpayments, ordershipping, etc
         
-        // Delete all the orderitems, orderpayments, ordershipping, etc)
-        $query = "SELECT `orderitem_id` FROM #__tienda_orderitems WHERE `order_id` = '{$this->$k}';";
-        $this->_db->setQuery( $query );
-        if ($list = $this->_db->loadResultArray())
+        $delete['orderitems'] = $this->deleteItems( 'items', $oid );
+        $delete['orderpayments'] = $this->deleteItems( 'payments', $oid );
+        $delete['orderinfo'] = $this->deleteItems( 'info', $oid );
+        $delete['ordershippings'] = $this->deleteItems( 'shippings', $oid );
+        $delete['orderhistory'] = $this->deleteItems( 'history', $oid );
+        $delete['ordertaxclasses'] = $this->deleteItems( 'taxclasses', $oid );
+        $delete['ordertaxrates'] = $this->deleteItems( 'taxrates', $oid );
+        $delete['ordercoupons'] = $this->deleteItems( 'coupons', $oid );
+        
+        $delete['order'] = parent::delete( $oid );
+
+        $this->deleteResults = $delete;
+        
+        return parent::check();
+    }
+    
+    public function deleteItems( $type, $oid=null )
+    {
+        $failed = false;
+        
+        $k = $this->_tbl_key;
+        if ($oid) {
+            $this->$k = intval( $oid );
+        }
+        
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Order'.$type, 'TiendaModel' );
+        $model->setState('filter_orderid', $this->$k );
+        if ($items = $model->getList())
         {
-            $id_csv = implode("', '", $list);
-            $query = "DELETE FROM #__tienda_orderitemattributes WHERE `orderitem_id` IN ('$id_csv');";
-            $this->_db->setQuery( $query );
-            if (!$this->_db->query())
+            $table = $model->getTable();
+            $table_pk = $table->getKeyName();
+            foreach ($items as $item)
             {
-                // track
-                JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+                if (!$table->delete( $item->$table_pk ))
+                {
+                    $errors = $table->getErrors();
+                    if (!empty($errors))
+                    {
+                        foreach ($errors as $key=>$error)
+                        {
+                            $error = trim( $error );
+                            if (!empty($error))
+                            {
+                                $failed = true;
+                                $this->setError($error);
+                            }
+                        }
+                    }
+                }
             }
         }
         
-        $query = "DELETE FROM #__tienda_orderitems WHERE `order_id` = '{$this->$k}';";
-        $this->_db->setQuery( $query );
-        if (!$this->_db->query())
-        {
-            // track
-            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
+        if ($failed) {
+            return false;
         }
-        
-        $query = "DELETE FROM #__tienda_orderpayments WHERE `order_id` = '{$this->$k}';";
-        $this->_db->setQuery( $query );
-        if (!$this->_db->query())
-        {
-            // track
-            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
-        }
-        
-        $query = "DELETE FROM #__tienda_orderinfo WHERE `order_id` = '{$this->$k}';";
-        $this->_db->setQuery( $query );
-        if (!$this->_db->query())
-        {
-            // track
-            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
-        }
-        
-        $query = "DELETE FROM #__tienda_ordershippings WHERE `order_id` = '{$this->$k}';";
-        $this->_db->setQuery( $query );
-        if (!$this->_db->query())
-        {
-            // track
-            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
-        }
-        
-        $query = "DELETE FROM #__tienda_orderhistory WHERE `order_id` = '{$this->$k}';";
-        $this->_db->setQuery( $query );
-        if (!$this->_db->query())
-        {
-            // track
-            JFactory::getApplication()->enqueueMessage( $this->_db->getErrorMsg() );
-        }
-            
-        $return = parent::delete( $oid );
-        
-        return $return;
+        return true;
     }
     
 	 /**

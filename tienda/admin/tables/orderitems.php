@@ -28,7 +28,7 @@ class TiendaTableOrderItems extends TiendaTableEav
 		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );	
 	}
 	
-	function check()
+	public function check()
 	{
         $nullDate	= $this->_db->getNullDate();
 		if (empty($this->modified_date) || $this->modified_date == $nullDate)
@@ -47,9 +47,47 @@ class TiendaTableOrderItems extends TiendaTableEav
 		return true;
 	}
 	
-	function store( $updateNulls=false )
+	public function store( $updateNulls=false )
 	{
 		$this->_linked_table_key = $this->product_id;
 		return parent::store($updateNulls);
+	}
+	
+	public function delete( $oid=null )
+	{
+	    if ($attributes = $this->getAttributes( $oid )) 
+	    {
+	        DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+	        $table = DSCTable::getInstance('OrderItemAttributes', 'TiendaTable');
+	        foreach ($attributes as $attribute) 
+	        {
+	            if (!$table->delete( $attribute->orderitemattribute_id )) 
+	            {
+	                $this->setError( $table->getError() );
+	            }
+	        }
+	    }
+	    
+	    $deleteItem = parent::delete( $oid );
+	    
+	    return parent::check();
+	}
+	
+	public function getAttributes( $oid=null )
+	{
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	    
+	    if (empty($this->$k)) 
+	    {
+	        return array();
+	    }
+	    
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	    $model = DSCModel::getInstance( 'OrderitemAttributes', 'TiendaModel' );
+	    $model->setState('filter_orderitemid', $this->$k );
+	    return $model->getList();
 	}
 }

@@ -443,9 +443,9 @@ DEFAULT CHARACTER SET = utf8;
 
 INSERT IGNORE INTO `#__tienda_currencies` (`currency_id`, `currency_name`, `currency_code`, `symbol_left`, `symbol_right`, `currency_decimals`, `decimal_separator`, `thousands_separator`, `created_date`, `modified_date`, `currency_enabled`) VALUES
 (1, 'US Dollar', 'USD', '$', '', 2, '.', ',', NOW(), NOW(), 1),
-(2, 'Japanese Yen', 'JPY', '¥', '', 3, '.', ',', NOW(), NOW(), 1),
-(3, 'Euro', 'EUR', '€', '', 2, '.', ',', NOW(), NOW(), 1),
-(4, 'British Pound', 'GBP', '£', '', 2, '.', ',', NOW(), NOW(), 1);
+(2, 'Japanese Yen', 'JPY', 'ï¿½', '', 3, '.', ',', NOW(), NOW(), 1),
+(3, 'Euro', 'EUR', 'ï¿½', '', 2, '.', ',', NOW(), NOW(), 1),
+(4, 'British Pound', 'GBP', 'ï¿½', '', 2, '.', ',', NOW(), NOW(), 1);
 
 
 -- -----------------------------------------------------
@@ -529,13 +529,13 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `#__tienda_orderhistory`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `#__tienda_orderhistory` (
-  `order_history_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `orderhistory_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `order_id` INT(11) NOT NULL DEFAULT '0' ,
   `order_state_id` INT(11) NOT NULL ,
   `date_added` DATETIME NOT NULL ,
   `notify_customer` INT(1) NULL DEFAULT '0' ,
   `comments` TEXT NULL DEFAULT NULL ,
-  PRIMARY KEY (`order_history_id`) ,
+  PRIMARY KEY (`orderhistory_id`) ,
   INDEX `fk_OrderState_OrderHistory` (`order_state_id` ASC) ,
   INDEX `fk_Orders_OrderHistory` (`order_id` ASC)
 )

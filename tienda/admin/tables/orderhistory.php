@@ -17,7 +17,7 @@ class TiendaTableOrderHistory extends TiendaTable
 {
 	function TiendaTableOrderHistory( &$db ) 
 	{
-		$tbl_key 	= 'order_history_id';
+		$tbl_key 	= 'orderhistory_id';
 		$tbl_suffix = 'orderhistory';
 		$this->set( '_suffix', $tbl_suffix );
 		$name 		= 'tienda';
