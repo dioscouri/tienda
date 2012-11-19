@@ -25,7 +25,7 @@ JFilterOutput::objectHTMLSafe( $row );
 					</td>
 				</tr>
                 <tr>
-                    <td style="width: 100px; text-align: right;" class="key">
+                    <td style="width: 100px;" class="key">
                         <label for="enabled">
                         <?php echo JText::_('COM_TIENDA_ENABLED'); ?>:
                         </label>
@@ -99,7 +99,7 @@ JFilterOutput::objectHTMLSafe( $row );
 						</label>
 					</td>
 					<td>
-						<?php echo TiendaSelect::booleans(@$row->eavattribute_required, 'eavattribute_required') ?>
+						<?php echo TiendaSelect::btbooleanlist( 'eavattribute_required', '', @$row->eavattribute_required ); ?>
 					</td>
 				</tr>
                 <tr>
