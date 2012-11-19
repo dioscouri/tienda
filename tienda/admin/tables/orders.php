@@ -1303,7 +1303,7 @@ class TiendaTableOrders extends TiendaTable
        
     }
     
-	/*
+	/**
      * Calculates the discounted value of a per_product coupon
      * 
      * @param	$product_id		the product id

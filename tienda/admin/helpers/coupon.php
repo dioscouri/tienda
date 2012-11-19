@@ -146,5 +146,33 @@ class TiendaHelperCoupon extends TiendaHelperBase
 		return $db->loadResultArray();
 
 	}
+	
+	/**
+	 * One a new order,
+	 * increase the uses count on all the ordercoupons.
+	 *
+	 * @param $order_id
+	 * @return unknown_type
+	 */
+	public function processOrder( $order_id )
+	{
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+	    $model = DSCModel::getInstance( 'Ordercoupons', 'TiendaModel' );
+	    $model->setState( 'filter_orderid', $order_id );
+	    if ($items = $model->getList()) 
+	    {
+	        DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+	        $coupon = DSCTable::getInstance( 'Coupons', 'TiendaTable' );
+	        foreach ($items as $item)
+	        {
+	            $coupon->load( array( 'coupon_id'=>$item->coupon_id ) );
+	            $coupon->coupon_uses = $coupon->coupon_uses + 1;
+	            if (!$coupon->save())
+	            {
+	                //JFactory::getApplication()->enqueueMessage( $coupon->getError() );
+	            }
+	        }
+	    }
+	}
 
 }

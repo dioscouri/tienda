@@ -15,6 +15,8 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableOrderCoupons extends TiendaTable
 {
+    public $_increase_coupon_uses = true;
+    
 	function TiendaTableOrderCoupons ( &$db )
 	{
 		$tbl_key 	= 'ordercoupon_id';
@@ -35,14 +37,18 @@ class TiendaTableOrderCoupons extends TiendaTable
 	{
 	    if ($return = parent::save($src, $orderingFilter, $ignore))
 	    {
-            $coupon = JTable::getInstance( 'Coupons', 'TiendaTable' );
-            $coupon->load( array( 'coupon_id'=>$this->coupon_id ) );
-            $coupon->coupon_uses = $coupon->coupon_uses + 1;
-            if (!$coupon->save())
-            {
-                JFactory::getApplication()->enqueueMessage( $coupon->getError() );
-            }
+	        if ($this->_increase_coupon_uses) 
+	        {
+	            $coupon = JTable::getInstance( 'Coupons', 'TiendaTable' );
+	            $coupon->load( array( 'coupon_id'=>$this->coupon_id ) );
+	            $coupon->coupon_uses = $coupon->coupon_uses + 1;
+	            if (!$coupon->save())
+	            {
+	                JFactory::getApplication()->enqueueMessage( $coupon->getError() );
+	            }	            
+	        }
 	    }
+	    
 	    return $return;
 	}
 }

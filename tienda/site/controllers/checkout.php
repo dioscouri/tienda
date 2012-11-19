@@ -3350,6 +3350,7 @@ class TiendaControllerCheckout extends TiendaController
         $ordercoupons = $order->getOrderCoupons();
         foreach ($ordercoupons as $ordercoupon)
         {
+            $ordercoupon->_increase_coupon_uses = false;
             $ordercoupon->order_id = $order->order_id;
             if (!$ordercoupon->save())
             {

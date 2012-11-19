@@ -388,7 +388,11 @@ class TiendaHelperOrder extends TiendaHelperBase
 		// do Ambra Subscriptions Integration processes
 		$helper = TiendaHelperBase::getInstance( 'Ambrasubs' );
 		$helper->processOrder( $order_id );
-
+		
+		// increase the hit counts for coupons in the order
+		$helper = TiendaHelperBase::getInstance( 'Coupon' );
+		$helper->processOrder( $order_id );
+		
 		if ($error)
 		{
 			$this->setError( implode( '<br/>', $errors ) );
