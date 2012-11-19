@@ -632,3 +632,9 @@ function tiendaGetFormInputData(form) {
 	}
 	return str;
 }
+
+function tiendaDeleteGrayDivs() {
+    $$('.tiendaAjaxGrayDiv').each(function(el) {
+        el.destroy();
+    });
+}

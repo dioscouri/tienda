@@ -124,7 +124,10 @@ function tiendaDisableShippingAddressControls(checkbox, form)
 {
     
 	var disable = false;
-    if (checkbox.checked){disable = true;tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form );}  
+    if (checkbox.checked){
+        disable = true;
+        tiendaGetShippingRates( 'onCheckoutShipping_wrapper', form );
+    }
     
     var fields = "address_name;address_id;title;first_name;middle_name;last_name;company;tax_number;address_1;address_2;city;country_id;zone_id;postal_code;phone_1;phone_2;fax";
     var fieldList = fields.split(';');
@@ -158,6 +161,8 @@ function tiendaDisableShippingAddressControls(checkbox, form)
             }
         }
     }
+    
+    tiendaDeleteGrayDivs();
 }
 
 function tiendaManageShippingRates()

@@ -830,7 +830,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 
 		if ($error)
 		{
@@ -957,7 +958,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 
 		if ($error)
 		{
@@ -1076,7 +1078,8 @@ class TiendaControllerProducts extends TiendaController
 			}
 		}
 		
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 
 		if ($error)
 		{
@@ -1198,7 +1201,8 @@ class TiendaControllerProducts extends TiendaController
 		}
 		$row->reorder();
 		
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 
 		if ($error)
 		{
@@ -1408,7 +1412,8 @@ class TiendaControllerProducts extends TiendaController
 		}
 		$row->reorder();
 
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 		
 		if ($error)
 		{
@@ -1462,7 +1467,8 @@ class TiendaControllerProducts extends TiendaController
 		}
 		$row->reorder();
 		
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 
 		if ($error)
 		{
@@ -1693,7 +1699,8 @@ class TiendaControllerProducts extends TiendaController
 		}
 		$row->reorder();
 		
-		$model->clearCache();
+		$productModel = $this->getModel('products');
+		$productModel->clearCache();
 
 		if ($error)
 		{

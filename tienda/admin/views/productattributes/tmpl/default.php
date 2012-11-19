@@ -106,7 +106,7 @@
 					</div>
 				</td>
 				<td style="text-align: center;">
-					<input type="text" name="ordering[<?php echo $item->productattribute_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
+					<input type="text" name="ordering[<?php echo $item->productattribute_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" class="input-tiny" />
 				</td>
 				<td style="text-align: center;">
 					[<a href="index.php?option=com_tienda&controller=productattributes&task=delete&cid[]=<?php echo $item->productattribute_id; ?>&return=<?php echo base64_encode("index.php?option=com_tienda&controller=products&task=setattributes&id={$row->product_id}&tmpl=component"); ?>">
