@@ -206,9 +206,9 @@ class TiendaHelperUser extends DSCHelperUser
 		$model->setId( $order_id );
 		$order = $model->getItem();
 		if( $order->user_id < Tienda::getGuestIdStart() ) {
-			
+			//load language from frontend so it has email  language strings
 			$lang = JFactory::getLanguage();
-			$lang->load('com_tienda', JPATH_ADMINISTRATOR);
+			$lang->load('com_tienda', JPATH_SITE);
 		
 			$details = array();
 			$details['name'] = $order->billing_first_name .' '. $order->billing_last_name;
