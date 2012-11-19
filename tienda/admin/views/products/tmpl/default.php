@@ -77,10 +77,10 @@
                 <th>
                 	<div class="range">
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input  type="text"id="filter_price_from" name="filter_price_from" value="<?php echo @$state->filter_price_from; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('COM_TIENDA_FROM'); ?>:</span> <input  type="text"id="filter_price_from" name="filter_price_from" value="<?php echo @$state->filter_price_from; ?>" size="5" class="input input-tiny" />
 	                	</div>
 	                	<div class="rangeline">
-	                		<span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input type="text" id="filter_price_to" name="filter_price_to" value="<?php echo @$state->filter_price_to; ?>" size="5" class="input" />
+	                		<span class="label"><?php echo JText::_('COM_TIENDA_TO'); ?>:</span> <input type="text" id="filter_price_to" name="filter_price_to" value="<?php echo @$state->filter_price_to; ?>" size="5" class="input input-tiny" />
 	                	</div>
                 	</div>
                 </th>

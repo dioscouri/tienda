@@ -1,8 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$this->state; ?>
-<?php $form = @@$this->form; ?>
-<?php $items = @@$this->items; ?>
+<?php $form = @$this->form; ?>
+<?php $items = @$this->items; ?>
 
 <?php DSC::loadHighcharts(); ?>
 
