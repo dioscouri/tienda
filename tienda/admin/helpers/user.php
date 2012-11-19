@@ -125,70 +125,7 @@ class TiendaHelperUser extends DSCHelperUser
             return $result;
 	}
 
-	/**
-	 * Returns yes/no
-	 * @param mixed Boolean
-	 * @param mixed Boolean
-	 * @return array
-	 */
-/*	function createNewUser( $details, $guest=false )
-	{
-		$success = false;
-		// Get required system objects
-		$user       = clone(JFactory::getUser());
-		$config     = JFactory::getConfig();
-		$authorize  = JFactory::getACL();
-
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
-
-		// Initialize new usertype setting
-		$newUsertype = $usersConfig->get( 'new_usertype' );
-		if (!$newUsertype) { $newUsertype = 'Registered'; }
-
-		// Bind the post array to the user object
-		if (!$user->bind( $details ))
-		{
-			$this->setError( $user->getError() );
-			return false;
-		}
-
-		if (empty($user->password))
-		{
-			jimport('joomla.user.helper');
-			$user->password = JUserHelper::genRandomPassword();
-		}
-
-		// Set some initial user values
-		$user->set('id', 0);
-		$user->set('usertype', $newUsertype);
-		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
-
-		$date = JFactory::getDate();
-		$user->set('registerDate', $date->toMySQL());
-
-		// we disable useractivation for auto-created users
-		$useractivation = '0';
-		if ($useractivation == '1') {
-			jimport('joomla.user.helper');
-			$user->set('activation', md5( JUserHelper::genRandomPassword() ) );
-			$user->set('block', '0');
-		}
-
-		// If there was an error with registration, set the message and display form
-		if ( !$user->save() ) {
-			$msg->message = $user->getError();
-			return $success;
-		}
-
-		if(!Tienda::getInstance()->get('disable_guest_signup_email'))
-		{
-			// Send registration confirmation mail
-			TiendaHelperUser::_sendMail( $user, $details, $useractivation, $guest );
-		}
-
-		return $user;
-	}*/
-
+	
 	/**
 	 * Returns yes/no
 	 * @param object
@@ -251,7 +188,7 @@ class TiendaHelperUser extends DSCHelperUser
 			$mailfrom = $rows[0]->email;
 		}
 
-		$success = TiendaHelperUser::_doMail($mailfrom, $fromname, $email, $subject, $message);
+		$success = TiendaHelperUser::doMail($mailfrom, $fromname, $email, $subject, $message);
 
 		return $success;
 	}
@@ -268,8 +205,34 @@ class TiendaHelperUser extends DSCHelperUser
 		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$order = $model->getItem();
-		if( $order->user_id < Tienda::getGuestIdStart() )
-			return;
+		if( $order->user_id < Tienda::getGuestIdStart() ) {
+			
+			$lang = JFactory::getLanguage();
+			$lang->load('com_tienda', JPATH_ADMINISTRATOR);
+		
+			$details = array();
+			$details['name'] = $order->billing_first_name .' '. $order->billing_last_name;
+			$details['username'] = $order->userinfo_email;
+			$details['email'] = $order->userinfo_email;
+			jimport('joomla.user.helper');
+			$details['password'] = JUserHelper::genRandomPassword();
+			$details['password2'] = $details['password'] ;
+		
+		
+		
+		 $user = TiendaHelperUser::createNewUser($details);
+		 $order->user_id = $user->id;
+		 //update the order to the new user
+		 $table = $model->getTable();
+		 $table->load($order->order_id);
+		 $table->user_id = $user->id;
+		 $table -> save();
+		 
+		 $model->clearCache();
+		 //
+		 
+		}
+			
 		
 		// find the products in the order that are integrated
 		foreach ($order->orderitems as $orderitem)
