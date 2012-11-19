@@ -466,6 +466,44 @@ class Tienda extends DSC
 		
 		return $root['prefix'].$root['path'].'/';
 	}
+	
+	/**
+	 * Returns the result of the named function if it exists,
+	 * otherwise returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $default   The default value.
+	 *
+	 * @return  mixed    The value of the property.
+	 *
+	 * @since   11.1
+	 *
+	 * @see     getProperties()
+	 */
+	public function get($property, $default = null)
+	{
+	    if (method_exists($this, 'get'.$property)) 
+	    {
+	        $method_name = 'get'.$property;
+	        return $this->{$method_name}($default);
+	    }
+	        
+	    return parent::get($property, $default);
+	}
+	
+	/**
+	 * 
+	 */
+	public function getDate_Format($default=null)
+	{
+	    if(version_compare(JVERSION,'1.6.0','ge')) {
+	        // Joomla! 1.6+ code here
+	        return parent::get('date_format_act', $default);
+	    } else {
+	        // Joomla! 1.5 code here
+	        return parent::get('date_format', $default);
+	    }
+	}
 } 
 
 
