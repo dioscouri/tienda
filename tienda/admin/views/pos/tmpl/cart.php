@@ -68,10 +68,11 @@
 			<?php endforeach;?>			
 			<tr>
 				<td colspan="3" style="border-bottom: 1px solid #E5E5E5; text-align: left;">
-				<input type="submit" class="btn btn-danger" value="<?php echo JText::_('COM_TIENDA_REMOVE_SELECTED');?>" onclick="tiendaSubmitForm('update')" name="remove" />
+				<input type="submit" class="btn btn-danger" value="<?php echo JText::_('COM_TIENDA_REMOVE_SELECTED');?>" onclick="tiendaSubmitForm('removeItems')" name="remove" />
 				</td>
 				<td colspan="2" style="border-bottom: 1px solid #E5E5E5; ">
-				<input style="float: right;" type="submit" class="button btn btn-primary" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES');?>" onclick="tiendaSubmitForm('update')" name="update" />
+				<input style="float: right;" type="submit" class="button btn btn-primary" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES');?>" onclick="tiendaSubmitForm('updateQty')" name="update" />
+				
 				</td>
 			</tr>
 			<tr>

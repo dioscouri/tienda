@@ -1378,7 +1378,7 @@ class TiendaControllerPOS extends TiendaController
 	/**
 	 * Method to remove items or updated the quantities to a cart
 	 */
-	function update()
+	function removeItems()
 	{
 		$model = $this->getModel('carts');
 		$post = JRequest::get('post');
@@ -1388,10 +1388,8 @@ class TiendaControllerPOS extends TiendaController
 
 		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
-
-		if(isset($post['remove']))
-		{
-			foreach($cids as $cart_id => $product_id)
+		
+		foreach($cids as $cart_id => $product_id)
 			{
 				$row = $model->getTable();
 				$ids = array('user_id' => $user_id,
@@ -1410,9 +1408,23 @@ class TiendaControllerPOS extends TiendaController
 					$dispatcher->trigger('onRemoveFromCart', array($item));
 				}
 			}
-		}
-		elseif($post['update'])
-		{
+			
+
+		
+		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step2");
+	}
+
+	function updateQty()
+	{
+		$model = $this->getModel('carts');
+		$post = JRequest::get('post');
+		$cids = JRequest::getVar('cid', array(0), '', 'ARRAY');
+		$product_attributes = JRequest::getVar('product_attributes', array(0), '', 'ARRAY');
+		$quantities = JRequest::getVar('quantities', array(0), '', 'ARRAY');
+
+		$session = JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+		
 			foreach($quantities as $cart_id => $value)
 			{
 				$carts = JTable::getInstance('Carts', 'TiendaTable');
@@ -1491,9 +1503,11 @@ class TiendaControllerPOS extends TiendaController
 				}
 
 			}
-		}
-		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step2");
-	}
+	$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step2");		
+}
+		
+		
+
 
 	/**
 	 * Adjusts cart quantities based on availability
