@@ -2918,6 +2918,8 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function cancel()
 	{
+		
+		$this->redirect = 'index.php?option=com_tienda&view=orders';	
 	    parent::cancel();		
 		
 		// Clear all of the session POS values
