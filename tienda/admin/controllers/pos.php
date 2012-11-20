@@ -364,7 +364,7 @@ class TiendaControllerPOS extends TiendaController
 		$view->assign('shipping_info', $shipping_address);
 		$view->assign('billing_info', $billing_address);
 		$view->assign('shipping_method_name',$shippingMethodName);
-		$view->assign( 'showShipping', $showShipping );		
+		$view->assign('showShipping', $showShipping );		
 		$view->assign('step1_inactive', $this->step1Inactive());	
 		$view->assign('values', $values);
 		//calculate the order totals as we already have the shipping

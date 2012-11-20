@@ -9,11 +9,11 @@ $plugin_html = @$this->plugin_html;
 <?php $display_credits = Tienda::getInstance()->get( 'display_credits', '0' ); ?>
 
 <ul class="nav nav-tabs" id="myTab">
-  <li ><a href="index.php?option=com_tienda&view=pos"><?php echo JText::_('COM_TIENDA_POS_STEP1_SELECT_USER'); ?></a></li>
-  <li ><a href="index.php?option=com_tienda&view=pos&nextstep=step2"><?php echo JText::_('COM_TIENDA_POS_STEP2_SELECT_PRODUCTS'); ?></a></li>
+  <li><a href="index.php?option=com_tienda&view=pos"><?php echo JText::_('COM_TIENDA_POS_STEP1_SELECT_USER'); ?></a></li>
+  <li><a href="index.php?option=com_tienda&view=pos&nextstep=step2"><?php echo JText::_('COM_TIENDA_POS_STEP2_SELECT_PRODUCTS'); ?></a></li>
   <li class=""><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS'); ?></a></li>
-  <li  class=""><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP4_REVIEW_SUBMIT_ORDER'); ?></a></li>
-    <li  class="active"><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP5_PAYMENT_CONFIRMATION'); ?></a></li>
+  <li class=""><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP4_REVIEW_SUBMIT_ORDER'); ?></a></li>
+  <li class="active"><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP5_PAYMENT_CONFIRMATION'); ?></a></li>
 </ul>
 <div class="progress">
   <div class="bar" style="width: 100%;"></div>

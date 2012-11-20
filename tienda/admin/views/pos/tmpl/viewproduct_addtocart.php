@@ -7,6 +7,7 @@
     Tienda::load( 'TiendaHelperBase', 'helpers._base' );
     $helper_product = TiendaHelperBase::getInstance( 'Product' );
     $attributes = $helper_product->getAttributes( $row->product_id, 0 );
+	
     $default = $helper_product->getDefaultAttributeOptions($attributes);
     $selected_opts = array();
     foreach ($attributes as $attribute)
