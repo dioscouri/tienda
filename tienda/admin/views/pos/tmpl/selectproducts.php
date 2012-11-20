@@ -25,7 +25,7 @@
         </tr>
     </table>
 
-	<table class="adminlist" style="clear: both;">
+	<table class="table table-striped table-bordered" style="clear: both;">
 		<thead>
             <tr>
                 <th style="width: 5px;">

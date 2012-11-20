@@ -6,50 +6,49 @@
 <?php $items = @$this->items; ?>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_tienda&view=pos&tmpl=component' ); ?>" method="post" class="adminForm" name="adminForm" >
-	<fieldset>
-		<div class="header icon-48-tienda" style="float: left;">
+	
+		<div class="header " style="float: left;">
+			<h2>
 			<?php echo JText::_('COM_TIENDA_MANAGE_ADDRESSES');?>
+			</h2>
 		</div>
-		<div class="toolbar" id="toolbar" style="float: right;">
-			<table class="toolbar">
+		<div class="toolbar pull-right" id="toolbar" >
+			<table class="table table-striped table-bordered" width="500px">
 				<tr>
 					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_SET_AS_BILLING_DEFAULT')?>');}else{  submitbutton('flag_billing')}" href="#" >
-					<span class="icon-32-default" title="<?php echo JText::_('COM_TIENDA_DEFAULT', true);?>"></span><?php echo JText::_('COM_TIENDA_BILLING_DEFAULT');?>
+						<div class="btn-group">
+					<a class="btn" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_SET_AS_BILLING_DEFAULT')?>');}else{  submitbutton('flag_billing')}" href="#" >
+					<?php echo JText::_('COM_TIENDA_BILLING_DEFAULT');?>
 					</a>
-					</td>
-					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_SET_AS_SHIPPING_DEFAULT')?>');}else{  submitbutton('flag_shipping')}" href="#" >
-					<span class="icon-32-default" title="<?php echo JText::_('COM_TIENDA_DEFAULT', true);?>"></span><?php echo JText::_('COM_TIENDA_SHIPPING_DEFAULT');?>
+					
+					<a class="btn" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_SET_AS_SHIPPING_DEFAULT')?>');}else{  submitbutton('flag_shipping')}" href="#" >
+					<?php echo JText::_('COM_TIENDA_SHIPPING_DEFAULT');?>
 					</a>
-					</td>
-					<td class="divider"> </td>
-					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_EDIT')?>');}else{  submitbutton('address')}" href="#" >
-					<span class="icon-32-edit" title="<?php echo JText::_('COM_TIENDA_EDIT', true);?>"></span><?php echo JText::_('COM_TIENDA_EDIT');?>
+					
+					
+					<a class="btn" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_EDIT')?>');}else{  submitbutton('address')}" href="#" >
+					<?php echo JText::_('COM_TIENDA_EDIT');?>
 					</a>
-					</td>
-					<td align="center">
-					<a onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_DELETE');?>');}else{if(confirm('<?php echo JText::_('COM_TIENDA_ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_SELECTED_ITEMS')?>?')){submitbutton('flag_deleted');}}" href="#" >
-					<span class="icon-32-delete" title="<?php echo JText::_('COM_TIENDA_DELETE', true);?>"></span><?php echo JText::_('COM_TIENDA_DELETE');?>
+				
+					
+					<a class="btn" onclick="javascript:if(document.adminForm.boxchecked.value==0){alert('<?php echo JText::_('COM_TIENDA_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO_DELETE');?>');}else{if(confirm('<?php echo JText::_('COM_TIENDA_ARE_YOU_SURE_YOU_WANT_TO_DELETE_THE_SELECTED_ITEMS')?>?')){submitbutton('flag_deleted');}}" href="#" >
+					<?php echo JText::_('COM_TIENDA_DELETE');?>
 					</a>
-					</td>
-					<td align="center">
-					<a href="<?php echo JRoute::_("index.php?option=com_tienda&view=pos&task=address&tmpl=component"); ?>" >
-					<span class="icon-32-new" title="<?php echo JText::_('COM_TIENDA_NEW', true);?>"></span><?php echo JText::_('COM_TIENDA_NEW');?>
+					
+					<a class="btn" href="<?php echo JRoute::_("index.php?option=com_tienda&view=pos&task=address&tmpl=component"); ?>" >
+					<?php echo JText::_('COM_TIENDA_NEW');?>
 					</a>
+					
+					
+					
+					</div>
 					</td>
-					<td class="divider"> </td>
-					<td align="center">
-					<a onclick="window.parent.document.getElementById( 'sbox-window' ).close();" href="#" >
-					<span class="icon-32-cancel" title="<?php echo JText::_('COM_TIENDA_CLOSE', true);?>"></span><?php echo JText::_('COM_TIENDA_CLOSE');?>
-					</a>
-					</td>
+					
 				</tr>
 			</table>
 		</div>
-	</fieldset>	     
-    <table class="adminlist" style="clear: both;">
+     
+    <table class="table table-striped table-bordered" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 20px;">

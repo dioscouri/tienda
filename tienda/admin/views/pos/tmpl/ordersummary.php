@@ -11,7 +11,7 @@ $display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
 
 ?>
 <div class="cartitems">
-           <table class="adminlist" style="clear: both;">
+           <table class="table table-striped table-bordered" style="clear: both;">
             <thead>
                 <tr>
                     <th style="text-align: left;"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></th>

@@ -39,25 +39,6 @@ div.step_body.inactive, div.step_title.inactive {
     vertical-align: middle;
 }
 
-.table {
-	display: table;
-	width: 100%;
-	border-top: 2px solid black;
-	border-right: 2px solid black;
-	border-left: 2px solid black;
-}
-
-.row {
-	display: table-row;
-	width: 100%;
-}
-
-.cell {
-	display: table-cell;
-	padding: 10px;
-	width: 33%;
-	border-bottom: 2px solid black;
-}
 
 div.option {
 	clear: both;

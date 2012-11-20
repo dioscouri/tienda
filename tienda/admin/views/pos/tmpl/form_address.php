@@ -23,8 +23,8 @@
 		$guest = false;
 ?>
 
-<fieldset>
-	<table class="address_form" style="clear: both;" >
+
+	<table class="table table-striped table-bordered" style="clear: both;" >
 		<tbody>
 			<?php if( $elements['address_name'][0] ) :
 				if( $guest ) : ?>
@@ -291,4 +291,4 @@
 		?>
 </tbody>
 </table>
-</fieldset>
+

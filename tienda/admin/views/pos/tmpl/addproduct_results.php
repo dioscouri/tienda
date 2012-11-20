@@ -2,12 +2,10 @@
 <?php $items = @$this->items; ?>
 <?php $state = @$this->state; ?>
 
-<div class="table">
-    <div class="row">
-        <div class="cell step_body">
+
             <h2><?php echo JText::_('COM_TIENDA_SEARCH_RESULTS'); ?></h2>
             
-            <table class="adminlist">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th style="width: 50px;">

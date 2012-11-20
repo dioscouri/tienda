@@ -33,7 +33,7 @@
 	</fieldset>
 	<div id="validationmessage">
 	</div>
-	<table>
+	<table class="table table-striped table-bordered">
 		<tbody>
 			<?php if($config->get('show_field_title', '3') != '0' ): ?>
 			<tr>
