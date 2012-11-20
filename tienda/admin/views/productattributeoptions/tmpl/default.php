@@ -43,16 +43,16 @@
                         <?php echo TiendaSelect::productattributeoptionprefix( "+", 'createproductattributeoption_prefix' ); ?>
                     </td>
                     <td>
-                        <input type="text" id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" />
+                        <input type="text" id="createproductattributeoption_price" name="createproductattributeoption_price" value="" size="10" class="input-tiny" />
                     </td>
                     <td>
                         <?php echo TiendaSelect::productattributeoptionprefix( "+", 'createproductattributeoption_prefix_weight' ); ?>
                     </td>
                     <td>
-                        <input type="text" id="createproductattributeoption_weight" name="createproductattributeoption_weight" value="" size="10" />
+                        <input type="text" id="createproductattributeoption_weight" name="createproductattributeoption_weight" value="" size="10" class="input-tiny" />
                     </td>
                     <td>
-                        <input type="text" id="createproductattributeoption_code" name="createproductattributeoption_code" value="" />
+                        <input type="text" id="createproductattributeoption_code" name="createproductattributeoption_code" value="" size="10" class="input-tiny" />
                     </td>
                     <td>
 	                    <?php echo TiendaSelect::booleans( 0, 'createproductattributeoption_blank', array('class' => 'inputbox', 'size' => '1'), null, false, 'Select State', 'Yes', 'No' );?>
@@ -126,16 +126,16 @@
                     <?php echo TiendaSelect::productattributeoptionprefix( $item->productattributeoption_prefix, "prefix[{$item->productattributeoption_id}]" ); ?>
                 </td>
                 <td style="text-align: center;">
-                    <input type="text" name="price[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_price; ?>" size="10" />
+                    <input type="text" name="price[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_price; ?>" size="10" class="input-tiny" />
                 </td>
                 <td style="text-align: center;">
                     <?php echo TiendaSelect::productattributeoptionprefix( $item->productattributeoption_prefix_weight, "prefix_weight[{$item->productattributeoption_id}]" ); ?>
                 </td>
                 <td style="text-align: center;">
-                    <input type="text" name="weight[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_weight; ?>" size="10" />
+                    <input type="text" name="weight[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_weight; ?>" size="10" class="input-tiny" />
                 </td>
                 <td style="text-align: center;">
-                    <input type="text" name="code[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_code; ?>" size="10" />
+                    <input type="text" name="code[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->productattributeoption_code; ?>" size="10" class="input-tiny" />
                 </td>
                 <td style="text-align: left;">
 					<?php
@@ -173,7 +173,7 @@
 	      	<?php echo TiendaSelect::booleans( $item->is_blank, 'blank['.$item->productattributeoption_id.']', array('class' => 'inputbox', 'size' => '1'), null, false, 'Select State', 'Yes', 'No' );?>
 				</td>
 				<td style="text-align: center;">
-					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" />
+					<input type="text" name="ordering[<?php echo $item->productattributeoption_id; ?>]" value="<?php echo $item->ordering; ?>" size="10" class="input-tiny" />
 				</td>
 				<td style="text-align: center;">
 					[<?php echo TiendaUrl::popup( "index.php?option=com_tienda&controller=products&task=setattributeoptionvalues&id=".$item->productattributeoption_id."&tmpl=component", JText::_('COM_TIENDA_SET_VALUES') ); ?>]

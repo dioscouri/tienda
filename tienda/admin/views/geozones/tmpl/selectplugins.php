@@ -5,9 +5,9 @@
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
-<?php $suffix = ucfirst(@$this->suffix);?>
+<?php $suffix = 'COM_TIENDA_' . strtoupper(@$this->suffix);?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::sprintf('COM_TIENDA_SELECT_SUFFIX_PLUGINS_FOR', $suffix); ?>: <?php echo $row->geozone_name; ?></h1>
+<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::sprintf('COM_TIENDA_SELECT_SUFFIX_PLUGINS_FOR', JText::_( $suffix ) ); ?>: <?php echo $row->geozone_name; ?></h1>
 
 
 <div class="note_green" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
