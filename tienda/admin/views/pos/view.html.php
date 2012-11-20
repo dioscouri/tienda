@@ -60,4 +60,14 @@ class TiendaViewPOS extends TiendaViewBase
         
         
     }
+	
+	function _formToolbar($isNew = null) 
+	{
+		if ($isNew) {
+			JToolBarHelper::cancel();
+		} else {
+			JToolBarHelper::cancel('close', 'COM_TIENDA_CLOSE');
+		}
+	}
+	
 }
