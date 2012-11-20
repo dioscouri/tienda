@@ -1,3 +1,8 @@
+if (typeof(Tienda) === 'undefined') {
+	var Tienda = {};
+}
+
+
 function tiendaUpdateParentDefaultImage(id) {
 	var url = 'index.php?option=com_tienda&view=products&task=updateDefaultImage&protocol=json&product_id=' + id;
 	var form = document.adminForm;
@@ -55,7 +60,7 @@ function tiendaGetCheckoutTotals() {
 function tiendaGetShippingRates( container, form, msg, doModal ) {
 	var url = 'index.php?option=com_tienda&view=pos&task=updateShippingRates&format=raw';
 	if (doModal != false) {
-		tiendaNewModal(msg);
+		Dsc.newModal(msg)
 	}
 	$('validation_message').set('html', '');
 
@@ -71,7 +76,7 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 		str[i] = postvar;
 	}
 	// execute Ajax request to server
-	var a = new Request({
+	 var a = new Request({
 		url : url,
 		method : "post",
 		data : {
@@ -88,13 +93,11 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 			}
 
 			if (doModal != false) {
-				(function() {
-					document.body.removeChild($('tiendaModal'));
-				}).delay(500);
+				if (doModal != false) { (function() { document.body.removeChild( document.getElementById('dscModal') ); }).delay(500); }
 			}
 			return true;
 		}
-	}).request();
+	 }).send();
 }
 
 function tiendaGetPaymentForm( element, container ) {
