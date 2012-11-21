@@ -171,11 +171,11 @@
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
 					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
-					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE');?>" type="button" class="button btn btn-success" />
+					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" />
 				<?php else:?>
 					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
                 	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
-                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE');?>" type="button" class="button btn btn-success" />
+                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" />
 				<?php endif;?>				
             </div>
 		</div>
