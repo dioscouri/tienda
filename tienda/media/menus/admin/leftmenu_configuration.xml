@@ -5,6 +5,26 @@
        <url>index.php?option=com_tienda&#38;view=config</url>
     </link>
     <link>
+       <name>COM_TIENDA_DISPLAY_SETTINGS</name>
+       <url>index.php?option=com_tienda&#38;view=config&#38;task=displaysettings</url>
+    </link>
+    <link>
+       <name>COM_TIENDA_ORDER_AND_CHECKOUT_SETTINGS</name>
+       <url>index.php?option=com_tienda&#38;view=config&#38;task=orders</url>
+    </link>
+    <link>
+       <name>COM_TIENDA_PRODUCT_SETTINGS</name>
+       <url>index.php?option=com_tienda&#38;view=config&#38;task=products</url>
+    </link>
+    <link>
+       <name>COM_TIENDA_EMAIL_SETTINGS</name>
+       <url>index.php?option=com_tienda&#38;view=config&#38;task=emails</url>
+    </link>
+    <link>
+       <name>COM_TIENDA_ADVANCED_SETTINGS</name>
+       <url>index.php?option=com_tienda&#38;view=config&#38;task=advanced</url>
+    </link>
+    <link>
         <name>COM_TIENDA_SHIPPING_METHODS</name>
         <url>index.php?option=com_tienda&#38;view=shipping</url>
     </link>

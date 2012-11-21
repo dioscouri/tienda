@@ -72,17 +72,55 @@ class TiendaControllerConfig extends TiendaController
             $this->message      = JText::_('COM_TIENDA_SAVE_FAILED')." - ".$errorMsg;
         }
         
-        $redirect = "index.php?option=com_tienda";
-        $task = JRequest::getVar('task');
-        switch ($task)
+        $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+        $group = JRequest::getVar('group');
+        switch ($group)
         {
             default:
-                $redirect .= "&view=".$this->get('suffix');
-              break;
+                if ($group) {
+                    $redirect .= "&task=" . $group;
+                }                
+                break;
         }
 
         $redirect = JRoute::_( $redirect, false );
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
+    }
+    
+    public function all($cachable=false, $urlparams = false) 
+    {
+        JRequest::setVar('layout', 'all');        
+        parent::display($cachable, $urlparams);
+    }
+    
+    public function displaysettings($cachable=false, $urlparams = false)
+    {
+        JRequest::setVar('layout', 'displaysettings');
+        parent::display($cachable, $urlparams);
+    }
+    
+    public function orders($cachable=false, $urlparams = false)
+    {
+        JRequest::setVar('layout', 'orders');
+        parent::display($cachable, $urlparams);
+    }
+    
+    public function products($cachable=false, $urlparams = false)
+    {
+        JRequest::setVar('layout', 'products');
+        parent::display($cachable, $urlparams);
+    }
+    
+    public function emails($cachable=false, $urlparams = false)
+    {
+        JRequest::setVar('layout', 'emails');
+        parent::display($cachable, $urlparams);
+    }
+    
+    public function advanced($cachable=false, $urlparams = false)
+    {
+        JRequest::setVar('layout', 'advanced');
+        parent::display($cachable, $urlparams);
     }
     
 }
