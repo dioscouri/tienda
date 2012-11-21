@@ -13,8 +13,10 @@ defined('_JEXEC') or die('Restricted access');
 
 Tienda::load('TiendaTable', 'tables._base');
 
-class TiendaTableProductFiles extends TiendaTable {
-	function TiendaTableProductFiles(&$db) {
+class TiendaTableProductFiles extends TiendaTable 
+{
+	function TiendaTableProductFiles(&$db) 
+	{
 		$tbl_key = 'productfile_id';
 		$tbl_suffix = 'productfiles';
 		$this -> set('_suffix', $tbl_suffix);
@@ -28,19 +30,23 @@ class TiendaTableProductFiles extends TiendaTable {
 	 *
 	 * @return unknown_type
 	 */
-	function check() {
-		if (empty($this -> product_id)) {
+	function check() 
+	{
+		if (empty($this -> product_id)) 
+		{
 			$this -> setError(JText::_('COM_TIENDA_PRODUCT_ASSOCIATION_REQUIRED'));
 			return false;
 		}
 
-		if (empty($this -> productfile_name)) {
+		if (empty($this -> productfile_name)) 
+		{
 			$this -> setError(JText::_('COM_TIENDA_FILE_NAME_REQUIRED'));
 			return false;
 		}
 
 		$nullDate = $this -> _db -> getNullDate();
-		if (empty($this -> created_date) || $this -> created_date == $nullDate) {
+		if (empty($this -> created_date) || $this -> created_date == $nullDate) 
+		{
 			$date = JFactory::getDate();
 			$this -> created_date = $date -> toMysql();
 		}
@@ -54,7 +60,8 @@ class TiendaTableProductFiles extends TiendaTable {
 	 * Adds context to the default reorder method
 	 * @return unknown_type
 	 */
-	function reorder($where = '') {
+	function reorder($where = '') 
+	{
 		parent::reorder('product_id = ' . $this -> _db -> Quote($this -> product_id));
 	}
 
@@ -66,14 +73,17 @@ class TiendaTableProductFiles extends TiendaTable {
 	 * @param unknown_type $datetime
 	 * @return unknown_type
 	 */
-	function canDownload($user_id, $datetime = null) {
+	function canDownload($user_id, $datetime = null) 
+	{
 		// if the user is super admin, yes
-		if (DSCAcl::isAdmin()) {
+		if (DSCAcl::isAdmin()) 
+		{
 			return true;
 		}
 
 		// if the product file doesn't require purchase
-		if (empty($this -> purchase_required)) {
+		if (empty($this -> purchase_required)) 
+		{
 			return true;
 		}
 
@@ -83,12 +93,14 @@ class TiendaTableProductFiles extends TiendaTable {
 		$productdownloads = JTable::getInstance('ProductDownloads', 'TiendaTable');
 		$productdownloads -> load(array('productfile_id' => $this -> productfile_id, 'user_id' => $user_id));
 
-		if ($productdownloads -> productdownload_id) {
-			if ($productdownloads -> productdownload_max == '-1' || $productdownloads -> productdownload_max > '0') {
-
+		if ($productdownloads -> productdownload_id) 
+		{
+			if ($productdownloads -> productdownload_max == '-1' || $productdownloads -> productdownload_max > '0') 
+			{
 				return true;
 			}
 		}
+		
 		// otherwise no
 		return false;
 	}
@@ -99,7 +111,8 @@ class TiendaTableProductFiles extends TiendaTable {
 	 * @param $user_id
 	 * @return unknown_type
 	 */
-	function logDownload($user_id) {
+	function logDownload($user_id) 
+	{
 		$downloadlog = JTable::getInstance('ProductDownloadLogs', 'TiendaTable');
 		$downloadlog -> user_id = $user_id;
 		$downloadlog -> productfile_id = $this -> productfile_id;
@@ -113,9 +126,11 @@ class TiendaTableProductFiles extends TiendaTable {
 	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
 	 * @return	boolean	True if successful
 	 */
-	function load($oid = null, $reset = true) {
-		if (!parent::load($oid, $reset))
+	function load($oid = null, $reset = true) 
+	{
+		if (!parent::load($oid, $reset)) {
 			return false;
+		}
 
 		// relative paths start with DSDS
 		if (strpos($this -> productfile_path, DS . DS) !== false)// relative path => add JPATH_BASE before it
@@ -135,7 +150,8 @@ class TiendaTableProductFiles extends TiendaTable {
 	 * @param unknown_type $updateNulls
 	 * @return unknown_type
 	 */
-	function store($updateNulls = false) {
+	function store($updateNulls = false) 
+	{
 		$app = JFactory::getApplication();
 		// relative paths start with DSDS
 		if (strpos($this -> productfile_path, DS . DS) === false)// not a relative path => make it
@@ -150,6 +166,33 @@ class TiendaTableProductFiles extends TiendaTable {
 		}
 
 		return parent::store($updateNulls);
+	}
+	
+	function delete( $oid=null )
+	{
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	
+	    if ($return = parent::delete( $oid ))
+	    {
+	        $query = new TiendaQuery();
+	        $query->delete();
+	        $query->from( '#__tienda_productdownloads' );
+	        $query->where( 'productfile_id = '.$this->$k );
+	        $this->_db->setQuery( (string) $query );
+	        $this->_db->query();
+	        
+	        $query = new TiendaQuery();
+	        $query->delete();
+	        $query->from( '#__tienda_productdownloadlogs' );
+	        $query->where( 'productfile_id = '.$this->$k );
+	        $this->_db->setQuery( (string) $query );
+	        $this->_db->query();
+	    }
+	
+	    return parent::check();
 	}
 
 }

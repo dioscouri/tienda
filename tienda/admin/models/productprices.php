@@ -18,6 +18,7 @@ class TiendaModelProductPrices extends TiendaModelBase
     protected function _buildQueryWhere(&$query)
     {
         $filter_id	        = $this->getState('filter_id');
+        $filter_productid   = $this->getState('filter_productid');
         $filter_quantity	= $this->getState('filter_quantity');
        	$filter_user_group	= $this->getState('filter_user_group');       	
         $filter_date		= $this->getState('filter_date');
@@ -26,10 +27,17 @@ class TiendaModelProductPrices extends TiendaModelBase
         {
             $query->where('tbl.product_id = '.(int) $filter_id);
        	}
+       	
+       	if (strlen($filter_productid))
+       	{
+       	    $query->where('tbl.product_id = '.(int) $filter_productid);
+       	}
+       	
     	if (strlen($filter_user_group))
         {
             $query->where('tbl.group_id = '.(int) $filter_user_group);
        	}
+       	
     	if (strlen($filter_quantity))
         {
         	$query->where("(
@@ -38,6 +46,7 @@ class TiendaModelProductPrices extends TiendaModelBase
         		(tbl.price_quantity_end = '0' AND tbl.price_quantity_start <= '".(int) $filter_quantity."' )
 			)");
        	}
+       	
         if (strlen($filter_date))
         {
         	$nullDate	= JFactory::getDBO()->getNullDate();

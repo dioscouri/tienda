@@ -18,6 +18,7 @@ class TiendaModelProductComments extends TiendaModelBase
 	protected function _buildQueryWhere(&$query)
 	{
 		$filter_product  = $this->getState('filter_product');
+		$filter_productid  = $this->getState('filter_productid');
 		$filter_id_from	= $this->getState('filter_id_from');
         $filter_id_to	= $this->getState('filter_id_to');
         $filter_name	= $this->getState('filter_name');
@@ -28,6 +29,12 @@ class TiendaModelProductComments extends TiendaModelBase
         {
             $query->where('tbl.product_id = '.(int) $filter_product);
         }
+        
+        if (strlen($filter_productid))
+        {
+            $query->where('tbl.product_id = '.(int) $filter_productid);
+        }
+        
 		if (strlen($filter_id_from))
         {
         	if (strlen($filter_id_to))

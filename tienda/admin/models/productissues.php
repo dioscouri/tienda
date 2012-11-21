@@ -19,14 +19,21 @@ class TiendaModelProductIssues extends TiendaModelBase
 	{
 		$filter_id	        = $this->getState('filter_id');
 		$filter_product_id	        = $this->getState('filter_product_id');
-
+		$filter_productid	        = $this->getState('filter_productid');
+		
 		if (strlen($filter_id))
 		{
 			$query->where('tbl.product_issue_id = '.(int) $filter_id);
 		}
+		
 		if (strlen($filter_product_id))
 		{
 			$query->where('tbl.product_id = '.(int) $filter_product_id);
+		}
+		
+		if (strlen($filter_productid))
+		{
+		    $query->where('tbl.product_id = '.(int) $filter_productid);
 		}
 	}
 

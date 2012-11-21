@@ -78,18 +78,56 @@ class TiendaTableProductAttributeOptions extends TiendaTable
      * Run function when deleting
      * @see tienda/admin/tables/TiendaTable#save()
      */
-    function delete( $oid=null )
+    function delete( $oid=null, $doReconciliation=true )
     {
-        if ($return = parent::delete( $oid ))
-        {
-            $pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
-            $pa->load( $this->productattribute_id );
-            
-            Tienda::load( "TiendaHelperProduct", 'helpers.product' );
-            TiendaHelperProduct::doProductQuantitiesReconciliation( $pa->product_id );
+        $k = $this->_tbl_key;
+        if ($oid) {
+            $this->$k = intval( $oid );
         }
         
-        return $return;
+        if ($doReconciliation) 
+        {
+            $pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
+            if ($oid)
+            {
+                $row = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+                $row->load( $oid );
+
+                $pa->load( $row->productattribute_id );                
+            }
+            else
+            {
+                $pa->load( $this->productattribute_id );
+            }
+            $product_id = $pa->product_id;
+        }
+
+        
+        if ($return = parent::delete( $oid ))
+        {
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'ProductAttributeOptionValues', 'TiendaModel' );
+            $model->setState('filter_option', $this->$k );
+            if ($items = $model->getList())
+            {
+                $table = $model->getTable();
+                foreach ($items as $item)
+                {
+                    if (!$table->delete( $item->productattributeoptionvalue_id ))
+                    {
+                        $this->setError( $table->getError() );
+                    }
+                }
+            }
+            
+            if ($doReconciliation) 
+            {
+                Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+                TiendaHelperProduct::doProductQuantitiesReconciliation( $product_id );                
+            }
+        }
+        
+        return parent::check();
     }
 	
 }

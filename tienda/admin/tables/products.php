@@ -554,4 +554,147 @@ class TiendaTableProducts extends TiendaTableEav
 		
 		return true;
 	}
+	
+	public function delete( $oid=null )
+	{
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	    
+	    // is this product in an order?  if so, it cannot be deleted
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	    $model = DSCModel::getInstance( 'Orderitems', 'TiendaModel' );
+	    $model->setState('filter_productid', $this->$k );
+	    $model->setState('limit', '1');
+	    if ($items = $model->getList()) {
+	        $this->setError( JText::sprintf("COM_TIENDA_PRODUCT_CANNOT_DELETE_IN_ORDERS_DISABLED_INSTEAD", $this->$k) );
+	        $this->load( $this->$k );
+	        $this->product_enabled = 0;
+	        $this->store();
+	        return parent::check();
+	    }
+	    
+	    $delete = array();
+	    
+	    $delete['attributes'] = $this->deleteItemsWithoutReconciliation( 'attributes', $oid );
+	    $delete['categories'] = $this->deleteItemsXref( 'category', $oid );
+	    $delete['comments'] = $this->deleteItemsWithoutReconciliation( 'comments', $oid );
+	    $delete['compare'] = $this->deleteItems( 'compare', $oid );
+	    $delete['coupons'] = $this->deleteItemsXref( 'coupon', $oid );
+	    $delete['files'] = $this->deleteItems( 'files', $oid );
+	    $delete['issues'] = $this->deleteItems( 'issues', $oid );
+	    $delete['prices'] = $this->deleteItems( 'prices', $oid );
+	    $delete['quantities'] = $this->deleteItems( 'quantities', $oid );
+	    $delete['relations'] = $this->deleteItems( 'relations', $oid );
+	    
+	    $delete['product'] = parent::delete( $oid );
+	    
+	    $this->deleteResults = $delete;
+	    
+	    return parent::check();
+	}
+	
+	public function deleteItems( $type, $oid=null )
+	{
+	    $failed = false;
+	
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	    $model = DSCModel::getInstance( 'Product'.$type, 'TiendaModel' );
+	    $model->setState('filter_productid', $this->$k );
+	    if ($items = $model->getList())
+	    {
+	        $table = $model->getTable();
+	        $table_pk = $table->getKeyName();
+	        foreach ($items as $item)
+	        {
+	            if (!$table->delete( $item->$table_pk ))
+	            {
+	                $errors = $table->getErrors();
+	                if (!empty($errors))
+	                {
+	                    foreach ($errors as $key=>$error)
+	                    {
+	                        $error = trim( $error );
+	                        if (!empty($error))
+	                        {
+	                            $failed = true;
+	                            $this->setError($error);
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	    if ($failed) {
+	        return false;
+	    }
+	    return true;
+	}
+
+	public function deleteItemsWithoutReconciliation( $type, $oid=null, $doReconciliation=false )
+	{
+	    $failed = false;
+	
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+	    $model = DSCModel::getInstance( 'Product'.$type, 'TiendaModel' );
+	    $model->setState('filter_productid', $this->$k );
+	    if ($items = $model->getList())
+	    {
+	        $table = $model->getTable();
+	        $table_pk = $table->getKeyName();
+	        foreach ($items as $item)
+	        {
+	            if (!$table->delete( $item->$table_pk, $doReconciliation ))
+	            {
+	                $errors = $table->getErrors();
+	                if (!empty($errors))
+	                {
+	                    foreach ($errors as $key=>$error)
+	                    {
+	                        $error = trim( $error );
+	                        if (!empty($error))
+	                        {
+	                            $failed = true;
+	                            $this->setError($error);
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	    if ($failed) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	public function deleteItemsXref( $type, $oid=null )
+	{
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	    
+        $query = new TiendaQuery();
+        $query->delete();
+        $query->from( '#__tienda_product'.$type.'xref' );
+        $query->where( 'product_id = '.$this->$k );
+        $this->_db->setQuery( (string) $query );
+        $this->_db->query();
+        
+        return true;
+	}
 }

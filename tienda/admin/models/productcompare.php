@@ -20,6 +20,7 @@ class TiendaModelProductCompare extends TiendaModelBase
         $filter_user     = $this->getState('filter_user');
         $filter_session  = $this->getState('filter_session');
         $filter_product  = $this->getState('filter_product');
+        $filter_productid  = $this->getState('filter_productid');
 		$filter_date_from	= $this->getState('filter_date_from');
         $filter_date_to		= $this->getState('filter_date_to');
 		$filter_name	= $this->getState('filter_name');
@@ -54,6 +55,11 @@ class TiendaModelProductCompare extends TiendaModelBase
         {
         	$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_name ) ) ).'%');
         	$query->where('LOWER(p.product_name) LIKE '.$key);
+       	}
+       	
+       	if (!empty($filter_productid))
+       	{
+       	    $query->where('tbl.product_id = '.(int) $filter_productid);
        	}
     }
 

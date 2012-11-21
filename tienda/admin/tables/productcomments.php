@@ -42,27 +42,63 @@ class TiendaTableProductComments extends TiendaTable
 	 * @param $oid
 	 * @return unknown_type
 	 */
-	function delete( $oid=null  )
+	function delete( $oid=null, $doReconciliation=true )
 	{
-		$this->load( $oid );
-		$product_id = $this->product_id;
-		if( parent::delete( $oid ) )
-		{
-			$product = JTable::getInstance('Products', 'TiendaTable');
-			$product->load( $product_id );
-			$product->updateOverallRating();
-			if ( !$product->save() )
-			{
-				$this->setError( $product->getError().'what?!' );
-				return false;
-			}
-			return true;
-		}
-		$this->setError( $product->getError().'beh?' );
+	    $k = $this->_tbl_key;
+	    if ($oid) {
+	        $this->$k = intval( $oid );
+	    }
+	    
+	    if ($doReconciliation)
+	    {
+	        if ($oid)
+	        {
+	            $row = JTable::getInstance('ProductComments', 'TiendaTable');
+	            $row->load( $oid );
+	            $product_id = $row->product_id;
+	        }
+	        else
+	        {
+	            $product_id = $this->product_id;
+	        }
+	    }
 		
-		return false;
+		if ( parent::delete( $oid ) )
+		{
+		    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		    $model = DSCModel::getInstance( 'ProductCommentsHelpfulness', 'TiendaModel' );
+		    $model->setState('filter_comment', $this->$k );
+		    if ($items = $model->getList())
+		    {
+		        $table = $model->getTable();
+		        foreach ($items as $item)
+		        {
+		            if (!$table->delete( $item->productcommentshelpfulness_id ))
+		            {
+		                $this->setError( $table->getError() );
+		            }
+		        }
+		    }
+		    
+		    if ($doReconciliation) 
+		    {
+		        $product = JTable::getInstance('Products', 'TiendaTable');
+		        $product->load( $product_id );
+		        $product->updateOverallRating();
+		        if ( !$product->save() )
+		        {
+		            $this->setError( $product->getError() );
+		        }
+		    }
+		}
+		
+		return parent::check();
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see DSCTable::save()
+	 */
 	function save($src='', $orderingFilter = '', $ignore = '')
 	{
 	    $isNew = false;

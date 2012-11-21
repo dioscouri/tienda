@@ -15,4 +15,13 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelProductCommentsHelpfulness extends TiendaModelBase 
 {
+    protected function _buildQueryWhere(&$query)
+    {
+        $filter_comment  = $this->getState('filter_comment');
+    
+        if (strlen($filter_comment))
+        {
+            $query->where('tbl.productcomment_id = '.(int) $filter_comment);
+        }
+    }
 }
