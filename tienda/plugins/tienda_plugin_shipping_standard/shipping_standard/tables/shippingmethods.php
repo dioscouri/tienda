@@ -26,6 +26,10 @@ class TiendaTableShippingMethods extends TiendaTable
     
     function check()
     {
+        if ((float) $this->subtotal_maximum == (float) '0.00000') 
+        {
+            $this->subtotal_maximum = '-1';
+        }
         return true;
     }
 
