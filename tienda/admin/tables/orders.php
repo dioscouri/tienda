@@ -1139,14 +1139,14 @@ class TiendaTableOrders extends TiendaTable
         // this should all be a transaction...
         // Delete all the orderitems, orderpayments, ordershipping, etc
         
-        $delete['orderitems'] = $this->deleteItems( 'items', $oid );
-        $delete['orderpayments'] = $this->deleteItems( 'payments', $oid );
-        $delete['orderinfo'] = $this->deleteItems( 'info', $oid );
-        $delete['ordershippings'] = $this->deleteItems( 'shippings', $oid );
-        $delete['orderhistory'] = $this->deleteItems( 'history', $oid );
-        $delete['ordertaxclasses'] = $this->deleteItems( 'taxclasses', $oid );
-        $delete['ordertaxrates'] = $this->deleteItems( 'taxrates', $oid );
-        $delete['ordercoupons'] = $this->deleteItems( 'coupons', $oid );
+        $delete['items'] = $this->deleteItems( 'items', $oid );
+        $delete['payments'] = $this->deleteItems( 'payments', $oid );
+        $delete['info'] = $this->deleteItems( 'info', $oid );
+        $delete['shippings'] = $this->deleteItems( 'shippings', $oid );
+        $delete['history'] = $this->deleteItems( 'history', $oid );
+        $delete['taxclasses'] = $this->deleteItems( 'taxclasses', $oid );
+        $delete['taxrates'] = $this->deleteItems( 'taxrates', $oid );
+        $delete['coupons'] = $this->deleteItems( 'coupons', $oid );
         
         $delete['order'] = parent::delete( $oid );
 
