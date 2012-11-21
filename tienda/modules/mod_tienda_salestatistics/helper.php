@@ -125,7 +125,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 	function _yesterday()
 	{
 		$database = JFactory::getDBO();
-		$end_date = TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate()->toFormat( '%Y-%m-%d 00:00:00' ) );
+		$end_date = TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
 
 		$query = new TiendaQuery();
 		$query = " SELECT DATE_SUB('".$end_date."', INTERVAL 1 DAY) ";
