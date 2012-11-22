@@ -117,6 +117,12 @@ class TiendaControllerConfig extends TiendaController
         parent::display($cachable, $urlparams);
     }
     
+    public function admin($cachable=false, $urlparams = false)
+    {
+        JRequest::setVar('layout', 'admin');
+        parent::display($cachable, $urlparams);
+    }
+    
     public function advanced($cachable=false, $urlparams = false)
     {
         JRequest::setVar('layout', 'advanced');

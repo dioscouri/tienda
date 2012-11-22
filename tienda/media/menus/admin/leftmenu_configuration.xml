@@ -32,4 +32,8 @@
         <name>COM_TIENDA_PAYMENT_METHODS</name>
         <url>index.php?option=com_tienda&#38;view=payment</url>
     </link>
+    <link>
+       <name>COM_TIENDA_ADMIN_INTERFACE_SETTINGS</name>
+       <url>index.php?option=com_tienda&#38;view=config&#38;task=admin</url>
+    </link>
 </menu>

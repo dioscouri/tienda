@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
 ?>
 
-<div id="<?php echo $this->name; ?>" >
+<div id="<?php echo $this->name; ?>" class="leftmenu-navigation">
     <ul class="nav nav-pills nav-stacked">
     <?php 
     foreach ($this->items as $item) {
@@ -20,11 +20,18 @@ JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
             }
             
         } else {
-            
+            $u = JURI::getInstance();
+            $u->parse($item[1]);
+            $class = '';
+            if ($u->getVar('view')) 
+            {
+                $class = 'view-'.$u->getVar('view');
+            }
+                
             if ($item[2] == 1) {
-            ?> <a class="active" href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php
+            ?> <a class="active <?php echo $class; ?>" href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php
             } else {
-            ?> <a href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php   
+            ?> <a class="<?php echo $class; ?>" href="<?php echo $item[1]; ?>"><?php echo $item[0]; ?></a> <?php   
             }        
         }
 		?>

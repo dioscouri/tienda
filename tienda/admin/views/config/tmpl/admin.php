@@ -13,27 +13,20 @@
     
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_PRODUCT_REVIEWS'); ?></a>
+                <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADMINISTRATOR_DASHBOARD_SETTINGS'); ?></a>
             </li>
             <li>
-                <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_PRODUCT_COMPARE_SETTINGS'); ?></a>
-            </li>
-            <li>
-                <a href="#tab3" data-toggle="tab"><?php echo JText::_('COM_TIENDA_SUBSCRIPTION_SETTINGS'); ?></a>
+                <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADMINISTRATOR_TOOLTIPS'); ?></a>
             </li>
         </ul>
 
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
-                <?php $this->setLayout( 'products_reviews' ); echo $this->loadTemplate(); ?>
+                <?php $this->setLayout( 'admin_general' ); echo $this->loadTemplate(); ?>
             </div>
             
             <div class="tab-pane" id="tab2">
-                <?php $this->setLayout( 'products_compare' ); echo $this->loadTemplate(); ?>
-            </div>
-            
-            <div class="tab-pane" id="tab3">
-                <?php $this->setLayout( 'products_subscriptions' ); echo $this->loadTemplate(); ?>
+                <?php $this->setLayout( 'admin_tooltips' ); echo $this->loadTemplate(); ?>
             </div>
         </div>
     </div>
