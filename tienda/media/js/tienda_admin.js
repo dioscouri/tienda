@@ -2,6 +2,42 @@ if (typeof(Tienda) === 'undefined') {
 	var Tienda = {};
 }
 
+Tienda.saveConfigOnClick = function() {
+    tiendaJQ('a.view-config').each(function(){
+        var el = tiendaJQ(this);
+        Tienda.postConfigFormAndRedirect(el);
+    });
+    
+    tiendaJQ('a.view-shipping').each(function(){
+        var el = tiendaJQ(this);
+        Tienda.postConfigFormAndRedirect(el);
+    });
+    
+    tiendaJQ('a.view-payment').each(function(){
+        var el = tiendaJQ(this);
+        Tienda.postConfigFormAndRedirect(el);
+    });
+}
+
+Tienda.postConfigFormAndRedirect = function(el) {
+    el.click(function(event){
+        event.preventDefault();
+        url = 'index.php?option=com_tienda&view=config&format=raw';
+        
+        values = tiendaJQ("#adminForm").serializeArray();
+        for (index = 0; index < values.length; ++index) {
+            if (values[index].name == "task") {
+                values[index].value = 'save';
+                break;
+            }
+        }
+        data = jQuery.param(values);
+        
+        tiendaJQ.post( url, data, function(response){
+            window.location = el.attr('href');
+        });            
+    });    
+}
 
 function tiendaUpdateParentDefaultImage(id) {
 	var url = 'index.php?option=com_tienda&view=products&task=updateDefaultImage&protocol=json&product_id=' + id;

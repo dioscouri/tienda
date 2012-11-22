@@ -25,6 +25,7 @@ class TiendaViewBase extends DSCViewAdmin
 		JHTML::_('behavior.modal');
 		JHTML::_('script', 'core.js', 'media/system/js/');
 		DSC::loadBootstrap(1,'2.2.1');
+		DSC::loadJQuery('latest', true, 'tiendaJQ');
 		
 		parent::display($tpl);
 

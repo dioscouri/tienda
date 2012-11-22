@@ -67,6 +67,7 @@ DSCLoader::discover('Tienda', $parentPath, true);
 
 JHTML::_('script', 'common.js', 'media/dioscouri/js/');
 JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
+JHTML::_('script', 'tienda_admin.js', 'media/com_tienda/js/');
 
 // load the plugins
 JPluginHelper::importPlugin( 'tienda' );

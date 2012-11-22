@@ -34,7 +34,7 @@ class TiendaControllerConfig extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $config = Tienda::getInstance();
         $properties = $config->getProperties();
-
+        
         foreach (@$properties as $key => $value ) 
         {
             unset($row);
@@ -83,6 +83,16 @@ class TiendaControllerConfig extends TiendaController
                 break;
         }
 
+        $format = JRequest::getVar('format');
+        if ($format == 'raw') 
+        {
+            $response = array();
+            $response['error'] = $error;
+            $response['msg'] = $this->message;
+            echo json_encode($response);
+            return;
+        }
+        
         $redirect = JRoute::_( $redirect, false );
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }

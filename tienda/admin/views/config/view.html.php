@@ -22,6 +22,10 @@ class TiendaViewConfig extends TiendaViewBase
 	 */
 	function getLayoutVars($tpl=null) 
 	{
+	    $doc = JFactory::getDocument();
+	    $saveOnClick = 'tiendaJQ(document).ready(function(){ Tienda.saveConfigOnClick(); })';
+	    $doc->addScriptDeclaration( $saveOnClick );
+	    
 		$layout = $this->getLayout();
 		switch(strtolower($layout))
 		{
