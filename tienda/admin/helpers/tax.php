@@ -15,11 +15,11 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 
 class TiendaHelperTax extends TiendaHelperBase
 {
-	/*
+	/**
 	 * Calculate taxes on list of products based on provided geozones
 	 *
 	 * @param $products					Array of products
-	 * @param $source						Source of tax calculation (final_price '1', product_price '2', orderitem_price '3', orderitem_price + orderitem_attribute_price '4')
+	 * @param $source					Source of tax calculation (final_price '1', product_price '2', orderitem_price '3', orderitem_price + orderitem_attribute_price '4')
 	 * @param $geozones					Array with IDs of geozones
 	 *
 	 * @return Associative array with indexes product_id of products with arrays with list of their tax rates (names and rates)
@@ -40,7 +40,7 @@ class TiendaHelperTax extends TiendaHelperBase
 		{
 			$orderitem_tax = 0;
 
-			// fer each geozone for billing address calculate and update the item's tax value
+			// for each geozone for billing address calculate and update the item's tax value
 			foreach ( $geozones  as $geozone )
 			{
 				switch( $source )
@@ -91,7 +91,7 @@ class TiendaHelperTax extends TiendaHelperBase
 		
 	}
 	
-	/*
+	/**
 	 * Calculate taxes on list of products
 	 *
 	 * @param $products						Array of products
@@ -110,35 +110,40 @@ class TiendaHelperTax extends TiendaHelperBase
 		$result->tax_class_rates = array();
 		$result->product_taxes = array();
 
-		if ( !is_array( $products ) )
+		if ( !is_array( $products ) ) {
 			return $result;
+		}
 
 		Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
 		Tienda::load( 'TiendaQuery', 'library.query' );
 		Tienda::load( 'TiendaTools', 'library.tools' );
-		if( $billing_address )
+		if ( $billing_address ) {
 			$billing_zones = TiendaHelperShipping::getGeoZones( $billing_address->zone_id, '1', $billing_address->postal_code );
-		else 
+		} else { 
 			$billing_zones = array();
-		if( count( $billing_zones ) )
+		}
+		
+		if ( !empty( $billing_zones ) )
 		{
-			foreach( $billing_zones as $key => $value )
+			foreach( $billing_zones as $key => $value ) {
 				$billing_zones[$key] = $value->geozone_id;
+			}
 		}
 
-		//load the defaul geozones when user is logout and the config is to show tax
+		//load the default geozones when user is logged out and the config is to show tax
 		if (empty( $billing_zones ) )
 		{
 			$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser()->id );
-      if( empty( $geozones ) )
-      {
-      	// use the default
-				$billing_zones = array( Tienda::getInstance()->get('default_tax_geozone') );
- 			}
+			if( empty( $geozones ) )
+			{
+			    // use the default
+			    $billing_zones = array( Tienda::getInstance()->get('default_tax_geozone') );
+			}
 			else
 			{
-				foreach( $geozones as $key => $value )
-					$billing_zones[$key] = $value->geozone_id;
+			    foreach( $geozones as $key => $value ) {
+			        $billing_zones[$key] = $value->geozone_id;
+			    }
 			}
 		}
 

@@ -448,49 +448,69 @@ class TiendaTableOrders extends TiendaTable
      */
     function calculateTaxTotals()
     {
+        $config = Tienda::getInstance();
+        $show_tax = $config->get('display_prices_with_tax');
+        $calc_tax_shipping = $config->get('calc_tax_shipping');
+        
         Tienda::load( "TiendaHelperTax", 'helpers.tax' );
         $this->_taxrate_amounts = array();
         $this->_taxclass_amounts = array();
+        
         $items = $this->getItems();
-        $taxes = TiendaHelperTax::calculateTax( $items, 1, $this->getBillingAddress(), $this->getShippingAddress() );
-				$show_tax = Tienda::getInstance()->get('display_prices_with_tax');
+        $shipping_address = $this->getShippingAddress();
+        $billing_address = $this->getBillingAddress();
+        if ($calc_tax_shipping) {
+            $taxes = TiendaHelperTax::calculateTax( $items, 1, $shipping_address, $shipping_address );
+        } else {
+            $taxes = TiendaHelperTax::calculateTax( $items, 1, $billing_address, $shipping_address );
+        }
 
-				foreach( $items as $item )
+        foreach( $items as $item )
         {
-          $item->orderitem_tax = $taxes->product_taxes[ $item->product_id ];
-          if( $show_tax )
-	          $item->orderitem_final_price += $item->orderitem_tax;
+            $item->orderitem_tax = $taxes->product_taxes[ $item->product_id ];
+            if( $show_tax ) {
+                $item->orderitem_final_price += $item->orderitem_tax;
+            }
         }
 
         
         foreach( @$taxes->tax_rate_rates as $key => $value )
         {
-        	$applied_tax = $value->applied_tax;
-        	// add this as one of the taxrates applicable to this order
-					if ( empty( $this->_taxrates[$key] ) )
-						$this->_taxrates[$key] = $value;    
-					// track the total amount of tax applied to this order for this taxrate
-          if ( empty($this->_taxrate_amounts[$key] ) )
-						$this->_taxrate_amounts[$key] = 0;    
-					$this->_taxrate_amounts[$key] += $applied_tax;
+            $applied_tax = $value->applied_tax;
+             
+            // add this as one of the taxrates applicable to this order
+            if ( empty( $this->_taxrates[$key] ) ) {
+                $this->_taxrates[$key] = $value;
+            }
+
+            // track the total amount of tax applied to this order for this taxrate
+            if ( empty($this->_taxrate_amounts[$key] ) ) {
+                $this->_taxrate_amounts[$key] = 0;
+            }
+
+            $this->_taxrate_amounts[$key] += $applied_tax;
         }
-        
+
         foreach( @$taxes->tax_class_rates as $key => $value )
         {
-        	$applied_tax = $value->applied_tax;
-        	// add this as one of the taxclasses applicable to this order
-					if ( empty( $this->_taxclasses[$key] ) )
-						$this->_taxclasses[$key] = $value;
-      		// track the total amount of tax applied to this order for this taxclass
-					if ( empty( $this->_taxclass_amounts[$key] ) )
-						$this->_taxclass_amounts[$key] = 0;
-					$this->_taxclass_amounts[$key] += $applied_tax;
+            $applied_tax = $value->applied_tax;
+            
+            // add this as one of the taxclasses applicable to this order
+            if ( empty( $this->_taxclasses[$key] ) ) {
+                $this->_taxclasses[$key] = $value;
+            }
+            
+            // track the total amount of tax applied to this order for this taxclass
+            if ( empty( $this->_taxclass_amounts[$key] ) ) {
+                $this->_taxclass_amounts[$key] = 0;
+            }
+            
+            $this->_taxclass_amounts[$key] += $applied_tax;
         }
 
         $this->order_tax = $taxes->tax_total;
         
-        // some locations may want taxes calculated on shippingGeoZone, so
-        // Allow this to be modified via plugins
+        // Allow tax calculation to be modified via plugins
         $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateTaxTotals", array( $this ) );
     }
