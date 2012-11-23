@@ -107,6 +107,7 @@ class TiendaControllerAccounts extends TiendaController
 
         if ( $row->save() )
         {
+            $model->clearCache();
             $model->setId( $row->user_id );
             $this->messagetype  = 'message';
             $this->message      = JText::_('COM_TIENDA_SAVED');

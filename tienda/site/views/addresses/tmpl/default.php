@@ -49,6 +49,8 @@
                 </th>
                 <th>
                 </th>
+                <th>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -92,6 +94,11 @@
                     	echo JText::_('COM_TIENDA_DEFAULT_BILLING_ADDRESS');
                     }
                     ?>
+                </td>
+                <td style="text-align: center;">
+                    <a href="<?php echo JRoute::_( $item->link.$tmpl ); ?>">
+                        <?php echo JText::_( "COM_TIENDA_EDIT" ); ?>
+                    </a>
                 </td>
             </tr>
             <?php $i=$i+1; $k = (1 - $k); ?>

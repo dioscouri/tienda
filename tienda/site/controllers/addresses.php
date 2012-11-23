@@ -145,6 +145,7 @@ class TiendaControllerAddresses extends TiendaController
 
 		if ( $row->save() )
 		{
+		    $model->clearCache();
 			$model->setId( $row->address_id );
 			$this->messagetype  = 'message';
 			$this->message      = JText::_('COM_TIENDA_SAVED');

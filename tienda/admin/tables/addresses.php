@@ -95,7 +95,7 @@ class TiendaTableAddresses extends TiendaTable
         $elements  = TiendaHelperAddresses::getAddressElementsData( $address_type );
 
         if (empty($this->address_name)) {
-            $this->address_name = $this->address_2;
+            $this->address_name = $this->address_1;
         }
         
         if (empty($this->address_name) && $elements['address_name'][1] )

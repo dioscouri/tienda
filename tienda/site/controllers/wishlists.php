@@ -187,6 +187,8 @@ class TiendaControllerWishlists extends TiendaController
 	        }
         }
         
+        $model->clearCache();
+        
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute(); 
         $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
