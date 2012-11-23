@@ -103,7 +103,8 @@
                 	<?php
                 	if( $guest )
                 	{
-                		echo JText::_('COM_TIENDA_GUEST');
+                	    echo $row->billing_first_name . " " . $row->billing_last_name;
+                		echo ' [ ' . JText::_('COM_TIENDA_GUEST') . ' ]';
                 	}
                 	else
                 	{

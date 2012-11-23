@@ -101,7 +101,7 @@
 		<?php $i=0; $k=0; ?>
         <?php foreach (@$items as $item) :
         	$guest = $item->user_id < Tienda::getGuestIdStart();
-        ?>
+            ?>
             <tr class='row<?php echo $k; ?>'>
 				<td align="center">
 					<?php echo $i + 1; ?>
@@ -126,15 +126,22 @@
                 </td>
 				<td style="text-align: left;">
 					<?php
-						if( $guest )
-							echo JText::_('COM_TIENDA_GUEST');
+						if( $guest ) 
+						{
+						    ?>
+						    <a href="<?php echo $item->link_view; ?>">
+						    <?php echo $item->billing_first_name . " " . $item->billing_last_name; ?>
+						    </a>
+						    <br/>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo ' [ '. JText::_('COM_TIENDA_GUEST') .' ]'; ?>
+						    <?php
+						} 
 						else
 						{
 							?>
-					<a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $item->user_id; ?>">
-					<?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
-					</a>
-					&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
+                            <a href="index.php?option=com_tienda&view=users&task=view&id=<?php echo $item->user_id; ?>">
+                            <?php echo $item->user_name .' [ '.$item->user_id.' ]'; ?>
+                            </a>
+                            <br/>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<?php echo $item->email .' [ '.$item->user_username.' ]'; ?>
 							<?php
 						}
 					?>
