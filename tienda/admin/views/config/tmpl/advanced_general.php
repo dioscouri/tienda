@@ -4,6 +4,14 @@
 <table class="table table-striped table-bordered">
     <tbody>
         <tr>
+            <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_NO_ZONES_COUNTRIES'); ?>
+            </th>
+            <td style="width: 280px;"><input type="text" name="ignored_countries" value="<?php echo $this -> row -> get('ignored_countries', ''); ?>" class="inputbox" />
+            </td>
+            <td><?php echo JText::_('COM_TIENDA_COUNTRIES_THAT_WILL_BE_IGNORED_WHEN_VALIDATING_THE_ZONES_DURING_CHECKOUT_DESC'); ?>
+            </td>
+        </tr>
+        <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_ENABLE_AUTOMATIC_TABLE_REORDERING'); ?>
             </th>
             <td style="width: 150px;"><?php  echo TiendaSelect::btbooleanlist('enable_reorder_table', 'class="inputbox"', $this -> row -> get('enable_reorder_table', '1')); ?>

@@ -13,13 +13,19 @@
     
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ORDER_AND_CHECKOUT_SETTINGS'); ?></a>
+                <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_GENERAL_SETTINGS'); ?></a>
             </li>
             <li>
-                <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_COUPON_SETTINGS'); ?></a>
+                <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_SHIPPING_TAX_SETTINGS'); ?></a>
             </li>
             <li>
-                <a href="#tab3" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADDRESS_FIELDS_MANAGEMENT'); ?></a>
+                <a href="#tab3" data-toggle="tab"><?php echo JText::_('COM_TIENDA_COUPON_SETTINGS'); ?></a>
+            </li>
+            <li>
+                <a href="#tab4" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADDRESS_FIELDS_MANAGEMENT'); ?></a>
+            </li>
+            <li>
+                <a href="#tab5" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADVANCED_SETTINGS'); ?></a>
             </li>
         </ul>
 
@@ -29,11 +35,19 @@
             </div>
             
             <div class="tab-pane" id="tab2">
+                <?php $this->setLayout( 'orders_taxes' ); echo $this->loadTemplate(); ?>
+            </div>
+                        
+            <div class="tab-pane" id="tab3">
                 <?php $this->setLayout( 'orders_coupons' ); echo $this->loadTemplate(); ?>
             </div>
             
-            <div class="tab-pane" id="tab3">
+            <div class="tab-pane" id="tab4">
                 <?php $this->setLayout( 'orders_addresses' ); echo $this->loadTemplate(); ?>
+            </div>
+            
+            <div class="tab-pane" id="tab5">
+                <?php $this->setLayout( 'orders_advanced' ); echo $this->loadTemplate(); ?>
             </div>
         </div>
     </div>

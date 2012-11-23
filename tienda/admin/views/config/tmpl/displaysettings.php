@@ -13,10 +13,16 @@
     
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_DISPLAY_SETTINGS'); ?></a>
+                <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_GENERAL_SETTINGS'); ?></a>
             </li>
             <li>
-                <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_IMAGES_SETTINGS'); ?></a>
+                <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_SOCIAL_SETTINGS'); ?></a>
+            </li>
+            <li>
+                <a href="#tab3" data-toggle="tab"><?php echo JText::_('COM_TIENDA_IMAGES_SETTINGS'); ?></a>
+            </li>
+            <li>
+                <a href="#tab4" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADVANCED_SETTINGS'); ?></a>
             </li>
         </ul>
 
@@ -26,7 +32,15 @@
             </div>
             
             <div class="tab-pane" id="tab2">
+                <?php $this->setLayout( 'displaysettings_social' ); echo $this->loadTemplate(); ?>
+            </div>
+            
+            <div class="tab-pane" id="tab3">
                 <?php $this->setLayout( 'displaysettings_images' ); echo $this->loadTemplate(); ?>
+            </div>
+            
+            <div class="tab-pane" id="tab4">
+                <?php $this->setLayout( 'displaysettings_advanced' ); echo $this->loadTemplate(); ?>
             </div>
         </div>
     </div>

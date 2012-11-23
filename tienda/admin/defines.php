@@ -244,6 +244,8 @@ class Tienda extends DSC
 	public $eavinteger_use_thousand_separator = '0';	
 	public $date_format_act = 'D, d M Y, h:iA';
 	
+	public $calc_tax_shipping = '0';
+	
 
 	public static function getGuestIdStart()
 	{
