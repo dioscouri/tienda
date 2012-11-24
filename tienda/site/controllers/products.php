@@ -900,13 +900,17 @@ class TiendaControllerProducts extends TiendaController
                 }
             }
             
-            $remainder = ($product_qty % $product->quantity_step);
+            $remainder = 0;
+            if (!empty($product->quantity_step)) {
+                $remainder = ($product_qty % $product->quantity_step);
+            }
+                
             if (!empty($product->quantity_step) && !empty($remainder)) 
             {
                 $error = true;
                 $msg = $helper
                 ->generateMessage(
-                        JText::sprintf('COM_TIENDA_QUANTITY_MUST_BE_IN_INCREMENTS_OF', $product->quantity_step)
+                        JText::sprintf('COM_TIENDA_QUANTITY_MUST_BE_IN_INCREMENTS_OF_X_FOR_PRODUCT_Y', $product->quantity_step, $product->product_name)
                         );                
             }
             
@@ -1432,7 +1436,70 @@ class TiendaControllerProducts extends TiendaController
                 {
                     $product_qty = '1';
                 }
-
+                
+                if ( $product->quantity_restriction )
+                {
+                    $min = $product->quantity_min;
+                    $max = $product->quantity_max;
+                    
+                    if ( $max )
+                    {
+                        $user = JFactory::getUser( );
+                        $keynames = array( );
+                        $keynames['user_id'] = $user->id;
+                        if ( empty( $user->id ) )
+                        {
+                            $session = JFactory::getSession( );
+                            $keynames['session_id'] = $session->getId( );
+                        }
+                        $keynames['product_id'] = $product_id;
+                        
+                        $cartitem = JTable::getInstance( 'Carts', 'TiendaTable' );
+                        $cartitem->load( $keynames );
+                        
+                        $remaining = $max - $cartitem->product_qty;
+                        if ( $product_qty > $remaining )
+                        {
+                            $response['error'] = '1';
+                            $response['msg'] = $helper
+                            ->generateMessage(
+                                    JText::_('COM_TIENDA_YOU_HAVE_REACHED_THE_MAXIMUM_QUANTITY_YOU_CAN_ORDER_ANOTHER') . " " . $remaining );
+                            echo ( json_encode( $response ) );
+                            return false;
+                        }
+                    }
+                    
+                    if ( $min )
+                    {
+                        if ( $product_qty < $min )
+                        {
+                            $response['error'] = '1';
+                            $response['msg'] = $helper
+                            ->generateMessage(
+                                    JText::_('COM_TIENDA_YOU_HAVE_NOT_REACHED_THE_MIMINUM_QUANTITY_YOU_HAVE_TO_ORDER_AT_LEAST') . " "
+                                    . $min );
+                            echo ( json_encode( $response ) );
+                            return false;
+                        }
+                    }
+                    
+                    $remainder = 0;
+                    if (!empty($product->quantity_step)) {
+                        $remainder = ($product_qty % $product->quantity_step);
+                    }
+                    
+                    if (!empty($product->quantity_step) && !empty($remainder))
+                    {
+                        $response['error'] = '1';
+                        $response['msg'] = $helper
+                        ->generateMessage(
+                                JText::sprintf('COM_TIENDA_QUANTITY_MUST_BE_IN_INCREMENTS_OF_X_FOR_PRODUCT_Y', $product->quantity_step, $product->product_name)
+                        );
+                        echo ( json_encode( $response ) );
+                        return false;
+                    }
+                }
+                
                 // create cart object out of item properties
                 $item = new JObject;
                 $item->user_id = JFactory::getUser( )->id;

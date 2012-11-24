@@ -43,6 +43,11 @@ $image_addtocart = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::ge
         <?php
         $k = 0;         
         foreach ($items as $item): ?>
+            <?php 
+            $model = JModel::getInstance('Products', 'TiendaModel'); 
+            $model->setId($item->product_id_to); 
+            $item->full_object = $model->getItem(); 
+            ?>
         <tr>
         	<td style="text-align: center; width: 50px;">
         		<?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'thumb', false, false, array( 'width'=>64 )); ?>
@@ -57,7 +62,15 @@ $image_addtocart = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::ge
                <?php  echo TiendaHelperProduct::dispayPriceWithTax($item->product_price, $item->tax, $this->product_relations_data->show_tax); ?>
             </td>
             <td style="text-align: center;">
-                <input type="text" name="quantities[<?php echo $item->product_id; ?>]" value="1" size="5" />
+                <div id='product_quantity_input_<?php echo $item->product_id; ?>' class="product_quantity_input">
+                    <?php if ($item->full_object->product_parameters->get('hide_quantity_input') == '1') { ?>
+                        <input type="hidden" name="quantities[<?php echo $item->product_id; ?>]" value="<?php echo $item->full_object->product_parameters->get('default_quantity', '1'); ?>" />
+                    <?php } elseif ($item->full_object->quantity_restriction && $item->full_object->quantity_min == $item->full_object->quantity_max) { ?>
+                        <input type="hidden" name="quantities[<?php echo $item->product_id; ?>]" value="<?php echo $item->full_object->quantity_min; ?>" />
+                    <?php } else { ?>
+                        <input type="text" name="quantities[<?php echo $item->product_id; ?>]" value="<?php echo ($item->full_object->quantity_min > 0) ? $item->full_object->quantity_min : '1'; ?>" size="5" />
+                    <?php } ?>
+                </div>
             </td>        
         </tr>
         <?php $k = 1 - $k; ?>           

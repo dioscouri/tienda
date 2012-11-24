@@ -410,7 +410,11 @@ class TiendaControllerCarts extends TiendaController
 	                      }
 	                  }
 	                  
-	                  $remainder = ($value % $product->quantity_step);
+	                  $remainder = 0;
+	                  if (!empty($product->quantity_step)) {
+	                      $remainder = ($value % $product->quantity_step);
+	                  }
+
 	                  if (!empty($product->quantity_step) && !empty($remainder))
 	                  {
 	                      $msg = JText::sprintf('COM_TIENDA_QUANTITY_MUST_BE_IN_INCREMENTS_OF', $product->quantity_step);

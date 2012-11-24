@@ -1839,8 +1839,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         $results = $db->loadObjectList( );
 
-        //are we going to dump the result???
-        //JFactory::getApplication()->enqueueMessage( Tienda::dump( $results ) );
         return $results;
     }
 
