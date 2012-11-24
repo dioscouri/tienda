@@ -329,22 +329,22 @@ class TiendaControllerCarts extends TiendaController
                 //main cartitem keys
                 $ids = array('user_id'=>$user->id, 'cart_id'=>$cart_id);
 		
-				        if (empty($user->id))
-		                {
-		                    $ids['session_id'] = $session->getId();
-		                }
+                if (empty($user->id))
+                {
+                    $ids['session_id'] = $session->getId();
+                }
 
-		                if ($return = $row->delete(array('cart_id'=>$cart_id)))
-		                {
-                      $item = new JObject;
-                      $item->product_id = $product_id;
-                      $item->product_attributes = $product_attributes[$cart_id];
-                      $item->vendor_id = '0'; // vendors only in enterprise version
-                      $item->cart_id = $cart_id;
-		                	// fire plugin event
-			                $dispatcher = JDispatcher::getInstance();
-			                $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
-		                }
+                if ($return = $row->delete(array('cart_id'=>$cart_id)))
+                {
+                    $item = new JObject;
+                    $item->product_id = $product_id;
+                    $item->product_attributes = $product_attributes[$cart_id];
+                    $item->vendor_id = '0'; // vendors only in enterprise version
+                    $item->cart_id = $cart_id;
+                    // fire plugin event
+                    $dispatcher = JDispatcher::getInstance();
+                    $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
+                }
             }
         } 
         else 
@@ -389,29 +389,38 @@ class TiendaControllerCarts extends TiendaController
 	              $product->load( array( 'product_id'=>$product_id) );
 	              if( $product->quantity_restriction )
 	              {
-              		$min = $product->quantity_min;
-              		$max = $product->quantity_max;
-                    	
-                  if( $max )
-                  {
-                  	if ($value > $max )
-                  	{
-                  		$msg = JText::_('COM_TIENDA_REACHED_MAXIMUM_QUANTITY_FOR_THIS_OBJECT').$max;
-                  		$value = $max;
-                  	}
-                  }
-                  if( $min )
-                  {
-                  	if ($value < $min )
-                  	{
-                  		$msg = JText::_('COM_TIENDA_REACHED_MAXIMUM_QUANTITY_FOR_THIS_OBJECT').$min;
-                  		$value = $min;
-                  	}
-                  }
+	                  $min = $product->quantity_min;
+	                  $max = $product->quantity_max;
+	                   
+	                  if( $max )
+	                  {
+	                      if ($value > $max )
+	                      {
+	                          $msg = JText::_('COM_TIENDA_REACHED_MAXIMUM_QUANTITY_FOR_THIS_OBJECT').$max;
+	                          $value = $max;
+	                      }
+	                  }
+	                  
+	                  if( $min )
+	                  {
+	                      if ($value < $min )
+	                      {
+	                          $msg = JText::_('COM_TIENDA_REACHED_MAXIMUM_QUANTITY_FOR_THIS_OBJECT').$min;
+	                          $value = $min;
+	                      }
+	                  }
+	                  
+	                  $remainder = ($value % $product->quantity_step);
+	                  if (!empty($product->quantity_step) && !empty($remainder))
+	                  {
+	                      $msg = JText::sprintf('COM_TIENDA_QUANTITY_MUST_BE_IN_INCREMENTS_OF', $product->quantity_step);
+	                      $value = ($value - $remainder) > 0 ? $value - $remainder : $min;
+	                  }
 	              }
+	              
 	              if ($product->product_recurs)
 	              {
-	              	$value = 1;
+	                  $value = 1;
 	              }
               }
                 	
@@ -420,24 +429,24 @@ class TiendaControllerCarts extends TiendaController
               $vals['product_qty'] = $value;
               if (empty($vals['product_qty']) || $vals['product_qty'] < 1)
               {
-              	// remove it
-              	if ($return = $row->delete($cart_id))
-              	{
-              		$item = new JObject;
-              		$item->product_id = $product_id;
-                    $item->product_attributes = $product_attributes[$cart_id];
-                    $item->vendor_id = '0'; // vendors only in enterprise version
+                  // remove it
+                  if ($return = $row->delete($cart_id))
+                  {
+                      $item = new JObject;
+                      $item->product_id = $product_id;
+                      $item->product_attributes = $product_attributes[$cart_id];
+                      $item->vendor_id = '0'; // vendors only in enterprise version
                        
-                    // fire plugin event
-                    $dispatcher = JDispatcher::getInstance();
-                    $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
-              	}
+                      // fire plugin event
+                      $dispatcher = JDispatcher::getInstance();
+                      $dispatcher->trigger( 'onRemoveFromCart', array( $item ) );
+                  }
               }
               else
               {
-                $row->load($cart_id);
-              	$row->product_qty = $vals['product_qty'];
-              	$row->save();                    
+                  $row->load($cart_id);
+                  $row->product_qty = $vals['product_qty'];
+                  $row->save();
               }
             }
         }

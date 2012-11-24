@@ -869,37 +869,47 @@ class TiendaControllerProducts extends TiendaController
 
         $cartitem = JTable::getInstance( 'Carts', 'TiendaTable' );
         $cartitem->load( $keynames );
+        
         if ( $product->quantity_restriction )
         {
-            if ( $product->quantity_restriction )
-            {
-                $error = false;
-                $min = $product->quantity_min;
-                $max = $product->quantity_max;
+            $error = false;
+            $min = $product->quantity_min;
+            $max = $product->quantity_max;
 
-                if ( $max )
+            if ( $max )
+            {
+                $remaining = $max - $cartitem->product_qty;
+                if ( $product_qty > $remaining )
                 {
-                    $remaining = $max - $cartitem->product_qty;
-                    if ( $product_qty > $remaining )
-                    {
-                        $error = true;
-                        $msg = $helper
-                        ->generateMessage(
-                                JText::_('COM_TIENDA_YOU_HAVE_REACHED_THE_MAXIMUM_QUANTITY_YOU_CAN_ORDER_ANOTHER') . " " . $remaining );
-                    }
-                }
-                if ( $min )
-                {
-                    if ( $product_qty < $min )
-                    {
-                        $error = true;
-                        $msg = $helper
-                        ->generateMessage(
-                                JText::_('COM_TIENDA_YOU_HAVE_NOT_REACHED_THE_MIMINUM_QUANTITY_YOU_HAVE_TO_ORDER_AT_LEAST') . " "
-                                . $min );
-                    }
+                    $error = true;
+                    $msg = $helper
+                    ->generateMessage(
+                            JText::_('COM_TIENDA_YOU_HAVE_REACHED_THE_MAXIMUM_QUANTITY_YOU_CAN_ORDER_ANOTHER') . " " . $remaining );
                 }
             }
+            
+            if ( $min )
+            {
+                if ( $product_qty < $min )
+                {
+                    $error = true;
+                    $msg = $helper
+                    ->generateMessage(
+                            JText::_('COM_TIENDA_YOU_HAVE_NOT_REACHED_THE_MIMINUM_QUANTITY_YOU_HAVE_TO_ORDER_AT_LEAST') . " "
+                            . $min );
+                }
+            }
+            
+            $remainder = ($product_qty % $product->quantity_step);
+            if (!empty($product->quantity_step) && !empty($remainder)) 
+            {
+                $error = true;
+                $msg = $helper
+                ->generateMessage(
+                        JText::sprintf('COM_TIENDA_QUANTITY_MUST_BE_IN_INCREMENTS_OF', $product->quantity_step)
+                        );                
+            }
+            
             if ( $error )
             {
                 $response['msg'] = $msg;
