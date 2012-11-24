@@ -62,7 +62,7 @@
 				</td>	
 				<td style="text-align: center;">
 				    <span class="relationship_<?php echo $item->relation_type; ?>">
-					<?php echo JText::_( 'COM_TIENDA_RELATIONSHIP'. $item->relation_type ); ?>
+					<?php echo JText::_( 'COM_TIENDA_RELATIONSHIP_'. $item->relation_type ); ?>
 					</span>
 				</td>
 				<td style="text-align: left;">
@@ -100,7 +100,7 @@
                     <?php echo TiendaHelperBase::currency($product_price); ?>
                 </td>
 				<td style="text-align: center;">
-				    <button class="btn btn-danger" onclick="tiendaRemoveRelationship(<?php echo $item->productrelation_id; ?>, 'existing_relationships', '<?php echo JText::_('COM_TIENDA_DELETING'); ?>');" value="<?php echo JText::_('COM_TIENDA_DELETE'); ?>" ><?php echo JText::_('COM_TIENDA_DELETE'); ?></button>
+				    <input type="button" class="btn btn-danger" onclick="tiendaRemoveRelationship(<?php echo $item->productrelation_id; ?>, 'existing_relationships', '<?php echo JText::_('COM_TIENDA_DELETING'); ?>');" value="<?php echo JText::_('COM_TIENDA_DELETE'); ?>" value="<?php echo JText::_('COM_TIENDA_DELETE'); ?>" />
 				</td>
 			</tr>
 			<?php $i=$i+1; $k = (1 - $k); ?>

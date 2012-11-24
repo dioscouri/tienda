@@ -1341,7 +1341,7 @@ class TiendaControllerProducts extends TiendaController
         }
 
         // convert elements to array that can be binded
-        $values = TiendaHelperBase::elementsToArray( $elements );
+        $values = $helper->elementsToArray( $elements );
         $attributes_csv = '';
         $product_id = !empty( $values['product_id'] ) ? ( int ) $values['product_id'] : JRequest::getInt( 'product_id' );
         $quantities = !empty( $values['quantities'] ) ? $values['quantities'] : array( );

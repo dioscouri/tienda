@@ -28,7 +28,9 @@ class TiendaModelElementproduct extends DSCModelElement
 	
 	var $_page = null;
 	
-	var $select_title_constant = 'COM_TIENDA_SELECT_PRODUCTS';
+	var $select_title_constant = 'COM_TIENDA_SELECT_PRODUCT';
+	public $select_constant = 'COM_TIENDA_SELECT_PRODUCT';
+	public $clear_constant = 'COM_TIENDA_CLEAR_SELECTION';
 	
 	function getTable($name = '', $prefix = null, $options = array()) {
 		$table = JTable::getInstance('Products', 'TiendaTable');
@@ -124,7 +126,8 @@ class TiendaModelElementproduct extends DSCModelElement
 		return $this->_page;
 	}	
 	
-	function fetchElement($name, $value = '', $control_name = '', $js_extra = '', $fieldName = '', $clear = NULL) {
+	function fetchElement($name, $value = '', $control_name = '', $js_extra = '', $fieldName = '', $clear = NULL) 
+	{
 		$doc = JFactory::getDocument();
 
 		if (empty($fieldName)) {

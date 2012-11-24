@@ -52,7 +52,11 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 
 		$table = JTable::getInstance('ProductRelations', 'TiendaTable');
 		$table->delete( $productrelation_id );
-
+		
+		JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+        $model->clearCache();
+        
 		$response['error'] = '0';
 		$response['msg'] = $this->getRelationshipsHtml( null, $product_id );
 

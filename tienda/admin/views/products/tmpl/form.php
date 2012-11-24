@@ -1012,12 +1012,26 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
         <div style="width: 100%;">
              <div class="well options">
             <legend><?php echo JText::_('COM_TIENDA_ADD_NEW_RELATIONSHIP'); ?></legend>
-                <div id="new_relationship" style="float: left;">
-                    <?php echo TiendaSelect::relationship('', 'new_relationship_type'); ?>
-                    <?php echo JText::_('COM_TIENDA_PRODUCT_ID').": "; ?>
-                    <input name="new_relationship_productid_to" size="15" type="text" />
-                    <input name="new_relationship_productid_from" value="<?php echo @$row->product_id; ?>" type="hidden" />
-                    <button value="<?php echo JText::_('COM_TIENDA_ADD'); ?>" class="btn btn-primary" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_('COM_TIENDA_UPDATING_RELATIONSHIPS'); ?>');" ><?php echo JText::_('COM_TIENDA_ADD'); ?></button>
+                <div id="new_relationship" class="dsc-wrap dsc-table">
+                    <div class="dsc-row">
+                        <div class="dsc-cell">
+                            <?php echo TiendaSelect::relationship('', 'new_relationship_type'); ?>
+                        </div>
+                        <div class="dsc-cell">
+                            <?php 
+                            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+                            $model = DSCModel::getInstance( 'ElementProduct', 'TiendaModel' );
+                            echo $model->fetchElement( 'new_relationship_productid_to' );
+                            echo $model->clearElement( 'new_relationship_productid_to' );
+                            //<input name="new_relationship_productid_to" size="15" type="text" />
+                            ?>                    
+                            
+                            <input name="new_relationship_productid_from" value="<?php echo @$row->product_id; ?>" type="hidden" />
+                        </div>
+                        <div class="dsc-cell">
+                            <input type="button" value="<?php echo JText::_('COM_TIENDA_ADD'); ?>" class="btn btn-success" onclick="tiendaAddRelationship('existing_relationships', '<?php echo JText::_('COM_TIENDA_UPDATING_RELATIONSHIPS'); ?>');" value="<?php echo JText::_('COM_TIENDA_ADD'); ?>" />
+                        </div>
+                    </div>
                 </div>
                 <div style="clear: both;"></div>
             </div>

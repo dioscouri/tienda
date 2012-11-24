@@ -1939,12 +1939,12 @@ class TiendaControllerProducts extends TiendaController
 		{
 			if( $view === null )
 			{
-				$view   = $this->getView( 'products', 'html' );
-				$view->set( '_controller', 'products' );
-        $view->set( '_view', 'products' );
-        $view->set( '_doTask', true);
-				$view->set( 'hidemenu', true);
-				$view->setModel( $model, true );
+			    $view   = $this->getView( 'products', 'html' );
+			    $view->set( '_controller', 'products' );
+			    $view->set( '_view', 'products' );
+			    $view->set( '_doTask', true);
+			    $view->set( 'hidemenu', true);
+			    $view->setModel( $model, true );
 			}
 			$view->setLayout( 'form_relations' );
 			$view->set('items', $items);

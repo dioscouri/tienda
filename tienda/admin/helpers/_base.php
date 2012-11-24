@@ -703,7 +703,7 @@ class TiendaHelperBase extends DSCHelper
 	/**
 	 * Set the document format
 	 */
-	function setFormat( $format = 'html' )
+	public static function setFormat( $format = 'html' )
 	{
 		// 	Default to raw output
 		$doc = JFactory::getDocument();
