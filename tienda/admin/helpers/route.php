@@ -10,17 +10,17 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
+if ( !class_exists('Tienda') ) {
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR . "/components/com_tienda/defines.php" );
+}
 
 class TiendaHelperRoute extends DSCHelperRoute 
 {
     static $itemids = null;
     
-    /**
-     *
-     */
-    static function getItems( $option='com_tienda' )
+    public static function getItems( $option='com_tienda' )
     {
-       parent::getItems($option);
+        return parent::getItems($option);        
     }
     
     /**
