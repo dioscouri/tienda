@@ -40,7 +40,7 @@
         </li>
     </ul>
 
-    <input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
+    <input type="submit" name="submit" class="btn btn-primary" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
 
     <input type="hidden" name="option" value="com_users" /> <input type="hidden" name="task" value="user.login" /> <input type="hidden" name="return" value="<?php echo base64_encode( $url ); ?>" />
     <?php echo JHTML::_( 'form.token' ); ?>

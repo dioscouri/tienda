@@ -1,8 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="dsc-table">
+<div class="dsc-table dsc-full">
     <div class="dsc-row">
-        <div class="dsc-cell">
+        <div class="dsc-cell dsc-half">
         
             <h4>
                 <?php echo JText::_('COM_TIENDA_RETURNING_USERS'); ?>
@@ -42,7 +42,7 @@
             
         </div>
         
-        <div class="dsc-cell">
+        <div class="dsc-cell dsc-half">
         
             <h4>
                 <?php echo JText::_('COM_TIENDA_NEW_USERS'); ?>

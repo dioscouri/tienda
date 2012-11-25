@@ -1,3 +1,7 @@
+if (typeof(Tienda) === 'undefined') {
+    var Tienda = {};
+}
+
 /**
  * Simple function to refresh a page.
  */

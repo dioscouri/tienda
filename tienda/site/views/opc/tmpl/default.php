@@ -1,10 +1,14 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $active = false; ?>
+<?php 
+JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/');
+?>
 
 <ol id="opc-checkout-steps">
     
     <?php if (empty($this->user->id)) { ?>
-    <li id="opc-checkout-method" class="section <?php if (empty($active)) { $active = true; echo 'active'; } ?>">
+    <li id="opc-checkout-method" class="section allow <?php if (empty($active)) { $active = 'opc-checkout-method'; echo 'active'; } ?>">
         <div class="section-title">
             <h3><?php echo JText::_( "COM_TIENDA_CHECKOUT_METHOD" ); ?></h3>
             <a class="opc-change" style="display: none;"><?php echo JText::_( "COM_TIENDA_CHANGE" ); ?></a>
@@ -16,7 +20,7 @@
     </li>
     <?php } ?>
     
-    <li id="opc-billing" class="section <?php if (empty($active)) { $active = true; echo 'active'; } ?>">
+    <li id="opc-billing" class="section <?php if (empty($active)) { $active = 'opc-billing'; echo 'active'; } ?>">
         <div class="section-title">
             <h3><?php echo JText::_( "COM_TIENDA_BILLING_INFORMATION" ); ?></h3>
             <a class="opc-change" style="display: none;"><?php echo JText::_( "COM_TIENDA_CHANGE" ); ?></a>
@@ -28,7 +32,7 @@
     </li>    
     
     <?php if (!empty($this->showShipping)) { ?>
-    <li id="opc-shipping" class="section <?php if (empty($active)) { $active = true; echo 'active'; } ?>">
+    <li id="opc-shipping" class="section <?php if (empty($active)) { $active = 'opc-shipping'; echo 'active'; } ?>">
         <div class="section-title">
             <h3><?php echo JText::_( "COM_TIENDA_SHIP_TO" ); ?></h3>
             <a class="opc-change" style="display: none;"><?php echo JText::_( "COM_TIENDA_CHANGE" ); ?></a>
@@ -39,7 +43,7 @@
         <div id="opc-shipping-summary" class="opc-summary opc-hidden"></div>
     </li>
     
-    <li id="opc-shipping-method" class="section <?php if (empty($active)) { $active = true; echo 'active'; } ?>">
+    <li id="opc-shipping-method" class="section <?php if (empty($active)) { $active = 'opc-shipping-method'; echo 'active'; } ?>">
         <div class="section-title">
             <h3><?php echo JText::_( "COM_TIENDA_SHIPPING_METHOD" ); ?></h3>
             <a class="opc-change" style="display: none;"><?php echo JText::_( "COM_TIENDA_CHANGE" ); ?></a>
@@ -51,7 +55,7 @@
     </li>
     <?php } ?>
 
-    <li id="opc-payment" class="section <?php if (empty($active)) { $active = true; echo 'active'; } ?>">
+    <li id="opc-payment" class="section <?php if (empty($active)) { $active = 'opc-payment'; echo 'active'; } ?>">
         <div class="section-title">
             <h3><?php echo JText::_( "COM_TIENDA_PAYMENT_INFORMATION" ); ?></h3>
             <a class="opc-change" style="display: none;"><?php echo JText::_( "COM_TIENDA_CHANGE" ); ?></a>
@@ -62,7 +66,7 @@
         <div id="opc-payment-summary" class="opc-summary opc-hidden"></div>
     </li>
 
-    <li id="opc-review" class="section <?php if (empty($active)) { $active = true; echo 'active'; } ?>">
+    <li id="opc-review" class="section <?php if (empty($active)) { $active = 'opc-review'; echo 'active'; } ?>">
         <div class="section-title">
             <h3><?php echo JText::_( "COM_TIENDA_ORDER_REVIEW" ); ?></h3>
             <a class="opc-change" style="display: none;"><?php echo JText::_( "COM_TIENDA_CHANGE" ); ?></a>
@@ -73,5 +77,3 @@
         <div id="opc-review-summary" class="opc-summary opc-hidden"></div>
     </li>
 </ol>
-
-<?php FB::log($this); ?>

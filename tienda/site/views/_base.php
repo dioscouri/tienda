@@ -25,6 +25,10 @@ class TiendaViewBase extends DSCViewSite
 	 */
 	function display($tpl=null, $perform = true )
 	{
+	    DSC::loadJQuery('latest', true, 'tiendaJQ');
+	    DSC::loadBootstrap();
+	    JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
+	    
 		if( $perform )
 		{
 			$this->getLayoutVars($tpl);

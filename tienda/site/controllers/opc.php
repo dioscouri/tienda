@@ -21,4 +21,17 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         
         $this->set('suffix', 'opc');
     }
+    
+    public function setMethod()
+    {
+        $this->setFormat();
+    }
+    
+    private function setFormat( $set='raw' )
+    {
+        $format = JRequest::getVar('format');
+        if ($format != $set) {
+            JRequest::setVar('format', $set);
+        }
+    }
 }
