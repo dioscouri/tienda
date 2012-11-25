@@ -1,7 +1,11 @@
-<?php /** * @version 1.5 * @link http://www.dioscouri.com * @copyright 
-Copyright (C) 2007 Dioscouri Design. All rights reserved. * @license
-http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php * @author
-Dioscouri Design * @package Tienda */
+<?php 
+/**
+ * @package Tienda
+ * @author  Dioscouri Design
+ * @link    http://www.dioscouri.com
+ * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+*/
 
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -40,8 +44,34 @@ class TiendaControllerCheckout extends TiendaController
             JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_('COM_TIENDA_YOUR_CART_IS_EMPTY') );
             return;
         }
-
+        
+        if( Tienda::getInstance()->get('one_page_checkout', '0') ) {
+            $this->onepage_checkout = true;
+        }
+        
         $uri = JFactory::getURI();
+        $view = JRequest::getVar('view');
+        if ($this->onepage_checkout && $view != 'opc') 
+        {
+            $post = JRequest::get('post');
+            if (is_array($post) && !empty($post))
+            {
+                // Don't redirect if this is POST
+            }
+            else
+            {
+                $itemid = $this->router->findItemid( array('view'=>'opc') );
+                if (empty($itemid)) {
+                    $itemid = $this->router->findItemid( array('view'=>'checkout') );
+                    if (empty($itemid)) {
+                        $itemid = JRequest::getInt('Itemid');
+                    }
+                }
+                JFactory::getApplication()->redirect( JRoute::_( "index.php?option=com_tienda&view=opc&Itemid=" . $itemid ) );
+                return;
+            }
+        }
+        
         if (Tienda::getInstance()->get('force_ssl_checkout') && $uri->isSSL() == false )
         {
             $post = JRequest::get('post');
@@ -76,9 +106,6 @@ class TiendaControllerCheckout extends TiendaController
                 'COM_TIENDA_STEP_CHECKOUTRESULTS'
         );
         $this->current_step = 0;
-
-        if( Tienda::getInstance()->get('one_page_checkout', '0') )
-            $this->onepage_checkout = true;
     }
 
     /**
@@ -119,7 +146,7 @@ class TiendaControllerCheckout extends TiendaController
              
             $opc_layout = Tienda::getInstance()->get('one_page_checkout_layout', 'onepage-opc' );
             JRequest::setVar('layout', $opc_layout);
-            $view = $this->getView( 'checkout', 'html' );
+            $view = $this->getView( $this->get('suffix'), 'html' );
 
             $order = $this->_order;
             $order = $this->populateOrder();

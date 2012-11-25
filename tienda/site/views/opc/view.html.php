@@ -6,19 +6,15 @@
  * @link 	http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- */
+*/
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaModelBase', 'models._base' );
+JLoader::register( 'TiendaViewCheckout', JPATH_SITE . '/components/com_tienda/views/checkout/view.html.php' );
 
-class TiendaModelCheckout extends TiendaModelBase
+class TiendaViewOpc extends TiendaViewCheckout
 {
-    function getTable($name='Config', $prefix='TiendaTable', $options = array())
-    {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        return parent::getTable($name, $prefix, $options);
-    }
 
 }
+?>
