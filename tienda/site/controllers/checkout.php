@@ -564,6 +564,9 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         $model = $this->getModel('carts');
+        $user = JFactory::getUser();
+        $model->setState('filter_user', $user->id );
+        
         $view = $this->getView( 'checkout', 'html' );
         $view->set( '_controller', 'checkout' );
         $view->set( '_view', 'checkout' );
