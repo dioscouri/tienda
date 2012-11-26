@@ -4,14 +4,14 @@ OpcAccordion = Class.extend({
             clickableEntity: '.opc-section-title', 
             checkAllow: true
         };
-        this.disallowAccessToNextSections = false;
+        this.disallowAccessToNextSections = true;
         this.currentSection = false;
     },
     
     init: function (element, options) {
         this.__construct();
         this.element = tiendaJQ(element);
-        this.options = jQuery.extend( {}, this.defaults, options || {} );
+        this.options = jQuery.extend( true, {}, this.defaults, options || {} );
 
         this.checkAllow = this.options.checkAllow;
         this.sections = tiendaJQ(element + ' .opc-section');        
@@ -33,26 +33,26 @@ OpcAccordion = Class.extend({
     },
 
     openSection: function(section) {
-        var section = tiendaJQ('#'+section);
+        var sectionObj = tiendaJQ('#'+section);
 
-        if (this.checkAllow && !section.hasClass('allow')) {
+        if (this.checkAllow && !sectionObj.hasClass('allow')) {
             return;
         }
 
-        if(section.attr('id') != this.currentSection) {
+        if(sectionObj.attr('id') != this.currentSection) {
             this.closeExistingSection();
-            this.currentSection = section.attr('id');
+            this.currentSection = sectionObj.attr('id');
             tiendaJQ('#' + this.currentSection).addClass('active');
-            var contents = tiendaJQ('.opc-section-body', section);
+            var contents = tiendaJQ('.opc-section-body', sectionObj);
             contents.show();
-
+            
             if (this.disallowAccessToNextSections) {
                 var pastCurrentSection = false;
                 for (var i=0; i<this.sections.length; i++) {
                     if (pastCurrentSection) {
                         tiendaJQ(this.sections[i]).removeClass('allow');
                     }
-                    if (this.sections[i].attr('id') == section.attr('id')) {
+                    if (tiendaJQ(this.sections[i]).attr('id') == sectionObj.attr('id')) {
                         pastCurrentSection = true;
                     }
                 }
@@ -65,10 +65,6 @@ OpcAccordion = Class.extend({
         sectionObj.removeClass('active');
         var body = tiendaJQ('.opc-section-body', sectionObj);
         body.hide();
-        var summary = tiendaJQ('.opc-summary', sectionObj);
-        summary.show();
-        var change = tiendaJQ('.opc-change', sectionObj);
-        change.show();
     },
 
     openNextSection: function(setAllow){

@@ -28,9 +28,36 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $method = JRequest::getVar('method');
         $session = JFactory::getSession();
         $session->set('tienda.opc.method', $method);
+        $response = $this->getResponseObject();
         
-        $request = JRequest::get('request');
-        FB::log($request);
+        switch(strtolower($method)) {
+            case "guest":
+                $response->summary->html = JText::_("COM_TIENDA_GUEST_CHECKOUT");
+                break;
+            case "register":
+            default:
+                $response->summary->html = JText::_("COM_TIENDA_GUEST_REGISTERING_AS_NEW_USER");
+                break;
+        }
+        
+        echo json_encode($response);
+    }
+    
+    public function setBilling()
+    {
+        $this->setFormat();
+
+        $data = new stdClass();
+        
+        $session = JFactory::getSession();
+        $session->set('tienda.opc.billing', $data);
+        $response = $this->getResponseObject();
+    
+        $post = JRequest::get('post');
+        
+        $response->summary->html = DSC::dump($post);
+    
+        echo json_encode($response);
     }
     
     private function setFormat( $set='raw' )
@@ -39,5 +66,14 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         if ($format != $set) {
             JRequest::setVar('format', $set);
         }
+    }
+    
+    private function getResponseObject()
+    {
+        $response = new stdClass();
+        $response->summary = new stdClass();
+        $response->summary->html = ''; // the content to be inserted into the summary element
+        
+        return $response;
     }
 }

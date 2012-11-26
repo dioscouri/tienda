@@ -106,6 +106,11 @@ class TiendaControllerCheckout extends TiendaController
                 'COM_TIENDA_STEP_CHECKOUTRESULTS'
         );
         $this->current_step = 0;
+        
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $countries_model = JModel::getInstance( 'Countries', 'TiendaModel' );
+        $this->default_country = $countries_model->getDefault();
+        $this->default_country_id = $this->default_country->country_id;
     }
 
     /**
@@ -460,6 +465,9 @@ class TiendaControllerCheckout extends TiendaController
 
         }
         $view->setTask(true);
+        $view->assign('default_country', $this->default_country);
+        $view->assign('default_country_id', $this->default_country_id);
+        
         parent::display();
         return;
     }
@@ -638,7 +646,7 @@ class TiendaControllerCheckout extends TiendaController
     function getAdditionalInfoUser()
     {
         $html = '';
-        $model = $this->getModel( 'Checkout', 'TiendaModel' );
+        $model = $this->getModel( 'checkout', 'TiendaModel' );
         $view   = $this->getView( 'checkout', 'html' );
         $view->set( '_controller', 'checkout' );
         $view->set( '_view', 'checkout' );
@@ -1092,9 +1100,10 @@ class TiendaControllerCheckout extends TiendaController
         if( $disabled )
             $attribs['disabled'] = 'disabled';
 
-        if( $this->onepage_checkout )
-            $attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES').'\', \''.JText::_('COM_TIENDA_UPDATING_CART').'\', \''.JText::_('COM_TIENDA_UPDATING_ADDRESS').'\', \''.JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS').'\' ); ';
-
+        if( $this->onepage_checkout ) {
+            //$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES').'\', \''.JText::_('COM_TIENDA_UPDATING_CART').'\', \''.JText::_('COM_TIENDA_UPDATING_ADDRESS').'\', \''.JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS').'\' ); ';
+        }
+        
         if (empty($country_id))
         {
             $html = JText::_('COM_TIENDA_SELECT_COUNTRY');
@@ -1277,10 +1286,10 @@ class TiendaControllerCheckout extends TiendaController
     function getAddressForm( $prefix, $guest = false, $forShipping=false )
     {
         $html = '';
-        $model = $this->getModel( 'Addresses', 'TiendaModel' );
-        $view   = $this->getView( 'checkout', 'html' );
-        $view->set( '_controller', 'checkout' );
-        $view->set( '_view', 'checkout' );
+        $model = $this->getModel( 'addresses', 'TiendaModel' );
+        $view   = $this->getView( $this->get('suffix'), 'html' );
+        $view->set( '_controller', $this->get('suffix') );
+        $view->set( '_view', $this->get('suffix') );
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
         $view->set( 'form_prefix', $prefix );
@@ -1304,8 +1313,9 @@ class TiendaControllerCheckout extends TiendaController
         $default_country_id = $default_country->country_id;
 
         $attribs = array('class' => 'inputbox','size' => '1' );
-        if( $this->onepage_checkout )
-            $attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES').'\', \''.JText::_('COM_TIENDA_UPDATING_CART').'\', \''.JText::_('COM_TIENDA_UPDATING_ADDRESS').'\', \''.JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS').'\' ); ';
+        if ( $this->onepage_checkout ) {
+            //$attribs['onchange'] = 'tiendaCheckoutAutomaticShippingRatesUpdate( \''.$prefix.'zone_id\', \''.JText::_('COM_TIENDA_UPDATING_SHIPPING_RATES').'\', \''.JText::_('COM_TIENDA_UPDATING_CART').'\', \''.JText::_('COM_TIENDA_UPDATING_ADDRESS').'\', \''.JText::_('COM_TIENDA_UPDATING_PAYMENT_METHODS').'\' ); ';
+        }
 
         Tienda::load( 'TiendaSelect', 'library.select' );
         $zones = TiendaSelect::zone( '', $prefix.'zone_id', $default_country_id , $attribs, $prefix.'zone_id' );
