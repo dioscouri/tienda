@@ -67,7 +67,7 @@
                 <?php echo JText::_('COM_TIENDA_PLEASE_REGISTER_TO_CONTINUE_SHOPPING'); ?>
             </div>
             
-            <a id="opc-guest-register-button" class="btn btn-primary"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
+            <a id="opc-guest-register-button" class="btn btn-primary" onclick="TiendaOpc.setMethod();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
         
         </div>
     </div>

@@ -25,6 +25,12 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     public function setMethod()
     {
         $this->setFormat();
+        $method = JRequest::getVar('method');
+        $session = JFactory::getSession();
+        $session->set('tienda.opc.method', $method);
+        
+        $request = JRequest::get('request');
+        FB::log($request);
     }
     
     private function setFormat( $set='raw' )

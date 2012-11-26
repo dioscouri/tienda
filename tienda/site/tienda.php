@@ -63,7 +63,6 @@ if (empty($controller))
 $doc = JFactory::getDocument();
 $js = "var com_tienda = {};\n";
 $js.= "com_tienda.jbase = '".Tienda::getUriRoot()."';\n";
-
 $doc->addScriptDeclaration($js);
 
 $parentPath = JPATH_ADMINISTRATOR . '/components/com_tienda/helpers';
