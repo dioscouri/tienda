@@ -1,4 +1,7 @@
-Opc = Class.extend({
+/**
+ * 
+ */
+TiendaOpc = TiendaClass.extend({
     __construct: function() {
         this.defaults = {
             billingForm: null,
@@ -6,18 +9,22 @@ Opc = Class.extend({
             guestCheckoutEnabled: 1,
             summaryElements: {
                 setMethod: 'opc-checkout-method-summary',
-                setBilling: 'opc-billing-summary'
+                setBilling: 'opc-billing-summary',
+                setShipping: 'opc-shipping-summary',
+                setShippingMethod: 'opc-shipping-method-summary'
             }
         };
         
-        this.method = ''; // str
-        this.billing = ''; // obj
-        this.shipping = ''; // obj
-        this.payment = ''; // obj
+        this.method = null;
+        this.billing = null;
+        this.shipping = null;
+        this.payment = null;
         this.syncBillingShipping = false;
         this.urls = {
             setMethod: 'index.php?option=com_tienda&view=opc&task=setMethod&tmpl=component&format=raw',
             setBilling: 'index.php?option=com_tienda&view=opc&task=setBilling&tmpl=component&format=raw',
+            setShipping: 'index.php?option=com_tienda&view=opc&task=setShipping&tmpl=component&format=raw',
+            setShippingMethod: 'index.php?option=com_tienda&view=opc&task=setShippingMethod&tmpl=component&format=raw',
             failure: 'index.php?option=com_tienda&view=carts'
         };
     },
@@ -28,7 +35,7 @@ Opc = Class.extend({
         this.options = jQuery.extend( true, {}, this.defaults, options || {} );
         
         this.urls    = jQuery.extend( true, {}, this.urls, urls || {} );
-        this.accordion = new OpcAccordion(element, this.options);
+        this.accordion = new TiendaOpcAccordion(element, this.options);
     },
     
     gotoSection: function(section)
@@ -98,20 +105,22 @@ Opc = Class.extend({
     },
     
     setBilling: function() {
-        var next_section = 'shipping';
+        var next_section = 'payment';
+        if (this.shipping) {
+            next_section = 'shipping';
+        }        
         
         if ((tiendaJQ('#billing_input_use_for_shipping_yes')) && (tiendaJQ('#billing_input_use_for_shipping_yes').attr('checked'))) {
-            console.log('setBilling 1');
-            //shipping.syncWithBilling();
-            tiendaJQ('#opc-shipping').addClass('allow');
-            tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
-            var next_section = 'shipping-method';
+            if (this.shipping) {
+                this.shipping.syncWithBilling();
+                tiendaJQ('#opc-shipping').addClass('allow');
+                tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
+                next_section = 'shipping-method';
+            }
         } else if ((tiendaJQ('#billing_input_use_for_shipping_no')) && (tiendaJQ('#billing_input_use_for_shipping_no').attr('checked'))) {
             tiendaJQ('#shipping_input_same_as_billing').attr('checked', false);
-            console.log('setBilling 2');
         } else {
             tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
-            console.log('setBilling 3');
         }
         
         var form_data = tiendaJQ('#opc-billing-form').serializeArray();
@@ -134,11 +143,45 @@ Opc = Class.extend({
     },
     
     setShipping: function() {
-        this.gotoSection('shipping_method');
+        var next_section = 'shipping-method';
+        var form_data = tiendaJQ('#opc-shipping-form').serializeArray();
+
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: this.urls.setShipping,
+            context: this,
+            data: form_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+            response.summary.id = this.options.summaryElements.setShipping;
+            this.handleSuccess(response);
+            this.gotoSection(next_section);
+        }).fail(function(data){
+            this.handleFailure();
+        }).always(function(data){
+
+        });
     },
 
     setShippingMethod: function() {
-        this.gotoSection('payment');
+        var next_section = 'payment';
+        var form_data = tiendaJQ('#opc-shipping-method-form').serializeArray();
+
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: this.urls.setShippingMethod,
+            context: this,
+            data: form_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+            response.summary.id = this.options.summaryElements.setShippingMethod;
+            this.handleSuccess(response);
+            this.gotoSection(next_section);
+        }).fail(function(data){
+            this.handleFailure();
+        }).always(function(data){
+
+        });
     },
 
     setPayment: function() {
@@ -160,7 +203,7 @@ Opc = Class.extend({
         }
         
         if (response.update_section) {
-            //$('checkout-'+response.update_section.name+'-load').update(response.update_section.html);
+            /*$('checkout-'+response.update_section.name+'-load').update(response.update_section.html);*/
         }
         
         if (response.allow_sections) {
@@ -169,9 +212,10 @@ Opc = Class.extend({
             });
         }
 
-        if(response.duplicateBillingInfo)
+        if (response.duplicateBillingInfo)
         {
-            //shipping.setSameAsBilling(true);
+            this.shipping.setSameAsBilling(true);
+            this.setShipping();
         }
 
         if (response.goto_section) {
@@ -192,4 +236,67 @@ Opc = Class.extend({
     handleFailure: function() {
         window.location = this.urls.failure;
     }
+});
+
+TiendaShipping = TiendaClass.extend({
+    __construct: function() {
+        this.defaults = {
+            clickableEntity: '.opc-section-title', 
+            checkAllow: true,
+            billingInputPrefix: 'billing_input_',
+            shippingInputPrefix: 'shipping_input_'
+        };
+        this.disallowAccessToNextSections = true;
+        this.currentSection = false;
+    },
+    
+    init: function (element, options) {
+        this.__construct();
+        this.element = tiendaJQ(element);
+        this.options = jQuery.extend( true, {}, this.defaults, options || {} );
+
+        this.checkAllow = this.options.checkAllow;
+        this.sections = tiendaJQ(element + ' .opc-section');        
+        var headers = tiendaJQ(element + ' .opc-section ' + this.options.clickableEntity);
+
+        var self = this;
+        headers.each(function() {
+            tiendaJQ(this).click(function(event){
+                self.sectionClicked(event);
+            });
+        });
+    },
+    
+    getFormElements: function(el) {
+        var elements = el.find('*').filter(':input');
+        return elements;
+    },
+    
+    setSameAsBilling: function(flag) {
+        tiendaJQ('#shipping_input_same_as_billing').attr('checked', flag);
+        if (flag) {
+            this.syncWithBilling();
+        }
+    },
+
+    syncWithBilling: function () {
+        //tiendaJQ('#billing-address-select') && this.newAddress(!tiendaJQ('billing-address-select').value);
+        tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
+        
+        if (!tiendaJQ('#billing-address-select') || !tiendaJQ('#billing-address-select').val()) {
+            arrElements = this.getFormElements(this.element);
+
+            for (i=0,len=arrElements.length; i<len; i++) {
+                var targetFormElement = tiendaJQ(arrElements[i]);
+                if (targetFormElement.attr('id')) {
+                    var sourceField = tiendaJQ( '#' + targetFormElement.attr('id').replace(this.options.shippingInputPrefix, this.options.billingInputPrefix) );
+                    if (sourceField) {
+                        targetFormElement.val( sourceField.val() );
+                    }
+                }
+            }
+        } else {
+            tiendaJQ('#shipping-address-select').val( tiendaJQ('#billing-address-select').val() );
+        }
+    },
 });

@@ -1,4 +1,7 @@
-OpcAccordion = Class.extend({
+/**
+ * 
+ */
+TiendaOpcAccordion = TiendaClass.extend({
     __construct: function() {
         this.defaults = {
             clickableEntity: '.opc-section-title', 
@@ -72,7 +75,7 @@ OpcAccordion = Class.extend({
             var nextIndex = parseInt(section)+1;
             if (this.sections[section].attr('id') == this.currentSection && this.sections[nextIndex]){
                 if (setAllow) {
-                    tiendaJQ(this.sections[nextIndex]).addClass('allow')
+                    tiendaJQ(this.sections[nextIndex]).addClass('allow');
                 }
                 this.openSection(this.sections[nextIndex]);
                 return;
@@ -85,7 +88,7 @@ OpcAccordion = Class.extend({
             var prevIndex = parseInt(section)-1;
             if (this.sections[section].attr('id') == this.currentSection && this.sections[prevIndex]){
                 if (setAllow) {
-                    tiendaJQ(this.sections[prevIndex]).addClass('allow')
+                    tiendaJQ(this.sections[prevIndex]).addClass('allow');
                 }
                 this.openSection(this.sections[prevIndex]);
                 return;

@@ -192,11 +192,8 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 			</label>
 			<div id="<?php echo $this->form_prefix; ?>zones_wrapper">
 				<?php
-				if (!empty($this->zones)) {
-					echo $this->zones;
-				} else {
-					echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST');
-				}
+			    $attribs = array('class' => 'inputbox','size' => '1' );
+				echo TiendaSelect::zone( '', $this->form_prefix.'zone_id', $this->default_country_id , $attribs, $this->form_prefix.'zone_id' );
 				?>
 			</div>
 		</div>
@@ -237,12 +234,12 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 
     <ul>
         <li class="control">
-            <input type="checkbox" class="checkbox" onclick="TiendaShipping.setSameAsBilling(this.checked)" title="<?php echo JText::_( "COM_TIENDA_USE_BILLING_ADDRESS" ); ?>" value="1" id="<?php echo $this->form_prefix; ?>same_as_billing" name="<?php echo $this->form_prefix; ?>same_as_billing">
+            <input type="checkbox" class="checkbox" onclick="Opc.shipping.setSameAsBilling(this.checked)" title="<?php echo JText::_( "COM_TIENDA_USE_BILLING_ADDRESS" ); ?>" value="1" id="<?php echo $this->form_prefix; ?>same_as_billing" name="<?php echo $this->form_prefix; ?>same_as_billing">
             <label for="<?php echo $this->form_prefix; ?>same_as_billing"><?php echo JText::_('COM_TIENDA_USE_BILLING_ADDRESS'); ?></label>
         </li>
     </ul>
 	
-	<a id="opc-shipping-button" class="btn btn-primary" onclick="TiendaOpc.setShipping();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
+	<a id="opc-shipping-button" class="btn btn-primary" onclick="Opc.setShipping();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
 	
 </div>
 </form>

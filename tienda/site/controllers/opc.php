@@ -15,6 +15,8 @@ Tienda::load( 'TiendaControllerCheckout', 'controllers.checkout', array( 'site'=
 
 class TiendaControllerOpc extends TiendaControllerCheckout
 {
+    var $onepage_checkout = true;
+    
     public function __construct()
     {
         parent::__construct();
@@ -46,18 +48,125 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     public function setBilling()
     {
         $this->setFormat();
-
-        $data = new stdClass();
-        
         $session = JFactory::getSession();
-        $session->set('tienda.opc.billing', $data);
         $response = $this->getResponseObject();
     
         $post = JRequest::get('post');
         
-        $response->summary->html = DSC::dump($post);
-    
+        $address_id = null; // TODO if logged in and selecting from a stored address, use its id from the post
+        $user_id = $this->user->id ? $this->user->id : '-1'; 
+        $prefix = $this->billing_input_prefix;
+        $address_type = 1;
+        
+        $addressArray = $this->getAddressArray( $address_id, $prefix, $post );
+        $address = $this->getAddress( $addressArray, $address_type, $user_id );
+        $session->set('tienda.opc.billingAddress', serialize($address) );
+       
+        $order = &$this->_order;
+        $order = $this->populateOrder();
+        $order->setAddress( $address );
+        
+        $response->summary->html = $this->getSummaryAddress( $address );
+        
+        if (!empty($post['billing_input_use_for_shipping'])) {
+            $response->duplicateBillingInfo = 1;
+        }
+        
+        $response->summaries = array();
+        $summary = $this->getSummaryResponseObject();
+        $summary->id = 'opc-payment-body';
+        $summary->html = $this->getPaymentOptionsHtml( 'payment' );
+        $response->summaries[] = $summary;
+        
         echo json_encode($response);
+    }
+    
+    public function setShipping()
+    {
+        $this->setFormat();
+        $session = JFactory::getSession();
+        $response = $this->getResponseObject();
+    
+        $post = JRequest::get('post');
+        
+        $address_id = null; // TODO if logged in and selecting from a stored address, use its id from the post
+        $user_id = $this->user->id ? $this->user->id : '-1';
+        $prefix = $this->shipping_input_prefix;
+        $address_type = 2;
+        
+        $addressArray = $this->getAddressArray( $address_id, $prefix, $post );
+        $address = $this->getAddress( $addressArray, $address_type, $user_id );
+        $session->set('tienda.opc.shippingAddress', serialize($address) );
+        
+        $order = &$this->_order;
+        $order = $this->populateOrder();
+        $order->setAddress( $address, 'shipping' );
+        $billingAddress = unserialize( $session->get('tienda.opc.billingAddress') );
+        $order->setAddress( $billingAddress );
+
+        $rates = $this->getShippingRates();
+        $session->set('tienda.opc.shippingRates', serialize($rates) );
+        
+        $response->summary->html = $this->getSummaryAddress( $address );
+    
+        $response->summaries = array();
+        $summary = $this->getSummaryResponseObject();
+        $summary->id = 'opc-shipping-method-body';
+        $summary->html = $this->getShippingHtml( 'shippingmethod' );
+        $response->summaries[] = $summary; 
+        
+        echo json_encode($response);
+    }
+    
+    public function setShippingMethod()
+    {
+        $this->setFormat();
+        $session = JFactory::getSession();
+        $response = $this->getResponseObject();
+    
+        $post = JRequest::get('post');
+        
+        $value = $post['shipping_plugin'];
+        $parts = explode('.', $value); 
+        $plugin = $parts[0];
+        $key = $parts[1];
+        
+        $shippingRates = unserialize( $session->get('tienda.opc.shippingRates') );
+        
+        $currency = Tienda::getInstance()->get( 'default_currencyid', 1);
+        $rate = !empty($shippingRates[$key]) ? $shippingRates[$key] : null; 
+        $summary = $rate ? $rate['name'] . " (" . TiendaHelperBase::currency( $rate['total'], $currency ) . ")" : null;
+        
+        // TODO if $summary or $rate is null, fail
+        
+        $response->summary->html = $summary;
+
+        $session->set('tienda.opc.shippingMethod', serialize($rate) );
+        
+        echo json_encode($response);
+    }    
+    
+    private function getSummaryAddress( $address )
+    {
+        $lines = array();
+        
+        // TODO Get the fields enabled in config,
+        $lines[] = $address->first_name . " " . $address->last_name;
+        $lines[] = $address->address_1;
+        if ($address->address_2) {
+            $lines[] = $address->address_2;
+        }
+        $lines[] = $address->city;
+        if ($zone = $address->getZone()) {
+            $lines[] = $zone->zone_name;
+        }
+        $lines[] = $address->postal_code;
+        if ($country = $address->getCountry()) {
+            $lines[] = $country->country_name;
+        }
+                 
+        $return = implode(', ', $lines);
+        return $return;
     }
     
     private function setFormat( $set='raw' )
@@ -71,9 +180,17 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     private function getResponseObject()
     {
         $response = new stdClass();
-        $response->summary = new stdClass();
-        $response->summary->html = ''; // the content to be inserted into the summary element
+        $response->summary = $this->getSummaryResponseObject();
         
         return $response;
+    }
+    
+    private function getSummaryResponseObject()
+    {
+        $summary = new stdClass();
+        $summary->id = ''; // [optional] the id of the html element to be updated 
+        $summary->html = ''; // the content to be inserted into the html element
+        
+        return $summary;
     }
 }

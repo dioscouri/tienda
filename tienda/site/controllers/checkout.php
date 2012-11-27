@@ -111,6 +111,8 @@ class TiendaControllerCheckout extends TiendaController
         $countries_model = JModel::getInstance( 'Countries', 'TiendaModel' );
         $this->default_country = $countries_model->getDefault();
         $this->default_country_id = $this->default_country->country_id;
+        
+        $this->user = JFactory::getUser();
     }
 
     /**
@@ -137,7 +139,6 @@ class TiendaControllerCheckout extends TiendaController
         $user = JFactory::getUser();
 
         JRequest::setVar( 'view', $this->get('suffix') );
-
 
         //check if we have one page checkout
         if($this->onepage_checkout)
@@ -1065,7 +1066,7 @@ class TiendaControllerCheckout extends TiendaController
                 $address_type = '1';
                 break;
         }
-        $addressArray = $this->getAddress( $address_id, $prefix, $values );
+        $addressArray = $this->getAddressArray( $address_id, $prefix, $values );
         if((Tienda::getInstance()->get('guest_checkout_enabled', '1') && $user_id == 0) || $register )
             $addressArray['user_id'] = -1; // Fake id for the checkout process
 
@@ -1156,7 +1157,7 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         $billing_zone_id = 0;
-        $billingAddressArray = $this->getAddress( $billing_address_id, $billing_input_prefix, $values );
+        $billingAddressArray = $this->getAddressArray( $billing_address_id, $billing_input_prefix, $values );
         if (array_key_exists('zone_id', $billingAddressArray))
         {
             $billing_zone_id = $billingAddressArray['zone_id'];
@@ -1170,7 +1171,7 @@ class TiendaControllerCheckout extends TiendaController
         }
         else
         {
-            $shippingAddressArray = $this->getAddress($shipping_address_id, $shipping_input_prefix, $values);
+            $shippingAddressArray = $this->getAddressArray($shipping_address_id, $shipping_input_prefix, $values);
         }
 
         if (array_key_exists('zone_id', $shippingAddressArray))
@@ -1218,13 +1219,31 @@ class TiendaControllerCheckout extends TiendaController
     }
 
     /**
+     * 
+     * @param array $addressArray
+     * @param int $address_type    1=billing, 2=shipping
+     * @param int $user_id
+     * @return Ambigous <mixed, boolean, unknown>
+     */
+    public function getAddress( $addressArray, $address_type='1', $user_id='-1' )
+    {
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $address = JTable::getInstance('Addresses', 'TiendaTable');
+        $address->bind($addressArray);
+        $address->user_id = $user_id;
+        $address->addresstype_id = $address_type;
+        
+        return $address;
+    }
+    
+    /**
      *
      * @param unknown_type $address_id
      * @param unknown_type $input_prefix
      * @param unknown_type $form_input_array
-     * @return unknown_type
+     * @return array
      */
-    function getAddress( $address_id, $input_prefix, $form_input_array )
+    function getAddressArray( $address_id, $input_prefix, $form_input_array )
     {
         $addressArray = array();
         if (!empty($address_id))
@@ -1340,10 +1359,10 @@ class TiendaControllerCheckout extends TiendaController
     function getShippingHtml( $layout='shipping_yes' )
     {
         $html = '';
-        $model = $this->getModel( 'Checkout', 'TiendaModel' );
-        $view   = $this->getView( 'checkout', 'html' );
-        $view->set( '_controller', 'checkout' );
-        $view->set( '_view', 'checkout' );
+        $model = $this->getModel( $this->get('suffix'), 'TiendaModel' );
+        $view   = $this->getView( $this->get('suffix'), 'html' );
+        $view->set( '_controller', $this->get('suffix') );
+        $view->set( '_view', $this->get('suffix') );
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
         $view->setModel( $model, true );
@@ -1422,8 +1441,20 @@ class TiendaControllerCheckout extends TiendaController
      *
      * @return array
      */
-    function getShippingRates()
+    public function getShippingRates()
     {
+        static $rates;
+        
+        if (empty($rates) || !is_array($rates)) 
+        {
+            $rates = array();
+        }
+        
+        if (!empty($rates)) 
+        {
+            return $rates;
+        }
+        
         // get all the enabled shipping plugins
         Tienda::load( 'TiendaHelperPlugin', 'helpers.plugin' );
         //$plugins = TiendaHelperPlugin::getPluginsWithEvent( 'onGetShippingPlugins' );
@@ -1444,7 +1475,6 @@ class TiendaControllerCheckout extends TiendaController
             $order_tax += $item->orderitem_tax;
         }
 
-
         if ($plugins)
         {
             foreach ($plugins as $plugin)
@@ -1455,6 +1485,7 @@ class TiendaControllerCheckout extends TiendaController
                 if (in_array(true, $shippingOptions, true))
                 {
                     $results = $dispatcher->trigger( "onGetShippingRates", array( $plugin->element, $this->_order ) );
+
                     foreach ($results as $result)
                     {
                         if(is_array($result))
@@ -1478,6 +1509,7 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         $this->_order->order_subtotal -= $order_tax;
+        
         return $rates;
     }
 
@@ -1739,17 +1771,17 @@ class TiendaControllerCheckout extends TiendaController
         echo json_encode($response);
     }
 
-    function getPaymentOptionsHtml()
+    function getPaymentOptionsHtml( $layout='payment_options' )
     {
         $html = '';
-        $model = $this->getModel( 'Checkout', 'TiendaModel' );
-        $view   = $this->getView( 'checkout', 'html' );
-        $view->set( '_controller', 'checkout' );
-        $view->set( '_view', 'checkout' );
+        $model = $this->getModel( $this->get('suffix'), 'TiendaModel' );
+        $view   = $this->getView( $this->get('suffix'), 'html' );
+        $view->set( '_controller', $this->get('suffix') );
+        $view->set( '_view', $this->get('suffix') );
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
         $view->setModel( $model, true );
-        $view->setLayout( 'payment_options' );
+        $view->setLayout( $layout );
 
         $payment_plugins = $this->getPaymentOptions($this->_order);
         $view->assign( 'payment_plugins',  $payment_plugins);

@@ -15,15 +15,8 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableAddresses extends TiendaTable
 {
-    /**
-     *
-     *
-     * @param $db
-     * @return unknown_type
-     */
     function TiendaTableAddresses ( &$db )
     {
-
         $tbl_key 	= 'address_id';
         $tbl_suffix = 'addresses';
         $this->set( '_suffix', $tbl_suffix );
@@ -153,5 +146,33 @@ class TiendaTableAddresses extends TiendaTable
             }
         }
         return true;
+    }
+    
+    public function getZone()
+    {
+        if (empty($this->zone_id))
+        {
+            return false;
+        }
+        
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Zones', 'TiendaModel' );
+        $model->setId( $this->zone_id );
+        
+        return $model->getItem();
+    }
+    
+    public function getCountry()
+    {
+        if (empty($this->country_id)) 
+        {
+            return false;
+        }
+        
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Countries', 'TiendaModel' );
+        $model->setId( $this->country_id );
+        
+        return $model->getItem();
     }
 }

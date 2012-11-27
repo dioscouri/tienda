@@ -192,11 +192,8 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 			</label>
 			<div id="<?php echo $this->form_prefix; ?>zones_wrapper">
 				<?php
-				if (!empty($this->zones)) {
-					echo $this->zones;
-				} else {
-					echo JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST');
-				}
+			    $attribs = array('class' => 'inputbox','size' => '1' );
+				echo TiendaSelect::zone( '', $this->form_prefix.'zone_id', $this->default_country_id , $attribs, $this->form_prefix.'zone_id' );
 				?>
 			</div>
 		</div>
@@ -248,7 +245,7 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
     
     </ul>
 	
-	<a id="opc-billing-button" class="btn btn-primary" onclick="TiendaOpc.setBilling();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
+	<a id="opc-billing-button" class="btn btn-primary" onclick="Opc.setBilling();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
 	
 </div>
 </form>

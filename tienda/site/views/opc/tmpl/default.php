@@ -14,14 +14,14 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 
 $doc = JFactory::getDocument();
 $js = 'tiendaJQ(document).ready(function(){
-    TiendaOpc = new Opc("#opc-checkout-steps", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
+    Opc = new TiendaOpc("#opc-checkout-steps", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
     if (empty($this->user->id)) {
-        $js .= 'TiendaOpc.accordion.openSection("opc-checkout-method")';
+        $js .= 'Opc.accordion.openSection("opc-checkout-method");';
     } else {
-        $js .= 'TiendaOpc.accordion.openSection("opc-billing")';
+        $js .= 'Opc.accordion.openSection("opc-billing");';
     }
     if (!empty($this->showShipping)) {
-        //$js .= 'TiendaOpc.shipping = new TiendaShipping();';
+        $js .= 'Opc.shipping = new TiendaShipping("#opc-shipping-form");';
     }
 $js .= '});';
 $doc->addScriptDeclaration($js);
