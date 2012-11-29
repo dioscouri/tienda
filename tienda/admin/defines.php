@@ -92,7 +92,7 @@ class Tienda extends DSC
 	public $display_prices_with_tax            = '0';
 	public $display_taxclass_lineitems         = '0';
 	public $addtocartaction                    = 'redirect';
-	public $cartbutton                         = 'image';
+	public $cartbutton                         = 'button';
 	public $include_root_pathway               = '0';
 	public $display_tienda_pathway             = '1';
 	public $display_out_of_stock               = '1';
@@ -211,7 +211,7 @@ class Tienda extends DSC
 	public $sub_num_digits = '8';
 	public $default_sub_num = '1';
 	public $dispay_working_image_product = '1';
-	public $one_page_checkout_layout = 'onepage-opc';
+	public $one_page_checkout_layout     = 'standard';
 	public $low_stock_notify					= '0';
 	public $low_stock_notify_value				= '0';	
 	public $one_page_checkout_tooltips_enabled = '0';

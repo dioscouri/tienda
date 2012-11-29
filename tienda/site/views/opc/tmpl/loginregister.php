@@ -48,17 +48,21 @@
                 <?php echo JText::_('COM_TIENDA_NEW_USERS'); ?>
             </h4>
             
-            <ul>
+            <ul class="unstyled">
                 <?php if (Tienda::getInstance()->get('guest_checkout_enabled')) : ?>
                 <li class="control">
-                    <input type="radio" class="radio" value="guest" id="checkout-method-guest" name="checkout_method">
-                    <label for="checkout-method-guest"><?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?></label>
+                    <label for="checkout-method-guest" class="radio">
+                        <input type="radio" value="guest" id="checkout-method-guest" name="checkout_method">
+                        <?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>
+                    </label>
                 </li>
                 <?php endif; ?>
 
                 <li class="control">
-                    <input type="radio" class="radio" value="register" id="checkout-method-register" name="checkout_method">
-                    <label for="checkout-method-register"><?php echo JText::_( "COM_TIENDA_REGISTER" ); ?></label>
+                    <label for="checkout-method-register" class="radio">
+                        <input type="radio" value="register" id="checkout-method-register" name="checkout_method">
+                        <?php echo JText::_( "COM_TIENDA_REGISTER" ); ?>
+                    </label>
                 </li>
             
             </ul>

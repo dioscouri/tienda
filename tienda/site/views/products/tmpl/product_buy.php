@@ -98,7 +98,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
             <input type="hidden" name="product_qty" value="<?php echo $item->quantity_min; ?>" />
         <?php } else { ?>
         <span class="title"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?>:</span>
-        <input type="text" name="product_qty" value="<?php echo $item->_product_quantity; ?>" size="5" />
+        <input type="text" name="product_qty" value="<?php echo $item->_product_quantity; ?>" size="5" class="input-mini" />
         <?php } ?>
     </div>
  
@@ -119,18 +119,18 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         if (empty($item->product_check_inventory) || (!empty($item->product_check_inventory) && empty($this->invalidQuantity)) ) :
             switch (Tienda::getInstance()->get('cartbutton', 'image')) 
             {
-                case "button":
-                    ?>
-                    <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="button" />
-                    <?php
-                    break;
                 case "image":
-                default:
                 	// Search for localized version of the image
                 	Tienda::load('TiendaHelperImage', 'helpers.image');
                 	$image = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::getPath('images'));
                     ?> 
                     <img class='addcart' src='<?php echo Tienda::getUrl('images').$image; ?>' alt='<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>' onclick="<?php echo $onclick; ?>" />
+                    <?php
+                    break;
+                case "button":
+                default:
+                    ?>
+                    <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="btn btn-success" />
                     <?php
                     break;
             }

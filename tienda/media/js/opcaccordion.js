@@ -1,7 +1,7 @@
-/**
- * 
- */
 TiendaOpcAccordion = TiendaClass.extend({
+    /**
+     * @memberOf TiendaOpcAccordion
+     */
     __construct: function() {
         this.defaults = {
             clickableEntity: '.opc-section-title', 

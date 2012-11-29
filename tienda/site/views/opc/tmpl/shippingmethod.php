@@ -3,34 +3,33 @@
 
 <form id="opc-shipping-method-form" name="opc-shipping-method-form" action="" method="post">
     
-    <ul>
+    <ul class="unstyled">
     <?php
     if (!empty($this->rates)) 
     {
-        ?>
-        <li>
-        <?php      
         foreach ($this->rates as $key=>$rate) 
         {
-            $checked = "";
-    
-            if ( !empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
-            {
-            	$checked = "checked";                        
-            }        	        		
             ?>
-            <input id="shipping_<?php echo $rate['element'] . "_" . $key; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] . "." . $key ?>" <?php echo $checked; ?> />
-            <label for="shipping_<?php echo $rate['element'] . "_" . $key; ?>"><?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'], $currency ); ?> )</label>
+            <li class="control">
+                <?php
+                $checked = "";
+                if ( !empty($this->default_rate) && $this->default_rate['name'] == $rate['name'] )
+                {
+                	$checked = "checked";                        
+                }        	        		
+                ?>
+                <label for="shipping_<?php echo $rate['element'] . "_" . $key; ?>" class="radio">
+                    <input id="shipping_<?php echo $rate['element'] . "_" . $key; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] . "." . $key ?>" <?php echo $checked; ?> />
+                    <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'], $currency ); ?> )
+                </label>
+            </li>
             <?php
         }
-        ?>
-        </li>
-        <?php
     }
         else
     {
         ?>
-        <li id="opc-no-shipping-rates">
+        <li id="opc-no-shipping-rates" class="control">
             <p class="text-error">
             <?php echo JText::_('COM_TIENDA_NO_SHIPPING_RATES_FOUND'); ?>
             </p>

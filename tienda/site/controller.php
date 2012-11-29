@@ -17,10 +17,13 @@ class TiendaController extends DSCControllerSite
 {
     public $default_view = 'products';
     public $router = null;
+    public $defines = null;
     
     function __construct( $config=array() )
     {
         parent::__construct( $config );
+        
+        $this->defines = Tienda::getInstance();
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $this->router = new TiendaHelperRoute();

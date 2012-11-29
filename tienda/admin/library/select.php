@@ -1417,9 +1417,10 @@ class TiendaSelect extends DSCSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        $list[] = JHTML::_('select.option',  'onepage-opc', JText::_('COM_TIENDA_STANDARD') );
+        $list[] = JHTML::_('select.option',  'standard', JText::_('COM_TIENDA_STANDARD') );
         $list[] = JHTML::_('select.option',  'onepage-1col', JText::_('COM_TIENDA_1_COLUMN') );
         $list[] = JHTML::_('select.option',  'onepage-2cols', JText::_('COM_TIENDA_2_COLUMNS') );
+        $list[] = JHTML::_('select.option',  'onepage-opc', JText::_('COM_TIENDA_3_COLUMNS') );
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }

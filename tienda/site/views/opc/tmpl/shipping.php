@@ -232,10 +232,12 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 	$dispatcher->trigger('onAfterDisplayAddressDetails', array($data, $this->form_prefix) );
 	?>
 
-    <ul>
+    <ul class="unstyled">
         <li class="control">
-            <input type="checkbox" class="checkbox" onclick="Opc.shipping.setSameAsBilling(this.checked)" title="<?php echo JText::_( "COM_TIENDA_USE_BILLING_ADDRESS" ); ?>" value="1" id="<?php echo $this->form_prefix; ?>same_as_billing" name="<?php echo $this->form_prefix; ?>same_as_billing">
-            <label for="<?php echo $this->form_prefix; ?>same_as_billing"><?php echo JText::_('COM_TIENDA_USE_BILLING_ADDRESS'); ?></label>
+            <label for="<?php echo $this->form_prefix; ?>same_as_billing" class="checkbox">
+                <input type="checkbox" onclick="Opc.shipping.setSameAsBilling(this.checked)" title="<?php echo JText::_( "COM_TIENDA_USE_BILLING_ADDRESS" ); ?>" value="1" id="<?php echo $this->form_prefix; ?>same_as_billing" name="<?php echo $this->form_prefix; ?>same_as_billing">
+                <?php echo JText::_('COM_TIENDA_USE_BILLING_ADDRESS'); ?>
+            </label>
         </li>
     </ul>
 	

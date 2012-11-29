@@ -24,7 +24,7 @@ class TiendaViewBase extends DSCViewAdmin
 		//including core JS because it needs to be included in modals and since we have so many including here keeps that from failing. 
 		JHTML::_('behavior.modal');
 		JHTML::_('script', 'core.js', 'media/system/js/');
-		DSC::loadBootstrap(1,'2.2.1');
+		DSC::loadBootstrap();
 		DSC::loadJQuery('latest', true, 'tiendaJQ');
 		
 		parent::display($tpl);

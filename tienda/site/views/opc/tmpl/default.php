@@ -1,5 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $active = false; ?>
+<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'class.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'opcaccordion.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'opc.js', 'media/com_tienda/js/'); ?>
@@ -23,6 +24,7 @@ $js = 'tiendaJQ(document).ready(function(){
     if (!empty($this->showShipping)) {
         $js .= 'Opc.shipping = new TiendaShipping("#opc-shipping-form");';
     }
+    $js .= 'Opc.payment = new TiendaPayment("#opc-payment-form");';
 $js .= '});';
 $doc->addScriptDeclaration($js);
 ?>
@@ -79,7 +81,7 @@ $doc->addScriptDeclaration($js);
             </h4>            
         </div>
         <div id="opc-shipping-method-body" class="opc-section-body <?php echo ($active != 'opc-shipping-method') ? 'opc-hidden' : 'opc-open'; ?>">
-            <?php $this->setLayout('shippingmethod'); echo $this->loadTemplate(); ?>
+            <?php //$this->setLayout('shippingmethod'); echo $this->loadTemplate(); ?>
         </div>
         <div id="opc-shipping-method-summary" class="opc-summary muted opc-hidden"></div>
     </li>
@@ -93,9 +95,10 @@ $doc->addScriptDeclaration($js);
             </h4>
         </div>
         <div id="opc-payment-body" class="opc-section-body <?php echo ($active != 'opc-payment') ? 'opc-hidden' : 'opc-open'; ?>">
-            <?php $this->setLayout('payment'); echo $this->loadTemplate(); ?>
+            <?php //$this->setLayout('payment'); echo $this->loadTemplate(); ?>
         </div>
         <div id="opc-payment-summary" class="opc-summary muted opc-hidden"></div>
+        <div id="opc-payment-prepayment" class="opc-hidden"></div>
     </li>
 
     <li id="opc-review" class="opc-section <?php if (empty($active)) { $active = 'opc-review'; echo 'active'; } ?>">
@@ -106,7 +109,7 @@ $doc->addScriptDeclaration($js);
             </h4>
         </div>
         <div id="opc-review-body" class="opc-section-body <?php echo ($active != 'opc-review') ? 'opc-hidden' : 'opc-open'; ?>">
-            <?php $this->setLayout('review'); echo $this->loadTemplate(); ?>
+            <?php //$this->setLayout('review'); echo $this->loadTemplate(); ?>
         </div>
         <div id="opc-review-summary" class="opc-summary muted opc-hidden"></div>
     </li>

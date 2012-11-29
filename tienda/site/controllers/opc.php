@@ -144,7 +144,66 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $session->set('tienda.opc.shippingMethod', serialize($rate) );
         
         echo json_encode($response);
-    }    
+    }
+    
+    public function setPayment()
+    {
+        $this->setFormat();
+        $session = JFactory::getSession();
+        $response = $this->getResponseObject();
+    
+        $post = JRequest::get('post');
+
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance('Payment', 'TiendaModel');
+        $model->setState('limit', '1');
+        $model->setState('filter_element', $post['payment_plugin']);
+        if ($items = $model->getList()) 
+        {
+            $item = $items[0];
+        }
+        
+        $response->summary->html = $item->name;
+    
+        //$session->set('tienda.opc.paymentMethod', serialize($paymentMethod) );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $dummyaddress = JTable::getInstance('Addresses', 'TiendaTable');
+        
+        $billingAddress = unserialize( $session->get('tienda.opc.billingAddress') );
+        $shippingAddress = unserialize( $session->get('tienda.opc.shippingAddress') );
+        
+        $order = &$this->_order;
+        $order = $this->populateOrder();
+        $order->setAddress( $billingAddress );
+        if (!empty($shippingAddress)) 
+        {
+            $order->setAddress( $shippingAddress, 'shipping' );
+        }        
+        
+        $response->summaries = array();
+        $summary = $this->getSummaryResponseObject();
+        $summary->id = 'opc-review-body';
+        $summary->html = $this->getOrderSummary( 'review' );
+        $response->summaries[] = $summary;
+
+        echo json_encode($response);
+    }
+    
+    public function setReview()
+    {
+        $this->setFormat();
+        $session = JFactory::getSession();
+        $response = $this->getResponseObject();
+    
+        $post = JRequest::get('post');
+        
+        // TODO Prep the $post var
+        
+        //$model = $this->getModel('orders');
+        //$result = $model->save( $post );
+        
+        return;
+    }
     
     private function getSummaryAddress( $address )
     {

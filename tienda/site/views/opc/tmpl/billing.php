@@ -232,17 +232,20 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 	$dispatcher->trigger('onAfterDisplayAddressDetails', array($data, $this->form_prefix) );
 	?>
 
-    <ul>
-        <li class="control">
-            <input type="radio" class="radio" value="1" id="<?php echo $this->form_prefix; ?>use_for_shipping_yes" name="<?php echo $this->form_prefix; ?>use_for_shipping">
-            <label for="<?php echo $this->form_prefix; ?>use_for_shipping_yes"><?php echo JText::_('COM_TIENDA_SHIP_TO_THIS_ADDRESS'); ?></label>
+    <ul class="unstyled">
+        <li class="control">            
+            <label for="<?php echo $this->form_prefix; ?>use_for_shipping_yes" class="radio">
+                <input type="radio" value="1" id="<?php echo $this->form_prefix; ?>use_for_shipping_yes" name="<?php echo $this->form_prefix; ?>use_for_shipping">
+                <?php echo JText::_('COM_TIENDA_SHIP_TO_THIS_ADDRESS'); ?>
+            </label>
         </li>
 
         <li class="control">
-            <input type="radio" class="radio" value="0" id="<?php echo $this->form_prefix; ?>use_for_shipping_no" name="<?php echo $this->form_prefix; ?>use_for_shipping">
-            <label for="<?php echo $this->form_prefix; ?>use_for_shipping_no"><?php echo JText::_( "COM_TIENDA_SHIP_TO_DIFFERENT_ADDRESS" ); ?></label>
-        </li>
-    
+            <label for="<?php echo $this->form_prefix; ?>use_for_shipping_no" class="radio">
+                <input type="radio" value="0" id="<?php echo $this->form_prefix; ?>use_for_shipping_no" name="<?php echo $this->form_prefix; ?>use_for_shipping">
+                <?php echo JText::_( "COM_TIENDA_SHIP_TO_DIFFERENT_ADDRESS" ); ?>
+            </label>
+        </li>    
     </ul>
 	
 	<a id="opc-billing-button" class="btn btn-primary" onclick="Opc.setBilling();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>

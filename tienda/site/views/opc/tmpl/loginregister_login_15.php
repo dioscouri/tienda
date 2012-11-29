@@ -4,30 +4,30 @@
 
 <form action="<?php echo JRoute::_( 'index.php', true, Tienda::getInstance()->get('usesecure', '0') ); ?>" method="post" name="login" id="form-login">
 
-    <ul>
+    <ul class="unstyled">
         <li>
             <label>
                 <?php echo JText::_('COM_TIENDA_USERNAME'); ?> <span class>*</span>
             </label>
-            <input id="tienda-username" type="text" name="username" class="inputbox" size="18" alt="username" />
+            <input id="tienda-username" type="text" name="username" size="18" alt="username" />
         </li>
         <li>
             <label>
                 <?php echo JText::_('COM_TIENDA_PASSWORD'); ?><span>*</span>
             </label>
-            <input id="tienda-password" type="password" name="passwd" class="inputbox" size="18" alt="password" />
+            <input id="tienda-password" type="password" name="passwd" size="18" alt="password" />
         </li>
         <?php if (JPluginHelper::isEnabled('system', 'remember')) { ?>
         <li>
-            <label>
+            <label class="checkbox">
+                <input id="tienda-remember" type="checkbox" name="remember" value="yes" />
                 <?php echo JText::_('COM_TIENDA_REMEMBER_ME'); ?>
-            </label>
-            <input id="tienda-remember" type="checkbox" name="remember" class="inputbox" value="yes" />
+            </label>            
         </li>
         <?php } ?>
     </ul>
 
-    <ul>
+    <ul class="unstyled">
         <li> 
             <a href="<?php echo JRoute::_('index.php?option=com_user&view=reset'); ?>"> 
                 <?php echo JText::_('COM_TIENDA_FORGOT_YOUR_PASSWORD'); ?>
@@ -40,8 +40,11 @@
         </li>
     </ul>
 
-    <input type="submit" name="submit" class="btn btn-primary" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
-
-    <input type="hidden" name="option" value="com_user" /> <input type="hidden" name="task" value="login" /> <input type="hidden" name="return" value="<?php echo base64_encode( $url ); ?>" />
-    <?php echo JHTML::_( 'form.token' ); ?>
+    <div>
+        <input type="submit" name="submit" class="btn btn-primary" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
+        <input type="hidden" name="option" value="com_user" /> 
+        <input type="hidden" name="task" value="login" /> 
+        <input type="hidden" name="return" value="<?php echo base64_encode( $url ); ?>" />
+        <?php echo JHTML::_( 'form.token' ); ?>
+    </div>
 </form>

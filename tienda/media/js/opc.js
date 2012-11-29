@@ -1,7 +1,7 @@
-/**
- * 
- */
 TiendaOpc = TiendaClass.extend({
+    /**
+     * @memberOf TiendaOpc
+     */
     __construct: function() {
         this.defaults = {
             billingForm: null,
@@ -11,7 +11,9 @@ TiendaOpc = TiendaClass.extend({
                 setMethod: 'opc-checkout-method-summary',
                 setBilling: 'opc-billing-summary',
                 setShipping: 'opc-shipping-summary',
-                setShippingMethod: 'opc-shipping-method-summary'
+                setShippingMethod: 'opc-shipping-method-summary',
+                setPayment: 'opc-payment-summary',
+                setReview: 'opc-review-summary'
             }
         };
         
@@ -25,10 +27,12 @@ TiendaOpc = TiendaClass.extend({
             setBilling: 'index.php?option=com_tienda&view=opc&task=setBilling&tmpl=component&format=raw',
             setShipping: 'index.php?option=com_tienda&view=opc&task=setShipping&tmpl=component&format=raw',
             setShippingMethod: 'index.php?option=com_tienda&view=opc&task=setShippingMethod&tmpl=component&format=raw',
+            setPayment: 'index.php?option=com_tienda&view=opc&task=setPayment&tmpl=component&format=raw',
+            setReview: 'index.php?option=com_tienda&view=opc&task=setReview&tmpl=component&format=raw',
             failure: 'index.php?option=com_tienda&view=carts'
         };
     },
-    
+
     init: function (element, options, urls) {
         this.__construct();
         this.element = tiendaJQ(element);
@@ -38,6 +42,10 @@ TiendaOpc = TiendaClass.extend({
         this.accordion = new TiendaOpcAccordion(element, this.options);
     },
     
+    /**
+     * 
+     * @param section
+     */
     gotoSection: function(section)
     {
         var sectionElement = tiendaJQ('#opc-'+section);
@@ -185,11 +193,51 @@ TiendaOpc = TiendaClass.extend({
     },
 
     setPayment: function() {
-        this.gotoSection('review');
+        var next_section = 'review';
+        var form_data = tiendaJQ('#opc-payment-form').serializeArray();
+
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: this.urls.setPayment,
+            context: this,
+            data: form_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+            response.summary.id = this.options.summaryElements.setPayment;
+            this.handleSuccess(response);
+            this.gotoSection(next_section);
+        }).fail(function(data){
+            this.handleFailure();
+        }).always(function(data){
+
+        });
+    },
+    
+    setReview: function() {
+        var next_section = 'postpayment';
+        var form_data = tiendaJQ('#opc-review-form').serializeArray();
+
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: this.urls.setReview,
+            context: this,
+            data: form_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+            response.summary.id = this.options.summaryElements.setReview;
+            this.handleSuccess(response);
+            this.gotoSection(next_section);
+        }).fail(function(data){
+            this.handleFailure();
+        }).always(function(data){
+
+        });
     },
     
     /**
-     * Handles the response from a successful ajax request
+     * Handles the response from a successful ajax request,
+     * "successful" only in that the request didn't get a 404 or 500 error.
+     * This also handles responses for failed validations... 
      */
     handleSuccess: function(response) {
         if (response.summary) {
@@ -200,10 +248,6 @@ TiendaOpc = TiendaClass.extend({
             tiendaJQ.each(response.summaries, function(key, summary){
                 tiendaJQ('#'+summary.id).html(summary.html);
             });
-        }
-        
-        if (response.update_section) {
-            /*$('checkout-'+response.update_section.name+'-load').update(response.update_section.html);*/
         }
         
         if (response.allow_sections) {
@@ -239,32 +283,20 @@ TiendaOpc = TiendaClass.extend({
 });
 
 TiendaShipping = TiendaClass.extend({
+    /**
+     * @memberOf TiendaShipping
+     */
     __construct: function() {
         this.defaults = {
-            clickableEntity: '.opc-section-title', 
-            checkAllow: true,
             billingInputPrefix: 'billing_input_',
             shippingInputPrefix: 'shipping_input_'
         };
-        this.disallowAccessToNextSections = true;
-        this.currentSection = false;
     },
     
     init: function (element, options) {
         this.__construct();
         this.element = tiendaJQ(element);
         this.options = jQuery.extend( true, {}, this.defaults, options || {} );
-
-        this.checkAllow = this.options.checkAllow;
-        this.sections = tiendaJQ(element + ' .opc-section');        
-        var headers = tiendaJQ(element + ' .opc-section ' + this.options.clickableEntity);
-
-        var self = this;
-        headers.each(function() {
-            tiendaJQ(this).click(function(event){
-                self.sectionClicked(event);
-            });
-        });
     },
     
     getFormElements: function(el) {
@@ -280,7 +312,6 @@ TiendaShipping = TiendaClass.extend({
     },
 
     syncWithBilling: function () {
-        //tiendaJQ('#billing-address-select') && this.newAddress(!tiendaJQ('billing-address-select').value);
         tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
         
         if (!tiendaJQ('#billing-address-select') || !tiendaJQ('#billing-address-select').val()) {
@@ -298,5 +329,27 @@ TiendaShipping = TiendaClass.extend({
         } else {
             tiendaJQ('#shipping-address-select').val( tiendaJQ('#billing-address-select').val() );
         }
+    }
+});
+
+TiendaPayment = TiendaClass.extend({
+    /**
+     * @memberOf TiendaPayment
+     */
+    __construct: function() {
+        this.defaults = {
+        };
     },
+    
+    init: function (element, options) {
+        this.__construct();
+        this.element = tiendaJQ(element);
+        this.options = jQuery.extend( true, {}, this.defaults, options || {} );
+    },
+    
+    getPluginForm: function (element, container, message) {
+        var url = 'index.php?option=com_tienda&view=opc&task=getPaymentForm&format=raw&payment_element=' + element;
+        Dsc.doTask( url, container, document.getElementById('opc-payment-form'), '', false );
+    }
+    
 });

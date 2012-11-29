@@ -15,6 +15,13 @@ Tienda::load( 'TiendaQuery', 'library.query' );
 
 class TiendaModelBase extends DSCModel
 {
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+    
+        $this->defines = Tienda::getInstance();
+    }
+    
     /**
      * Method to get a table object, load it if necessary.
      *
