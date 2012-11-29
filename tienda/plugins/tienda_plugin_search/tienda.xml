@@ -26,4 +26,21 @@
 			<option value="1">COM_TIENDA_OPEN_IN_A_NEW_TAB</option>
 		</param>
 	</params>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="basic">
+				<field name="title" type="text" size="50" default="Tienda" label="COM_TIENDA_SEARCH_CATEGORY_TITLE" description="COM_TIENDA_SEARCH_CATEGORY_TITLE_DESC"/>
+				<field name="density_flag" type="radio" default="1" label="COM_TIENDA_KEYWORD_DENSITY" description="COM_TIENDA_KEYWORD_DENSITY_DESC">
+					<option value="0">COM_TIENDA_NO</option>
+					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="link_behaviour" type="radio" default="1" label="COM_TIENDA_LINK_BEHAVIOR" description="COM_TIENDA_LINK_BEHAVIOR_DESC">
+					<option value="0">COM_TIENDA_OPEN_IN_THE_SAME_TAB</option>
+					<option value="1">COM_TIENDA_OPEN_IN_A_NEW_TAB</option>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
+
 </install>
