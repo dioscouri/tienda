@@ -305,12 +305,29 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         
         if (!$html = $this->getPreparePaymentForm($values, $options, $order)) 
         {
-            // TODO get and return the error for display to the user
+            $errorMessage = '<ul class="text-error">';
+            $errorMessage .= "<li>" . $this->getError() . "</li>";
+            $errorMessage .= '</ul>';
+            
+            // get and return the error for display to the user
+            $response->goto_section = 'review';
+            $response->summary->html = $errorMessage;
+            echo json_encode($response);
+            return;
         }
         
         if ($html == 'free') 
         {
-            // TODO confirm order
+            $itemid = $this->router->findItemid( array('view'=>'opc') );
+            if (empty($itemid)) {
+                $itemid = $this->router->findItemid( array('view'=>'checkout') );
+                if (empty($itemid)) {
+                    $itemid = JRequest::getInt('Itemid');
+                }
+            }
+            $response->redirect = JRoute::_( 'index.php?option=com_tienda&view=opc&task=confirmPayment&Itemid=' . $itemid );
+            echo json_encode($response);
+            return;
         }
         
         $response->summary->id = 'opc-payment-prepayment';

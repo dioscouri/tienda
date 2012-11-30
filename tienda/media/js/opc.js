@@ -79,6 +79,9 @@ TiendaOpc = TiendaClass.extend({
             case "payment":
                 this.setupPaymentForm();
                 break;
+            case "prepare-payment":
+                this.submitPreparePaymentForm();
+                break;
             case "review":
                 this.setupReviewForm();
                 break;
@@ -158,6 +161,14 @@ TiendaOpc = TiendaClass.extend({
             tiendaJQ('#'+self.options.validationElements.submitOrder).empty();
             tiendaJQ(this).attr('disabled', 'disabled');
         });
+    },
+    
+    submitPreparePaymentForm: function() {
+        var self = this;
+        var form = tiendaJQ("#opc-payment-prepayment form");
+        if (form.length) {
+            form.submit();
+        }
     },
     
     setMethod: function() {
