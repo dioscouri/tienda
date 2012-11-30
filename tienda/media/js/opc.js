@@ -3,6 +3,7 @@ TiendaOpc = TiendaClass.extend({
      * @memberOf TiendaOpc
      */
     __construct: function() {
+        this.sections = ['checkout-method', 'billing', 'shipping', 'shipping-method', 'payment', 'review'];
         this.defaults = {
             billingForm: null,
             shippingForm: null,
@@ -13,7 +14,24 @@ TiendaOpc = TiendaClass.extend({
                 setShipping: 'opc-shipping-summary',
                 setShippingMethod: 'opc-shipping-method-summary',
                 setPayment: 'opc-payment-summary',
-                setReview: 'opc-review-summary'
+                submitOrder: 'opc-review-summary'
+            },
+            validationElements: {
+                setMethod: 'opc-checkout-method-validation',
+                setBilling: 'opc-billing-validation',
+                setShipping: 'opc-shipping-validation',
+                setShippingMethod: 'opc-shipping-method-validation',
+                setPayment: 'opc-payment-validation',
+                submitOrder: 'opc-review-validation'
+            },
+            urls: {
+                setMethod: 'index.php?option=com_tienda&view=opc&task=setMethod&tmpl=component&format=raw',
+                setBilling: 'index.php?option=com_tienda&view=opc&task=setBilling&tmpl=component&format=raw',
+                setShipping: 'index.php?option=com_tienda&view=opc&task=setShipping&tmpl=component&format=raw',
+                setShippingMethod: 'index.php?option=com_tienda&view=opc&task=setShippingMethod&tmpl=component&format=raw',
+                setPayment: 'index.php?option=com_tienda&view=opc&task=setPayment&tmpl=component&format=raw',
+                submitOrder: 'index.php?option=com_tienda&view=opc&task=submitOrder&tmpl=component&format=raw',
+                failure: 'index.php?option=com_tienda&view=carts'
             }
         };
         
@@ -22,24 +40,18 @@ TiendaOpc = TiendaClass.extend({
         this.shipping = null;
         this.payment = null;
         this.syncBillingShipping = false;
-        this.urls = {
-            setMethod: 'index.php?option=com_tienda&view=opc&task=setMethod&tmpl=component&format=raw',
-            setBilling: 'index.php?option=com_tienda&view=opc&task=setBilling&tmpl=component&format=raw',
-            setShipping: 'index.php?option=com_tienda&view=opc&task=setShipping&tmpl=component&format=raw',
-            setShippingMethod: 'index.php?option=com_tienda&view=opc&task=setShippingMethod&tmpl=component&format=raw',
-            setPayment: 'index.php?option=com_tienda&view=opc&task=setPayment&tmpl=component&format=raw',
-            setReview: 'index.php?option=com_tienda&view=opc&task=setReview&tmpl=component&format=raw',
-            failure: 'index.php?option=com_tienda&view=carts'
-        };
+        this.urls = {};
     },
 
-    init: function (element, options, urls) {
+    init: function (element, options) {
         this.__construct();
         this.element = tiendaJQ(element);
         this.options = jQuery.extend( true, {}, this.defaults, options || {} );
         
-        this.urls    = jQuery.extend( true, {}, this.urls, urls || {} );
+        this.urls    = this.options.urls;
         this.accordion = new TiendaOpcAccordion(element, this.options);
+        
+        this.setupSection('checkout-method');
     },
     
     /**
@@ -48,24 +60,121 @@ TiendaOpc = TiendaClass.extend({
      */
     gotoSection: function(section)
     {
+        this.setupSection(section);
         var sectionElement = tiendaJQ('#opc-'+section);
         sectionElement.addClass('allow');
         this.accordion.openSection('opc-'+section);
     },
     
-    setMethod: function(){
-        if (tiendaJQ('#checkout-method-guest') && tiendaJQ('#checkout-method-guest').attr('checked')) {
+    setupSection: function(section)
+    {
+        switch (section) 
+        {
+            case "checkout-method":
+                this.setupMethodForm();
+                break;
+            case "shipping-method":
+                this.setupShippingMethodForm();
+                break;
+            case "payment":
+                this.setupPaymentForm();
+                break;
+            case "review":
+                this.setupReviewForm();
+                break;
+        }
+    },
+    
+    setupMethodForm: function() {
+        if (tiendaJQ('#opc-checkout-method-form').length) {
+            tiendaJQ('#checkout-method-guest').click(function(){
+                tiendaJQ('#email-password').show(); 
+                tiendaJQ('#register-password').hide();                
+            });
+            if (tiendaJQ('#checkout-method-guest').attr('checked')) {
+                tiendaJQ('#checkout-method-guest').click();
+            }
+            
+            tiendaJQ('#checkout-method-register').click(function(){
+                tiendaJQ('#email-password').show(); 
+                tiendaJQ('#register-password').show();                
+            });
+            if (tiendaJQ('#checkout-method-register').attr('checked')) {
+                tiendaJQ('#checkout-method-register').click();
+            }
+        }
+    },
+    
+    setupShippingMethodForm: function() {
+        var self = this;
+        
+        if (!tiendaJQ("input.shipping-plugin:checked").val()) {
+            tiendaJQ('#opc-shipping-method-button').attr('disabled', 'disabled');
+        }
+        
+        tiendaJQ('#opc-shipping-method-button').on('click', function(event){
+            event.preventDefault();
+            if (!tiendaJQ("input.shipping-plugin:checked").val()) {
+                tiendaJQ('#opc-shipping-method-button').attr('disabled', 'disabled');
+            } else {
+                self.setShippingMethod();
+            }
+        });
+        
+        tiendaJQ('.shipping-plugin').on('click', function(){
+            tiendaJQ('#opc-shipping-method-button').removeAttr('disabled');
+        });
+    },
+    
+    setupPaymentForm: function() {
+        var self = this;
+        
+        if (!tiendaJQ("input.payment-plugin:checked").val()) {
+            tiendaJQ('#opc-payment-button').attr('disabled', 'disabled');
+        }
+        
+        tiendaJQ('#opc-payment-button').on('click', function(event){
+            event.preventDefault();
+            if (!tiendaJQ("input.payment-plugin:checked").val()) {
+                tiendaJQ('#opc-payment-button').attr('disabled', 'disabled');
+            } else {
+                self.setPayment();
+            }
+        });
+        
+        tiendaJQ('.payment-plugin').on('click', function(){
+            tiendaJQ('#opc-payment-button').removeAttr('disabled');
+        });
+    },
+    
+    setupReviewForm: function() {
+        var self = this;
+        tiendaJQ('#opc-review-button').removeAttr('disabled').on('click', function(event){
+            event.preventDefault();
+        });
+        
+        tiendaJQ('#opc-review-button').one('click', function(){
+            self.submitOrder();
+            tiendaJQ('#'+self.options.validationElements.submitOrder).empty();
+            tiendaJQ(this).attr('disabled', 'disabled');
+        });
+    },
+    
+    setMethod: function() {
+        var form_data = tiendaJQ('#opc-checkout-method-form').serializeArray();
+        
+        if (tiendaJQ('#checkout-method-guest').length && tiendaJQ('#checkout-method-guest').attr('checked')) {
             this.method = 'guest';
             var request = jQuery.ajax({
                 type: 'post', 
                 url: this.urls.setMethod,
                 context: this,
-                data: {
-                    method: 'guest'
-                }
+                data: form_data
             }).done(function(data){
                 var response = JSON.decode(data, false);
-                response.summary.id = this.options.summaryElements.setMethod;
+                if (!response.summary.id) {
+                    response.summary.id = this.options.summaryElements.setMethod;
+                }
                 this.handleSuccess(response);
             }).fail(function(data){
                 this.handleFailure();
@@ -73,23 +182,23 @@ TiendaOpc = TiendaClass.extend({
 
             });
             
-            if (tiendaJQ('#register-customer-password')) {
-                tiendaJQ('#register-customer-password').hide();
+            if (tiendaJQ('#register-password').length) {
+                tiendaJQ('#register-password').hide();
             }
             this.gotoSection('billing');
         }
-        else if(tiendaJQ('#checkout-method-register') && (tiendaJQ('#checkout-method-register').attr('checked') || !tiendaJQ('#checkout-method-guest'))) {
+        else if(tiendaJQ('#checkout-method-register').length && (tiendaJQ('#checkout-method-register').attr('checked') || !tiendaJQ('#checkout-method-guest').length)) {
             this.method = 'register';
             var request = jQuery.ajax({
                 type: 'post', 
                 url: this.urls.setMethod,
                 context: this,
-                data: {
-                    method: 'register'
-                }
+                data: form_data
             }).done(function(data){
                 var response = JSON.decode(data, false);
-                response.summary.id = this.options.summaryElements.setMethod;
+                if (!response.summary.id) {
+                    response.summary.id = this.options.summaryElements.setMethod;
+                }
                 this.handleSuccess(response);
             }).fail(function(data){
                 this.handleFailure();
@@ -97,10 +206,9 @@ TiendaOpc = TiendaClass.extend({
 
             });
             
-            if (tiendaJQ('#register-customer-password')) {
-                tiendaJQ('#register-customer-password').show();
+            if (tiendaJQ('#register-password').length) {
+                tiendaJQ('#register-password').show();
             }
-            this.gotoSection('billing');
         }
         else {
             if (this.options.guestCheckoutEnabled) {
@@ -113,22 +221,16 @@ TiendaOpc = TiendaClass.extend({
     },
     
     setBilling: function() {
-        var next_section = 'payment';
-        if (this.shipping) {
-            next_section = 'shipping';
-        }        
-        
-        if ((tiendaJQ('#billing_input_use_for_shipping_yes')) && (tiendaJQ('#billing_input_use_for_shipping_yes').attr('checked'))) {
+        if ((tiendaJQ('#billing_input_use_for_shipping_yes').length) && (tiendaJQ('#billing_input_use_for_shipping_yes').attr('checked'))) {
             if (this.shipping) {
                 this.shipping.syncWithBilling();
                 tiendaJQ('#opc-shipping').addClass('allow');
-                tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
-                next_section = 'shipping-method';
+                tiendaJQ('#shipping_input_same_as_billing').attr('checked', true).val('1');
             }
-        } else if ((tiendaJQ('#billing_input_use_for_shipping_no')) && (tiendaJQ('#billing_input_use_for_shipping_no').attr('checked'))) {
-            tiendaJQ('#shipping_input_same_as_billing').attr('checked', false);
+        } else if ((tiendaJQ('#billing_input_use_for_shipping_no').length) && (tiendaJQ('#billing_input_use_for_shipping_no').attr('checked'))) {
+            tiendaJQ('#shipping_input_same_as_billing').attr('checked', false).val('0');
         } else {
-            tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
+            tiendaJQ('#shipping_input_same_as_billing').attr('checked', true).val('1');
         }
         
         var form_data = tiendaJQ('#opc-billing-form').serializeArray();
@@ -140,9 +242,10 @@ TiendaOpc = TiendaClass.extend({
             data: form_data
         }).done(function(data){
             var response = JSON.decode(data, false);
-            response.summary.id = this.options.summaryElements.setBilling;
+            if (!response.summary.id) {
+                response.summary.id = this.options.summaryElements.setBilling;
+            }
             this.handleSuccess(response);
-            this.gotoSection(next_section);
         }).fail(function(data){
             this.handleFailure();
         }).always(function(data){
@@ -151,7 +254,6 @@ TiendaOpc = TiendaClass.extend({
     },
     
     setShipping: function() {
-        var next_section = 'shipping-method';
         var form_data = tiendaJQ('#opc-shipping-form').serializeArray();
 
         var request = jQuery.ajax({
@@ -161,9 +263,10 @@ TiendaOpc = TiendaClass.extend({
             data: form_data
         }).done(function(data){
             var response = JSON.decode(data, false);
-            response.summary.id = this.options.summaryElements.setShipping;
+            if (!response.summary.id) {
+                response.summary.id = this.options.summaryElements.setShipping;
+            }
             this.handleSuccess(response);
-            this.gotoSection(next_section);
         }).fail(function(data){
             this.handleFailure();
         }).always(function(data){
@@ -172,7 +275,6 @@ TiendaOpc = TiendaClass.extend({
     },
 
     setShippingMethod: function() {
-        var next_section = 'payment';
         var form_data = tiendaJQ('#opc-shipping-method-form').serializeArray();
 
         var request = jQuery.ajax({
@@ -182,9 +284,10 @@ TiendaOpc = TiendaClass.extend({
             data: form_data
         }).done(function(data){
             var response = JSON.decode(data, false);
-            response.summary.id = this.options.summaryElements.setShippingMethod;
+            if (!response.summary.id) {
+                response.summary.id = this.options.summaryElements.setShippingMethod;
+            }
             this.handleSuccess(response);
-            this.gotoSection(next_section);
         }).fail(function(data){
             this.handleFailure();
         }).always(function(data){
@@ -193,7 +296,6 @@ TiendaOpc = TiendaClass.extend({
     },
 
     setPayment: function() {
-        var next_section = 'review';
         var form_data = tiendaJQ('#opc-payment-form').serializeArray();
 
         var request = jQuery.ajax({
@@ -203,9 +305,10 @@ TiendaOpc = TiendaClass.extend({
             data: form_data
         }).done(function(data){
             var response = JSON.decode(data, false);
-            response.summary.id = this.options.summaryElements.setPayment;
+            if (!response.summary.id) {
+                response.summary.id = this.options.summaryElements.setPayment;
+            }
             this.handleSuccess(response);
-            this.gotoSection(next_section);
         }).fail(function(data){
             this.handleFailure();
         }).always(function(data){
@@ -213,20 +316,27 @@ TiendaOpc = TiendaClass.extend({
         });
     },
     
-    setReview: function() {
-        var next_section = 'postpayment';
-        var form_data = tiendaJQ('#opc-review-form').serializeArray();
-
+    submitOrder: function() {
+        var form_data = new Array();
+        tiendaJQ.merge( form_data, tiendaJQ('#opc-checkout-method-form').serializeArray() );
+        tiendaJQ.merge( form_data, tiendaJQ('#opc-billing-form').serializeArray() );
+        tiendaJQ.merge( form_data, tiendaJQ('#opc-shipping-form').serializeArray() );
+        tiendaJQ.merge( form_data, tiendaJQ('#opc-shipping-method-form').serializeArray() );
+        tiendaJQ.merge( form_data, tiendaJQ('#opc-payment-form').serializeArray() );
+        tiendaJQ.merge( form_data, tiendaJQ('#opc-review-form').serializeArray() );
+        console.log(form_data);
+        
         var request = jQuery.ajax({
             type: 'post', 
-            url: this.urls.setReview,
+            url: this.urls.submitOrder,
             context: this,
             data: form_data
         }).done(function(data){
             var response = JSON.decode(data, false);
-            response.summary.id = this.options.summaryElements.setReview;
+            if (!response.summary.id) {
+                response.summary.id = this.options.validationElements.submitOrder;
+            }
             this.handleSuccess(response);
-            this.gotoSection(next_section);
         }).fail(function(data){
             this.handleFailure();
         }).always(function(data){
@@ -236,8 +346,8 @@ TiendaOpc = TiendaClass.extend({
     
     /**
      * Handles the response from a successful ajax request,
-     * "successful" only in that the request didn't get a 404 or 500 error.
-     * This also handles responses for failed validations... 
+     * "successful" only in that the request didn't get a 404 or 500 error, so
+     * this also handles responses for failed validations... 
      */
     handleSuccess: function(response) {
         if (response.summary) {
@@ -305,23 +415,23 @@ TiendaShipping = TiendaClass.extend({
     },
     
     setSameAsBilling: function(flag) {
-        tiendaJQ('#shipping_input_same_as_billing').attr('checked', flag);
+        tiendaJQ('#shipping_input_same_as_billing').attr('checked', flag).val('1');
         if (flag) {
             this.syncWithBilling();
         }
     },
 
     syncWithBilling: function () {
-        tiendaJQ('#shipping_input_same_as_billing').attr('checked', true);
+        tiendaJQ('#shipping_input_same_as_billing').attr('checked', true).val('1');
         
-        if (!tiendaJQ('#billing-address-select') || !tiendaJQ('#billing-address-select').val()) {
+        if (!tiendaJQ('#billing-address-select').length || !tiendaJQ('#billing-address-select').val()) {
             arrElements = this.getFormElements(this.element);
 
             for (i=0,len=arrElements.length; i<len; i++) {
                 var targetFormElement = tiendaJQ(arrElements[i]);
                 if (targetFormElement.attr('id')) {
                     var sourceField = tiendaJQ( '#' + targetFormElement.attr('id').replace(this.options.shippingInputPrefix, this.options.billingInputPrefix) );
-                    if (sourceField) {
+                    if (sourceField.length) {
                         targetFormElement.val( sourceField.val() );
                     }
                 }

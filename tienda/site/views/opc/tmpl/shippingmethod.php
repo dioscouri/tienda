@@ -19,7 +19,7 @@
                 }        	        		
                 ?>
                 <label for="shipping_<?php echo $rate['element'] . "_" . $key; ?>" class="radio">
-                    <input id="shipping_<?php echo $rate['element'] . "_" . $key; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] . "." . $key ?>" <?php echo $checked; ?> />
+                    <input class="shipping-plugin" id="shipping_<?php echo $rate['element'] . "_" . $key; ?>" name="shipping_plugin" rel="<?php echo $rate['name']; ?>" type="radio" value="<?php echo $rate['element'] . "." . $key ?>" <?php echo $checked; ?> />
                     <?php echo $rate['name']; ?> ( <?php echo TiendaHelperBase::currency( $rate['total'], $currency ); ?> )
                 </label>
             </li>
@@ -40,7 +40,7 @@
     </ul>
     
     <div>
-        <a id="opc-shipping-method-button" class="btn btn-primary" onclick="Opc.setShippingMethod();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
+        <a id="opc-shipping-method-button" class="btn btn-primary"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
     </div>
 
 </form>

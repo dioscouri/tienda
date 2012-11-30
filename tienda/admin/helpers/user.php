@@ -423,7 +423,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * 
 	 * @return Guest user account ID
 	 */
-	function getNextGuestUserId()
+	public function getNextGuestUserId()
 	{
 		$db = JFactory::getDbo();
 		Tienda::load( 'TiendaQuery', 'library.query' );

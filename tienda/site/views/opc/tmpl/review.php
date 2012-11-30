@@ -11,9 +11,9 @@ $state = @$this->state;
 $order = @$this->order;
 $items = @$this->orderitems;
 $coupons = @$this->coupons;
-$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
+$display_credits = $this->defines->get( 'display_credits', '0' );
 $currency_helper = new TiendaHelperCurrency();
-$default_currency = Tienda::getInstance()->get('default_currencyid', '1');
+$default_currency = $this->defines->get('default_currencyid', '1');
 ?>
 
 <form id="opc-review-form" name="opc-review-form" action="" method="post">
@@ -155,8 +155,47 @@ $default_currency = Tienda::getInstance()->get('default_currencyid', '1');
     </div>
 </div>
 
-    <div>
-        <a id="opc-review-button" class="btn btn-success" onclick="Opc.setReview();"><?php echo JText::_('COM_TIENDA_PLACE_ORDER') ?></a>
-    </div>
+    <?php if ($this->defines->get('coupons_enabled')) { ?>
+    <fieldset id="opc-coupons">
+        <div class="input-append" id="opc-coupon-input">
+            <input class="span2" id="new_coupon_code" type="text" name="new_coupon_code" />
+            <button class="btn" type="button"><?php echo JText::_( "COM_TIENDA_ADD_COUPON_TO_ORDER" ); ?></button>
+        </div>
+    </fieldset>
+    <?php } ?>
+    
+    <fieldset id="opc-notes">
+        <label><?php echo JText::_( "COM_TIENDA_NOTES" ); ?></label>
+        <textarea name="customer_note"></textarea>
+    </fieldset>
+    
+    <?php 
+    if( $this->defines->get('require_terms', '0') )
+    {
+        $terms_article = $this->defines->get('article_terms');
+        $terms_link = JRoute::_('index.php?option=com_content&view=article&id='.$terms_article );
+        ?>
+        <fieldset>
+        <label for="terms-conditions" class="checkbox">
+            <input type="checkbox" name="terms-conditions" value="1" id="terms-conditions" />
+            <?php 
+            if ($terms_article) {
+                if( $this->defines->get('require_terms_modal', '0') ) {
+                    echo TiendaUrl::popup( $terms_link, JText::_('COM_TIENDA_ACCEPT_TERMS_AND_CONDITIONS') );
+                } else {
+                    echo '<a href="'.$terms_link.'" target="_blank">'.JText::_('COM_TIENDA_ACCEPT_TERMS_AND_CONDITIONS').'</a>';
+                }                     
+            } else {
+                echo JText::_('COM_TIENDA_ACCEPT_TERMS_AND_CONDITIONS');
+            }
+            ?> 
+        </label>
+        </fieldset>
+        <?php 
+    } ?>
+
+    <div id="opc-review-validation"></div>
+    
+    <a id="opc-review-button" class="btn btn-success btn-large"><?php echo JText::_('COM_TIENDA_PLACE_ORDER') ?></a>
 
 </form>

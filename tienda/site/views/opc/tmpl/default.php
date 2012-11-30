@@ -5,9 +5,9 @@
 <?php JHTML::_('script', 'opcaccordion.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'opc.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'opc.css', 'media/com_tienda/css/'); ?>
+<?php JHTML::_( 'script', 'bootstrap-modal.js', 'media/dioscouri/bootstrap/default/js/' ); ?>
 <?php 
-$config = Tienda::getInstance();
-$guest_checkout_enabled = $config->get('guest_checkout_enabled');
+$guest_checkout_enabled = $this->defines->get('guest_checkout_enabled');
 
 Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
 $js_strings = array( 'COM_TIENDA_PLEASE_CHOOSE_REGISTER', 'COM_TIENDA_PLEASE_CHOOSE_REGISTER_OR_CHECKOUT_AS_GUEST' );

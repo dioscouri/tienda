@@ -25,8 +25,8 @@ class TiendaModelOrders extends TiendaModelBase
     {
         parent::__construct($config);
         
-        $this->defaultShippingMethod = Tienda::getInstance()->get('defaultShippingMethod', '2');
-        $this->initial_order_state = Tienda::getInstance()->get('initial_order_state', '15');
+        $this->defaultShippingMethod = $this->defines->get('defaultShippingMethod', '2');
+        $this->initial_order_state = $this->defines->get('initial_order_state', '15');
     }
     
     protected function _buildQueryWhere(&$query)
@@ -487,22 +487,8 @@ class TiendaModelOrders extends TiendaModelBase
 	    $model->clearCache();
 	}
 	
-	public function validate( $values, &$order=null, $options=array() )
+	public function prepare( $values, $options=array(), &$order=null )
 	{
-	    // fail if no payment method selected
-	    // fail if user hasn't checked terms & condition
-	}
-	
-	/**
-	 * 
-	 * @param array $values
-	 * @param TiendaTableOrders $order
-	 * @param array $options
-	 */
-	public function save( $values, &$order=null, $options=array() )
-	{
-	    $error = false;
-	    	    
 	    if (empty($order)) {
 	        $order = $this->getTable();
 	    }
@@ -510,16 +496,17 @@ class TiendaModelOrders extends TiendaModelBase
 	    $this->_values = $values;
 	    $this->_options = $options;
 	    
-	    if (empty($options['skip_adjust_credits'])) 
+	    if (empty($options['skip_adjust_credits']))
 	    {
 	        $order->_adjustCredits = true; // this is not a POS order, so adjust the user's credits (if any used)
 	    }
-	    	    
+	    
 	    $order->bind( $values );
 	    $order->user_id = $values['user_id'];
 	    $order->ip_address = $values['ip_address']; //$_SERVER['REMOTE_ADDR'];
-	    $this->setAddresses( $values );
-	    
+	    $saveAddressesToDB = empty($options["save_addresses"]) ? false : true;
+	    $this->setAddresses( $values, $saveAddressesToDB );
+	     
 	    // set the shipping method
 	    if(@$values['shippingrequired'] || !empty($values['shipping_plugin']))
 	    {
@@ -529,37 +516,164 @@ class TiendaModelOrders extends TiendaModelBase
 	        $order->shipping->shipping_name        = $values['shipping_name'];
 	        $order->shipping->shipping_tax      = $values['shipping_tax'];
 	    }
-	    
+	     
 	    // Store the text verion of the currency for order integrity
 	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	    $order->order_currency = TiendaHelperOrder::currencyToParameters($order->currency_id);
-	    
-	    if (empty($options['skip_add_items'])) 
+	     
+	    if (empty($options['skip_add_items']))
 	    {
-    	    //get the items and add them to the order
-    	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );	    
-    	    $reviewitems = TiendaHelperCarts::getProductsInfo();
-    	    foreach ($reviewitems as $reviewitem)
-    	    {
-    	        $order->addItem( $reviewitem );
-    	    }
+	        //get the items from the current user's cart and add them to the order
+	        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+	        $reviewitems = TiendaHelperCarts::getProductsInfo();
+	        foreach ($reviewitems as $reviewitem)
+	        {
+	            $order->addItem( $reviewitem );
+	        }
 	    }
-	    
-	    if (empty($options['skip_add_coupons'])) 
+	     
+	    if (empty($options['skip_add_coupons']))
 	    {
-    	    $this->addCoupons($values);
+	        $this->addCoupons($values);
 	    }
-	    
+	     
 	    $order->order_state_id = empty($values['orderstate_id']) ? $this->initial_order_state : $values['orderstate_id'];
 	    $order->calculateTotals();
 	    $order->getShippingTotal();
 	    $order->getInvoiceNumber();
 	    
+	    return $order;
+	}
+	
+	public function validate( $values, $options=array(), &$order=null )
+	{
+	    // load checkout model and do checkout validation
+	    if (empty($options['skip_checkout_validation'])) 
+	    {
+	        DSCModel::addIncludePath( JPATH_SITE . '/components/com_tienda/models' );
+	        $model = DSCModel::getInstance('Checkout', 'TiendaModel' );
+	        if (!$model->validate($values, $options)) 
+	        {
+	            $errors = $model->getErrors();
+	            if (!empty($errors))
+	            {
+	                foreach ($errors as $error)
+	                {
+	                    $error = trim( $error );
+	                    if (!empty($error))
+	                    {
+	                        $this->setError( $error );
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
+	    // order validation
+
+	    // fail if no email address
+	    jimport('joomla.mail.helper');
+	    if( !JMailHelper::isEmailAddress($values['email_address'])) {
+	        $this->setError( JText::_('COM_TIENDA_PLEASE_ENTER_CORRECT_EMAIL') );
+	    }
+	    
+	    $order = $this->prepare( $values, $options, $order );
+
+	    // fail if no items
+	    $items = $order->getItems();
+	    if (empty($items)) {
+	        $this->setError( JText::_('COM_TIENDA_ORDERS_MUST_CONTAIN_AN_ITEM') );
+	    }
+	    
+	    // fail if negative order_total
+	    if ((int) $order->order_total < 0) {
+	        $this->setError( JText::_('COM_TIENDA_ORDERS_CANNOT_HAVE_NEGATIVE_TOTALS') );
+	    }
+	    
+	    if ($paymentRequired = $order->isPaymentRequired()) 
+	    {
+	        // fail if payment required and no billing address
+	        $billingAddress = $order->getBillingAddress();
+	        if (!$billingAddress || !is_a($billingAddress, 'TiendaTableAddresses')) {
+	            $this->setError( JText::_('COM_TIENDA_BILLING_ADDRESS_REQUIRED') );
+	        } else {
+	            // fail if payment required and billing address fails validation
+                if (!$billingAddress->check()) {
+                    $this->setError( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR') );
+                }
+	        }
+
+	        // fail if payment required and no payment method selected
+	        if (empty($values["payment_plugin"])) {
+                $this->setError( JText::_('COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD') );
+	        }
+	    }
+
+	    if ($shippingRequired = $order->isShippingRequired()) 
+	    {
+    	    // fail if shipping required and no shipping address
+	        $shippingAddress = $order->getShippingAddress();
+	        if (!$shippingAddress || !is_a($shippingAddress, 'TiendaTableAddresses')) {
+	            $this->setError( JText::_('COM_TIENDA_SHIPPING_ADDRESS_REQUIRED') );
+	        } else {
+	            // fail if shipping required and shipping address fails validation
+	            if (!$shippingAddress->check()) {
+	                $this->setError( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR') );
+	            }
+	        }
+
+	        // fail if shipping required and no shipping method selected
+	        if (empty($values["shipping_plugin"])) {
+	            $this->setError( JText::_('COM_TIENDA_PLEASE_SELECT_SHIPPING_METHOD') );
+	        }
+	    }
+	    
+	    return $this->check();
+	}
+	
+	/**
+	 * 
+	 * @param array $values
+	 * @param TiendaTableOrders $order
+	 * @param array $options
+	 */
+	public function save( $values, $options=array(), &$order=null )
+	{
+	    $error = false;
+	    	    
+	    $order = $this->prepare( $values, $options, $order );
+	    
+	    $this->_order = &$order;
+	    $this->_values = $values;
+	    $this->_options = $options;
+	    
+	    // load checkout model and do checkout save
+	    if (empty($options['skip_checkout_validation']))
+	    {
+	        DSCModel::addIncludePath( JPATH_SITE . '/components/com_tienda/models' );
+	        $model = DSCModel::getInstance('Checkout', 'TiendaModel' );
+	        if (!$model->validate($values, $options))
+	        {
+	            $errors = $model->getErrors();
+	            if (!empty($errors))
+	            {
+	                foreach ($errors as $error)
+	                {
+	                    $error = trim( $error );
+	                    if (!empty($error))
+	                    {
+	                        $this->setError( $error );
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    
 	    //TODO: Do Something with Payment Infomation
 	    if ( $order->save() )
 	    {
 	        $this->setId( $order->order_id );
-	    
+
 	        // save the order items
 	        if (!$this->saveOrderItems())
 	        {
@@ -625,7 +739,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 *
 	 * @return unknown_type
 	 */
-	public function saveOrderItems()
+	protected function saveOrderItems()
 	{
 	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $order = $this->_order;
@@ -705,7 +819,7 @@ class TiendaModelOrders extends TiendaModelBase
 	                $database->setQuery( $query );
 	                $subscription->expires_datetime = $database->loadResult();
 	
-	                if( Tienda::getInstance()->get( 'display_subnum', 0 ) )
+	                if( $this->defines->get( 'display_subnum', 0 ) )
 	                {
 	                    $subscription->sub_number = TiendaHelperUser::getSubNumber( $order->user_id );
 	                }
@@ -768,14 +882,14 @@ class TiendaModelOrders extends TiendaModelBase
 	 * Saves the order info to the DB
 	 * @return unknown_type
 	 */
-	public function saveOrderInfo()
+	protected function saveOrderInfo()
 	{
 	    $order = $this->_order;
 	
 	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $row = JTable::getInstance('OrderInfo', 'TiendaTable');
 	    $row->order_id = $order->order_id;
-	    $row->user_email = @$this->_values['user_email'];
+	    $row->user_email = @$this->_values['email_address'];
 	    $row->bind( $this->_orderinfoBillingAddressArray );
 	    $row->bind( $this->_orderinfoShippingAddressArray );
 	    $row->user_id = $order->user_id;
@@ -804,7 +918,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 * Adds an order history record to the DB for this order
 	 * @return unknown_type
 	 */
-	public function saveOrderHistory()
+	protected function saveOrderHistory()
 	{
 	    $order = $this->_order;
 	    $values = $this->_values;
@@ -829,7 +943,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 * Saves each vendor related to this order to the DB
 	 * @return unknown_type
 	 */
-	public function saveOrderVendors()
+	protected function saveOrderVendors()
 	{
 	    $order = $this->_order;
 	    $values = $this->_values;
@@ -874,7 +988,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 *
 	 * @return unknown_type
 	 */
-	public function saveOrderTaxes()
+	protected function saveOrderTaxes()
 	{
 	    $order = $this->_order;
 	    $values = $this->_values;
@@ -915,7 +1029,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 * Saves the order shipping info to the DB
 	 * @return unknown_type
 	 */
-	public function saveOrderShippings( $values=null )
+	protected function saveOrderShippings( $values=null )
 	{
 	    $order = $this->_order;
 	    if (empty($values)) {
@@ -949,7 +1063,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 * Saves the order coupons to the DB
 	 * @return unknown_type
 	 */
-	public function saveOrderCoupons()
+	protected function saveOrderCoupons()
 	{
 	    $order = $this->_order;
 	    $values = $this->_values;
@@ -1001,7 +1115,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    $billing_input_prefix   = $this->billing_input_prefix;
 	    $shipping_input_prefix  = $this->shipping_input_prefix;
 	
-	    if ($user_id == 0 && Tienda::getInstance()->get('guest_checkout_enabled', '1'))
+	    if (empty($user_id) && $this->defines->get('guest_checkout_enabled', '1'))
 	    {
 	        $user_id = -1;
 	    }
@@ -1043,7 +1157,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    $billingAddress->bind( $billingAddressArray );
 	    $billingAddress->user_id = $user_id;
 	    $billingAddress->addresstype_id = 1;
-	    if ($saveAddressesToDB)
+	    if ($saveAddressesToDB && !$billing_address_id)
 	    {
 	        $billingAddress->save();
 	        if( !$billing_address_id ) {
@@ -1057,7 +1171,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    $shippingAddress->bind( $shippingAddressArray );
 	    $shippingAddress->user_id = $user_id;
 	    $shippingAddress->addresstype_id = 2;
-	    if ($saveAddressesToDB)
+	    if ($saveAddressesToDB && !$same_as_billing && !$shipping_address_id)
 	    {
 	        $shippingAddress->save();
 	        if( !$shipping_address_id ) {
@@ -1163,8 +1277,8 @@ class TiendaModelOrders extends TiendaModelBase
 	    $order = &$this->_order;
 	
 	    // get all coupons and add them to the order
-	    $coupons_enabled = Tienda::getInstance()->get('coupons_enabled');
-	    $mult_enabled = Tienda::getInstance()->get('multiple_usercoupons_enabled');
+	    $coupons_enabled = $this->defines->get('coupons_enabled');
+	    $mult_enabled = $this->defines->get('multiple_usercoupons_enabled');
 	    if (!empty($values['coupons']) && $coupons_enabled)
 	    {
 	        foreach ($values['coupons'] as $coupon_id)

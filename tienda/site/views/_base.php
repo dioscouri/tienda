@@ -16,6 +16,16 @@ jimport( 'joomla.application.component.view' );
 
 class TiendaViewBase extends DSCViewSite
 {
+    function __construct( $config=array() )
+    {
+        parent::__construct( $config );
+    
+        $this->defines = Tienda::getInstance();
+    
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $this->router = new TiendaHelperRoute();
+    }
+    
 	/**
 	 * First displays the submenu, then displays the output
 	 * but only if a valid _doTask is set in the view object
@@ -26,7 +36,6 @@ class TiendaViewBase extends DSCViewSite
 	function display($tpl=null, $perform = true )
 	{
 	    // these need to load before jquery to prevent joomla from crying
-	    JHTML::_('behavior.modal');
 	    JHTML::_('script', 'core.js', 'media/system/js/');
 	    
 	    DSC::loadJQuery('latest', true, 'tiendaJQ');

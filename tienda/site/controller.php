@@ -27,5 +27,7 @@ class TiendaController extends DSCControllerSite
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $this->router = new TiendaHelperRoute();
+        
+        $this->user = JFactory::getUser();
     }
 }

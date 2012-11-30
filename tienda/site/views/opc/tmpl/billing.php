@@ -232,6 +232,7 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 	$dispatcher->trigger('onAfterDisplayAddressDetails', array($data, $this->form_prefix) );
 	?>
 
+	<?php if (!empty($this->showShipping)) { ?>
     <ul class="unstyled">
         <li class="control">            
             <label for="<?php echo $this->form_prefix; ?>use_for_shipping_yes" class="radio">
@@ -247,6 +248,7 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
             </label>
         </li>    
     </ul>
+	<?php } ?>
 	
 	<a id="opc-billing-button" class="btn btn-primary" onclick="Opc.setBilling();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
 	

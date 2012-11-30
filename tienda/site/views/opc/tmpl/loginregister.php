@@ -43,36 +43,50 @@
         </div>
         
         <div class="dsc-cell dsc-half">
-        
-            <h4>
-                <?php echo JText::_('COM_TIENDA_NEW_USERS'); ?>
-            </h4>
+            <form id="opc-checkout-method-form" name="opc-checkout-method-form" action="" method="post">
+                    
+                <h4>
+                    <?php echo JText::_('COM_TIENDA_NEW_USERS'); ?>
+                </h4>
+                
+                <ul class="unstyled">
+                    <?php if (Tienda::getInstance()->get('guest_checkout_enabled')) : ?>
+                    <li class="control">
+                        <label for="checkout-method-guest" class="radio">
+                            <input type="radio" value="guest" id="checkout-method-guest" name="checkout_method">
+                            <?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>
+                        </label>
+                    </li>
+                    <?php endif; ?>
+    
+                    <li class="control">
+                        <label for="checkout-method-register" class="radio">
+                            <input type="radio" value="register" id="checkout-method-register" name="checkout_method">
+                            <?php echo JText::_( "COM_TIENDA_REGISTER" ); ?>
+                        </label>
+                    </li>
+                </ul>
+                
+                <div id="email-password" class="opc-hidden">
+                    <label><?php echo JText::_( "COM_TIENDA_EMAIL_ADDRESS" ); ?></label>
+                    <input type="text" name="email_address" />
+                </div>
+                
+                <fieldset id="register-password" class="opc-hidden">
+                    <label><?php echo JText::_( "COM_TIENDA_PASSWORD" ); ?></label>
+                    <input type="password" name="register-new-password" autocomplete="off" />
+                    
+                    <label><?php echo JText::_( "COM_TIENDA_PASSWORD_CONFIRM" ); ?></label>
+                    <input type="password" name="register-new-password2" autocomplete="off" />
+                </fieldset>
+                
+                <div id="reasons-to-register">
+                    <?php echo JText::_('COM_TIENDA_PLEASE_REGISTER_TO_CONTINUE_SHOPPING'); ?>
+                </div>
+                
+                <a id="opc-checkout-method-button" class="btn btn-primary" onclick="Opc.setMethod();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
             
-            <ul class="unstyled">
-                <?php if (Tienda::getInstance()->get('guest_checkout_enabled')) : ?>
-                <li class="control">
-                    <label for="checkout-method-guest" class="radio">
-                        <input type="radio" value="guest" id="checkout-method-guest" name="checkout_method">
-                        <?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>
-                    </label>
-                </li>
-                <?php endif; ?>
-
-                <li class="control">
-                    <label for="checkout-method-register" class="radio">
-                        <input type="radio" value="register" id="checkout-method-register" name="checkout_method">
-                        <?php echo JText::_( "COM_TIENDA_REGISTER" ); ?>
-                    </label>
-                </li>
-            
-            </ul>
-            
-            <div>
-                <?php echo JText::_('COM_TIENDA_PLEASE_REGISTER_TO_CONTINUE_SHOPPING'); ?>
-            </div>
-            
-            <a id="opc-guest-register-button" class="btn btn-primary" onclick="Opc.setMethod();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
-        
+            </form>
         </div>
     </div>
 </div>

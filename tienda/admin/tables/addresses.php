@@ -81,7 +81,6 @@ class TiendaTableAddresses extends TiendaTable
             if (empty($this->user_id))
             {
                 $this->setError( JText::_('COM_TIENDA_USER_REQUIRED') );
-                return false;
             }
         }
         Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
@@ -94,7 +93,6 @@ class TiendaTableAddresses extends TiendaTable
         if (empty($this->address_name) && $elements['address_name'][1] )
         {
             $this->setError( JText::_("COM_TIENDA_PLEASE_INCLUDE_AN_ADDRESS_TITLE".$address_type) );
-            return false;
         }
 
         $address_checks = array(
@@ -115,7 +113,6 @@ class TiendaTableAddresses extends TiendaTable
             if( empty( $this->$current[0] ) && $elements[ $current[1] ][1] )
             {
                 $this->setError( JText::_($current[2]) );
-                return false;
             }
         }
 
@@ -124,7 +121,6 @@ class TiendaTableAddresses extends TiendaTable
             if ( $elements['country'][1] )
             {
                 $this->setError( JText::_('COM_TIENDA_COUNTRY_REQUIRED') );
-                return false;
             }
             else
             {
@@ -138,14 +134,14 @@ class TiendaTableAddresses extends TiendaTable
             if( $elements['zone'][1] )
             {
                 $this->setError( JText::_('COM_TIENDA_ZONE_REQUIRED') );
-                return false;
             }
             else
             {
                 $this->zone_id = 9999;
             }
         }
-        return true;
+        
+        return parent::check();
     }
     
     public function getZone()

@@ -76,4 +76,31 @@ class TiendaModelBase extends DSCModel
         }
         return $GMT_data;
     }
+    
+    /**
+     * Any errors set?  If so, check fails
+     *
+     */
+    public function check()
+    {
+        $errors = $this->getErrors();
+        if (!empty($errors))
+        {
+            foreach ($errors as $key=>$error)
+            {
+                $error = trim( $error );
+                if (empty($error))
+                {
+                    unset($errors[$key]);
+                }
+            }
+             
+            if (!empty($errors))
+            {
+                return false;
+            }
+        }
+         
+        return true;
+    }
 }

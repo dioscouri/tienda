@@ -24,10 +24,10 @@ class TiendaTableOrders extends TiendaTable
     /** @var array An array of vendor_ids */
     protected $_vendors = array();
     
-    /** @var object An TiendaAddresses() object for billing */
+    /** @var object An TiendaTableAddresses() object for billing */
     protected $_billing_address = null;
 
-    /** @var object An TiendaAddresses() object for shipping */
+    /** @var object An TiendaTableAddresses() object for shipping */
     protected $_shipping_address = null;
     
     /** @var array      tax & shipping geozone objects */
@@ -178,7 +178,7 @@ class TiendaTableOrders extends TiendaTable
      */
     function addItem( $item )
     {
-    		Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+    	Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
         $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
         if (is_array($item))
         {
@@ -216,33 +216,33 @@ class TiendaTableOrders extends TiendaTable
 
         if ( $orderItem->subscription_prorated )
         {
-          // set the orderitem's recurring product values
-          $orderItem->orderitem_recurs            = $product->product_recurs;
-          $orderItem->recurring_price             = $product->recurring_price; 
-          $orderItem->recurring_payments          = $product->recurring_payments;
-          $orderItem->recurring_period_interval   = $product->recurring_period_interval;
-          $orderItem->recurring_period_unit       = $product->recurring_period_unit;
-          $orderItem->recurring_trial_price       = $product->recurring_trial_price;
+            // set the orderitem's recurring product values
+            $orderItem->orderitem_recurs            = $product->product_recurs;
+            $orderItem->recurring_price             = $product->recurring_price; 
+            $orderItem->recurring_payments          = $product->recurring_payments;
+            $orderItem->recurring_period_interval   = $product->recurring_period_interval;
+            $orderItem->recurring_period_unit       = $product->recurring_period_unit;
+            $orderItem->recurring_trial_price       = $product->recurring_trial_price;
             
-					if( $product->subscription_prorated ) // prorated subscription
-					{
-						$result = TiendaHelperSubscription::calculateProRatedTrial( $product->subscription_prorated_date,
-																																				$product->subscription_prorated_term, 
-																																				$product->recurring_period_unit,
-																																				$product->recurring_trial_price,
-																																				$product->subscription_prorated_charge
-																																				);
-						$orderItem->recurring_trial = $result['trial'];
-						$orderItem->recurring_trial_period_interval = $result['interval'];
-						$orderItem->recurring_trial_period_unit = $result['unit'];
-						$orderItem->recurring_trial_price = $result['price'];
-					}
-					else
-					{
-	          $orderItem->recurring_trial             = $product->recurring_trial;
-	          $orderItem->recurring_trial_period_interval = $product->recurring_trial_period_interval;
-	          $orderItem->recurring_trial_period_unit = $product->recurring_trial_period_unit;
-					}
+            if( $product->subscription_prorated ) // prorated subscription
+            {
+            	$result = TiendaHelperSubscription::calculateProRatedTrial( $product->subscription_prorated_date,
+                    $product->subscription_prorated_term, 
+                    $product->recurring_period_unit,
+                    $product->recurring_trial_price,
+                    $product->subscription_prorated_charge
+                );
+            	$orderItem->recurring_trial = $result['trial'];
+            	$orderItem->recurring_trial_period_interval = $result['interval'];
+            	$orderItem->recurring_trial_period_unit = $result['unit'];
+            	$orderItem->recurring_trial_price = $result['price'];
+            }
+            else
+            {
+                $orderItem->recurring_trial             = $product->recurring_trial;
+                $orderItem->recurring_trial_period_interval = $product->recurring_trial_period_interval;
+                $orderItem->recurring_trial_period_unit = $product->recurring_trial_period_unit;
+            }
         }
         
         if (!empty($product->product_subscription))
@@ -570,10 +570,10 @@ class TiendaTableOrders extends TiendaTable
   
 		$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
 		$this->order_shipping = $this->order_shipping - $order_shipping_discount;
-      	if( $this->order_shipping < 0)
-      	{
-      		$this->order_shipping = 0.00;
-				}
+		if( $this->order_shipping < 0)
+		{
+		    $this->order_shipping = 0.00;
+		}
         // Allow this to be modified via plugins
         $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateShippingTotals", array( $this ) );
@@ -1116,6 +1116,37 @@ class TiendaTableOrders extends TiendaTable
         }
         
         return $this->order_recurs;
+    }
+    
+    public function isPaymentRequired()
+    {
+        $return = true;
+        
+        if( $this->isRecurring() )
+        {
+            if( (float)$this->getRecurringItem()->recurring_price == (float)'0.00' )
+            {
+                $return = false;
+            }
+        }
+        else {
+            $this->calculateTotals();
+            
+            if ((float)$this->order_total == (float)'0.00')
+            {
+                $return = false;
+            }
+        }
+        return $return;
+    }
+    
+    public function isShippingRequired()
+    {
+        $items = $this->getItems();
+        if (empty($this->order_ships)) {
+            return false;
+        }
+        return true;
     }
     
     /**

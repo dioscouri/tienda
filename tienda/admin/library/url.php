@@ -11,10 +11,14 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-class TiendaUrl extends DSCUrl {
-	
+class TiendaUrl extends DSCUrl 
+{
 	public static function popup( $url, $text, $options = array() ) 
 	{
+	    if ($options['bootstrap']) {
+	        return self::popupbootstrap( $url, $text, $options );
+	    }
+	    
 		$html = "";
 		
 		JHTML::_('behavior.modal', 'a.tienda-modal');
@@ -60,6 +64,41 @@ class TiendaUrl extends DSCUrl {
 		$html	.= "</a>\n";
 		
 		return $html;
+	}
+
+	/**
+	 * TODO Push this upstream once tested
+	 * 
+	 * @param unknown_type $url
+	 * @param unknown_type $text
+	 * @param unknown_type $options
+	 */
+	public static function popupbootstrap( $url, $text, $options = array() )
+	{
+	    $version = isset($options['version']) ? $options['version'] : 'default';	    
+	    DSC::loadBootstrap();
+	    JHTML::_( 'script', 'bootstrap-modal.js', 'media/dioscouri/bootstrap/'.$version.'/js/' );
+
+	    $time = time();
+	    $modal_id = isset($options['modal_id']) ? $options['modal_id'] : 'modal-' . $time;
+	    $button_class = isset($options['button_class']) ? $options['button_class'] : 'btn';
+	    $label = 'label-' . $time;
+	    
+	    $button = '<a href="'.$url.'" data-target="#'.$modal_id.'" role="button" class="'.$button_class.'" data-toggle="modal">'.$text.'</a>';
+	    
+	    $modal = '';	    
+        $modal .= '<div id="'.$modal_id.'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="'.$label.'" aria-hidden="true">';
+        $modal .= '    <div class="modal-header">';
+        $modal .= '        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+        $modal .= '        <h3 id="'.$label.'">'.$text.'</h3>';
+        $modal .= '    </div>';
+            
+        $modal .= '    <div class="modal-body">';
+        $modal .= '    </div>';
+        
+        $modal .= '</div>';
+	    
+        return $button.$modal;
 	}
 
 }

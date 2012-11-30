@@ -96,8 +96,8 @@ class TiendaControllerCheckout extends TiendaController
         $this->_order = JTable::getInstance('Orders', 'TiendaTable');
 
         // set userid
-        if( !$this->_order->user_id && !(JFactory::getUser()->guest) )
-            $this->_order->user_id = JFactory::getUser()->id;
+        if( !$this->_order->user_id && !($this->user->guest) )
+            $this->_order->user_id = $this->user->id;
 
         $this->defaultShippingMethod = $this->defines->get('defaultShippingMethod', '2');
         $this->initial_order_state = $this->defines->get('initial_order_state', '15');
@@ -114,8 +114,6 @@ class TiendaControllerCheckout extends TiendaController
         $countries_model = JModel::getInstance( 'Countries', 'TiendaModel' );
         $this->default_country = $countries_model->getDefault();
         $this->default_country_id = $this->default_country->country_id;
-        
-        $this->user = JFactory::getUser();
     }
 
     /**
@@ -139,7 +137,7 @@ class TiendaControllerCheckout extends TiendaController
      */
     function display($cachable=false, $urlparams = false)
     {
-        $user = JFactory::getUser();
+        $user = $this->user;
 
         JRequest::setVar( 'view', $this->get('suffix') );
 
@@ -175,7 +173,7 @@ class TiendaControllerCheckout extends TiendaController
             //get addresses
             JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $model = JModel::getInstance( 'addresses', 'TiendaModel' );
-            $model->setState("filter_userid", JFactory::getUser()->id);
+            $model->setState("filter_userid", $this->user->id);
             $model->setState("filter_deleted", 0);
             $addresses = $model->getList();
 
@@ -246,7 +244,7 @@ class TiendaControllerCheckout extends TiendaController
              
             // assign userinfo for credits
             $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
-            $userinfo->load( array( 'user_id'=>JFactory::getUser()->id ) );
+            $userinfo->load( array( 'user_id'=>$this->user->id ) );
             $userinfo->credits_total = (float) $userinfo->credits_total;
             $view->assign('userinfo', $userinfo);
              
@@ -393,7 +391,7 @@ class TiendaControllerCheckout extends TiendaController
                 // Get the current step
                 $progress = $this->getProgress();
 
-                $user_id = JFactory::getUser()->id;
+                $user_id = $this->user->id;
                 $addresses = array();
                 JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
                 $model = JModel::getInstance( 'addresses', 'TiendaModel' );
@@ -497,8 +495,8 @@ class TiendaControllerCheckout extends TiendaController
             Tienda::load( "TiendaHelperBase", 'helpers._base' );
             $user_helper = TiendaHelperBase::getInstance( 'User' );
 
-            $billingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'billing' );
-            $shippingAddress = $user_helper->getPrimaryAddress( JFactory::getUser()->id, 'shipping' );
+            $billingAddress = $user_helper->getPrimaryAddress( $this->user->id, 'billing' );
+            $shippingAddress = $user_helper->getPrimaryAddress( $this->user->id, 'shipping' );
 
             $order->setAddress( $billingAddress, 'billing' );
             $order->setAddress( $shippingAddress, 'shipping' );
@@ -574,7 +572,7 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         $model = $this->getModel('carts');
-        $user = JFactory::getUser();
+        $user = $this->user;
         $model->setState('filter_user', $user->id );
         
         $view = $this->getView( $this->get('suffix'), 'html' );
@@ -950,7 +948,7 @@ class TiendaControllerCheckout extends TiendaController
             {
                 if( !$this->onepage_checkout )
                 {
-                    $guest = JFactory::getUser()->id ? 0 : 1;
+                    $guest = $this->user->id ? 0 : 1;
                 }
                 else // normal checkout
                 {
@@ -1039,7 +1037,7 @@ class TiendaControllerCheckout extends TiendaController
         $table = JTable::getInstance( 'Addresses', 'TiendaTable' );
 
         // IS Guest Checkout or register??
-        $user_id = JFactory::getUser()->id;
+        $user_id = $this->user->id;
         if( $this->onepage_checkout )
             $register = !empty($values['_checked']['create_account']);
         else
@@ -1147,7 +1145,7 @@ class TiendaControllerCheckout extends TiendaController
             $same_as_billing     = !empty($values['_checked']['sameasbilling']) ? true : false;
         }
 
-        $user_id                = JFactory::getUser()->id;
+        $user_id                = $this->user->id;
         $billing_input_prefix   = $this->billing_input_prefix;
         $shipping_input_prefix  = $this->shipping_input_prefix;
 
@@ -1557,7 +1555,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             if( !$this->onepage_checkout )
             {
-                $guest = JFactory::getUser()->id ? 0 : 1;
+                $guest = $this->user->id ? 0 : 1;
             }
             else // normal checkout
             {
@@ -1587,7 +1585,7 @@ class TiendaControllerCheckout extends TiendaController
         // set response array
         $response = array();
         $text = "";
-        $user = JFactory::getUser();
+        $user = $this->user;
 
         $rates = $this->getShippingRates();
         $c = count($rates);
@@ -1910,7 +1908,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             if( !$this->onepage_checkout )
             {
-                $guest = JFactory::getUser()->id ? 0 : 1;
+                $guest = $this->user->id ? 0 : 1;
             }
             else // normal checkout
             {
@@ -1995,11 +1993,11 @@ class TiendaControllerCheckout extends TiendaController
         // get the order object so we can populate it
         $order = $this->_order; // a TableOrders object (see constructor)
 
-        $user_id = JFactory::getUser()->id;
+        $user_id = $this->user->id;
         if ( !empty($values['register']) && empty($user_id) )
         {
             $this->registerNewUser($values);
-            $user_id = JFactory::getUser()->id;
+            $user_id = $this->user->id;
         }
 
         // Guest Checkout
@@ -2190,7 +2188,7 @@ class TiendaControllerCheckout extends TiendaController
         $values = JRequest::get('post');
         $html = '';
         $text = "";
-        $user = JFactory::getUser();
+        $user = $this->user;
         if (empty($element)) {
             $element = JRequest::getVar( 'payment_element' );
         }
@@ -2330,7 +2328,7 @@ class TiendaControllerCheckout extends TiendaController
 
         // Get post values
         $values = JRequest::get('post');
-        $user = JFactory::getUser();
+        $user = $this->user;
         //set to session to know that we are not doing POS order
         JFactory::getApplication()->setUserState( 'tienda.pos_order', false );
 
@@ -2348,10 +2346,12 @@ class TiendaControllerCheckout extends TiendaController
             }
             else
             {
+                $userHelper = new TiendaHelperUser();
+                
                 // save the real user's info in the userinfo table
                 JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
-                $userinfo->user_id = TiendaHelperUser::getNextGuestUserId();
+                $userinfo->user_id = $userHelper->getNextGuestUserId();
                 $userinfo->email = $values['email_address'];
                 $userinfo->save();
                 $user_id = $userinfo->user_id;
@@ -2400,7 +2400,7 @@ class TiendaControllerCheckout extends TiendaController
             return false;
         }
 
-        $orderpayment_type = $values['payment_plugin'];
+        $orderpayment_type = @$values['payment_plugin'];
         $transaction_status = JText::_('COM_TIENDA_INCOMPLETE');
         // in the case of orders with a value of 0.00, use custom values
 
@@ -2737,7 +2737,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             if( !$this->onepage_checkout )
             {
-                $guest = JFactory::getUser()->id ? 0 : 1;
+                $guest = $this->user->id ? 0 : 1;
             }
             else // normal checkout
             {
@@ -2830,7 +2830,7 @@ class TiendaControllerCheckout extends TiendaController
         $userHelper = TiendaHelperUser::getInstance('User', 'TiendaHelper');
         $create_account = !empty($submitted_values['_checked']['create_account']);
         $guest_checkout = $config->get('guest_checkout_enabled', '1');
-        if ( !$create_account && $guest_checkout && !JFactory::getUser()->id ) // guest checkout
+        if ( !$create_account && $guest_checkout && !$this->user->id ) // guest checkout
         {
             Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 
@@ -2853,9 +2853,9 @@ class TiendaControllerCheckout extends TiendaController
         }
         else // register or the user is already logged in
         {
-            if( JFactory::getUser()->id ) // user is logged in
+            if( $this->user->id ) // user is logged in
             {
-                $user = JFactory::getUser();
+                $user = $this->user;
                 $user_id = $user->id;
                 if( $user->email != $submitted_values['email_address'] ) // user wants to change his email
                 {
@@ -2944,7 +2944,7 @@ class TiendaControllerCheckout extends TiendaController
                 }
                 $this->setAddresses($submitted_values, true, true);
         }
-JLog::add(DSC::dump($submitted_values, false));
+
         //save order
         if(!$this->saveOrder($submitted_values, $user_id, true ))
         {
@@ -3250,7 +3250,7 @@ JLog::add(DSC::dump($submitted_values, false));
         JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $row = JTable::getInstance('OrderInfo', 'TiendaTable');
         $row->order_id = $order->order_id;
-        $row->user_email = JFactory::getUser()->get('email');
+        $row->user_email = $this->user->get('email');
         $row->bind( $this->_orderinfoBillingAddressArray );
         $row->bind( $this->_orderinfoShippingAddressArray );
         $row->user_id = $order->user_id;
@@ -3501,7 +3501,7 @@ JLog::add(DSC::dump($submitted_values, false));
         $response['error'] = '';
 
         // check if coupon code is valid
-        $user_id = JFactory::getUser()->id;
+        $user_id = $this->user->id;
         Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
         $helper_coupon = new TiendaHelperCoupon();
         $coupon = $helper_coupon->isValid( $coupon_code, 'code', $user_id );
@@ -3571,7 +3571,7 @@ JLog::add(DSC::dump($submitted_values, false));
         $helper = TiendaHelperBase::getInstance();
         $values = $helper->elementsToArray( $elements );
 
-        $user_id = JFactory::getUser()->id;
+        $user_id = $this->user->id;
         $apply_credit_amount = (float) JRequest::getVar( 'apply_credit_amount', '');
 
         $response = array();
@@ -3709,7 +3709,7 @@ JLog::add(DSC::dump($submitted_values, false));
         }
         if ( $checker->emailExists( $email ) )
         {
-            $user_id = JFactory::getUser()->id;
+            $user_id = $this->user->id;
             $user_email = $checker->getBasicInfo( $user_id )->email;
 
             if( $user_id && $user_id > Tienda::getGuestIdStart() )
