@@ -62,7 +62,8 @@ class TiendaModelCheckout extends TiendaModelBase
     
     public function save( $values, $options=array() )
     {
-        $error = false;
+        $result = new stdClass();
+        $result->error = false;
         
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
         $userHelper = new TiendaHelperUser();
@@ -80,7 +81,7 @@ class TiendaModelCheckout extends TiendaModelBase
             $userinfo->email = $values['email_address'];
             if (!$userinfo->save()) 
             {
-                $error = true;
+                $result->error = true;
                 $this->setError( $userinfo->getError() );
             }
             
@@ -105,7 +106,7 @@ class TiendaModelCheckout extends TiendaModelBase
             
             if (!$user = $userHelper->createNewUser( $details, false )) 
             {
-                $error = true;
+                $result->error = true;
                 //$this->setError( $user->getError() );
             }
             else
@@ -126,11 +127,21 @@ class TiendaModelCheckout extends TiendaModelBase
                 $userinfo->email = $values['email_address'];
                 if (!$userinfo->save()) 
                 {
-                    $error = true;
+                    $result->error = true;
                     $this->setError( $userinfo->getError() );
                 }
             }
         }
-
+        
+        $result->user_id = $user_id;
+        $result->userinfo = $userinfo;
+        $this->result = $result;
+        
+        if ($result->error) 
+        {
+            return false;
+        }
+        
+        return $result;
     }
 }

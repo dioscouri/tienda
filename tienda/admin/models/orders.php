@@ -648,11 +648,11 @@ class TiendaModelOrders extends TiendaModelBase
 	    $this->_options = $options;
 	    
 	    // load checkout model and do checkout save
-	    if (empty($options['skip_checkout_validation']))
+	    if (empty($options['skip_checkout_save']))
 	    {
 	        DSCModel::addIncludePath( JPATH_SITE . '/components/com_tienda/models' );
 	        $model = DSCModel::getInstance('Checkout', 'TiendaModel' );
-	        if (!$model->validate($values, $options))
+	        if (!$checkoutSave = $model->save($values, $options))
 	        {
 	            $errors = $model->getErrors();
 	            if (!empty($errors))
@@ -666,6 +666,10 @@ class TiendaModelOrders extends TiendaModelBase
 	                    }
 	                }
 	            }
+	        } 
+	        else 
+	        {
+	            $order->user_id = $checkoutSave->user_id;
 	        }
 	    }
 	    

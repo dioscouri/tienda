@@ -15,7 +15,7 @@ class TiendaUrl extends DSCUrl
 {
 	public static function popup( $url, $text, $options = array() ) 
 	{
-	    if ($options['bootstrap']) {
+	    if (!empty($options['bootstrap'])) {
 	        return self::popupbootstrap( $url, $text, $options );
 	    }
 	    
