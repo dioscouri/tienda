@@ -2139,6 +2139,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         // This enable this helper method to be used outside of tienda
         $view->addTemplatePath( JPATH_SITE . DS . 'components' . DS . 'com_tienda' . DS . 'views' . DS . 'products' . DS . 'tmpl' );
+        $view->addTemplatePath( JPATH_SITE . DS . 'templates' . DS . JFactory::getApplication('site')->getTemplate() . DS . 'html' . DS . 'com_tienda' . DS . 'products' . DS );
         // add extra templates
         $view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
         $view->set( '_controller', 'products' );
