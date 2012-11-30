@@ -641,12 +641,6 @@ class TiendaModelOrders extends TiendaModelBase
 	{
 	    $error = false;
 	    	    
-	    $order = $this->prepare( $values, $options, $order );
-	    
-	    $this->_order = &$order;
-	    $this->_values = $values;
-	    $this->_options = $options;
-	    
 	    // load checkout model and do checkout save
 	    if (empty($options['skip_checkout_save']))
 	    {
@@ -669,9 +663,15 @@ class TiendaModelOrders extends TiendaModelBase
 	        } 
 	        else 
 	        {
-	            $order->user_id = $checkoutSave->user_id;
+	            $values['user_id'] = $checkoutSave->user_id;
 	        }
 	    }
+
+	    $order = $this->prepare( $values, $options, $order );
+	     
+	    $this->_order = &$order;
+	    $this->_values = $values;
+	    $this->_options = $options;
 	    
 	    //TODO: Do Something with Payment Infomation
 	    if ( $order->save() )
