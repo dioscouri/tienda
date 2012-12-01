@@ -41,18 +41,6 @@ class TiendaViewBase extends DSCViewSite
 	    DSC::loadJQuery('latest', true, 'tiendaJQ');
 	    DSC::loadBootstrap();
 	    JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
-	    
-		if( $perform )
-		{
-			$this->getLayoutVars($tpl);
-
-			Tienda::load( 'TiendaMenu', 'library.menu' );
-
-			if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
-			{
-				$this->displaySubmenu();
-			}
-		}
 	
 		parent::display($tpl);
 	}
@@ -70,9 +58,6 @@ class TiendaViewBase extends DSCViewSite
 			$menu = TiendaMenu::getInstance();
 		}
 	}
-
-	
-
 
 	/**
 	 * Basic commands for displaying a list
@@ -117,13 +102,12 @@ class TiendaViewBase extends DSCViewSite
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
 		$model = $this->getModel();
-		if( isset( $this->row ) ) 
+		if( isset( $this->row ) ) {
 			JFilterOutput::objectHTMLSafe( $this->row );
+		}
 		else
 		{
-	
-			// get the data
-			$row = $model->getItem();
+            $row = $model->getItem();
 			JFilterOutput::objectHTMLSafe( $row );
 			$this->assign('row', $row );
 		}

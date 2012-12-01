@@ -137,6 +137,10 @@ class TiendaModelCheckout extends TiendaModelBase
         $result->userinfo = $userinfo;
         $this->result = $result;
         
+        DSCModel::addIncludePath( JPATH_SITE . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance('Userinfo', 'TiendaModel' );
+        $model->clearCache();
+        
         if ($result->error) 
         {
             return false;

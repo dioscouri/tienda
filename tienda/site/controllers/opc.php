@@ -24,6 +24,39 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $this->set('suffix', 'opc');
     }
     
+    public function display($cachable=false, $urlparams = false)
+    {
+        if ( !$this->user->id )
+        {
+            $session = JFactory::getSession();
+            $session->set( 'old_sessionid', $session->getId() );
+        }
+    
+        $view = $this->getView( $this->get('suffix'), 'html' );
+        $view->setTask(true);
+    
+        $order = $this->_order;
+        $order = $this->populateOrder();
+    
+        $view->assign( 'order', $order );
+        $view->assign( 'user', $this->user );
+    
+        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = JModel::getInstance( 'addresses', 'TiendaModel' );
+        $model->setState("filter_userid", $this->user->id);
+        $model->setState("filter_deleted", 0);
+        $addresses = $model->getList();
+        $view->assign( 'addresses', $addresses );
+    
+        $showShipping = $order->isShippingRequired();
+        $view->assign( 'showShipping', $showShipping );
+        
+        $view->assign('default_country', $this->default_country);
+        $view->assign('default_country_id', $this->default_country_id);
+    
+        TiendaController::display($cachable, $urlparams);
+    }
+    
     public function setMethod()
     {
         $this->setFormat();
@@ -57,15 +90,16 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     
         $post = JRequest::get('post');
         
-        $address_id = null; // TODO if logged in and selecting from a stored address, use its id from the post
+        $address_id = !empty($post['billing_address_id']) ? $post['billing_address_id'] : null;
         $user_id = $this->user->id ? $this->user->id : '-1'; 
         $prefix = $this->billing_input_prefix;
         $address_type = 1;
-        
+
         $addressArray = $this->getAddressArray( $address_id, $prefix, $post );
+
         $address = $this->getAddress( $addressArray, $address_type, $user_id );
         $session->set('tienda.opc.billingAddress', serialize($address) );
-       
+
         $order = &$this->_order;
         $order = $this->populateOrder();
         $order->setAddress( $address );
@@ -99,7 +133,7 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     
         $post = JRequest::get('post');
         
-        $address_id = null; // TODO if logged in and selecting from a stored address, use its id from the post
+        $address_id = !empty($post['shipping_address_id']) ? $post['shipping_address_id'] : null;
         $user_id = $this->user->id ? $this->user->id : '-1';
         $prefix = $this->shipping_input_prefix;
         $address_type = 2;
@@ -248,7 +282,7 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         }
         
         $values['ip_address'] = $_SERVER['REMOTE_ADDR'];
-        $values["sameasbilling"] = $values["shipping_input_same_as_billing"];
+        $values["sameasbilling"] = !empty($values["shipping_input_same_as_billing"]) ? $values["shipping_input_same_as_billing"] : false;
         
         if ($shippingMethod = unserialize( $session->get('tienda.opc.shippingMethod') )) 
         {
@@ -407,24 +441,7 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     
     private function getSummaryAddress( $address )
     {
-        $lines = array();
-        
-        // TODO Get the fields enabled in config,
-        $lines[] = $address->first_name . " " . $address->last_name;
-        $lines[] = $address->address_1;
-        if ($address->address_2) {
-            $lines[] = $address->address_2;
-        }
-        $lines[] = $address->city;
-        if ($zone = $address->getZone()) {
-            $lines[] = $zone->zone_name;
-        }
-        $lines[] = $address->postal_code;
-        if ($country = $address->getCountry()) {
-            $lines[] = $country->country_name;
-        }
-                 
-        $return = implode(', ', $lines);
+        $return = $address->getSummary();
         return $return;
     }
     

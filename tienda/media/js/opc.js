@@ -73,6 +73,12 @@ TiendaOpc = TiendaClass.extend({
             case "checkout-method":
                 this.setupMethodForm();
                 break;
+            case "billing":
+                this.setupBillingForm();
+                break;
+            case "shipping":
+                this.setupShippingForm();
+                break;
             case "shipping-method":
                 this.setupShippingMethodForm();
                 break;
@@ -106,6 +112,40 @@ TiendaOpc = TiendaClass.extend({
                 tiendaJQ('#checkout-method-register').click();
             }
         }
+    },
+    
+    setupBillingForm: function() {
+        var self = this;
+        
+        tiendaJQ("#existing-billing-address").change(function(){
+            if (tiendaJQ(this).children(":selected").attr('id') == 'create-new-billing-address') {
+                tiendaJQ('#new-billing-address').show();
+            } else {
+                tiendaJQ('#new-billing-address').hide();
+            }
+        });
+        
+        tiendaJQ('#opc-billing-button').on('click', function(event){
+            event.preventDefault();
+            self.setBilling();
+        });
+    },
+    
+    setupShippingForm: function() {
+        var self = this;
+        
+        tiendaJQ("#existing-shipping-address").change(function(){
+            if (tiendaJQ(this).children(":selected").attr('id') == 'create-new-shipping-address') {
+                tiendaJQ('#new-shipping-address').show();
+            } else {
+                tiendaJQ('#new-shipping-address').hide();
+            }
+        });
+        
+        tiendaJQ('#opc-shipping-button').on('click', function(event){
+            event.preventDefault();
+            self.setShipping();
+        });
     },
     
     setupShippingMethodForm: function() {
@@ -241,7 +281,9 @@ TiendaOpc = TiendaClass.extend({
         } else if ((tiendaJQ('#billing_input_use_for_shipping_no').length) && (tiendaJQ('#billing_input_use_for_shipping_no').attr('checked'))) {
             tiendaJQ('#shipping_input_same_as_billing').attr('checked', false).val('0');
         } else {
-            tiendaJQ('#shipping_input_same_as_billing').attr('checked', true).val('1');
+            if (!tiendaJQ('#existing-billing-address').length || tiendaJQ('#existing-billing-address').val() == 0) {
+                tiendaJQ('#shipping_input_same_as_billing').attr('checked', true).val('1');
+            }            
         }
         
         var form_data = tiendaJQ('#opc-billing-form').serializeArray();
@@ -335,7 +377,6 @@ TiendaOpc = TiendaClass.extend({
         tiendaJQ.merge( form_data, tiendaJQ('#opc-shipping-method-form').serializeArray() );
         tiendaJQ.merge( form_data, tiendaJQ('#opc-payment-form').serializeArray() );
         tiendaJQ.merge( form_data, tiendaJQ('#opc-review-form').serializeArray() );
-        console.log(form_data);
         
         var request = jQuery.ajax({
             type: 'post', 
@@ -426,7 +467,9 @@ TiendaShipping = TiendaClass.extend({
     },
     
     setSameAsBilling: function(flag) {
-        tiendaJQ('#shipping_input_same_as_billing').attr('checked', flag).val('1');
+        var val = 0;
+        if (flag) { val = 1; }
+        tiendaJQ('#shipping_input_same_as_billing').attr('checked', flag).val(val);
         if (flag) {
             this.syncWithBilling();
         }
@@ -435,7 +478,8 @@ TiendaShipping = TiendaClass.extend({
     syncWithBilling: function () {
         tiendaJQ('#shipping_input_same_as_billing').attr('checked', true).val('1');
         
-        if (!tiendaJQ('#billing-address-select').length || !tiendaJQ('#billing-address-select').val()) {
+        if (!tiendaJQ('#existing-billing-address').length || tiendaJQ('#existing-billing-address').val() == 0) {
+            tiendaJQ('#existing-shipping-address').val( tiendaJQ('#existing-billing-address').val() );
             arrElements = this.getFormElements(this.element);
 
             for (i=0,len=arrElements.length; i<len; i++) {
@@ -448,7 +492,7 @@ TiendaShipping = TiendaClass.extend({
                 }
             }
         } else {
-            tiendaJQ('#shipping-address-select').val( tiendaJQ('#billing-address-select').val() );
+            tiendaJQ('#existing-shipping-address').val( tiendaJQ('#existing-billing-address').val() );
         }
     }
 });

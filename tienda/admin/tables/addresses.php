@@ -15,13 +15,16 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableAddresses extends TiendaTable
 {
-    function TiendaTableAddresses ( &$db )
+    public function __construct( $db=null, $tbl_name=null, $tbl_key=null )
     {
         $tbl_key 	= 'address_id';
         $tbl_suffix = 'addresses';
         $this->set( '_suffix', $tbl_suffix );
         $name 		= 'tienda';
-
+        if (empty($db)) {
+            $db = JFactory::getDBO();
+        }
+        
         parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );
     }
 
@@ -170,5 +173,28 @@ class TiendaTableAddresses extends TiendaTable
         $model->setId( $this->country_id );
         
         return $model->getItem();
+    }
+    
+    public function getSummary()
+    {
+        $lines = array();
+    
+        // TODO Get the fields enabled in config,
+        $lines[] = $this->first_name . " " . $this->last_name;
+        $lines[] = $this->address_1;
+        if ($this->address_2) {
+            $lines[] = $this->address_2;
+        }
+        $lines[] = $this->city;
+        if ($zone = $this->getZone()) {
+            $lines[] = $zone->zone_name;
+        }
+        $lines[] = $this->postal_code;
+        if ($country = $this->getCountry()) {
+            $lines[] = $country->country_name;
+        }
+         
+        $return = implode(', ', $lines);
+        return $return;
     }
 }

@@ -1106,6 +1106,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 */
 	public function setAddresses( &$values, $saveAddressesToDB = false, $ajax = false )
 	{
+	    $clearAddressCache = false;
 	    $order = $this->_order;
 	
 	    Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
@@ -1163,6 +1164,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    $billingAddress->addresstype_id = 1;
 	    if ($saveAddressesToDB && !$billing_address_id)
 	    {
+	        $clearAddressCache = true;
 	        $billingAddress->save();
 	        if( !$billing_address_id ) {
 	            $values['billing_address_id'] = $billingAddress->address_id;
@@ -1177,12 +1179,20 @@ class TiendaModelOrders extends TiendaModelBase
 	    $shippingAddress->addresstype_id = 2;
 	    if ($saveAddressesToDB && !$same_as_billing && !$shipping_address_id)
 	    {
+	        $clearAddressCache = true;
 	        $shippingAddress->save();
 	        if( !$shipping_address_id ) {
 	            $values['shipping_address_id'] = $shippingAddress->address_id;
 	        }
 	    }
-	
+
+	    if ($clearAddressCache) 
+	    {
+    	    DSCModel::addIncludePath( JPATH_SITE . '/components/com_tienda/models' );
+    	    $model = DSCModel::getInstance('Addresses', 'TiendaModel' );
+    	    $model->clearCache();
+	    }
+	    
 	    $order->setAddress( $shippingAddress, 'shipping' );
 	
 	    return $this;

@@ -17,9 +17,9 @@ $doc = JFactory::getDocument();
 $js = 'tiendaJQ(document).ready(function(){
     Opc = new TiendaOpc("#opc-checkout-steps", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
     if (empty($this->user->id)) {
-        $js .= 'Opc.accordion.openSection("opc-checkout-method");';
+        $js .= 'Opc.gotoSection("checkout-method");';
     } else {
-        $js .= 'Opc.accordion.openSection("opc-billing");';
+        $js .= 'Opc.gotoSection("billing");';
     }
     if (!empty($this->showShipping)) {
         $js .= 'Opc.shipping = new TiendaShipping("#opc-shipping-form");';
@@ -46,7 +46,7 @@ $doc->addScriptDeclaration($js);
     </li>
     <?php } ?>
     
-    <li id="opc-billing" class="opc-section <?php if (empty($active)) { $active = 'opc-billing'; echo 'active'; } ?>">
+    <li id="opc-billing" class="opc-section <?php if (empty($active)) { $active = 'opc-billing'; echo 'allow active'; } ?>">
         <div class="opc-section-title dsc-wrap">
             <h4>
                 <?php echo JText::_( "COM_TIENDA_BILLING_INFORMATION" ); ?>

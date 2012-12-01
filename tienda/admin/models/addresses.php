@@ -14,7 +14,9 @@ defined('_JEXEC') or die('Restricted access');
 Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelAddresses extends TiendaModelBase 
-{	
+{
+    protected $_objectClass = 'TiendaTableAddresses';
+    
     protected function _buildQueryWhere(&$query)
     {
        	$filter   			= $this->getState('filter');
@@ -84,48 +86,25 @@ class TiendaModelAddresses extends TiendaModelBase
 	}
 	
 	/**
-	 * @return array
+	 * Set basic properties for the item, whether in a list or a singleton
+	 *
+	 * @param unknown_type $item
+	 * @param unknown_type $key
+	 * @param unknown_type $refresh
 	 */
-	
-    public function getList($refresh = false)
-    {
-        $list = parent::getList($refresh);
-        
-        // If no item in the list, return an array()
-        if( empty( $list ) ){
-        	return array();
-        }
-        
-        foreach($list as $item)
-        {
-            $item->link = 'index.php?option=com_tienda&view=addresses&task=edit&id='.$item->address_id;
-            if (!empty($item->extra_fields))
-            {
-                $extra_fields = new DSCParameter(trim($item->extra_fields));
-                $extra_fields = $extra_fields->toArray();
-                foreach($extra_fields as $k => $v)
-                {
-                    $item->$k = $v;
-                }                
-            }
-        }
-        return $list;
-    }
-    
-    public function getItem($pk=null, $refresh=false, $emptyState=true)
-    {
-    	$item = parent::getItem($pk, $refresh, $emptyState);
-    	
-        if (!empty($item->extra_fields))
-        {
-            $extra_fields = new DSCParameter(trim($item->extra_fields));
-            $extra_fields = $extra_fields->toArray();
-            foreach($extra_fields as $k => $v)
-            {
-                $item->$k = $v;
-            }                
-        }
-        
-        return $item;
-    }
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+	{
+	    parent::prepareItem( $item, $key, $refresh );
+	    
+	    $item->link = 'index.php?option=com_tienda&view=addresses&task=edit&id='.$item->address_id;
+	    if (!empty($item->extra_fields))
+	    {
+	        $extra_fields = new DSCParameter(trim($item->extra_fields));
+	        $extra_fields = $extra_fields->toArray();
+	        foreach($extra_fields as $k => $v)
+	        {
+	            $item->$k = $v;
+	        }
+	    }
+	}
 }

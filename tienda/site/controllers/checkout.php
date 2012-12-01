@@ -247,7 +247,8 @@ class TiendaControllerCheckout extends TiendaController
             $userinfo->load( array( 'user_id'=>$this->user->id ) );
             $userinfo->credits_total = (float) $userinfo->credits_total;
             $view->assign('userinfo', $userinfo);
-             
+            $view->assign('addresses', $addresses);
+            
             $dispatcher = JDispatcher::getInstance();
             ob_start();
             $dispatcher->trigger( 'onBeforeDisplaySelectPayment', array( $order ) );

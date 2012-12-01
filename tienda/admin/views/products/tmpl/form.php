@@ -1428,7 +1428,7 @@ $helper_product = TiendaHelperBase::getInstance( 'product' );
 				                     },
 				'queueID'          : 'queue',
 				'uploadScript'     : '<?php echo JURI::getInstance()->root(true); ?>/index.php',
-				'onUploadComplete' : function(file, data) { console.log(data); }
+				'onUploadComplete' : function(file, data) { }
 			});
 		});
 
