@@ -7,7 +7,13 @@
 <?php JHTML::_('stylesheet', 'opc.css', 'media/com_tienda/css/'); ?>
 <?php JHTML::_( 'script', 'bootstrap-modal.js', 'media/dioscouri/bootstrap/default/js/' ); ?>
 <?php 
+$cart_itemid = $this->router->findItemid( array('view'=>'carts') );
+if (empty($cart_itemid)) {
+    $cart_itemid = JRequest::getInt('Itemid');
+}
+ 
 $guest_checkout_enabled = $this->defines->get('guest_checkout_enabled');
+$failureUrl = $this->defines->get('opc_failure_url', JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$cart_itemid ) );
 
 Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
 $js_strings = array( 'COM_TIENDA_PLEASE_CHOOSE_REGISTER', 'COM_TIENDA_PLEASE_CHOOSE_REGISTER_OR_CHECKOUT_AS_GUEST' );
@@ -15,7 +21,7 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
 
 $doc = JFactory::getDocument();
 $js = 'tiendaJQ(document).ready(function(){
-    Opc = new TiendaOpc("#opc-checkout-steps", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
+    Opc = new TiendaOpc("#opc-checkout-steps", { guestCheckoutEnabled: '.$guest_checkout_enabled.', urls: { failure: "'.$failureUrl.'" } });';
     if (empty($this->user->id)) {
         $js .= 'Opc.gotoSection("checkout-method");';
     } else {
