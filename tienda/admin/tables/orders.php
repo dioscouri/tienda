@@ -63,6 +63,9 @@ class TiendaTableOrders extends TiendaTable
     
     /** @var array An array of TiendaTableOrderCoupons objects */
     protected $_ordercoupons = array();
+    
+    /** @var array An array of TiendaTableCoupons objects. Tracks user-submitted coupon(s) added to the order.  Duplicates some data that is in the _coupons array, but doesn't store it to the DB when the order is saved */
+    protected $_usercoupons = array();
 
     protected $_weight = 0;    
 	/**
@@ -1290,6 +1293,11 @@ class TiendaTableOrders extends TiendaTable
                 }
                 break;
         }
+        
+        if (!empty($coupon->coupon_id) && $coupon->coupon_automatic != '1') 
+        {
+            $this->_usercoupons[] = $coupon;
+        }
     }
     
 	/**
@@ -1503,5 +1511,25 @@ class TiendaTableOrders extends TiendaTable
         	return $this->_coupons;
         else
         	return array();
-    }  
+    }
+    
+    /**
+     * Gets the user-submitted coupons for this order
+     * and returns an array of objects
+     *
+     * @return unknown_type
+     * @enterprise
+     */
+    function getUserCoupons()
+    {
+        if (!empty($this->_usercoupons)) 
+        {
+            return $this->_usercoupons;
+        }
+        else 
+        {
+            // TODO create the array from _coupons, if possible
+            return array();
+        }
+    }
 }

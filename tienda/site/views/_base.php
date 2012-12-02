@@ -36,6 +36,7 @@ class TiendaViewBase extends DSCViewSite
 	function display($tpl=null, $perform = true )
 	{
 	    // these need to load before jquery to prevent joomla from crying
+	    JHTML::_('behavior.modal');
 	    JHTML::_('script', 'core.js', 'media/system/js/');
 	    
 	    DSC::loadJQuery('latest', true, 'tiendaJQ');

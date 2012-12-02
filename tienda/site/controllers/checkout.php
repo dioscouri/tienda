@@ -628,6 +628,15 @@ class TiendaControllerCheckout extends TiendaController
             $view->assign( 'onDisplayOrderItem', $onDisplayOrderItem );
         }
         //END onDisplayOrderItem
+        
+        $coupons_present = false;
+        $model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+        $model->setState('filter_enabled', '1');
+        if ($coupons = $model->getList())
+        {
+            $coupons_present = true;
+        }
+        $view->assign( 'coupons_present', $coupons_present );
 
         $view->setLayout( $layout );
         $view->setTask(true);

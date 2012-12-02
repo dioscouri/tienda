@@ -14,6 +14,7 @@ TiendaOpc = TiendaClass.extend({
                 setShipping: 'opc-shipping-summary',
                 setShippingMethod: 'opc-shipping-method-summary',
                 setPayment: 'opc-payment-summary',
+                addCoupon: 'opc-coupon-summary',
                 submitOrder: 'opc-review-summary'
             },
             validationElements: {
@@ -22,6 +23,7 @@ TiendaOpc = TiendaClass.extend({
                 setShipping: 'opc-shipping-validation',
                 setShippingMethod: 'opc-shipping-method-validation',
                 setPayment: 'opc-payment-validation',
+                addCoupon: 'opc-coupon-validation',
                 submitOrder: 'opc-review-validation'
             },
             urls: {
@@ -30,6 +32,7 @@ TiendaOpc = TiendaClass.extend({
                 setShipping: 'index.php?option=com_tienda&view=opc&task=setShipping&tmpl=component&format=raw',
                 setShippingMethod: 'index.php?option=com_tienda&view=opc&task=setShippingMethod&tmpl=component&format=raw',
                 setPayment: 'index.php?option=com_tienda&view=opc&task=setPayment&tmpl=component&format=raw',
+                addCoupon: 'index.php?option=com_tienda&view=opc&task=addCoupon&tmpl=component&format=raw',
                 submitOrder: 'index.php?option=com_tienda&view=opc&task=submitOrder&tmpl=component&format=raw',
                 failure: 'index.php?option=com_tienda&view=carts'
             }
@@ -201,6 +204,13 @@ TiendaOpc = TiendaClass.extend({
             tiendaJQ('#'+self.options.validationElements.submitOrder).empty();
             tiendaJQ(this).attr('disabled', 'disabled');
         });
+        
+        tiendaJQ('#opc-coupon-button').on('click', function(event){
+            event.preventDefault();
+            if (tiendaJQ("#coupon_code").val()) {
+                self.addCoupon();
+            }
+        });
     },
     
     submitPreparePaymentForm: function() {
@@ -360,6 +370,27 @@ TiendaOpc = TiendaClass.extend({
             var response = JSON.decode(data, false);
             if (!response.summary.id) {
                 response.summary.id = this.options.summaryElements.setPayment;
+            }
+            this.handleSuccess(response);
+        }).fail(function(data){
+            this.handleFailure();
+        }).always(function(data){
+
+        });
+    },
+    
+    addCoupon: function() {
+        var form_data = tiendaJQ('#opc-coupon-form').serializeArray();
+
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: this.urls.addCoupon,
+            context: this,
+            data: form_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+            if (!response.summary.id) {
+                response.summary.id = this.options.summaryElements.addCoupon;
             }
             this.handleSuccess(response);
         }).fail(function(data){

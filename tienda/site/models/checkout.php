@@ -60,6 +60,56 @@ class TiendaModelCheckout extends TiendaModelBase
         return $this->check();
     }
     
+    function validateCoupon( $values, $options=array() )
+    {
+        $coupon_code = $values['coupon_code']; 
+        $user_id = $values['user_id'];
+        
+        // check if coupon code is valid
+        Tienda::load( 'TiendaHelperCoupon', 'helpers.coupon' );
+        $helper_coupon = new TiendaHelperCoupon();
+        $coupon = $helper_coupon->isValid( $coupon_code, 'code', $user_id );
+        if (!$coupon)
+        {
+            $this->setError( $helper_coupon->getError() );
+            return $this->check();
+        }
+        
+        if (!empty($values['coupons']) && in_array($coupon->coupon_id, $values['coupons']))
+        {
+            $this->setError( JText::_('COM_TIENDA_THIS_COUPON_ALREADY_ADDED_TO_THE_ORDER') );
+            return $this->check();
+        }
+
+        // Check per product coupon code
+        if (!empty($values['cartitems']) && $coupon->coupon_type == '1') 
+        {
+            $ids = array();
+            foreach($values['cartitems'] as $item)
+            {
+                if (is_int($item)) 
+                {
+                    $ids[] = $item;
+                }
+                elseif(is_object($item)) 
+                {
+                    $ids[] = $item->product_id;
+                }
+            }
+            
+            if (!empty($ids)) 
+            {
+                if(!$check = $helper_coupon->checkByProductIds($coupon->coupon_id, $ids))
+                {
+                    $this->setError( JText::_('COM_TIENDA_THIS_COUPON_NOT_RELATED_TO_PRODUCT_IN_YOUR_CART') );
+                    return $this->check();
+                }
+            }
+        }
+
+        return $coupon;
+    }
+    
     public function save( $values, $options=array() )
     {
         $result = new stdClass();

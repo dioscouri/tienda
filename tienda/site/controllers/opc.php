@@ -26,9 +26,16 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     
     public function display($cachable=false, $urlparams = false)
     {
+        $session = JFactory::getSession();
+        $session->clear('tienda.opc.method');
+        $session->clear('tienda.opc.billingAddress');
+        $session->clear('tienda.opc.shippingAddress');
+        $session->clear('tienda.opc.shippingRates');
+        $session->clear('tienda.opc.shippingMethod');
+        $session->clear('tienda.opc.userCoupons');
+        
         if ( !$this->user->id )
         {
-            $session = JFactory::getSession();
             $session->set( 'old_sessionid', $session->getId() );
         }
     
@@ -261,6 +268,65 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         echo json_encode($response);
     }
     
+    public function addCoupon()
+    {
+        $this->setFormat();
+        $session = JFactory::getSession();
+        $response = $this->getResponseObject();
+        
+        $values = JRequest::get('post');
+        
+        if (!empty($this->user->id)) {
+            $values["user_id"] = $this->user->id;
+        } else {
+            $userHelper = new TiendaHelperUser();
+            $values["user_id"] = $userHelper->getNextGuestUserId();
+        }
+        
+        $order = &$this->_order;
+        $order = $this->populateOrder();
+        $values["cartitems"] = $order->getItems();
+        
+        $model = $this->getModel('checkout');
+        if (!$coupon = $model->validateCoupon($values))
+        {
+            $errorMessage = '<ul class="text-error">';
+            foreach ($model->getErrors() as $error)
+            {
+                $errorMessage .= "<li>" . $error . "</li>";
+            }
+            $errorMessage .= '</ul>';
+            $response->summary->id = 'opc-coupon-validation';
+            $response->summary->html = $errorMessage;
+            echo json_encode($response);
+            return;
+        }
+
+        if ($userCoupons = unserialize( $session->get('tienda.opc.userCoupons') ))
+        {
+            foreach ($userCoupons as $userCoupon)
+            {
+                $order->addCoupon( $userCoupon );
+            }
+        }
+        
+        $order->addCoupon( $coupon );
+        $order->calculateTotals();
+                
+        $userCoupons = $order->getUserCoupons();        
+        $session->set('tienda.opc.userCoupons', serialize($userCoupons) );
+        
+        $response->goto_section = 'review';
+        
+        $response->summaries = array();
+        $summary = $this->getSummaryResponseObject();
+        $summary->id = 'opc-review-body';
+        $summary->html = $this->getOrderSummary( 'review' );
+        $response->summaries[] = $summary;
+
+        echo json_encode($response);
+    }
+    
     public function submitOrder()
     {
         $this->setFormat();
@@ -270,14 +336,13 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $values = JRequest::get('post');
         
         // Prep the post
-        $userHelper = new TiendaHelperUser();
         
-        // set user values appropriately
         if (!empty($this->user->id)) {
             $values["user_id"] = $this->user->id; 
             $values["email_address"] = $this->user->email;
             $values["checkout_method"] = null;
         } else {
+            $userHelper = new TiendaHelperUser();
             $values["user_id"] = $userHelper->getNextGuestUserId();
         }
         
@@ -294,6 +359,15 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             $values['shipping_code'] = $shippingMethod['code'];
         }
 
+        $values['coupons'] = array();
+        if ($userCoupons = unserialize( $session->get('tienda.opc.userCoupons') ))
+        {
+            foreach ($userCoupons as $coupon) 
+            {
+                $values['coupons'][] = $coupon->coupon_id; 
+            }
+        }
+                
         $model = $this->getModel( 'orders' );
         $errorMessage = '';
         if (!$validate = $model->validate( $values )) 
@@ -304,14 +378,10 @@ class TiendaControllerOpc extends TiendaControllerCheckout
                 $errorMessage .= "<li>" . $error . "</li>";
             }
             $errorMessage .= '</ul>';
-        }
-        
-        if ($errorMessage) 
-        {
             $response->goto_section = 'review';
             $response->summary->html = $errorMessage;
             echo json_encode($response);
-            return;            
+            return;
         }
         
         $options = array();
@@ -325,10 +395,6 @@ class TiendaControllerOpc extends TiendaControllerCheckout
                 $errorMessage .= "<li>" . $error . "</li>";
             }
             $errorMessage .= '</ul>';
-        }
-        
-        if ($errorMessage)
-        {
             $response->goto_section = 'review';
             $response->summary->html = $errorMessage;
             echo json_encode($response);
