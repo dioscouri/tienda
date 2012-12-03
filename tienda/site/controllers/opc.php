@@ -290,6 +290,12 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             $order->setAddress( $shippingAddress, 'shipping' );
         }        
         
+        if ($shippingMethod = unserialize( $session->get('tienda.opc.shippingMethod') ))
+        {
+            $order->setShippingRate( $shippingMethod );
+        }
+        $order->calculateTotals();
+        
         $response->summaries = array();
         $summary = $this->getSummaryResponseObject();
         $summary->id = 'opc-review-body';

@@ -1532,4 +1532,39 @@ class TiendaTableOrders extends TiendaTable
             return array();
         }
     }
+    
+    /**
+     * Gets the shipping rate object
+     */
+    public function getShippingRate()
+    {
+        if (empty($this->shipping)) 
+        {
+            $this->shipping = new JObject();
+            $this->shipping->shipping_price    = '0';
+            $this->shipping->shipping_extra    = '0';
+            $this->shipping->shipping_code     = null;
+            $this->shipping->shipping_name     = null;
+            $this->shipping->shipping_tax      = '0';
+            $this->shipping->shipping_type     = null;
+        }
+        return $this->shipping;
+    }
+    
+    /**
+     * Sets the shipping object for the order from a shipping_rate array,
+     * a standard array created by all shipping plugins as a valid shipping rate option during checkout
+     * 
+     * @param array $rate
+     */
+    public function setShippingRate( $rate )
+    {
+        $this->shipping = new JObject();
+        $this->shipping->shipping_price    = @$rate['price'];
+        $this->shipping->shipping_extra    = @$rate['extra'];
+        $this->shipping->shipping_code     = @$rate['code'];
+        $this->shipping->shipping_name     = @$rate['name'];
+        $this->shipping->shipping_tax      = @$rate['tax'];
+        $this->shipping->shipping_type     = @$rate['element'];
+    }
 }
