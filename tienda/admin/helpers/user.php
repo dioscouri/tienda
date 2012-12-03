@@ -423,7 +423,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * 
 	 * @return Guest user account ID
 	 */
-	function getNextGuestUserId()
+	public function getNextGuestUserId()
 	{
 		$db = JFactory::getDbo();
 		Tienda::load( 'TiendaQuery', 'library.query' );
@@ -449,42 +449,44 @@ class TiendaHelperUser extends DSCHelperUser
 	 * 
 	 * @return	Array with result of password validation (position 0) and list of requirements which the password does not fullfil (position 1)
 	 */
-	function validateUserPassword( $pass, $force_validation = '' )
+	function validatePassword( $password, $force=false )
 	{
 		$errors = array();
 		$result = true;
+		$defines = Tienda::getInstance();
 		
-		$validate_php = $force_validation ||  Tienda::getInstance()->get( 'password_php_validate', 1 );
-		if( !$validate_php )
+		$validate_php = $force_validation || $defines->get( 'password_php_validate', 0 );
+		if( !$validate_php ) {
 			return array( $result, $errors );
-
-		$min_length = Tienda::getInstance()->get( 'password_min_length', 5 );
-		$req_num = Tienda::getInstance()->get( 'password_req_num', 1 );
-		$req_alpha = Tienda::getInstance()->get( 'password_req_alpha', 1 );
-		$req_spec = Tienda::getInstance()->get( 'password_req_spec', 1 );
-		
-		if( strlen( $pass ) < $min_length )
-		{
-			$result = false;
-			$errors []= 'length';
 		}
 
-		if( $req_num && !preg_match( '/[0-9]/', $pass ) )
+		$min_length = $defines->get( 'password_min_length', 5 );
+		$req_num = $defines->get( 'password_req_num', 1 );
+		$req_alpha = $defines->get( 'password_req_alpha', 1 );
+		$req_spec = $defines->get( 'password_req_spec', 1 );
+		
+		if( strlen( $password ) < $min_length )
 		{
 			$result = false;
-			$errors []= 'number';
+			$errors[] = JText::sprintf("COM_TIENDA_PASSWORD_MIN_LENGTH", $min_length);
+		}
+
+		if( $req_num && !preg_match( '/[0-9]/', $password ) )
+		{
+			$result = false;
+			$errors[] = JText::_("COM_TIENDA_PASSWORD_REQ_NUMBER");
 		}
 		
-		if( $req_alpha && !preg_match( '/[a-zA-Z]/', $pass ) )
+		if( $req_alpha && !preg_match( '/[a-zA-Z]/', $password ) )
 		{
 			$result = false;
-			$errors []= 'alpha';
+			$errors[] = JText::_("COM_TIENDA_PASSWORD_REQ_ALPHA");
 		}
 		
-		if( $req_spec && !preg_match( '/[\\/\|_\-\+=\."\':;\[\]~<>!@?#$%\^&\*()]/', $pass ) )
+		if( $req_spec && !preg_match( '/[\\/\|_\-\+=\."\':;\[\]~<>!@?#$%\^&\*()]/', $password ) )
 		{
 			$result = false;
-			$errors []= 'spec';
+			$errors[] = JText::_("COM_TIENDA_PASSWORD_REQ_SPEC");
 		}
 		
 		return array( $result, $errors );

@@ -21,7 +21,7 @@
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_ONE_PAGE_CHECKOUT_LAYOUT'); ?>
             </th>
             <td><?php
-            echo TiendaSelect::opclayouts($this -> row -> get('one_page_checkout_layout', 'onepagecheckout'), 'one_page_checkout_layout');
+            echo TiendaSelect::opclayouts($this->row->get('one_page_checkout_layout', 'standard'), 'one_page_checkout_layout');
             ?>
             </td>
             <td></td>

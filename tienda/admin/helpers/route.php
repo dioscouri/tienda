@@ -243,7 +243,6 @@ class TiendaHelperRoute extends DSCHelperRoute
     
         // get a menu item based on the Itemid or the currently active item
         $menu = $app->getMenu();
-//        $menu = JSite::getMenu();
     
         if (empty($query['Itemid'])) 
         {
@@ -308,9 +307,9 @@ class TiendaHelperRoute extends DSCHelperRoute
      */
   static  function parse( $segments )
     {
-//        echo "segments:<br /><pre>";
-//        print_r($segments);
-//        echo "</pre>";
+        // echo "segments:<br /><pre>";
+        // print_r($segments);
+        // echo "</pre>";
     
         $vars = array();
         $count = count($segments);

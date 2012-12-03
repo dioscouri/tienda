@@ -16,6 +16,16 @@ jimport( 'joomla.application.component.view' );
 
 class TiendaViewBase extends DSCViewSite
 {
+    function __construct( $config=array() )
+    {
+        parent::__construct( $config );
+    
+        $this->defines = Tienda::getInstance();
+    
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $this->router = new TiendaHelperRoute();
+    }
+    
 	/**
 	 * First displays the submenu, then displays the output
 	 * but only if a valid _doTask is set in the view object
@@ -25,17 +35,13 @@ class TiendaViewBase extends DSCViewSite
 	 */
 	function display($tpl=null, $perform = true )
 	{
-		if( $perform )
-		{
-			$this->getLayoutVars($tpl);
-
-			Tienda::load( 'TiendaMenu', 'library.menu' );
-
-			if (!JRequest::getInt('hidemainmenu') && empty($this->hidemenu))
-			{
-				$this->displaySubmenu();
-			}
-		}
+	    // these need to load before jquery to prevent joomla from crying
+	    JHTML::_('behavior.modal');
+	    JHTML::_('script', 'core.js', 'media/system/js/');
+	    
+	    DSC::loadJQuery('latest', true, 'tiendaJQ');
+	    DSC::loadBootstrap();
+	    JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
 	
 		parent::display($tpl);
 	}
@@ -53,9 +59,6 @@ class TiendaViewBase extends DSCViewSite
 			$menu = TiendaMenu::getInstance();
 		}
 	}
-
-	
-
 
 	/**
 	 * Basic commands for displaying a list
@@ -100,13 +103,12 @@ class TiendaViewBase extends DSCViewSite
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
 		$model = $this->getModel();
-		if( isset( $this->row ) ) 
+		if( isset( $this->row ) ) {
 			JFilterOutput::objectHTMLSafe( $this->row );
+		}
 		else
 		{
-	
-			// get the data
-			$row = $model->getItem();
+            $row = $model->getItem();
 			JFilterOutput::objectHTMLSafe( $row );
 			$this->assign('row', $row );
 		}

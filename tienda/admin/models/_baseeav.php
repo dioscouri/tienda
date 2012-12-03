@@ -15,6 +15,9 @@ Tienda::load( 'TiendaModelBase', 'models._base' );
 
 class TiendaModelEav extends TiendaModelBase
 {
+    public $_getEav = true;
+    public $_getEavOptions = array();
+    
 	function __construct($config = array())
 	{
 		//set the model state
@@ -186,48 +189,10 @@ class TiendaModelEav extends TiendaModelBase
 	 */
 	public function getItem( $refresh = true, $getEav = true, $emptyState=true )
 	{
-		if (empty( $this->_item ) || $refresh)
-		{
-			$item = parent::getItem( $refresh );
-
-			if (empty($item))
-			{
-				return $item;
-			}
-
-			// Get Extra Fields
-			if($getEav)
-			{
-				$app = JFactory::getApplication();
-				$editable_by = $app->isAdmin() ? 1 : 2;
-				
-				Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
-				Tienda::load( "TiendaHelperBase", 'helpers._base' );
-				$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
-				 
-				$entity = $this->getTable()->get('_suffix');
-				 
-				// add the custom fields as properties
-				$eavs = $eav_helper->getAttributes( $entity, $this->getId(), false, $editable_by );
-				foreach($eavs as $eav)
-				{
-					$key = $eav->eavattribute_alias;
-
-					$value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $this->getId());
-
-					// Do NOT ovveride properties
-					if(!property_exists($item, $key))
-					{
-						// use JObject set() method
-						$item->{$key} = $value;
-					}
-				}
-			}
-
-			$this->_item = $item;
-		}
-
-		return $this->_item;
+	    $this->_getEav = $getEav;
+	    $this->_getEavOptions = array();
+	    
+		return parent::getItem( $refresh );
 	}
 
 	/**
@@ -239,99 +204,98 @@ class TiendaModelEav extends TiendaModelBase
 	 */
 	public function getList($refresh = false, $getEav = true, $options = array())
 	{
-		if (empty( $this->_list ) || $refresh )
-		{
-			$list = parent::getList($refresh);
-			// If no item in the list, return an array()
-			if ( empty( $list ) ) {
-				return array();
-			}
-
-			// Count Eav States
-			$eavStates = count($this->getEavState()->getProperties());
-
-			// Fetch the Eav attributes if specified OR if there are eav states set
-			if($getEav || ($eavStates > 0))
-			{
-				$app = JFactory::getApplication();
-				$editable_by = $app->isAdmin() ? 1 : 2;
-				
-				Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
-				Tienda::load('TiendaHelperEav', 'helpers.eav');
-				Tienda::load( "TiendaHelperBase", 'helpers._base' );
-				$eav_helper = TiendaHelperBase::getInstance( 'Eav' );
-				 
-				$entity = $this->getTable()->get('_suffix');
-				 
-				$tbl_key = $this->getTable()->getKeyName();
-				 
-				// Add them as properties to each item
-				foreach($list as $item)
-				{
-					$entity_id = $item->$tbl_key;
-					$eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
-
-					// Mirrored table?
-					if(!count($eavs) && strlen($this->getTable()->getLinkedTable()))
-					{
-						$entity = $this->getTable()->getLinkedTable();
-						$entity_id = $item->{$this->getTable()->getLinkedTableKeyName()};
-						$eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
-					}
-
-					foreach($eavs as $eav)
-					{
-						$key = $eav->eavattribute_alias;
-						 
-						$add = true;
-						 
-						// Include Mode: Fetch only these fields
-						if(array_key_exists('include', $options))
-						{
-							foreach($options['include'] as $k)
-							{
-								if($key != $k)
-								{
-									$add = false;
-								}
-							}
-						}
-						else
-						{
-							// Exclude Mode: Fetch everything except these fields
-							if(array_key_exists('exclude', $options))
-							{
-								foreach($options['exclude'] as $k)
-								{
-									if($key == $k)
-									{
-										$add = false;
-									}
-								}
-							}
-
-							// Default Mode: Fetch Everything
-						}
-						 
-						// TODO Check that the excluded fields are not required by eavfiltering
-						if($add)
-						{
-							$value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key, true, true );
-
-							// Do NOT ovveride properties
-							if(!property_exists($item, $key))
-							{
-								$item->$key = $value;
-							}
-						}
-					}
-				}
-			}
-
-			$this->_list = $list;
-		}
-
-		return $this->_list;
+	    $this->_getEav = $getEav;
+	    $this->_getEavOptions = $options;
+	    
+	    return parent::getList($refresh);
 	}
 
+	
+	/**
+	 * Set basic properties for the item, whether in a list or a singleton
+	 *
+	 * @param unknown_type $item
+	 * @param unknown_type $key
+	 * @param unknown_type $refresh
+	 */
+	protected function prepareItem( &$item, $key=0, $refresh=false )
+	{
+	    $getEav = $this->_getEav;
+	    $options = $this->_getEavOptions;	    
+	    
+	    $eavStates = count($this->getEavState()->getProperties());
+	    
+	    if (!empty($getEav) || ($eavStates > 0) )
+	    {
+	        $app = JFactory::getApplication();
+	        $editable_by = $app->isAdmin() ? 1 : 2;
+	    
+	        Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
+	        Tienda::load( "TiendaHelperBase", 'helpers._base' );
+	        $eav_helper = TiendaHelperBase::getInstance( 'Eav' );
+	        	
+	        $entity = $this->getTable()->get('_suffix');
+	        
+	        $tbl_key = $this->getTable()->getKeyName();
+	        $entity_id = $item->$tbl_key;
+	        	
+	        // add the custom fields as properties
+	        $eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
+	        
+	        // Mirrored table?
+	        if (!count($eavs) && strlen($this->getTable()->getLinkedTable()))
+	        {
+	            $entity = $this->getTable()->getLinkedTable();
+	            $entity_id = $item->{$this->getTable()->getLinkedTableKeyName()};
+	            $eavs = $eav_helper->getAttributes( $entity, $entity_id, false, $editable_by );
+	        }
+	        
+	        foreach($eavs as $eav)
+	        {
+	            $key = $eav->eavattribute_alias;
+	            $add = true;
+
+	            // Include Mode: Fetch only these fields
+	            if(array_key_exists('include', $options))
+	            {
+	                foreach($options['include'] as $k)
+	                {
+	                    if($key != $k)
+	                    {
+	                        $add = false;
+	                    }
+	                }
+	            }
+	            else
+	            {
+	                // Exclude Mode: Fetch everything except these fields
+	                if(array_key_exists('exclude', $options))
+	                {
+	                    foreach($options['exclude'] as $k)
+	                    {
+	                        if($key == $k)
+	                        {
+	                            $add = false;
+	                        }
+	                    }
+	                }
+	            
+	                // Default Mode: Fetch Everything
+	            }
+	            
+	            if($add)
+	            {
+	                $value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key, true, true );
+	            
+	                // Do NOT ovveride properties
+	                if(!property_exists($item, $key))
+	                {
+	                    $item->$key = $value;
+	                }
+	            }
+	        }
+	    }
+	    
+	    parent::prepareItem( $item, $key, $refresh );
+	}
 }

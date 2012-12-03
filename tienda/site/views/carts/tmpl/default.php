@@ -26,9 +26,9 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update&Itemid='.$router->findItemid( array('view'=>'carts') ) ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
-        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('COM_TIENDA_CHECK_CART_UPDATE'); ?>');">
+        <a class="btn btn-primary" href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('COM_TIENDA_CHECK_CART_UPDATE'); ?>');">
             <?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>
-        </a>]
+        </a>
         </div>
         <div class="reset"></div>
         <div id="onCheckoutCart_wrapper">
@@ -123,7 +123,7 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
                             echo $item->product_qty;
                         } ?>
                         
-                        <input name="quantities[<?php echo $item->cart_id; ?>]" type="<?php echo $type; ?>" size="3" maxlength="3" value="<?php echo $item->product_qty; ?>" />
+                        <input class="input-mini" name="quantities[<?php echo $item->cart_id; ?>]" type="<?php echo $type; ?>" size="3" maxlength="3" value="<?php echo $item->product_qty; ?>" />
                         
                         <!-- Keep Original quantity to check any update to it when going to checkout -->
                         <input name="original_quantities[<?php echo $item->cart_id; ?>]" type="hidden" value="<?php echo $item->product_qty; ?>" />
@@ -139,10 +139,10 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
             <tfoot>
                 <tr>
                     <td colspan="3" style="text-align: left;">
-                        <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_REMOVE_SELECTED'); ?>" name="remove" />
+                        <input type="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_REMOVE_SELECTED'); ?>" name="remove" />
                     </td>
                     <td colspan="2">
-                        <input style="float: right;" type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES'); ?>" name="update" />
+                        <input style="float: right;" type="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_UPDATE_QUANTITIES'); ?>" name="update" />
                     </td>
                 </tr>
                 <tr>
@@ -165,16 +165,16 @@ Tienda::load( 'TiendaHelperEav', 'helpers.eav' );
                 <tr>
                     <td colspan="4">
                         <?php if (!empty($this->return)) { ?>
-                        [<a href="<?php echo $this->return; ?>">
+                        <a href="<?php echo $this->return; ?>" class="btn btn-info">
                             <?php echo JText::_('COM_TIENDA_CONTINUE_SHOPPING'); ?>
-                        </a>]
+                        </a>
                         <?php } ?>
                     </td>
                     <td style="text-align: right;" nowrap>
 				        <div style="float: right;">
-				        [<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('COM_TIENDA_CHECK_CART_UPDATE'); ?>');">
+				        <a class="btn btn-primary" href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('COM_TIENDA_CHECK_CART_UPDATE'); ?>');">
 				            <?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>
-				        </a>]
+				        </a>
 				        </div>
                     </td>
                 </tr>

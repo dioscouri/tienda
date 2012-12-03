@@ -89,7 +89,7 @@ class TiendaControllerCarts extends TiendaController
         $redirect = $return ? $return : JRoute::_( "index.php?option=com_tienda&view=products" );       		
        
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-        $router = TiendaHelperBase::getInstance( 'Route' );
+        $router = new TiendaHelperRoute();
         $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
         if (empty($checkout_itemid)) { $checkout_itemid = JRequest::getInt('Itemid'); }
        

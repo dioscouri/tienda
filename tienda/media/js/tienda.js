@@ -1,3 +1,7 @@
+if (typeof(Tienda) === 'undefined') {
+    var Tienda = {};
+}
+
 /**
  * Simple function to refresh a page.
  */
@@ -218,8 +222,8 @@ function tiendaAddToCart(url, container, form, msg) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 			if (resp.error == '1') {
-				if ($(container)) {
-					$(container).set('html', resp.msg);
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', resp.msg);
 				}
 				return false;
 			} else {
@@ -247,10 +251,10 @@ function tiendaUpdateAddToCart(page, container, form, working, callback) {
 		},
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
-			if ($(container)) {
-				$(container).set('html', resp.msg);
+			if (document.getElementById(container)) {
+				document.getElementById(container).set('html', resp.msg);
 			}
-			$(container).setStyle('color', '');
+			document.getElementById(container).setStyle('color', '');
 			if ( typeof callback === 'function')
 				callback();
 			return true;
@@ -340,8 +344,8 @@ function tiendaValidation(url, container, task, form, doModal, msg) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 			if (resp.error == '1') {
-				if ($(container)) {
-					$(container).set('html', resp.msg);
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', resp.msg);
 				}
 			}
 			if (doModal != false) { (function() { document.body.removeChild($('dscModal')); }).delay(500); }
@@ -385,8 +389,8 @@ function tiendaAddProductToCompare(id, container, obj, doModal) {
 					$('validationmessage').set('html', resp.msg);
 				}
 			} else {
-				if ($(container)) {
-					$(container).set('html', resp.msg);
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', resp.msg);
 				}
 			}
 		}
@@ -416,8 +420,8 @@ function tiendaAddCoupon(form, mult_enabled) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 			if (resp.error != '1') {
-				if ($(container)) {
-					$(container).set('html', '');
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', '');
 				}
 
 				// Push the code into the form
@@ -439,8 +443,8 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 				
 			} else {
-				if ($(container)) {
-					$(container).set('html', resp.msg);
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', resp.msg);
 				}
 			}
 
@@ -474,8 +478,8 @@ function tiendaAddCartCoupon(form, mult_enabled) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 			if (resp.error != '1') {
-				if ($(container)) {
-					$(container).set('html', '');
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', '');
 				}
 
 				// Push the code into the form
@@ -493,8 +497,8 @@ function tiendaAddCartCoupon(form, mult_enabled) {
 					tiendaShowHideDiv('coupon_code_form');
 				}
 			} else {
-				if ($(container)) {
-					$(container).set('html', resp.msg);
+				if (document.getElementById(container)) {
+					document.getElementById(container).set('html', resp.msg);
 				}
 			}
 		}
@@ -542,8 +546,8 @@ function tiendaPutAjaxLoader(container, text, suffix) {
 	if (text != null && text != '')
 		text_element = '<span> ' + text + '</span>';
 	var img_loader = '<img src="' + window.com_tienda.jbase + 'media/com_tienda/images/ajax-loader' + suffix + '.gif' + '"/>';
-	if ($(container)) {
-	    $(container).set('html', img_loader + text_element);
+	if (document.getElementById(container)) {
+	    document.getElementById(container).set('html', img_loader + text_element);
 	}
 }
 
@@ -559,7 +563,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 		suffix = '_transp';
 
 	var img_loader = '<img src="' + window.com_tienda.jbase + 'media/com_tienda/images/ajax-loader' + suffix + '.gif' + '"/>';
-	$(container).setStyle('position', 'relative');
+	document.getElementById(container).setStyle('position', 'relative');
 	text_element = '';
 	if (text && text.length)
 		text_element = '<div class="text">' + text + '</div>';
@@ -570,7 +574,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 }
 
 function tiendaSetColorInContainer(container, color) {
-	if ($(container)) { $(container).setStyle('color', color); }
+	if (document.getElementById(container)) { document.getElementById(container).setStyle('color', color); }
 	$$('#' + container + ' *' ).each(function(el) {
 		el.setStyle('color', color);
 	});

@@ -92,7 +92,10 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 			{
 				$model = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
 				$model->setId( $man_id );
-				$result[ $man_id ] = $model->getItem();
+				if (!$man_item = $model->getItem()) {
+				    $man_item = new stdClass();
+				}
+				$result[ $man_id ] = $man_item;
 				$result[ $man_id ]->subtotal = 0;
 				$result[ $man_id ]->total_tax = 0;
 			}

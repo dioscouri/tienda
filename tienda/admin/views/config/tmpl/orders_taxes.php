@@ -30,7 +30,7 @@
         <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_SHOW_TAXES'); ?>
             </th>
-            <td><?php echo TiendaSelect::taxdisplaycheckout($this -> row -> get('show_tax_checkout', '3'), 'show_tax_checkout'); ?>
+            <td><?php echo TiendaSelect::taxdisplaycheckout($this -> row -> get('show_tax_checkout', '4'), 'show_tax_checkout'); ?>
             </td>
             <td></td>
         </tr>

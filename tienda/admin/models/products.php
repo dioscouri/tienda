@@ -473,10 +473,9 @@ class TiendaModelProducts extends TiendaModelEav
         $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
         $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
 
-        $dispatcher = JDispatcher::getInstance( );
-        $dispatcher->trigger( 'onPrepare' . $this->getTable( )->get( '_suffix' ), array(
-                &$item
-        ) );
+        $item->default_attributes = $helper_product->getDefaultAttributes( $item->product_id );
+        
+        parent::prepareItem( $item, $key, $refresh );
     }
     
 	/**
