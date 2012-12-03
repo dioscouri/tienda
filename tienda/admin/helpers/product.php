@@ -2285,11 +2285,15 @@ class TiendaHelperProduct extends TiendaHelperBase
         $view->onDisplayProductAttributeOptions = ob_get_contents( );
         ob_end_clean( );
 
+        $html = $view->loadTemplate();
+        
+        /*
         ob_start( );
         $view->display( );
         $html = ob_get_contents( );
         ob_end_clean( );
-
+        */
+        
         return $html;
     }
 
