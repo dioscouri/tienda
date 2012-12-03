@@ -2176,7 +2176,12 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $product_qty = $quantity_min;
             // get the default set of attribute_csv
-            $default_attributes = $helper_product->getDefaultAttributes( $product_id );
+            if (!isset($row->default_attributes)) {
+                $default_attributes = $helper_product->getDefaultAttributes( $product_id );
+            } else {
+                $default_attributes = $row->default_attributes;
+            }
+            
             sort( $default_attributes );
             $attributes_csv = implode( ',', $default_attributes );
             $availableQuantity = $helper_product->getAvailableQuantity( $product_id, $attributes_csv );
@@ -2199,8 +2204,13 @@ class TiendaHelperProduct extends TiendaHelperBase
                 }
             }
             	
-            if( !count( $attributes ) ) // no attributes are selected -> use default
-                $attributes = $helper_product->getDefaultAttributes( $product_id );
+            if( !count( $attributes ) ) { // no attributes are selected -> use default
+                if (!isset($row->default_attributes)) {
+                    $attributes = $helper_product->getDefaultAttributes( $product_id );
+                } else {
+                    $attributes = $row->default_attributes;
+                }
+            }
 
             sort( $attributes );
             	

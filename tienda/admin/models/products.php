@@ -473,6 +473,8 @@ class TiendaModelProducts extends TiendaModelEav
         $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
         $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
 
+        $item->default_attributes = $helper_product->getDefaultAttributes( $item->product_id );
+        
         parent::prepareItem( $item, $key, $refresh );
     }
     
