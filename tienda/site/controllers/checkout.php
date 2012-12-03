@@ -2911,7 +2911,7 @@ class TiendaControllerCheckout extends TiendaController
                     $details['password']    = $submitted_values['password'];
                     $details['password2']   = $submitted_values['password2'];
 
-                    $validate_pass = $userHelper->validateUserPassword( $details['password'] );
+                    $validate_pass = $userHelper->validatePassword( $details['password'] );
                     if( !$validate_pass[0] )
                     {
                         $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_PASSWORD_INVALID') );

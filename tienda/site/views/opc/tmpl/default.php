@@ -2,10 +2,11 @@
 <?php $active = false; ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'class.js', 'media/com_tienda/js/'); ?>
+<?php JHTML::_('script', 'validation.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'opcaccordion.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('script', 'opc.js', 'media/com_tienda/js/'); ?>
 <?php JHTML::_('stylesheet', 'opc.css', 'media/com_tienda/css/'); ?>
-<?php JHTML::_( 'script', 'bootstrap-modal.js', 'media/dioscouri/bootstrap/default/js/' ); ?>
+
 <?php 
 $cart_itemid = $this->router->findItemid( array('view'=>'carts') );
 if (empty($cart_itemid)) {

@@ -39,8 +39,8 @@
     ?>
     </ul>
     
-    <div>
-        <a id="opc-shipping-method-button" class="btn btn-primary"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
-    </div>
+    <div id="opc-shipping-method-validation"></div>
+    
+    <a id="opc-shipping-method-button" class="btn btn-primary"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
 
 </form>

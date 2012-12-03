@@ -18,17 +18,21 @@ $default_currency = $this->defines->get('default_currencyid', '1');
 
 <form id="opc-review-form" name="opc-review-form" action="" method="post">
 
-    <div id="opc-order-summary" class="cartitems">
-    	<div class="adminlist">
-    		<div id="cartitems_header" class="floatbox">
-    			<span class="left50"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></span>
-    			<span class="left20 center"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?></span>
-    			<span class="left30 right"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></span>
-    		</div>
+    <div id="opc-order-summary">
+    
+    	<table class="table table-bordered table-hover">
+    	<thead>
+    		<tr>
+    			<th class="product-name"><?php echo JText::_('COM_TIENDA_PRODUCT'); ?></th>
+    			<th class="product-quantity"><?php echo JText::_('COM_TIENDA_QUANTITY'); ?></th>
+    			<th class="product-total"><?php echo JText::_('COM_TIENDA_TOTAL'); ?></th>
+    		</tr>
+        </thead>
+        <tbody>
             <?php $i=0; $k=0; ?> 
             <?php foreach ($items as $item) : ?>
-                <div class="row<?php echo $k; ?> floatbox cart_item_list">
-                    <div class="left50">
+                <tr>
+                    <td class="product-name">
                     	<div class="inner">
                             <a href="<?php echo JRoute::_("index.php?option=com_tienda&controller=products&view=products&task=view&id=".$item->product_id); ?>">
                                 <?php echo $item->orderitem_name; ?>
@@ -76,84 +80,81 @@ $default_currency = $this->defines->get('default_currencyid', '1');
                             	<span style="float: right;"><?php echo JText::_('COM_TIENDA_COUPON_DISCOUNT_APPLIED'); ?></span>
                             <?php } ?>
                     	</div>                      
-                    </div>
-                    <div class="left20 center">
+                    </td>
+                    <td class="product-quantity">
                         <?php echo $item->orderitem_quantity;?>  
-                    </div>
-                    <div class="left30 right">
+                    </td>
+                    <td class="product-total">
                     	<div class="inner">
                     		<?php echo $currency_helper->format($item->orderitem_final_price, $default_currency ); ?>
                     	</div>
-                    </div>
-                </div>
-              	<div class="marginbot"></div>
+                    </td>
+                </tr>
             <?php ++$i; $k = (1 - $k); ?>
             <?php endforeach; ?>
-        </div>    
-        
-        <div class="marginbot"></div>
-        <div class="floatbox">
-            <span class="left50 header">
+        </tbody>    
+
+        <tfoot>        
+        <tr>
+            <td colspan="2">
             	<span class="inner">
             		<?php echo JText::_('COM_TIENDA_SUBTOTAL'); ?>
             	</span>
-            </span>
-            <span class="right">
+            </td>
+            <td>
             	<span class="inner">
             		<?php echo $currency_helper->format($order->order_subtotal,$default_currency); ?>
             	</span>
-            </span>
-        </div>
+            </td>
+        </tr>
         
         <?php if (!empty($order->_coupons['order_price'])) : ?>
-        <div class="floatbox">
-            <span class="left50 header">
+        <tr>
+            <td colspan="2">
             	<span class="inner">
             		<?php echo JText::_('COM_TIENDA_DISCOUNT'); ?>
             	</span>
-            </span>
-            <span class="left50 right">
+            </td>
+            <td>
             	<span class="inner">
             		<?php echo $currency_helper->format( $order->order_discount, $default_currency ); ?>
             	</span>
-            </span>
-        </div>
+            </td>
+        </tr>
         <?php endif; ?>
             
-        <div class="floatbox">
-            <?php echo $this->displayTaxes(); ?>
-        </div>
+        <?php echo $this->displayTaxes(); ?>
         
         <?php if( $display_credits ): ?>
-        <div class="marginbot"></div>
-        <div class="floatbox">
-        	<span class="left50 header">
+        <tr>
+        	<td colspan="2">
         		<span class="inner">
         			 <?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?>
         		</span>
-            </span>
-            <span class="left50 right">
+            </td>
+            <td>
             	<span class="inner">
             		- <?php echo $currency_helper->format( $order->order_credit, $default_currency ); ?>
             	</span>
-            </span>
-        </div>        
+            </td>
+        </tr>
         <?php endif; ?>
         
-        <div class="marginbot"></div>
-        <div class="floatbox">
-        	<span class="left50 header">
+        <tr>
+        	<td colspan="2">
         		<span class="inner">
         			<?php echo JText::_('COM_TIENDA_TOTAL'); ?>
         		</span>
-            </span>
-            <span class="left50 right">
+            </td>
+            <td>
             	<span class="inner">
             		<?php echo $currency_helper->format( $order->order_total, $default_currency ); ?>
             	</span>
-            </span>
-        </div>
-    </div>
+            </td>
+        </tr>
+        
+        </tfoot>
+    </table>
 
     <?php if ($this->defines->get('coupons_enabled') && $this->coupons_present) { ?>
     <?php if (!$this->defines->get('multiple_usercoupons_enabled') && $order->getUserCoupons()) { /*stop*/ } else { ?>

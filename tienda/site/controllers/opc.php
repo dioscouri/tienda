@@ -33,6 +33,7 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $session->clear('tienda.opc.shippingRates');
         $session->clear('tienda.opc.shippingMethod');
         $session->clear('tienda.opc.userCoupons');
+        $session->clear('tienda.opc.requireShipping');
         
         if ( !$this->user->id )
         {
@@ -57,6 +58,8 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     
         $showShipping = $order->isShippingRequired();
         $view->assign( 'showShipping', $showShipping );
+        
+        $session->set('tienda.opc.requireShipping', serialize($showShipping) );
         
         $view->assign('default_country', $this->default_country);
         $view->assign('default_country_id', $this->default_country_id);
@@ -201,13 +204,17 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $rate = !empty($shippingRates[$key]) ? $shippingRates[$key] : null; 
         $summary = $rate ? $rate['name'] . " (" . TiendaHelperBase::currency( $rate['total'], $currency ) . ")" : null;
         
-        // TODO if $summary or $rate is null, fail
-        
-        $response->goto_section = 'payment';
-        $response->summary->html = $summary;
+        $requireShipping = unserialize( $session->get('tienda.opc.requireShipping') );
+        if ($requireShipping && empty($rate)) {
+            $response->goto_section = 'shipping-method';
+            $response->summary->id = 'opc-shipping-method-validation';
+            $response->summary->html = JText::_( "COM_TIENDA_INVALID_SHIPPING_RATE" );
+        } else {
+            $response->goto_section = 'payment';
+            $response->summary->html = $summary;
+            $session->set('tienda.opc.shippingMethod', serialize($rate) );
+        }
 
-        $session->set('tienda.opc.shippingMethod', serialize($rate) );
-        
         echo json_encode($response);
     }
     
@@ -231,6 +238,32 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             return;
         }
         
+        // Validate the results of the payment plugin
+        $errorMessagesFromPlugins = '';
+        $dispatcher = JDispatcher::getInstance();
+        $results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $post['payment_plugin'], $post) );
+        foreach ($results as $result)
+        {
+            if (!empty($result->error))
+            {
+                $errorMessagesFromPlugins .= $result->message;
+            }
+        }
+        
+        if (!empty($errorMessagesFromPlugins)) 
+        {
+            $errorMessage = '<ul class="text-error">';
+            $errorMessage .= $errorMessagesFromPlugins;
+            $errorMessage .= '</ul>';
+            
+            $response->goto_section = 'payment';
+            $response->summary->id = 'opc-payment-validation';
+            $response->summary->html = $errorMessage;
+            echo json_encode($response);
+            return;            
+        }
+        
+        // success summary, for now, is just the name of the plugin
         DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = DSCModel::getInstance('Payment', 'TiendaModel');
         $model->setState('limit', '1');

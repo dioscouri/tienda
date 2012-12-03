@@ -5,8 +5,6 @@ TiendaOpc = TiendaClass.extend({
     __construct: function() {
         this.sections = ['checkout-method', 'billing', 'shipping', 'shipping-method', 'payment', 'review'];
         this.defaults = {
-            billingForm: null,
-            shippingForm: null,
             guestCheckoutEnabled: 1,
             summaryElements: {
                 setMethod: 'opc-checkout-method-summary',
@@ -44,6 +42,7 @@ TiendaOpc = TiendaClass.extend({
         this.payment = null;
         this.syncBillingShipping = false;
         this.urls = {};
+        this.validations = {};
     },
 
     init: function (element, options) {
@@ -54,7 +53,20 @@ TiendaOpc = TiendaClass.extend({
         this.urls    = this.options.urls;
         this.accordion = new TiendaOpcAccordion(element, this.options);
         
-        this.setupSection('checkout-method');
+        var headers = tiendaJQ(element + ' .opc-section ' + this.accordion.options.clickableEntity);
+        var self = this;
+        headers.each(function() {
+            tiendaJQ(this).click(function(event){
+                self.sectionClicked(event);
+            });
+        });
+    },
+    
+    sectionClicked: function(event) {
+        event.preventDefault();
+        section_id = tiendaJQ(event.target).closest('.opc-section').attr('id');
+        this.setupSection(section_id);
+        event.stopPropagation();
     },
     
     /**
@@ -73,24 +85,30 @@ TiendaOpc = TiendaClass.extend({
     {
         switch (section) 
         {
+            case "opc-checkout-method":
             case "checkout-method":
                 this.setupMethodForm();
                 break;
+            case "opc-billing":
             case "billing":
                 this.setupBillingForm();
                 break;
+            case "opc-shipping":
             case "shipping":
                 this.setupShippingForm();
                 break;
+            case "opc-shipping-method":
             case "shipping-method":
                 this.setupShippingMethodForm();
                 break;
+            case "opc-payment":
             case "payment":
                 this.setupPaymentForm();
                 break;
             case "prepare-payment":
                 this.submitPreparePaymentForm();
                 break;
+            case "opc-review":
             case "review":
                 this.setupReviewForm();
                 break;
@@ -98,10 +116,23 @@ TiendaOpc = TiendaClass.extend({
     },
     
     setupMethodForm: function() {
-        if (tiendaJQ('#opc-checkout-method-form').length) {
+        this.validations.setMethod = new TiendaValidation('#opc-checkout-method-form');
+        var self = this;
+        var form = tiendaJQ('#opc-checkout-method-form');         
+            
+        if (form.length) {
+            tiendaJQ('#opc-checkout-method-button').attr('disabled', 'disabled').off('click.opc').on('click.opc', function(){
+                if (!tiendaJQ(this).attr('disabled') && self.validations.setMethod.validateForm()) {
+                    self.setMethod();
+                }
+            });
+            
             tiendaJQ('#checkout-method-guest').click(function(){
                 tiendaJQ('#email-password').show(); 
-                tiendaJQ('#register-password').hide();                
+                tiendaJQ('#register-password').hide().find('input').each(function(){
+                    tiendaJQ(this).data('required', false); 
+                });
+                tiendaJQ('#opc-checkout-method-button').removeAttr('disabled');
             });
             if (tiendaJQ('#checkout-method-guest').attr('checked')) {
                 tiendaJQ('#checkout-method-guest').click();
@@ -109,7 +140,10 @@ TiendaOpc = TiendaClass.extend({
             
             tiendaJQ('#checkout-method-register').click(function(){
                 tiendaJQ('#email-password').show(); 
-                tiendaJQ('#register-password').show();                
+                tiendaJQ('#register-password').show().find('input').each(function(){
+                    tiendaJQ(this).data('required', true);
+                });
+                tiendaJQ('#opc-checkout-method-button').removeAttr('disabled');
             });
             if (tiendaJQ('#checkout-method-register').attr('checked')) {
                 tiendaJQ('#checkout-method-register').click();
@@ -118,6 +152,7 @@ TiendaOpc = TiendaClass.extend({
     },
     
     setupBillingForm: function() {
+        this.validations.setBilling = new TiendaValidation('#opc-billing-form');
         var self = this;
         
         tiendaJQ("#existing-billing-address").change(function(){
@@ -128,13 +163,16 @@ TiendaOpc = TiendaClass.extend({
             }
         });
         
-        tiendaJQ('#opc-billing-button').on('click', function(event){
+        tiendaJQ('#opc-billing-button').off('click.opc').on('click.opc', function(event){
             event.preventDefault();
-            self.setBilling();
+            if (self.validations.setBilling.validateForm()) {
+                self.setBilling();
+            }
         });
     },
     
     setupShippingForm: function() {
+        this.validations.setShipping = new TiendaValidation('#opc-shipping-form');
         var self = this;
         
         tiendaJQ("#existing-shipping-address").change(function(){
@@ -145,9 +183,11 @@ TiendaOpc = TiendaClass.extend({
             }
         });
         
-        tiendaJQ('#opc-shipping-button').on('click', function(event){
+        tiendaJQ('#opc-shipping-button').off('click.opc').on('click.opc', function(event){
             event.preventDefault();
-            self.setShipping();
+            if (self.validations.setShipping.validateForm()) {
+                self.setShipping();
+            }
         });
     },
     
@@ -158,7 +198,7 @@ TiendaOpc = TiendaClass.extend({
             tiendaJQ('#opc-shipping-method-button').attr('disabled', 'disabled');
         }
         
-        tiendaJQ('#opc-shipping-method-button').on('click', function(event){
+        tiendaJQ('#opc-shipping-method-button').off('click.opc').on('click.opc', function(event){
             event.preventDefault();
             if (!tiendaJQ("input.shipping-plugin:checked").val()) {
                 tiendaJQ('#opc-shipping-method-button').attr('disabled', 'disabled');
@@ -173,18 +213,21 @@ TiendaOpc = TiendaClass.extend({
     },
     
     setupPaymentForm: function() {
+        this.validations.setPayment = new TiendaValidation('#opc-payment-form');
         var self = this;
         
         if (!tiendaJQ("input.payment-plugin:checked").val()) {
             tiendaJQ('#opc-payment-button').attr('disabled', 'disabled');
         }
         
-        tiendaJQ('#opc-payment-button').on('click', function(event){
+        tiendaJQ('#opc-payment-button').off('click.opc').on('click.opc', function(event){
             event.preventDefault();
             if (!tiendaJQ("input.payment-plugin:checked").val()) {
                 tiendaJQ('#opc-payment-button').attr('disabled', 'disabled');
             } else {
-                self.setPayment();
+                if (self.validations.setPayment.validateForm()) {
+                    self.setPayment();
+                }
             }
         });
         
@@ -246,7 +289,6 @@ TiendaOpc = TiendaClass.extend({
             if (tiendaJQ('#register-password').length) {
                 tiendaJQ('#register-password').hide();
             }
-            this.gotoSection('billing');
         }
         else if(tiendaJQ('#checkout-method-register').length && (tiendaJQ('#checkout-method-register').attr('checked') || !tiendaJQ('#checkout-method-guest').length)) {
             this.method = 'register';
@@ -547,5 +589,4 @@ TiendaPayment = TiendaClass.extend({
         var url = 'index.php?option=com_tienda&view=opc&task=getPaymentForm&format=raw&payment_element=' + element;
         Dsc.doTask( url, container, document.getElementById('opc-payment-form'), '', false );
     }
-    
-});
+});    

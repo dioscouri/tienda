@@ -67,12 +67,12 @@
                     </li>
                 </ul>
                 
-                <div id="email-password" class="opc-hidden">
+                <div id="email-password" class="opc-hidden control-group">
                     <label><?php echo JText::_( "COM_TIENDA_EMAIL_ADDRESS" ); ?></label>
-                    <input type="text" name="email_address" />
+                    <input type="text" name="email_address" class="required" />
                 </div>
                 
-                <fieldset id="register-password" class="opc-hidden">
+                <fieldset id="register-password" class="opc-hidden control-group">
                     <label><?php echo JText::_( "COM_TIENDA_PASSWORD" ); ?></label>
                     <input type="password" name="register-new-password" autocomplete="off" />
                     
@@ -84,7 +84,7 @@
                     <?php echo JText::_('COM_TIENDA_PLEASE_REGISTER_TO_CONTINUE_SHOPPING'); ?>
                 </div>
                 
-                <a id="opc-checkout-method-button" class="btn btn-primary" onclick="Opc.setMethod();"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
+                <a id="opc-checkout-method-button" class="btn btn-primary"><?php echo JText::_('COM_TIENDA_CONTINUE') ?></a>
             
             </form>
         </div>

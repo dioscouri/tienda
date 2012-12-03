@@ -55,7 +55,19 @@ class TiendaModelCheckout extends TiendaModelBase
             $this->setError( JText::_('COM_TIENDA_CANNOT_REGISTER_OR_GUEST_CHECKOUT_WHEN_LOGGED_IN') );
         }
         
-        // TODO fail if password doesn't validate and validation is enabled
+        // fail if password doesn't validate and validation is enabled
+        if( $this->defines->get('password_php_validate', '0')) {
+            Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+            $userHelper = new TiendaHelperUser();
+            $validate_pass = $userHelper->validateUserPassword( $values['register-new-password'] );
+            if (!$validate_pass[0])
+            {
+                foreach ($validate_pass[1] as $error) 
+                {
+                    $this->setError( $error );
+                }
+            }
+        }
                 
         return $this->check();
     }
