@@ -440,6 +440,7 @@ class TiendaModelProducts extends TiendaModelEav
     {
         Tienda::load( "TiendaHelperProduct", 'helpers.product' );
         Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+        $helper_product = new TiendaHelperProduct();
         
         if ( !empty( $item->product_recurs ) )
         {
