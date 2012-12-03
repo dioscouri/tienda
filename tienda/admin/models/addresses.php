@@ -94,8 +94,6 @@ class TiendaModelAddresses extends TiendaModelBase
 	 */
 	protected function prepareItem( &$item, $key=0, $refresh=false )
 	{
-	    parent::prepareItem( $item, $key, $refresh );
-	    
 	    $item->link = 'index.php?option=com_tienda&view=addresses&task=edit&id='.$item->address_id;
 	    if (!empty($item->extra_fields))
 	    {
@@ -106,5 +104,7 @@ class TiendaModelAddresses extends TiendaModelBase
 	            $item->$k = $v;
 	        }
 	    }
+	    
+	    parent::prepareItem( $item, $key, $refresh );
 	}
 }
