@@ -2807,8 +2807,13 @@ class TiendaControllerCheckout extends TiendaController
             $submitted_values['payment_plugin'] = $submitted_values['_checked']['payment_plugin'];
         }
 
-        if(!$this->validateSelectShipping($submitted_values))
+        // return error message
+        $svalidate = $this->validateSelectShipping($submitted_values);
+        if(!$svalidate || @$svalidate['error'])
         {
+            $response['msg'] = @$svalidate['msg'];
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
             return;
         }
 
@@ -2821,8 +2826,12 @@ class TiendaControllerCheckout extends TiendaController
             return;
         }
 
-        if(!$this->validateSelectPayment($submitted_values))
+        $pvalidate = $this->validateSelectPayment($submitted_values);
+        if(!$pvalidate || @$pvalidate['error'])
         {
+            $response['msg'] = @$pvalidate['msg'];
+            $response['error'] = '1';
+            echo ( json_encode( $response ) );
             return;
         }
         
