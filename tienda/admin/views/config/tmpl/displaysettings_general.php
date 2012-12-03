@@ -122,7 +122,7 @@
         <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_SELECT_CART_BUTTON_TYPE'); ?>
             </th>
-            <td><?php echo TiendaSelect::cartbutton($this -> row -> get('cartbutton', 'image'), 'cartbutton'); ?>
+            <td><?php echo TiendaSelect::cartbutton($this -> row -> get('cartbutton', 'button'), 'cartbutton'); ?>
             </td>
             <td></td>
         </tr>

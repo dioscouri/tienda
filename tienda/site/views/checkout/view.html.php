@@ -31,9 +31,6 @@ class TiendaViewCheckout extends TiendaViewBase
 			case "form":
 				$this->_form($tpl);
 			  	break;
-			case "review":
-				$this->_default($tpl);
-			  	break;
 			case "default":
 			default:
 				$this->_default($tpl);
@@ -80,7 +77,7 @@ class TiendaViewCheckout extends TiendaViewBase
 		
 	}
 
-  /*
+  /**
    * Loads layour for displaying taxes
    * 
    * @params $tpl Specifies name of layout (null means cart_taxes)

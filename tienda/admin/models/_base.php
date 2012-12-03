@@ -16,6 +16,19 @@ Tienda::load( 'TiendaQuery', 'library.query' );
 class TiendaModelBase extends DSCModel
 {
     /**
+     * Define this in your model to have all the objects in a getList() array be objects of this class
+     * @var unknown_type
+     */
+    protected $_objectClass = null;
+    
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+    
+        $this->defines = Tienda::getInstance();
+    }
+    
+    /**
      * Method to get a table object, load it if necessary.
      *
      * @access  public
@@ -68,5 +81,55 @@ class TiendaModelBase extends DSCModel
             $GMT_data= date_format($date, 'Y-m-d H:i:s');
         }
         return $GMT_data;
+    }
+    
+    /**
+     * Any errors set?  If so, check fails
+     *
+     */
+    public function check()
+    {
+        $errors = $this->getErrors();
+        if (!empty($errors))
+        {
+            foreach ($errors as $key=>$error)
+            {
+                $error = trim( $error );
+                if (empty($error))
+                {
+                    unset($errors[$key]);
+                }
+            }
+             
+            if (!empty($errors))
+            {
+                return false;
+            }
+        }
+         
+        return true;
+    }
+    
+    /**
+     * Gets an array of objects from the results of database query.
+     * TODO Push this upstream after checking for potential backwards-incompatiblity issues
+     * 
+     * @param   string   $query       The query.
+     * @param   integer  $limitstart  Offset.
+     * @param   integer  $limit       The number of records.
+     *
+     * @return  array  An array of results.
+     *
+     * @since   11.1
+     */
+    protected function _getList($query, $limitstart = 0, $limit = 0)
+    {
+        $key = !empty($this->_keyGetList) ? $this->_keyGetList : ''; 
+        $class = !empty($this->_objectClass) ? $this->_objectClass : 'stdClass';
+        
+        $this->_db->setQuery($query, $limitstart, $limit);
+        $result = $this->_db->loadObjectList( $key, $class );
+    
+        return $result;
     }
 }

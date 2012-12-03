@@ -12,5 +12,3 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load('TiendaModelCarts','models.carts');
-
-

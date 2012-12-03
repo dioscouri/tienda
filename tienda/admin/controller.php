@@ -30,6 +30,13 @@ class TiendaController extends DSCControllerAdmin
 	 */
 	protected $redirect;
 
+	function __construct( $config=array() )
+	{
+	    parent::__construct( $config );
+	
+	    $this->defines = Tienda::getInstance();
+	}
+	
 	/**
 	 * Hides a tooltip message
 	 * @return unknown_type

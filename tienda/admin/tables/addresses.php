@@ -15,20 +15,16 @@ Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableAddresses extends TiendaTable
 {
-    /**
-     *
-     *
-     * @param $db
-     * @return unknown_type
-     */
-    function TiendaTableAddresses ( &$db )
+    public function __construct( $db=null, $tbl_name=null, $tbl_key=null )
     {
-
         $tbl_key 	= 'address_id';
         $tbl_suffix = 'addresses';
         $this->set( '_suffix', $tbl_suffix );
         $name 		= 'tienda';
-
+        if (empty($db)) {
+            $db = JFactory::getDBO();
+        }
+        
         parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );
     }
 
@@ -88,7 +84,6 @@ class TiendaTableAddresses extends TiendaTable
             if (empty($this->user_id))
             {
                 $this->setError( JText::_('COM_TIENDA_USER_REQUIRED') );
-                return false;
             }
         }
         Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
@@ -101,7 +96,6 @@ class TiendaTableAddresses extends TiendaTable
         if (empty($this->address_name) && $elements['address_name'][1] )
         {
             $this->setError( JText::_("COM_TIENDA_PLEASE_INCLUDE_AN_ADDRESS_TITLE".$address_type) );
-            return false;
         }
 
         $address_checks = array(
@@ -122,7 +116,6 @@ class TiendaTableAddresses extends TiendaTable
             if( empty( $this->$current[0] ) && $elements[ $current[1] ][1] )
             {
                 $this->setError( JText::_($current[2]) );
-                return false;
             }
         }
 
@@ -131,7 +124,6 @@ class TiendaTableAddresses extends TiendaTable
             if ( $elements['country'][1] )
             {
                 $this->setError( JText::_('COM_TIENDA_COUNTRY_REQUIRED') );
-                return false;
             }
             else
             {
@@ -145,13 +137,64 @@ class TiendaTableAddresses extends TiendaTable
             if( $elements['zone'][1] )
             {
                 $this->setError( JText::_('COM_TIENDA_ZONE_REQUIRED') );
-                return false;
             }
             else
             {
                 $this->zone_id = 9999;
             }
         }
-        return true;
+        
+        return parent::check();
+    }
+    
+    public function getZone()
+    {
+        if (empty($this->zone_id))
+        {
+            return false;
+        }
+        
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Zones', 'TiendaModel' );
+        $model->setId( $this->zone_id );
+        
+        return $model->getItem();
+    }
+    
+    public function getCountry()
+    {
+        if (empty($this->country_id)) 
+        {
+            return false;
+        }
+        
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Countries', 'TiendaModel' );
+        $model->setId( $this->country_id );
+        
+        return $model->getItem();
+    }
+    
+    public function getSummary()
+    {
+        $lines = array();
+    
+        // TODO Get the fields enabled in config,
+        $lines[] = $this->first_name . " " . $this->last_name;
+        $lines[] = $this->address_1;
+        if ($this->address_2) {
+            $lines[] = $this->address_2;
+        }
+        $lines[] = $this->city;
+        if ($zone = $this->getZone()) {
+            $lines[] = $zone->zone_name;
+        }
+        $lines[] = $this->postal_code;
+        if ($country = $this->getCountry()) {
+            $lines[] = $country->country_name;
+        }
+         
+        $return = implode(', ', $lines);
+        return $return;
     }
 }

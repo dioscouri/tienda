@@ -57,6 +57,15 @@
             </td>
         </tr>
         <tr>
+            <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_VALDATE_PHP'); ?>
+            </th>
+            <td style="width: 150px;"><?php  echo TiendaSelect::btbooleanlist('password_php_validate', 'class="inputbox"', $this -> row -> get('password_php_validate', '0')); ?>
+            </td>
+            <td>
+                <?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_VALDATE_PHP_TIP'); ?>
+            </td>
+        </tr>
+        <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_LENGTH'); ?>
             </th>
             <td style="width: 150px;"><input type="text" name="password_min_length" value="<?php echo $this -> row -> get('password_min_length', '5'); ?>" />
@@ -84,13 +93,6 @@
             </td>
             <td><?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_REQUIRE_SPECIAL_DESC'); ?>
             </td>
-        </tr>
-        <tr>
-            <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_CONFIG_PASSWORD_VALDATE_PHP'); ?>
-            </th>
-            <td style="width: 150px;"><?php  echo TiendaSelect::btbooleanlist('password_php_validate', 'class="inputbox"', $this -> row -> get('password_php_validate', '1')); ?>
-            </td>
-            <td></td>
         </tr>
         <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_CONFIG_LOWER_FILENAME'); ?>
