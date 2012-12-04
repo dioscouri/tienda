@@ -3409,12 +3409,12 @@ class TiendaControllerCheckout extends TiendaController
         JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $row = JTable::getInstance('OrderShippings', 'TiendaTable');
         $row->order_id = $order->order_id;
-        $row->ordershipping_type = $values['shipping_plugin'];
-        $row->ordershipping_price = $values['shipping_price'];
-        $row->ordershipping_name = $values['shipping_name'];
-        $row->ordershipping_code = $values['shipping_code'];
-        $row->ordershipping_tax = $values['shipping_tax'];
-        $row->ordershipping_extra = $values['shipping_extra'];
+        $row->ordershipping_type = isset($values['shipping_plugin']) ? $values['shipping_plugin'] : '';
+        $row->ordershipping_price = isset($values['shipping_price']) ? $values['shipping_price'] : 0;
+        $row->ordershipping_name = isset($values['shipping_name']) ? $values['shipping_name'] : '';
+        $row->ordershipping_code = isset($values['shipping_code']) ? $values['shipping_code'] : '';
+        $row->ordershipping_tax = isset($values['shipping_tax']) ? $values['shipping_tax'] : 0;
+        $row->ordershipping_extra = isset($values['shipping_extra']) ? $values['shipping_extra'] : 0;
 
         if (!$row->save())
         {
@@ -3423,8 +3423,11 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         // Let the plugin store the information about the shipping
-        $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger( "onPostSaveShipping", array( $values['shipping_plugin'], $row ) );
+        if (isset($values['shipping_plugin']))
+        {
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( "onPostSaveShipping", array( $values['shipping_plugin'], $row ) );
+        }
 
         return true;
     }
