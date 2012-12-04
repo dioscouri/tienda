@@ -109,47 +109,25 @@ $helper_product = new TiendaHelperProduct();
 
 <?php $multiscript = Tienda::getInstance()->get( 'multiupload_script', 0 ); ?>
 <script type="text/javascript">
-<?php $timestamp = time();?>
-		jQuery(function() {
-			jQuery('#uploadify_file_upload').uploadifive({
-				'auto'             : false,
-				'method'   : 'post',
-				'formData'         : {
-									  
-									   'option':'com_tienda',
-									   'view':'products',
-									   'task':'uploadifyImage',
-									   'format':'raw',
-									   'product_id': '<?php echo @$row->product_id ?>'
+    <?php $timestamp = time();?>
 
-				                     },
-				'queueID'          : 'queue',
-				'uploadScript'     : '<?php echo JURI::getInstance()->root(true); ?>/index.php',
-				'onUploadComplete' : function(file, data) { }
-			});
-		});
+    // showing/hiding elementes related to pro-rated payments
+    function showProRatedFields()
+    {
+    	val = jQuery('input[name=subscription_prorated]:checked').val();
+    	if( val == 1 )
+    	{
+    		jQuery( '.prorated_unrelated' ).hide( 'fast' );
+    		jQuery( '.prorated_related' ).show( 'fast' );
+    		jQuery( '.trial_price' ).text( '<?php echo JText::_('COM_TIENDA_INITIAL_PERIOD_PRICE');?>:' );
+    	}
+    	else
+    	{
+    		jQuery( '.prorated_unrelated' ).show( 'fast' );
+    		jQuery( '.prorated_related' ).hide( 'fast' );
+    		jQuery( '.trial_price' ).text( '<?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE');?>:' );
+    	}
+    }
 
-
-
-
-
-// showing/hiding elementes related to pro-rated payments
-function showProRatedFields()
-{
-	val = jQuery('input[name=subscription_prorated]:checked').val();
-	if( val == 1 )
-	{
-		jQuery( '.prorated_unrelated' ).hide( 'fast' );
-		jQuery( '.prorated_related' ).show( 'fast' );
-		jQuery( '.trial_price' ).text( '<?php echo JText::_('COM_TIENDA_INITIAL_PERIOD_PRICE');?>:' );
-	}
-	else
-	{
-		jQuery( '.prorated_unrelated' ).show( 'fast' );
-		jQuery( '.prorated_related' ).hide( 'fast' );
-		jQuery( '.trial_price' ).text( '<?php echo JText::_('COM_TIENDA_TRIAL_PERIOD_PRICE');?>:' );
-	}
-}
-
-//showProRatedFields();
+    //showProRatedFields();
 </script>

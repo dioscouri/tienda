@@ -39,6 +39,71 @@ Tienda.postConfigFormAndRedirect = function(el) {
     });    
 }
 
+Tienda.refreshProductGallery = function(product_id) {
+    var url = 'index.php?option=com_tienda&view=products&task=refreshProductGallery&product_id=' + product_id + '&tmpl=component&format=raw';
+    var request = jQuery.ajax({
+        type: 'get', 
+        url: url,
+    }).done(function(data){
+        var response = JSON.decode(data, false);
+        if (response.html) {
+            tiendaJQ('#form-gallery').html(response.html);
+            Tienda.bindProductGalleryLinks();
+        }
+    }).fail(function(data){
+
+    }).always(function(data){
+
+    });
+}
+
+Tienda.bindProductGalleryLinks = function() {
+    tiendaJQ('.delete-gallery-image').each(function(){
+        el = tiendaJQ(this);
+        var url = el.attr('data-href');
+        var product_id = el.attr('data-product_id');
+        if (url) {
+            el.off('click.pg').on('click.pg', function(event){
+                event.preventDefault();
+                var request = jQuery.ajax({
+                    type: 'get', 
+                    url: url,
+                }).done(function(data){
+                    var response = JSON.decode(data, false);
+                    Tienda.refreshProductGallery(product_id);
+                }).fail(function(data){
+
+                }).always(function(data){
+
+                });                
+            });            
+        }
+    });
+    
+    tiendaJQ('.set-default-gallery-image').each(function(){
+        el = tiendaJQ(this);
+        var url = el.attr('data-href');
+        if (url) {
+            el.off('click.pg').on('click.pg', function(event){
+                event.preventDefault();
+                var request = jQuery.ajax({
+                    type: 'get', 
+                    url: url,
+                }).done(function(data){
+                    var response = JSON.decode(data, false);
+                    if (response.html) {
+                        tiendaJQ('#default_image').html(response.html);
+                    }
+                }).fail(function(data){
+
+                }).always(function(data){
+
+                });                
+            });            
+        }
+    });
+}
+
 function tiendaUpdateParentDefaultImage(id) {
 	var url = 'index.php?option=com_tienda&view=products&task=updateDefaultImage&protocol=json&product_id=' + id;
 	var form = document.adminForm;

@@ -1723,6 +1723,8 @@ class TiendaControllerProducts extends TiendaController
 	 */
 	function deleteImage()
 	{
+	    $format = JRequest::getCmd('format');
+	    
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 
 		$product_id = JRequest::getInt( 'product_id', 0, 'request');
@@ -1745,6 +1747,10 @@ class TiendaControllerProducts extends TiendaController
 			$redirect = "index.php?option=com_tienda&view=products";
 			$redirect = JRoute::_( $redirect, false );
 
+			if ($format == 'raw')
+			{
+			    return;
+			}
 			$this->setRedirect( $redirect, $msg, 'notice' );
 			return;
 		}
@@ -1787,6 +1793,12 @@ class TiendaControllerProducts extends TiendaController
 		{
 			$msg = JText::_("COM_TIENDA_CANNOT_DELETE_IMAGE".$path.$image);
 		}
+		
+		if ($format == 'raw')
+		{
+		    return;
+		}
+		
 		$this->setRedirect( $redirect, $msg, 'notice' );
 		return;
 	}
@@ -1802,7 +1814,8 @@ class TiendaControllerProducts extends TiendaController
 		// Find the product image
 		$helper = TiendaHelperBase::getInstance('Product');
 		$path = $helper->getGalleryPath($product_id);
-
+		$gallery_url = $helper->getGalleryUrl($product_id);
+		
 		// Check if the data is ok
 		if (empty($product_id) || empty($image))
 		{
@@ -1836,7 +1849,17 @@ class TiendaControllerProducts extends TiendaController
 			$this->message = JText::_("COM_TIENDA_IMAGE_DOES_NOT_EXIST".$path.$image);
 			$this->messagetype = 'notice';
 		}
-			
+
+		$format = JRequest::getCmd('format');
+		if ($format == 'raw') 
+		{
+		    $html = '<img src="'.$gallery_url.'thumbs/'.$image.'" class="img-polaroid" />';
+		    $response = new stdClass();
+		    $response->html = $html;
+		    echo json_encode($response);
+		    return;
+		}
+		
 		$redirect = "index.php?option=com_tienda&view=products&task=viewGallery&id={$product_id}&tmpl=component&update_parent=1";
 		$redirect = JRoute::_( $redirect, false );
 
@@ -1957,6 +1980,28 @@ class TiendaControllerProducts extends TiendaController
 		}
 
 		return $html;
+	}
+	
+	public function refreshProductGallery()
+	{
+	    $html = '';
+	    
+	    $product_id = JRequest::getInt('product_id');
+	    $model = $this->getModel( $this->get('suffix') );
+	    $model->setId($product_id);
+	    if ($item = $model->getItem()) 
+	    {
+	        $view   = $this->getView( $this->get('suffix'), 'html' );
+	        $view->set( '_doTask', true);
+	        $view->setModel( $model, true );
+	        $view->setLayout( 'form_gallery' );
+	        $view->set('row', $item);
+	        $html = $view->loadTemplate();
+	    }
+
+	    $response = new stdClass();
+	    $response->html = $html;
+	    echo json_encode($response);
 	}
 }
 

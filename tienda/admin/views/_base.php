@@ -13,6 +13,13 @@ defined('_JEXEC') or die('Restricted access');
 
 class TiendaViewBase extends DSCViewAdmin 
 {
+    function __construct( $config=array() )
+    {
+        parent::__construct( $config );
+    
+        $this->defines = Tienda::getInstance();
+    }
+    
 	/**
 	 * Displays a layout file
 	 *
@@ -26,6 +33,7 @@ class TiendaViewBase extends DSCViewAdmin
 		JHTML::_('script', 'core.js', 'media/system/js/');
 		DSC::loadBootstrap();
 		DSC::loadJQuery('latest', true, 'tiendaJQ');
+		JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
 		
 		parent::display($tpl);
 

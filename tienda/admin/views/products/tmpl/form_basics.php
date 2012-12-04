@@ -72,12 +72,16 @@ $helper_product = new TiendaHelperProduct();
         </tr>
     </table>
 </div>
+
 <div id="default_image" style="float: right; padding: 0px 5px 5px 0px;">
     <?php
     jimport('joomla.filesystem.file');
     if (!empty($row->product_full_image))
     {
-        echo TiendaUrl::popup( $helper_product->getImage($row->product_id, '', '', 'full', true, false ), $helper_product->getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 )), array('update' => false, 'img' => true));
+        $gallery_url = $helper_product->getGalleryUrl($row->product_id);
+        ?>
+        <img src="<?php echo $gallery_url; ?>thumbs/<?php echo $row->product_full_image; ?>" class="img-polaroid" />
+        <?php
     }
     ?>
 </div>

@@ -2217,8 +2217,7 @@ class TiendaControllerProducts extends TiendaController
     function uploadifyImage( )
     {
         $product_id = JRequest::getInt( 'product_id', 0 );
-		
-		
+
         if ( $product_id )
         {
             Tienda::load( 'TiendaImage', 'library.image' );
