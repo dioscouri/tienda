@@ -919,7 +919,7 @@ class TiendaControllerCheckout extends TiendaController
         //we will not echo the response if its onpagecheckout
         if($this->onepage_checkout)
         {
-            return true;
+            return $response;
         }
 
         echo ( json_encode( $response ) );
@@ -1032,7 +1032,7 @@ class TiendaControllerCheckout extends TiendaController
         //we will not echo the response if its onpagecheckout
         if($this->onepage_checkout)
         {
-            return true;
+            return $response;
         }
 
         echo ( json_encode( $response ) );
