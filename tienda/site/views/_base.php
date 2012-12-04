@@ -40,7 +40,12 @@ class TiendaViewBase extends DSCViewSite
 	    JHTML::_('script', 'core.js', 'media/system/js/');
 	    
 	    DSC::loadJQuery('latest', true, 'tiendaJQ');
-	    DSC::loadBootstrap();
+	    
+	    if ($this->defines->get('use_bootstrap', '1'))
+	    {
+	    	DSC::loadBootstrap();
+	    }
+	    
 	    JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
 	
 		parent::display($tpl);
