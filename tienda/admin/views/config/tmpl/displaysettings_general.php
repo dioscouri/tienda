@@ -4,6 +4,13 @@
 <table class="table table-striped table-bordered">
     <tbody>
         <tr>
+            <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_USE_BOOTSTRAP'); ?>
+            </th>
+            <td><?php  echo TiendaSelect::btbooleanlist('use_bootstrap', 'class="inputbox"', $this -> row -> get('use_bootstrap', '1')); ?>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_DISPLAY_FRONT_END_SUBMENU'); ?>
             </th>
             <td><?php  echo TiendaSelect::btbooleanlist('show_submenu_fe', 'class="inputbox"', $this -> row -> get('show_submenu_fe', '1')); ?>
