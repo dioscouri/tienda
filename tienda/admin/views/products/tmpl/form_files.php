@@ -4,11 +4,7 @@ $form = @$this->form;
 $row = @$this->row;
 $helper_product = new TiendaHelperProduct();
 ?>
-
-<legend>
-    <?php echo JText::_('COM_TIENDA_FILES'); ?>
-</legend>
-<table class="table table-striped table-bordered" style="width: 100%;">
+<table class="table table-striped table-bordered">
 
     <?php 
     if (empty($row->product_id))
@@ -16,7 +12,7 @@ $helper_product = new TiendaHelperProduct();
         // doing a new product, so display a notice
         ?>
     <tr>
-        <td width="100" align="right" class="dsc-key" style="vertical-align: top;"><?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:</td>
+        <td class="dsc-key"><?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:</td>
         <td>
             <div class="note well">
                 <?php echo JText::_('COM_TIENDA_CLICK_APPLY_TO_BE_ABLE_TO_ADD_FILES_TO_THE_PRODUCT'); ?>
@@ -30,7 +26,7 @@ $helper_product = new TiendaHelperProduct();
         // display lightbox link to manage files
         ?>
     <tr>
-        <td style="width: 100px; text-align: right;" class="dsc-key"><?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:</td>
+        <td class="dsc-key"><?php echo JText::_('COM_TIENDA_PRODUCT_FILES'); ?>:</td>
         <td><?php
         Tienda::load( 'TiendaUrl', 'library.url' );
         ?> [<?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=products&task=setfiles&id=".$row->product_id."&tmpl=component", JText::_('COM_TIENDA_MANAGE_FILES') ); ?>] <?php $files = $helper_product->getFiles( $row->product_id ); ?>
