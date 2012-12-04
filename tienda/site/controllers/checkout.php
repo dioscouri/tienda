@@ -1322,7 +1322,6 @@ class TiendaControllerCheckout extends TiendaController
         $view->set( 'hidemenu', true);
         $view->set( 'form_prefix', $prefix );
         $view->set( 'guest', $guest );
-        $view->setModel( $model, true );
         $view->setLayout( 'form_address' );
 
         // Checking whether shipping is required
@@ -1351,11 +1350,8 @@ class TiendaControllerCheckout extends TiendaController
         $view->assign( 'default_country_id', $default_country_id );
         $view->assign( 'zones', $zones );
 
-        ob_start();
-        $view->display();
-        $html = ob_get_contents();
-        ob_end_clean();
-
+        $html = $view->loadTemplate();
+        
         return $html;
     }
 
