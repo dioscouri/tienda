@@ -23,6 +23,29 @@ class TiendaControllerAddresses extends TiendaController
 	}
 	
 	/**
+	 * Sets the model's state
+	 *
+	 * @return array()
+	 */
+	function _setModelState()
+	{
+	    $state = parent::_setModelState();
+	    $app = JFactory::getApplication();
+	    $model = $this->getModel( $this->get('suffix') );
+	    $ns = $this->getNamespace();
+	
+	    $state['filter_userid']         = $app->getUserStateFromRequest($ns.'filter_userid', 'filter_userid', '', '');
+	    $state['filter_user']         = $app->getUserStateFromRequest($ns.'filter_user', 'filter_user', '', '');
+	    $state['filter_address']         = $app->getUserStateFromRequest($ns.'filter_address', 'filter_address', '', '');
+	
+	    foreach (@$state as $key=>$value)
+	    {
+	        $model->setState( $key, $value );
+	    }
+	    return $state;
+	}
+	
+	/**
      * Returns a selectlist of zones
      * Called via Ajax
      * 
@@ -35,8 +58,12 @@ class TiendaControllerAddresses extends TiendaController
         $text = '';
     	
     	$country_id = JRequest::getVar('country_id');
-    	$name = JRequest::getVar('name');
-    	$html = TiendaSelect::zone( '', $name, $country_id );
+    	$name = JRequest::getVar('name', 'zone_id');
+    	if (empty($country_id)) {
+    	    $html = JText::_('COM_TIENDA_SELECT_COUNTRY_FIRST');
+    	} else {
+        	$html = TiendaSelect::zone( '', $name, $country_id );
+    	}
     	
         $response = array();
         $response['msg'] = $html;
