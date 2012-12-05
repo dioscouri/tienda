@@ -84,13 +84,15 @@ class TiendaHelperSQL extends TiendaHelperBase
         $regex = "#{request.(.*?)}#s";
         $sql = preg_replace_callback( $regex, array($this, 'request'), $sql );
         
-        // run the query
-        $db = JFactory::getDBO();
-        $db->setQuery($sql);
-        if (!$db->query())
+        if (trim($sql)) 
         {
-            // TODO log error
-            JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'notice');
+            $db = JFactory::getDBO();
+            $db->setQuery($sql);
+            if (!$db->query())
+            {
+                // TODO log error
+                //JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'notice');
+            }            
         }
     }
     

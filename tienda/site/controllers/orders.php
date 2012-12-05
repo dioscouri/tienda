@@ -133,15 +133,15 @@ class TiendaControllerOrders extends TiendaController
         else // guest user orders
         {
         	$hash = JRequest::getString( 'h', '' );
-					if( $row->order_hash != $hash )
-					{
-	        	$this->messagetype  = 'notice';
-	        	$this->message      = JText::_('COM_TIENDA_INVALID_ORDER');
-            $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
-            $redirect = JRoute::_( $redirect, false );
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
-					}
+        	if( $row->order_hash != $hash )
+        	{
+        	    $this->messagetype  = 'notice';
+        	    $this->message      = JText::_('COM_TIENDA_INVALID_ORDER');
+        	    $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+        	    $redirect = JRoute::_( $redirect, false );
+        	    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        	    return;
+        	}
         }
         
         Tienda::load( 'TiendaUrl', 'library.url' );
@@ -212,15 +212,15 @@ class TiendaControllerOrders extends TiendaController
         else // guest user orders
         {
         	$hash = JRequest::getString( 'h', '' );
-					if( $row->order_hash != $hash )
-					{
-	        	$this->messagetype  = 'notice';
-	        	$this->message      = JText::_('COM_TIENDA_INVALID_ORDER');
-            $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
-            $redirect = JRoute::_( $redirect, false );
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
-					}
+        	if( $row->order_hash != $hash )
+        	{
+        	    $this->messagetype  = 'notice';
+        	    $this->message      = JText::_('COM_TIENDA_INVALID_ORDER');
+        	    $redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
+        	    $redirect = JRoute::_( $redirect, false );
+        	    $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        	    return;
+        	}
         }
         Tienda::load( 'TiendaUrl', 'library.url' );
         

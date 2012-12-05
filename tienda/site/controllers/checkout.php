@@ -637,6 +637,12 @@ class TiendaControllerCheckout extends TiendaController
             $coupons_present = true;
         }
         $view->assign( 'coupons_present', $coupons_present );
+        
+        // assign userinfo for credits
+        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+        $userinfo->load( array( 'user_id'=>$this->user->id ) );
+        $userinfo->credits_total = (float) $userinfo->credits_total;
+        $view->assign('userinfo', $userinfo);
 
         $view->setLayout( $layout );
         $view->setTask(true);

@@ -45,7 +45,7 @@ TiendaOpcAccordion = TiendaClass.extend({
         if(sectionObj.attr('id') != this.currentSection) {
             this.closeExistingSection();
             this.currentSection = sectionObj.attr('id');
-            tiendaJQ('#' + this.currentSection).addClass('active');
+            tiendaJQ('#' + this.currentSection).addClass('active').removeClass('past');
             var contents = tiendaJQ('.opc-section-body', sectionObj);
             contents.show();
             
@@ -53,7 +53,9 @@ TiendaOpcAccordion = TiendaClass.extend({
                 var pastCurrentSection = false;
                 for (var i=0; i<this.sections.length; i++) {
                     if (pastCurrentSection) {
-                        tiendaJQ(this.sections[i]).removeClass('allow');
+                        tiendaJQ(this.sections[i]).removeClass('allow').removeClass('past');
+                    } else {
+                        tiendaJQ(this.sections[i]).addClass('past');
                     }
                     if (tiendaJQ(this.sections[i]).attr('id') == sectionObj.attr('id')) {
                         pastCurrentSection = true;

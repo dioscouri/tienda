@@ -33,8 +33,9 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $session->clear('tienda.opc.shippingRates');
         $session->clear('tienda.opc.shippingMethod');
         $session->clear('tienda.opc.userCoupons');
+        $session->clear('tienda.opc.userCredit');
         $session->clear('tienda.opc.requireShipping');
-        
+
         if ( !$this->user->id )
         {
             $session->set( 'old_sessionid', $session->getId() );
@@ -117,6 +118,8 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $response->goto_section = 'payment';
         if ($order->isShippingRequired()) {
             $response->goto_section = 'shipping';
+        } elseif (!$order->isPaymentRequired()) {
+            $response->goto_section = 'review';
         }
         
         $response->summary->html = $this->getSummaryAddress( $address );
@@ -127,10 +130,31 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         }
         
         $response->summaries = array();
-        $summary = $this->getSummaryResponseObject();
-        $summary->id = 'opc-payment-body';
-        $summary->html = $this->getPaymentOptionsHtml( 'payment' );
-        $response->summaries[] = $summary;
+        
+        switch ($response->goto_section) 
+        {
+            case "payment":
+                $summary = $this->getSummaryResponseObject();
+                $summary->id = 'opc-payment-body';
+                $summary->html = $this->getPaymentOptionsHtml( 'payment' );
+                $response->summaries[] = $summary;
+                break;
+            case "shipping":
+                break;
+            case "shipping-method":
+                break;
+            case "review":
+                $summary = $this->getSummaryResponseObject();
+                $summary->id = 'opc-payment-summary';
+                $summary->html = JText::_( "COM_TIENDA_NO_PAYMENT_NECESSARY" );
+                $response->summaries[] = $summary;
+                
+                $summary = $this->getSummaryResponseObject();
+                $summary->id = 'opc-review-body';
+                $summary->html = $this->getOrderSummary( 'review' );
+                $response->summaries[] = $summary;
+                break;
+        }        
         
         echo json_encode($response);
     }
@@ -226,8 +250,29 @@ class TiendaControllerOpc extends TiendaControllerCheckout
     
         $post = JRequest::get('post');
 
+        $order = &$this->_order;
+        $order = $this->populateOrder();
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $dummyaddress = JTable::getInstance('Addresses', 'TiendaTable');
+        
+        $billingAddress = unserialize( $session->get('tienda.opc.billingAddress') );
+        $shippingAddress = unserialize( $session->get('tienda.opc.shippingAddress') );
+        
+        $order->setAddress( $billingAddress );
+        if (!empty($shippingAddress))
+        {
+            $order->setAddress( $shippingAddress, 'shipping' );
+        }
+        
+        if ($shippingMethod = unserialize( $session->get('tienda.opc.shippingMethod') ))
+        {
+            $order->setShippingRate( $shippingMethod );
+        }
+        $order->calculateTotals();
+        
+        
         $errorMessage = '';
-        if (empty($post['payment_plugin']))
+        if (empty($post['payment_plugin']) && $order->isPaymentRequired())
         {
             $errorMessage = '<ul class="text-error">';
             $errorMessage .= "<li>" . JText::_("COM_TIENDA_PLEASE_SELECT_PAYMENT_METHOD") . "</li>";
@@ -238,16 +283,19 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             return;
         }
         
-        // Validate the results of the payment plugin
-        $errorMessagesFromPlugins = '';
-        $dispatcher = JDispatcher::getInstance();
-        $results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $post['payment_plugin'], $post) );
-        foreach ($results as $result)
+        if ($order->isPaymentRequired()) 
         {
-            if (!empty($result->error))
+            // Validate the results of the payment plugin
+            $errorMessagesFromPlugins = '';
+            $dispatcher = JDispatcher::getInstance();
+            $results = $dispatcher->trigger( "onGetPaymentFormVerify", array( $post['payment_plugin'], $post) );
+            foreach ($results as $result)
             {
-                $errorMessagesFromPlugins .= $result->message;
-            }
+                if (!empty($result->error))
+                {
+                    $errorMessagesFromPlugins .= $result->message;
+                }
+            }            
         }
         
         if (!empty($errorMessagesFromPlugins)) 
@@ -263,38 +311,24 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             return;            
         }
         
-        // success summary, for now, is just the name of the plugin
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-        $model = DSCModel::getInstance('Payment', 'TiendaModel');
-        $model->setState('limit', '1');
-        $model->setState('filter_element', $post['payment_plugin']);
-        if ($items = $model->getList()) 
+        if ($order->isPaymentRequired()) 
         {
-            $item = $items[0];
+            // success summary, for now, is just the name of the plugin
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            $model = DSCModel::getInstance('Payment', 'TiendaModel');
+            $model->setState('limit', '1');
+            $model->setState('filter_element', $post['payment_plugin']);
+            if ($items = $model->getList())
+            {
+                $item = $items[0];
+            }
+            
+            $response->summary->html = $item->name;            
         }
-        
-        $response->summary->html = $item->name;
-    
-        //$session->set('tienda.opc.paymentMethod', serialize($paymentMethod) );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $dummyaddress = JTable::getInstance('Addresses', 'TiendaTable');
-        
-        $billingAddress = unserialize( $session->get('tienda.opc.billingAddress') );
-        $shippingAddress = unserialize( $session->get('tienda.opc.shippingAddress') );
-        
-        $order = &$this->_order;
-        $order = $this->populateOrder();
-        $order->setAddress( $billingAddress );
-        if (!empty($shippingAddress)) 
+        else 
         {
-            $order->setAddress( $shippingAddress, 'shipping' );
-        }        
-        
-        if ($shippingMethod = unserialize( $session->get('tienda.opc.shippingMethod') ))
-        {
-            $order->setShippingRate( $shippingMethod );
+            $response->summary->html = JText::_( "COM_TIENDA_NO_PAYMENT_NECESSARY" );
         }
-        $order->calculateTotals();
         
         $response->summaries = array();
         $summary = $this->getSummaryResponseObject();
@@ -349,6 +383,11 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             }
         }
         
+        if ($userCredit = unserialize( $session->get('tienda.opc.userCredit') )) 
+        {
+            $order->addCredit( $userCredit );
+        }
+        
         $order->addCoupon( $coupon );
         $order->calculateTotals();
                 
@@ -363,6 +402,68 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $summary->html = $this->getOrderSummary( 'review' );
         $response->summaries[] = $summary;
 
+        echo json_encode($response);
+    }
+    
+    public function addCredit()
+    {
+        $this->setFormat();
+        $session = JFactory::getSession();
+        $response = $this->getResponseObject();
+    
+        $values = JRequest::get('post');
+    
+        if (!empty($this->user->id)) {
+            $values["user_id"] = $this->user->id;
+        } else {
+            $userHelper = new TiendaHelperUser();
+            $values["user_id"] = $userHelper->getNextGuestUserId();
+        }
+    
+        $order = &$this->_order;
+        $order = $this->populateOrder();
+        $values["cartitems"] = $order->getItems();
+    
+        $model = $this->getModel('checkout');
+        $credit = $model->validateCredit($values);
+        if ($model->getErrors())
+        {
+            $errorMessage = '<ul class="text-error">';
+            foreach ($model->getErrors() as $error)
+            {
+                $errorMessage .= "<li>" . $error . "</li>";
+            }
+            $errorMessage .= '</ul>';
+        }
+    
+        if ($userCoupons = unserialize( $session->get('tienda.opc.userCoupons') ))
+        {
+            foreach ($userCoupons as $userCoupon)
+            {
+                $order->addCoupon( $userCoupon );
+            }
+        }
+        
+        $order->addCredit( $credit );
+        $order->calculateTotals();
+    
+        $session->set('tienda.opc.userCredit', serialize($credit) );
+    
+        $response->goto_section = 'review';
+    
+        $response->summaries = array();
+        $summary = $this->getSummaryResponseObject();
+        $summary->id = 'opc-review-body';
+        $summary->html = $this->getOrderSummary( 'review' );
+        $response->summaries[] = $summary;
+
+        if (!empty($errorMessage)) {
+            $summary = $this->getSummaryResponseObject();
+            $summary->id = 'opc-credit-validation';
+            $summary->html = $errorMessage;
+            $response->summaries[] = $summary;
+        }
+        
         echo json_encode($response);
     }
     
@@ -405,6 +506,17 @@ class TiendaControllerOpc extends TiendaControllerCheckout
             {
                 $values['coupons'][] = $coupon->coupon_id; 
             }
+        }
+        
+        if ($userCredit = unserialize( $session->get('tienda.opc.userCredit') ))
+        {
+            $values['order_credit'] = $userCredit;
+        }
+        
+        if (empty($values['currency_id']))
+        {
+            Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+            $values['currency_id'] = TiendaHelperCurrency::getCurrentCurrency();
         }
                 
         $model = $this->getModel( 'orders' );

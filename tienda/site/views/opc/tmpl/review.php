@@ -125,7 +125,7 @@ $default_currency = $this->defines->get('default_currencyid', '1');
             
         <?php echo $this->displayTaxes(); ?>
         
-        <?php if( $display_credits ): ?>
+        <?php if ( $display_credits && (float) $order->order_credit > (float) '0.00' ): ?>
         <tr>
         	<td colspan="2">
         		<span class="inner">
@@ -165,9 +165,27 @@ $default_currency = $this->defines->get('default_currencyid', '1');
             <button id="opc-coupon-button" class="btn" type="button"><?php echo JText::_( "COM_TIENDA_ADD_COUPON_TO_ORDER" ); ?></button>
         </div>
         <div id="opc-coupons"></div>
-    </fieldset>    
-
+    </fieldset>
     <?php } } ?>
+    
+    <?php if ( $this->defines->get('display_credits', '0') && (float) $this->userinfo->credits_total > (float) '0.00' ) { ?>
+
+        <fieldset id="opc-credit-form">
+            <div id="opc-credit-validation"></div>
+            
+            <div id="credits_form">
+                <label for="apply_credit_amount"><?php echo JText::_('COM_TIENDA_STORE_CREDIT'); ?></label>
+                <div class="help-block"><?php echo sprintf( JText::_('COM_TIENDA_YOU_HAVE_STORE_CREDIT'), TiendaHelperBase::currency( $this->userinfo->credits_total, $this->defines->get( 'default_currencyid', '1' ) ) ); ?></div>
+                <div class="input-append" id="opc-credit-input">
+                    <input class="span2" type="text" id="apply_credit_amount" name="apply_credit_amount" />
+                    <button id="opc-credit-button" class="btn" type="button"><?php echo JText::_( "COM_TIENDA_APPLY_CREDIT_TO_ORDER" ); ?></button>
+                </div>                
+                
+            </div>
+            <div id='opc-credits'></div>
+        </fieldset>
+			
+    <?php } ?>
     
     <fieldset id="opc-notes">
         <label><?php echo JText::_( "COM_TIENDA_NOTES" ); ?></label>

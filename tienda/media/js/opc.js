@@ -13,6 +13,7 @@ TiendaOpc = TiendaClass.extend({
                 setShippingMethod: 'opc-shipping-method-summary',
                 setPayment: 'opc-payment-summary',
                 addCoupon: 'opc-coupon-summary',
+                addCredit: 'opc-credit-summary',
                 submitOrder: 'opc-review-summary'
             },
             validationElements: {
@@ -22,6 +23,7 @@ TiendaOpc = TiendaClass.extend({
                 setShippingMethod: 'opc-shipping-method-validation',
                 setPayment: 'opc-payment-validation',
                 addCoupon: 'opc-coupon-validation',
+                addCredit: 'opc-credit-validation',
                 submitOrder: 'opc-review-validation'
             },
             urls: {
@@ -31,6 +33,7 @@ TiendaOpc = TiendaClass.extend({
                 setShippingMethod: 'index.php?option=com_tienda&view=opc&task=setShippingMethod&tmpl=component&format=raw',
                 setPayment: 'index.php?option=com_tienda&view=opc&task=setPayment&tmpl=component&format=raw',
                 addCoupon: 'index.php?option=com_tienda&view=opc&task=addCoupon&tmpl=component&format=raw',
+                addCredit: 'index.php?option=com_tienda&view=opc&task=addCredit&tmpl=component&format=raw',
                 submitOrder: 'index.php?option=com_tienda&view=opc&task=submitOrder&tmpl=component&format=raw',
                 failure: 'index.php?option=com_tienda&view=carts'
             }
@@ -165,7 +168,12 @@ TiendaOpc = TiendaClass.extend({
         
         tiendaJQ('#opc-billing-button').off('click.opc').on('click.opc', function(event){
             event.preventDefault();
-            if (self.validations.setBilling.validateForm()) {
+            
+            if (!tiendaJQ('#existing-billing-address').length || tiendaJQ('#existing-billing-address').val() == 0) {
+                if (self.validations.setBilling.validateForm()) {
+                    self.setBilling();
+                }                
+            } else {
                 self.setBilling();
             }
         });
@@ -185,7 +193,11 @@ TiendaOpc = TiendaClass.extend({
         
         tiendaJQ('#opc-shipping-button').off('click.opc').on('click.opc', function(event){
             event.preventDefault();
-            if (self.validations.setShipping.validateForm()) {
+            if (!tiendaJQ('#existing-shipping-address').length || tiendaJQ('#existing-shipping-address').val() == 0) {
+                if (self.validations.setShipping.validateForm()) {
+                    self.setShipping();
+                }                
+            } else {
                 self.setShipping();
             }
         });
@@ -252,6 +264,13 @@ TiendaOpc = TiendaClass.extend({
             event.preventDefault();
             if (tiendaJQ("#coupon_code").val()) {
                 self.addCoupon();
+            }
+        });
+        
+        tiendaJQ('#opc-credit-button').on('click', function(event){
+            event.preventDefault();
+            if (tiendaJQ("#apply_credit_amount").val()) {
+                self.addCredit();
             }
         });
     },
@@ -433,6 +452,27 @@ TiendaOpc = TiendaClass.extend({
             var response = JSON.decode(data, false);
             if (!response.summary.id) {
                 response.summary.id = this.options.summaryElements.addCoupon;
+            }
+            this.handleSuccess(response);
+        }).fail(function(data){
+            this.handleFailure();
+        }).always(function(data){
+
+        });
+    },
+    
+    addCredit: function() {
+        var form_data = tiendaJQ('#opc-credit-form').serializeArray();
+
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: this.urls.addCredit,
+            context: this,
+            data: form_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+            if (!response.summary.id) {
+                response.summary.id = this.options.summaryElements.addCredit;
             }
             this.handleSuccess(response);
         }).fail(function(data){

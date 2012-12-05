@@ -122,12 +122,12 @@ class TiendaTableOrders extends TiendaTable
 
   function store($updateNulls=false)
   {
-    // add hash to orders which are placed by guests
-    if( !$this->order_id && !strlen( $this->order_hash ) && $this->user_id < Tienda::getGuestIdStart() )
-    {
-      Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-      $this->order_hash = TiendaHelperOrder::getHashInvoice( $this );
-    }
+      // add hash to orders which are placed by guests
+      if( !$this->order_id && !strlen( $this->order_hash ) && $this->user_id < Tienda::getGuestIdStart() )
+      {
+          Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+          $this->order_hash = TiendaHelperOrder::getHashInvoice( $this );
+      }
 
     return parent::store($updateNulls);
   }
