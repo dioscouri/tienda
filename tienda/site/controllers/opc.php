@@ -133,15 +133,13 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         
         switch ($response->goto_section) 
         {
+            case "shipping":
+            case "shipping-method":
             case "payment":
                 $summary = $this->getSummaryResponseObject();
                 $summary->id = 'opc-payment-body';
                 $summary->html = $this->getPaymentOptionsHtml( 'payment' );
                 $response->summaries[] = $summary;
-                break;
-            case "shipping":
-                break;
-            case "shipping-method":
                 break;
             case "review":
                 $summary = $this->getSummaryResponseObject();
@@ -313,17 +311,30 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         
         if ($order->isPaymentRequired()) 
         {
-            // success summary, for now, is just the name of the plugin
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-            $model = DSCModel::getInstance('Payment', 'TiendaModel');
-            $model->setState('limit', '1');
-            $model->setState('filter_element', $post['payment_plugin']);
-            if ($items = $model->getList())
+            $dispatcher = JDispatcher::getInstance();
+            $results = $dispatcher->trigger( "onGetPaymentSummary", array( $post['payment_plugin'], $post ) );
+            
+            $text = '';
+            for ($i=0, $count = count($results); $i<$count; $i++)
             {
-                $item = $items[0];
+                $text .= $results[$i];
             }
             
-            $response->summary->html = $item->name;            
+            if (empty($text)) 
+            {
+                // success summary, for now, is just the name of the plugin
+                DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+                $model = DSCModel::getInstance('Payment', 'TiendaModel');
+                $model->setState('limit', '1');
+                $model->setState('filter_element', $post['payment_plugin']);
+                if ($items = $model->getList())
+                {
+                    $item = $items[0];
+                    $text = $item->name;
+                }                
+            }
+            
+            $response->summary->html = $text;            
         }
         else 
         {

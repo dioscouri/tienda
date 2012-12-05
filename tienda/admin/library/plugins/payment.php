@@ -321,4 +321,36 @@ class TiendaPaymentPlugin extends TiendaPluginBase
 
         return $html;
     }
+    
+    /**
+     * 
+     * @param string $element     a valid payment plugin name
+     * @param array $data         Post data
+     * @return NULL|Ambigous <string, NULL>
+     */
+    public function onGetPaymentSummary( $element, $data )
+    {
+        if (!$this->_isMe($element))
+        {
+            return null;
+        }
+        
+        $html = $this->_getSummary( $data );
+        
+        return $html;        
+    }
+
+    /**
+     * Payment plugins should override this function
+     * to customize the one-line summary that is displayed
+     * during the new OPC 
+     * 
+     * @param unknown_type $data
+     * @return NULL
+     */
+    protected function _getSummary( $data )
+    {
+        $html = null;
+        return $html;
+    }
 }

@@ -202,22 +202,22 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
     {
         $types = array();
         if ($this->params->get('enable_check')) {
-            $types[] = JHTML::_('select.option', 'check', JText::_('Check') );    
+            $types[] = JHTML::_('select.option', 'check', JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_CHECK') );    
         }
         if ($this->params->get('enable_moneyorder')) {
-            $types[] = JHTML::_('select.option', 'moneyorder', JText::_('Money Order') ); 
+            $types[] = JHTML::_('select.option', 'moneyorder', JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_MONEYORDER') ); 
         }
         if ($this->params->get('enable_cash')) {
-            $types[] = JHTML::_('select.option', 'cash', JText::_('Cash') );    
+            $types[] = JHTML::_('select.option', 'cash', JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_CASH') );    
         }
         if ($this->params->get('enable_wire')) {
-            $types[] = JHTML::_('select.option', 'wire', JText::_('Wire Transfer') ); 
+            $types[] = JHTML::_('select.option', 'wire', JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_WIRE') ); 
         }
         if ($this->params->get('enable_invoice')) {
-            $types[] = JHTML::_('select.option', 'invoice', JText::_('Invoice') ); 
+            $types[] = JHTML::_('select.option', 'invoice', JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_INVOICE') ); 
         }
         if ($this->params->get('enable_other')) {
-            $types[] = JHTML::_('select.option', 'other', JText::_('Other') );    
+            $types[] = JHTML::_('select.option', 'other', JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_OTHER') );    
         }       
         $return = JHTML::_('select.genericlist', $types, $field, $options, 'value','text', $default);
         return $return;
@@ -255,6 +255,42 @@ class plgTiendaPayment_offline extends TiendaPaymentPlugin
 	    	}
 	    	
     	}
-    	
+    }
+    
+    /**
+     * Payment plugins should override this function
+     * to customize the one-line summary that is displayed
+     * during the new OPC
+     *
+     * @param unknown_type $data
+     * @return NULL
+     */
+    protected function _getSummary( $data )
+    {
+        $html = null;
+        
+        switch (@$data['offline_payment_method']) 
+        {
+            case "check":
+                $html = JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_CHECK');
+                break;
+            case "moneyorder":
+                $html = JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_MONEYORDER');
+                break;
+            case "cash":
+                $html = JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_CASH');
+                break;
+            case "wire":
+                $html = JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_WIRE');
+                break;
+            case "invoice":
+                $html = JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_INVOICE');
+                break;
+            case "other":
+                $html = JText::_('PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_OTHER');
+                break;
+        }
+        
+        return $html;
     }
 }
