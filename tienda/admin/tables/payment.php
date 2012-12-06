@@ -36,8 +36,14 @@ class TiendaTablePayment extends TiendaTable
 		parent::__construct( "#__{$tbl_suffix}", $tbl_key, $db );		
 	}
 	
-	public function getName() 
+	public function getName( $item=null )
 	{
+	    if (!empty($item) && is_numeric($item)) {
+	        $this->load( $item );
+	    } elseif (is_object($item) || is_array($item)) {
+	        $this->bind($item);
+	    }
+	    
 	    $params = new DSCParameter( $this->params );
 	    if ($params->get('label')) {
 	        return $params->get('label');

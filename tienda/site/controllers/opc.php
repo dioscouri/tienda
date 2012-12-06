@@ -56,7 +56,8 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $model->setState("filter_deleted", 0);
         $addresses = $model->getList();
         $view->assign( 'addresses', $addresses );
-    
+        $view->setModel( $model );
+        
         $showShipping = $order->isShippingRequired();
         $view->assign( 'showShipping', $showShipping );
         

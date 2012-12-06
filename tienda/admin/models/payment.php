@@ -15,6 +15,8 @@ Tienda::load('TiendaModelBase', 'models._base');
 
 class TiendaModelPayment extends TiendaModelBase
 {
+    protected $_objectClass = 'TiendaTablePayment';
+    
     protected function _buildQueryWhere(&$query)
     {
         $filter = $this -> getState('filter');
