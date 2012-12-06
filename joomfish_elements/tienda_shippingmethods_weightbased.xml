@@ -2,7 +2,7 @@
 <joomfish type="contentelement">
   <name>Tienda - Weight-based Shipping Methods</name>
   <author>Lukas Polak</author>
-  <version>0.10.0</version>
+  <version>0.10.1</version>
   <description>Definition for the Tienda Weight-based Shipping Methods table</description>
   <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_shippingmethodsweightbased">

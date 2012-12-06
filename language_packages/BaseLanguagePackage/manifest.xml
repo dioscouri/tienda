@@ -2,7 +2,7 @@
 <install version="1.5" client="both" type="language" method="upgrade">
     <name>BASE Tienda</name>
     <tag>xx-XX</tag>
-    <version>0.10.0</version>
+    <version>0.10.1</version>
     <creationDate>March 2012</creationDate>
     <author>Dioscouri Staff</author>
     <authorEmail>info@dioscouri.com</authorEmail>
