@@ -16,7 +16,7 @@
             <li class="control">
                 <label class="radio">
                     <input class="payment-plugin required" value="<?php echo $payment_plugin->element; ?>" onclick="Opc.payment.getPluginForm('<?php echo $payment_plugin->element; ?>', 'opc-payment-method-form-container', '<?php echo JText::_('COM_TIENDA_GETTING_PAYMENT_METHOD'); ?>');" name="payment_plugin" type="radio" <?php echo (!empty($payment_plugin->checked)) ? "checked" : ""; ?> />
-                    <?php echo JText::_( $payment_plugin->name ); ?>
+                    <?php echo $payment_plugin->getName(); ?>
                 </label>
             </li>
         <?php } ?>

@@ -44,7 +44,7 @@
 				</field>
 				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
-
+                <field name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_LABEL" description="PLG_TIENDA_PAYMENT_PAYPALPRO_LABEL_DESC" filter="raw" />
 			</fieldset>
 		</fields>
 	</config>
@@ -74,5 +74,6 @@
 		</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE_DESC" />
 		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+        <param name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_LABEL" description="PLG_TIENDA_PAYMENT_PAYPALPRO_LABEL_DESC" filter="raw" />
 	</params>
 </install>

@@ -76,9 +76,10 @@ class TiendaHelperPlugin extends TiendaHelperBase
 			{$order_query}
 		";
 		}		
-			
+
+		Tienda::load( 'TiendaTablePayment', 'tables.payment' );
 		$database->setQuery( $query );
-		$data = $database->loadObjectList();
+		$data = $database->loadObjectList(null, 'TiendaTablePayment');
 		return $data;
 	}
 

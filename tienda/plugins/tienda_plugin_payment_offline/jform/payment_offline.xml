@@ -35,6 +35,7 @@
                 <option value="invoice">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_INVOICE</option>
                 <option value="other">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_OTHER</option>
             </field>
+            <field name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_OFFLINE_LABEL" description="PLG_TIENDA_PAYMENT_OFFLINE_LABEL_DESC" filter="raw" />
         </fieldset>
     </fields>
 </form>
