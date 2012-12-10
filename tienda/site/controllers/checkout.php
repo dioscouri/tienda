@@ -637,6 +637,12 @@ class TiendaControllerCheckout extends TiendaController
             $coupons_present = true;
         }
         $view->assign( 'coupons_present', $coupons_present );
+        
+        // assign userinfo for credits
+        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+        $userinfo->load( array( 'user_id'=>$this->user->id ) );
+        $userinfo->credits_total = (float) $userinfo->credits_total;
+        $view->assign('userinfo', $userinfo);
 
         $view->setLayout( $layout );
         $view->setTask(true);
@@ -1476,7 +1482,6 @@ class TiendaControllerCheckout extends TiendaController
         {
             foreach ($plugins as $plugin)
             {
-
                 $shippingOptions = $dispatcher->trigger( "onGetShippingOptions", array( $plugin->element, $this->_order ) );
                  
                 if (in_array(true, $shippingOptions, true))
@@ -1832,13 +1837,16 @@ class TiendaControllerCheckout extends TiendaController
 
         if ($plugins)
         {
+            Tienda::load( 'TiendaTablePayment', 'tables.payment' );
             $dispatcher = JDispatcher::getInstance();
             foreach ($plugins as $plugin)
             {
                 $results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
                 if (in_array(true, $results, true))
                 {
-                    $options[] = $plugin;
+                    $table = new TiendaTablePayment();
+                    $table->bind($plugin);
+                    $options[] = $table;
                 }
             }
         }

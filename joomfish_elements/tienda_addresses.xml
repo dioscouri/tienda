@@ -2,7 +2,7 @@
 <joomfish type="contentelement">
   <name>Tienda - Addresses</name>
   <author>Ivo Apostolov / C. Paschen</author>
-  <version>0.10.0</version>
+  <version>0.10.1</version>
   <description>Definition for the Tienda Addresses table</description>
   <copyright>2012 Dioscouri.com</copyright>
   <reference type="tienda_addresses">

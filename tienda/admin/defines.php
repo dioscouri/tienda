@@ -12,12 +12,13 @@ defined('_JEXEC') or die('Restricted access');
 class Tienda extends DSC
 {
 	protected $_name 			= 'tienda';	
-	protected $_version 		= '0.10.0';
-	protected $_build          = 'r2654';
+	protected $_version 		= '0.10.1';
+	protected $_build          = null;
 	protected $_versiontype    = 'community';
 	protected $_copyrightyear 	= '2012';
 	protected $_min_php		= '5.3';
 	static $_guestIdStart = -10;
+	
 	// View Options
 	public $use_bootstrap	= 		'1';		
 	public $show_linkback						= '1';

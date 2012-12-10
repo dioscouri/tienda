@@ -2210,55 +2210,6 @@ class TiendaControllerProducts extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
     }
 
-    /**
-     * Upload via ajax through Uploadify
-     * It's here because when the swf connects to the admin side, it would need to login.
-     */
-    function uploadifyImage( )
-    {
-        $product_id = JRequest::getInt( 'product_id', 0 );
-
-        if ( $product_id )
-        {
-            Tienda::load( 'TiendaImage', 'library.image' );
-            $upload = new TiendaImage( );
-            // handle upload creates upload object properties
-            $upload->handleUpload( 'Filedata' );
-            	
-            // then save image to appropriate folder
-            $product = JTable::getInstance( 'Products', 'TiendaTable' );
-            $product->load( $product_id );
-            $path = $product->getImagePath( );
-            	
-            $upload->setDirectory( $path );
-            	
-            // Do the real upload!
-            $success = $upload->upload( );
-            	
-            Tienda::load( 'TiendaHelperImage', 'helpers.image' );
-            $imgHelper = TiendaHelperBase::getInstance( 'Image', 'TiendaHelper' );
-            if ( !$imgHelper->resizeImage( $upload, 'product' ) )
-            {
-                $success = false;
-            }
-            	
-            if ( $success )
-            {
-                // save as default?
-                if ( empty( $product->product_full_image ) )
-                {
-                    $product->product_full_image = $upload->getPhysicalName( );
-                    $product->save( );
-                }
-                echo JText::_('COM_TIENDA_IMAGE_UPLOADED_CORRECTLY');
-            }
-            else
-            {
-                echo 'Error: ' . $upload->getError( );
-            }
-        }
-    }
-
     public function addToWishlist()
     {
         // verify form submitted by user

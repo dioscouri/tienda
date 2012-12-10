@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda - Payment - Paypal Payments Std</name>
-	<version>0.10.0</version>
+	<version>0.10.1</version>
 	<creationDate>October 2011</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
@@ -43,6 +43,7 @@
 				</field>
 				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+                <field name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_LABEL" description="PLG_TIENDA_PAYMENT_PAYPAL_LABEL_DESC" filter="raw" />
 			</fieldset>
 		</fields>
 	</config>
@@ -70,5 +71,6 @@
 		</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE_DESC" />
 		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
+        <param name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_LABEL" description="PLG_TIENDA_PAYMENT_PAYPAL_LABEL_DESC" filter="raw" />
 	</params>
 </install>

@@ -19,6 +19,7 @@ switch($this->form_prefix)
 $elements  = TiendaHelperAddresses::getAddressElementsData( $address_type );
 $js_strings = array( 'COM_TIENDA_UPDATING_SHIPPING_RATES', 'COM_TIENDA_UPDATING_CART', 'COM_TIENDA_UPDATING_ADDRESS',  'COM_TIENDA_UPDATING_PAYMENT_METHODS' );
 TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
+$addressTable = $this->getModel('addresses')->getTable();
 ?>
 
 <form id="opc-billing-form" name="opc-billing-form" action="" method="post">
@@ -27,7 +28,7 @@ TiendaHelperAddresses::addJsTranslationStrings( $js_strings );
     <fieldset id="existing-billing-addresses">
         <select id="existing-billing-address" name="billing_address_id">
             <?php foreach ($this->addresses as $address) { ?>
-                <option value="<?php echo $address->id; ?>"><?php echo $address->getSummary(); ?></option>
+                <option value="<?php echo $address->address_id; ?>"><?php echo is_a($address, 'TiendaTableAddresses') ? $address->getSummary() : $addressTable->getSummary( $address ); ?></option>
             <?php } ?>
             <option id="create-new-billing-address" value="0"><?php echo JText::_( "COM_TIENDA_NEW_ADDRESS" ); ?></option>
         </select>

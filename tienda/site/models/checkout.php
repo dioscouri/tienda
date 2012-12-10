@@ -122,6 +122,24 @@ class TiendaModelCheckout extends TiendaModelBase
         return $coupon;
     }
     
+    function validateCredit( $values, $options=array() )
+    {
+        $apply_credit_amount = (float) $values['apply_credit_amount'];
+        $user_id = $values['user_id'];
+        
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+        $userinfo->load( array( 'user_id'=>$user_id ) );
+        $userinfo->credits_total = (float) $userinfo->credits_total;
+        if ($apply_credit_amount > $userinfo->credits_total)
+        {
+            $this->setError( JText::sprintf( "COM_TIENDA_REQUESTED_CREDITS_GREATER_THAN_WHAT_YOU_HAVE_APPLYING_MAX", $apply_credit_amount, $userinfo->credits_total ) );
+            $apply_credit_amount = $userinfo->credits_total;
+        }
+        
+        return $apply_credit_amount;
+    }
+    
     public function save( $values, $options=array() )
     {
         $result = new stdClass();

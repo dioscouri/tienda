@@ -13,6 +13,7 @@
     display: none;
 }
 
+.past .opc-summary,
 .allow .opc-summary,
 .allow .opc-change {
     display: block;

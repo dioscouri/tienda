@@ -185,7 +185,7 @@ class TiendaHelperEav extends TiendaHelperBase
     			break;
     		case "datetime":
     		    $format = !empty($eav->eavattribute_format_strftime) ? $eav->eavattribute_format_strftime : '%Y-%m-%d %H:%M:%S';
-    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", $format );
+    			return JHTML::calendar( $value, $eav->eavattribute_alias, "eavattribute_alias", $format, array( 'size'=>24, 'class'=>'input-medium' ) );
     			break;
     		case "text":
     			$editor = JFactory::getEditor();
@@ -195,10 +195,12 @@ class TiendaHelperEav extends TiendaHelperBase
     			return '<input type="hidden" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'"/>';
     			break;
     		case "decimal":
-    		case "int":	
+    		case "int":
+    		    return '<input type="text" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" class="input-mini cf_'.$eav->eavattribute_alias.'"/>';
+    		    break;
     		case "varchar":
     		default:
-    			return '<input type="text" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" class="cf_'.$eav->eavattribute_alias.'"/>';
+    			return '<input type="text" name="'.$eav->eavattribute_alias.'" id="'.$eav->eavattribute_alias.'" value="'.$value.'" class="input-medium cf_'.$eav->eavattribute_alias.'"/>';
     			break;
     	}
     	

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="tienda" method="upgrade">
 	<name>Tienda - Payment - Offline Payments</name>
-	<version>0.10.0</version>
+	<version>0.10.1</version>
 	<creationDate>October 2011</creationDate>
 	<author>Dioscouri</author>
 	<authorEmail>info@dioscouri.com</authorEmail>
@@ -53,6 +53,7 @@
 					<option value="invoice">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_INVOICE</option>
 					<option value="other">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_OTHER</option>
 				</field>
+                <field name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_OFFLINE_LABEL" description="PLG_TIENDA_PAYMENT_OFFLINE_LABEL_DESC" filter="raw" />
 			</fieldset>
 		</fields>
 	</config>
@@ -90,6 +91,7 @@
 			<option value="invoice">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_INVOICE</option>
 			<option value="other">PLG_TIENDA_PAYMENT_OFFLINE_OFFLINE_PAYMENT_OTHER</option>
 		</param>
+        <param name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_OFFLINE_LABEL" description="PLG_TIENDA_PAYMENT_OFFLINE_LABEL_DESC" filter="raw" />
 	</params>
 
 </install>

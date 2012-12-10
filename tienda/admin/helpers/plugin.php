@@ -51,7 +51,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 		$order_query = " ORDER BY ordering ASC ";
 		$folder = strtolower( $folder );
 		
-			if(version_compare(JVERSION,'1.6.0','ge')) {
+        if(version_compare(JVERSION,'1.6.0','ge')) {
 	        // Joomla! 1.6+ code here
 	      $query = "
 			SELECT 
@@ -76,7 +76,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 			{$order_query}
 		";
 		}		
-			
+
 		$database->setQuery( $query );
 		$data = $database->loadObjectList();
 		return $data;

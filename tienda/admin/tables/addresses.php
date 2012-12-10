@@ -175,8 +175,14 @@ class TiendaTableAddresses extends TiendaTable
         return $model->getItem();
     }
     
-    public function getSummary()
+    public function getSummary( $item=null )
     {
+        if (!empty($item) && is_numeric($item)) {
+            $this->load( $item );
+        } elseif (is_object($item) || is_array($item)) {
+            $this->bind($item);
+        }
+
         $lines = array();
     
         // TODO Get the fields enabled in config,

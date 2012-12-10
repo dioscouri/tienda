@@ -26,20 +26,45 @@ class TiendaModelAddresses extends TiendaModelBase
 		$filter_shippingid  = $this->getState('filter_shippingid');
 		$filter_isdefaultbilling  = $this->getState('filter_isdefaultbilling');
 		$filter_isdefaultshipping = $this->getState('filter_isdefaultshipping');
-
+		$filter_user		= $this->getState('filter_user');
+		$filter_address		= $this->getState('filter_address');
+		
        	if ($filter) 
        	{
 			$key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
 			$where = array();
 			$where[] = 'LOWER(tbl.address_id) LIKE '.$key;
+			$where[] = 'LOWER(tbl.first_name) LIKE '.$key;
+			$where[] = 'LOWER(tbl.last_name) LIKE '.$key;
+			$where[] = 'LOWER(tbl.middle_name) LIKE '.$key;
 			$where[] = 'LOWER(tbl.address_1) LIKE '.$key;
 			$where[] = 'LOWER(tbl.address_2) LIKE '.$key;
-			$where[] = 'LOWER(tbl.address_zip) LIKE '.$key;
+			$where[] = 'LOWER(tbl.postal_code) LIKE '.$key;
 			$where[] = 'LOWER(c.country_name) LIKE '.$key;
 			$where[] = 'LOWER(z.zone_name) LIKE '.$key;
+			$where[] = 'LOWER(tbl.phone_1) LIKE '.$key;
+			$where[] = 'LOWER(tbl.phone_2) LIKE '.$key;
 			
 			$query->where('('.implode(' OR ', $where).')');
        	}
+       	
+       	if ($filter_address)
+       	{
+       	    $key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_address ) ) ).'%');
+       	    $where = array();
+       	    $where[] = 'LOWER(tbl.first_name) LIKE '.$key;
+       	    $where[] = 'LOWER(tbl.last_name) LIKE '.$key;
+       	    $where[] = 'LOWER(tbl.middle_name) LIKE '.$key;
+       	    $where[] = 'LOWER(tbl.address_1) LIKE '.$key;
+       	    $where[] = 'LOWER(tbl.address_2) LIKE '.$key;
+       	    $where[] = 'LOWER(tbl.city) LIKE '.$key;
+       	    $where[] = 'LOWER(tbl.postal_code) LIKE '.$key;
+       	    $where[] = 'LOWER(c.country_name) LIKE '.$key;
+       	    $where[] = 'LOWER(z.zone_name) LIKE '.$key;
+       	    	
+       	    $query->where('('.implode(' OR ', $where).')');
+       	}
+       	
         if (strlen($filter_deleted))
         {
         	$query->where('tbl.is_deleted = '.$this->_db->Quote($filter_deleted));
@@ -65,6 +90,17 @@ class TiendaModelAddresses extends TiendaModelBase
         {
             $query->where('tbl.is_default_shipping = 1');
         }
+        
+        if (strlen($filter_user))
+        {
+            $key	= $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_user ) ) ).'%');
+            $where = array();
+            $where[] = 'LOWER(u.name) LIKE '.$key;
+            $where[] = 'LOWER(u.email) LIKE '.$key;
+            $where[] = 'LOWER(u.username) LIKE '.$key;
+            	
+            $query->where('('.implode(' OR ', $where).')');
+        }
     }
     
 	protected function _buildQueryFields(&$query)
@@ -83,6 +119,11 @@ class TiendaModelAddresses extends TiendaModelBase
 	{
 		$query->join('LEFT', '#__tienda_countries c ON c.country_id = tbl.country_id');
 		$query->join('LEFT', '#__tienda_zones AS z ON z.zone_id = tbl.zone_id');
+		
+		$filter_user = $this->getState('filter_user');
+		if (strlen($filter_user)) {
+		    $query->join('LEFT', '#__users AS u ON tbl.user_id = u.id');
+		}
 	}
 	
 	/**

@@ -504,6 +504,18 @@ class TiendaModelOrders extends TiendaModelBase
 	    $order->bind( $values );
 	    $order->user_id = $values['user_id'];
 	    $order->ip_address = $values['ip_address']; //$_SERVER['REMOTE_ADDR'];
+	    
+	    // set the currency
+	    if (empty($values['currency_id'])) 
+	    {
+    	    Tienda::load( 'TiendaHelperCurrency', 'helpers.currency' );
+    	    $order->currency_id = TiendaHelperCurrency::getCurrentCurrency();
+	    }
+	    
+	    // Store the text verion of the currency for order integrity
+	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
+	    $order->order_currency = TiendaHelperOrder::currencyToParameters($order->currency_id);
+	    	    
 	    $saveAddressesToDB = empty($options["save_addresses"]) ? false : true;
 	    $this->setAddresses( $values, $saveAddressesToDB );
 	     
@@ -516,10 +528,6 @@ class TiendaModelOrders extends TiendaModelBase
 	        $order->shipping->shipping_name        = $values['shipping_name'];
 	        $order->shipping->shipping_tax      = $values['shipping_tax'];
 	    }
-	     
-	    // Store the text verion of the currency for order integrity
-	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-	    $order->order_currency = TiendaHelperOrder::currencyToParameters($order->currency_id);
 	     
 	    if (empty($options['skip_add_items']))
 	    {
@@ -535,6 +543,11 @@ class TiendaModelOrders extends TiendaModelBase
 	    if (empty($options['skip_add_coupons']))
 	    {
 	        $this->addCoupons($values);
+	    }
+	    
+	    if (empty($options['skip_add_credit']) && !empty($values['order_credit']))
+	    {
+	        $order->addCredit($values['order_credit']);
 	    }
 	     
 	    $order->order_state_id = empty($values['orderstate_id']) ? $this->initial_order_state : $values['orderstate_id'];
