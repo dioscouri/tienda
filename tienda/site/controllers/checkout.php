@@ -56,8 +56,8 @@ class TiendaControllerCheckout extends TiendaController
         // For now, make this redirect only when the Standard layout is chosen.  Remove this when the new OPC MVC handles all layouts 
         if ($this->onepage_checkout && $this->one_page_checkout_layout == 'standard' && $view != 'opc') 
         {
-            $post = JRequest::get('post');
-            if (is_array($post) && !empty($post))
+            $method = JRequest::getMethod();
+            if ($method == 'POST') {
             {
                 // Don't redirect if this is POST
             }
