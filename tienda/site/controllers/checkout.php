@@ -846,8 +846,6 @@ class TiendaControllerCheckout extends TiendaController
                  
                 $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_PLEASE_SELECT_SHIPPING_METHOD') );
                 $response['error'] = '1';
-                echo ( json_encode( $response ) );
-                return false;
             }
         }
 
@@ -862,13 +860,13 @@ class TiendaControllerCheckout extends TiendaController
         $order->calculateTotals();
         if ( (float) $order->order_total == (float) '0.00' )
         {
+            $response['error'] = '0';
             if($this->onepage_checkout)
             {
                 // no echo
-                return true;
+                return $response;
             }
-            
-            $response['error'] = '0';
+        
             echo ( json_encode( $response ) );
             return true;
         }
@@ -878,8 +876,6 @@ class TiendaControllerCheckout extends TiendaController
         {
             $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR')." :: ".$this->getError() );
             $response['error'] = '1';
-            echo ( json_encode( $response ) );
-            return false;
         }
 
         // fail if shipping address is invalid
@@ -889,8 +885,6 @@ class TiendaControllerCheckout extends TiendaController
             {
                 $response['msg'] = $helper->generateMessage( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR')." :: ".$this->getError() );
                 $response['error'] = '1';
-                echo ( json_encode( $response ) );
-                return false;
             }
         }
 
@@ -906,8 +900,6 @@ class TiendaControllerCheckout extends TiendaController
             {
                 $response['msg'] = $helper->generateMessage( $result->message );
                 $response['error'] = '1';
-                echo ( json_encode( $response ) );
-                return false;
             }
             else
             {
