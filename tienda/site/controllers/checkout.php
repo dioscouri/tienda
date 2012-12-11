@@ -57,7 +57,7 @@ class TiendaControllerCheckout extends TiendaController
         if ($this->onepage_checkout && $this->one_page_checkout_layout == 'standard' && $view != 'opc') 
         {
             $method = JRequest::getMethod();
-            if ($method == 'POST') {
+            if ($method == 'POST')
             {
                 // Don't redirect if this is POST
             }
