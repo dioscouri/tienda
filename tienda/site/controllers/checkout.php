@@ -1841,13 +1841,16 @@ class TiendaControllerCheckout extends TiendaController
 
         if ($plugins)
         {
+            Tienda::load( 'TiendaTablePayment', 'tables.payment' );
             $dispatcher = JDispatcher::getInstance();
             foreach ($plugins as $plugin)
             {
                 $results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
                 if (in_array(true, $results, true))
                 {
-                    $options[] = $plugin;
+                    $table = new TiendaTablePayment();
+                    $table->bind($plugin);
+                    $options[] = $table;
                 }
             }
         }
