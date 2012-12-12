@@ -505,7 +505,8 @@ class TiendaControllerCheckout extends TiendaController
 
         // get the items and add them to the order
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $items = TiendaHelperCarts::getProductsInfo();        
+        $items = TiendaHelperCarts::getProductsInfo();   
+
         foreach ($items as $item)
         {
             $order->addItem( $item );
@@ -637,12 +638,6 @@ class TiendaControllerCheckout extends TiendaController
             $coupons_present = true;
         }
         $view->assign( 'coupons_present', $coupons_present );
-        
-        // assign userinfo for credits
-        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
-        $userinfo->load( array( 'user_id'=>$this->user->id ) );
-        $userinfo->credits_total = (float) $userinfo->credits_total;
-        $view->assign('userinfo', $userinfo);
 
         $view->setLayout( $layout );
         $view->setTask(true);
@@ -856,14 +851,19 @@ class TiendaControllerCheckout extends TiendaController
         }
 
         $order = $this->_order;
-        // get the items and add them to the order
-        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $items = TiendaHelperCarts::getProductsInfo();
-        foreach ($items as $item)
-        {
-            $order->addItem( $item );
+
+        // Readd products if there where none
+        if (!$order->getItems()) {
+            // get the items and add them to the order
+            Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+            $items = TiendaHelperCarts::getProductsInfo();
+            foreach ($items as $item)
+            {
+                $order->addItem( $item );
+            }
+            $order->calculateTotals();
         }
-        $order->calculateTotals();
+
         if ( (float) $order->order_total == (float) '0.00' )
         {
             $response['error'] = '0';
@@ -966,22 +966,25 @@ class TiendaControllerCheckout extends TiendaController
                 $guest = $guest ? true : false;
             }
             
-            $this->populateOrder($guest);
-            $this->addCouponCodes( $submitted_values );
-            
-            // bind what you can from the post
-            $this->_order->bind( $submitted_values );
-            
-            // set the shipping method
-            $this->_order->shipping = new JObject();
-            $this->_order->shipping->shipping_price      = @$submitted_values['shipping_price'];
-            $this->_order->shipping->shipping_extra      = @$submitted_values['shipping_extra'];
-            $this->_order->shipping->shipping_code      	= @$submitted_values['shipping_code'];
-            $this->_order->shipping->shipping_name       = @$submitted_values['shipping_name'];
-            $this->_order->shipping->shipping_tax        = @$submitted_values['shipping_tax'];
-            $this->_order->shipping->shipping_type				= @$submitted_values['shipping_plugin'];
-            
-            $this->_order->calculateTotals();
+             // Readd products if there where none
+            if (!$this->_order->getItems()) {
+                $this->populateOrder($guest);
+                $this->addCouponCodes( $submitted_values );
+                
+                // bind what you can from the post
+                $this->_order->bind( $submitted_values );
+                
+                // set the shipping method
+                $this->_order->shipping = new JObject();
+                $this->_order->shipping->shipping_price      = @$submitted_values['shipping_price'];
+                $this->_order->shipping->shipping_extra      = @$submitted_values['shipping_extra'];
+                $this->_order->shipping->shipping_code      	= @$submitted_values['shipping_code'];
+                $this->_order->shipping->shipping_name       = @$submitted_values['shipping_name'];
+                $this->_order->shipping->shipping_tax        = @$submitted_values['shipping_tax'];
+                $this->_order->shipping->shipping_type				= @$submitted_values['shipping_plugin'];
+                
+                $this->_order->calculateTotals();
+            }
 
             // fail if no payment method selected
             if (empty($submitted_values['_checked']['payment_plugin']) && (float)$this->_order->order_total != (float)'0.00')
@@ -1482,6 +1485,7 @@ class TiendaControllerCheckout extends TiendaController
         {
             foreach ($plugins as $plugin)
             {
+
                 $shippingOptions = $dispatcher->trigger( "onGetShippingOptions", array( $plugin->element, $this->_order ) );
                  
                 if (in_array(true, $shippingOptions, true))
@@ -1837,16 +1841,13 @@ class TiendaControllerCheckout extends TiendaController
 
         if ($plugins)
         {
-            Tienda::load( 'TiendaTablePayment', 'tables.payment' );
             $dispatcher = JDispatcher::getInstance();
             foreach ($plugins as $plugin)
             {
                 $results = $dispatcher->trigger( "onGetPaymentOptions", array( $plugin->element, $order ) );
                 if (in_array(true, $results, true))
                 {
-                    $table = new TiendaTablePayment();
-                    $table->bind($plugin);
-                    $options[] = $table;
+                    $options[] = $plugin;
                 }
             }
         }
