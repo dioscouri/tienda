@@ -43,13 +43,24 @@ $controller = JRequest::getWord('controller', JRequest::getVar( 'view' ) );
 if(strlen($protocol))
 {
 	// file syntax: controller_json.php
-	if (Tienda::load( 'TiendaController'.$controller.$protocol, "controllers.".$controller."_".$protocol ))
+	if (Tienda::load( 'TiendaController'.$controller.$protocol, "controllers.".$controller."_".$protocol )) {
     	$controller .=  $protocol;
+	}
 }
 else
 {
-	if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" ))
+	if (!Tienda::load( 'TiendaController'.$controller, "controllers.$controller" )) {
     	$controller = '';
+	}
+}
+
+if (empty($controller))
+{
+    // redirect to default
+    $default_controller = new TiendaController();
+    $redirect = "index.php?option=com_tienda&view=" . $default_controller->default_view;
+    $redirect = JRoute::_( $redirect, false );
+    JFactory::getApplication()->redirect( $redirect );
 }
 
 $doc = JFactory::getDocument();
