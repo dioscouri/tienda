@@ -9,21 +9,23 @@
 */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaViewBase', 'views._base' );
-
-class TiendaViewLocalization extends TiendaViewBase  
+class TiendaControllerCatalog extends TiendaController 
 {
 	/**
-	 * 
-	 * @param $tpl
-	 * @return unknown_type
+	 * constructor
 	 */
-	function display($tpl=null) 
+	function __construct() 
 	{
+		parent::__construct();
 		$app = JFactory::getApplication();
-		$app->redirect("index.php?option=com_tienda&view=countries");
+        $app->redirect("index.php?option=com_tienda&view=products");
 		return;
-    }
+        
+	}
+
+    
 }
+
+?>

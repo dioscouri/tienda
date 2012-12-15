@@ -1,5 +1,6 @@
 <?php
 /**
+ * @version	1.5
  * @package	Tienda
  * @author 	Dioscouri Design
  * @link 	http://www.dioscouri.com
@@ -8,24 +9,23 @@
 */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-Tienda::load( 'TiendaViewBase', 'views._base' );
-
-class TiendaViewCatalog extends TiendaViewBase  
+class TiendaControllerLocalization extends TiendaController 
 {
 	/**
-	 * 
-	 * @param $tpl
-	 * @return unknown_type
+	 * constructor
 	 */
-	function display($tpl=null) 
+	function __construct() 
 	{
+		parent::__construct();
 		$app = JFactory::getApplication();
-		$path = 'index.php?option=com_tienda&view=products';
-		
-
-		$app->redirect($path);
+        $app->redirect("index.php?option=com_tienda&view=countries");
 		return;
-    }
+        
+	}
+
+    
 }
+
+?>
