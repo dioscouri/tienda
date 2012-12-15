@@ -60,6 +60,7 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 
 		$data = $model -> getList();
 
+
 		foreach ($data as $item) {
 			$item -> attributes_total_price = '';
 			$attribute_options = $this -> getAttributeOptions($item -> product_id);

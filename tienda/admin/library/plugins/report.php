@@ -84,6 +84,8 @@ class TiendaReportPlugin extends TiendaPluginBase
         $state['filter_date_to'] = $app->getUserStateFromRequest($ns.'date_to', 'filter_date_to', '', '');
         $state['filter_datetype']   = $app->getUserStateFromRequest($ns.'datetype', 'filter_datetype', '', '');
         $state['filter_range']    = $app->getUserStateFromRequest($ns.'range', 'filter_range', '', '');
+        $state['limit'] = $app->getUserStateFromRequest($ns.'limit', 'limit', '', '');
+        $state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', '', '');
         $state = $this->_handleRangePresets( $state );
         
         foreach (@$state as $key=>$value)

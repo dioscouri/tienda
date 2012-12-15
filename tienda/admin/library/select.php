@@ -1576,4 +1576,30 @@ class TiendaSelect extends DSCSelect
 		
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
 		}
+
+	 /**
+    * Generates limit list
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the radio list
+    */
+    public static function limit( $selected, $name = 'limit', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $title = 'limit' )
+    {
+      
+
+        $list[] = JHTML::_('select.option',  '5', '5');
+        $list[] = JHTML::_('select.option',  '10', '10');
+        $list[] = JHTML::_('select.option',  '15', '15');
+        $list[] = JHTML::_('select.option',  '20', '20');
+        $list[] = JHTML::_('select.option',  '25', '25');
+        $list[] = JHTML::_('select.option',  '30', '30');
+        $list[] = JHTML::_('select.option',  '35', '35');
+        $list[] = JHTML::_('select.option',  '50', '50');
+        $list[] = JHTML::_('select.option',  '100', '100');
+        $list[] = JHTML::_('select.option',  '0', 'ALL');
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }	
 }
