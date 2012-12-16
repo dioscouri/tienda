@@ -33,6 +33,7 @@
 					<option value="0">COM_TIENDA_NO</option>
 					<option value="1">COM_TIENDA_YES</option>
 				</field>
+
 				<field name="sandbox_merchant_email" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_SANDBOX_MERCHANT_EMAIL" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_SANDBOX_MERCHANT_EMAIL_DESC"/>
 				<field name="sandbox_customer_email" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_SANDBOX_CUSTOMER_EMAIL" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_SANDBOX_CUSTOMER_EMAIL_DESC"/>
 				<field type="spacer" />
@@ -40,6 +41,10 @@
 				<field name="display_article_title" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_DISPLAY_ARTICLE_TITLE" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_DISPLAY_ARTICLE_TITLE_DESC" >
 					<option value="0">COM_TIENDA_NO</option>
 					<option value="1">COM_TIENDA_YES</option>
+				</field>
+				<field name="ipn_method" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_IPN_METHOD" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_IPN_METHOD_DESC">
+					<option value="0">CURL</option>
+					<option value="1">FSOCKOPEN</option>
 				</field>
 				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
@@ -69,6 +74,10 @@
 			<option value="0">COM_TIENDA_NO</option>
 			<option value="1">COM_TIENDA_YES</option>
 		</param>
+		<param name="ipn_method" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_IPN_METHOD" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYPAL_IPN_METHOD_DESC">
+					<option value="0">CURL</option>
+					<option value="1">FSOCKOPEN</option>
+				</param>
 		<param name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_FAILED_ORDER_STATE_DESC" />
 		<param name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_PAYMENT_RECEIVED_ORDER_STATE_DESC" />
         <param name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_LABEL" description="PLG_TIENDA_PAYMENT_PAYPAL_LABEL_DESC" filter="raw" />
