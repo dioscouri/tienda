@@ -100,8 +100,14 @@
 	<target name="build_component" depends="init" description="packages the final component file">
 	        
 	    	<copy todir="${cfg.buildDir}/full/files/" preservelastmodified="true" overwrite="true" filtering="true">
-	    	            <fileset dir="${cfg.comDir}" />
+                <fileset dir="${cfg.comDir}">
+                    <exclude name="${cfg.comDir}/media/images/**"/> 
+                </fileset>
 	    	</copy>
+            
+            <copy todir="${cfg.buildDir}/full/files/media/images" preservelastmodified="true" overwrite="true">
+                <fileset dir="${cfg.comDir}/media/images"/>
+            </copy> 
 	    	
 	    	<zip destfile="${cfg.buildDir}/components/${cfg.name}_${cfg.versionprefix}${ver.no}${ver.pre}.zip" basedir="${cfg.buildDir}/full/files/" />
 	    </target>
@@ -125,7 +131,13 @@
     	
         <!-- MEDIA FILES -->
         <copy todir="${cfg.buildDir}/core/files/media" preservelastmodified="true" overwrite="true" filtering="true">
-            <fileset dir="${cfg.comDir}/media" />
+            <fileset dir="${cfg.comDir}/media">
+                <exclude name="${cfg.comDir}/media/images/**"/> 
+            </fileset>
+        </copy>
+        <copy todir="${cfg.buildDir}/core/files/media/images" preservelastmodified="true" overwrite="true">
+            <fileset dir="${cfg.comDir}/media/images">
+            </fileset>
         </copy>
     	
         <!-- LANGUAGE FILES -->
