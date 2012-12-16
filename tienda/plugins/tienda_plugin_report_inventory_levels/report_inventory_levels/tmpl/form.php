@@ -1,6 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php $state = @$vars->state; ?>
+<?php $state = @$vars->state; 
+var_dump($vars->pagination);
+?>
 
 <p><?php echo JText::_('COM_TIENDA_THIS_REPORTS_THE_INVENTORY_LEVELS'); ?></p>
 <div class="note">

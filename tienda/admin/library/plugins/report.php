@@ -22,6 +22,7 @@ class TiendaReportPlugin extends TiendaPluginBase
      */
     var $_element    = '';
 
+    var $_pagination = '';
     /**
      * @var array() instances of Models to be used by the report
      */
@@ -148,6 +149,20 @@ class TiendaReportPlugin extends TiendaPluginBase
         return $data;
     }
 
+
+
+    public function getPagination()
+    {
+        if (empty($this->_pagination))
+        {
+            jimport('joomla.html.pagination');
+            $model = $this->_getModel();
+
+            $this->_pagination = new JPagination( $model->getTotal(), $model->getState('limitstart'), $model->getState('limit') );
+        }
+        
+        return $this->_pagination;
+    }
     /************************************
      * Note to 3pd: 
      * 
@@ -171,7 +186,7 @@ class TiendaReportPlugin extends TiendaPluginBase
         $vars = new JObject();
         $vars->items = $this->_getData();
         $vars->state = $this->_getModel()->getState();
-        
+        $vars->pagination = $this->getPagination();
         $html = $this->_getLayout('view', $vars);
         
         return $html;

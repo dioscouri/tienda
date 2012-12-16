@@ -26,17 +26,12 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 	var $default_model = 'products';
 
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
+	 * 
 	 * @param object $subject The object to observe
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgTiendaReport_inventory_levels(&$subject, $config) {
+	function __construct(&$subject, $config) {
 		parent::__construct($subject, $config);
 		$language = JFactory::getLanguage();
 		$language -> load('plg_tienda_' . $this -> _element, JPATH_ADMINISTRATOR, 'en-GB', true);
@@ -105,6 +100,8 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 		$state['filter_quantity_from'] = $app -> getUserStateFromRequest($ns . 'quantity_from', 'filter_quantity_from', '', '');
 		$state['filter_quantity_to'] = $app -> getUserStateFromRequest($ns . 'quantity_to', 'filter_quantity_to', '', '');
 		$state['filter_product_name'] = $app -> getUserStateFromRequest($ns . 'filter_product_name', 'filter_product_name', '', '');
+		$state['filter_product_name'] = $app -> getUserStateFromRequest($ns . 'filter_product_name', 'filter_product_name', '', '');
+		$state['filter_product_name'] = $app -> getUserStateFromRequest($ns . 'filter_product_name', 'filter_product_name', '', '');
 		$state = $this -> _handleRangePresets($state);
 
 		foreach (@$state as $key => $value) {
@@ -114,6 +111,7 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 		return $state;
 
 	}
+
 
 	/**
 	 * Returns a list of a product's attributes

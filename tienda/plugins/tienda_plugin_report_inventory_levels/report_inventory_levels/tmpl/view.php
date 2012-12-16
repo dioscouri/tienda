@@ -1,7 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
-<?php $items = @$vars->items;?>
+<?php $items = @$vars->items;
+var_dump($vars->pagination);
+?>
 
 <table class="adminlist" style="clear: both;">
         <thead>
@@ -86,5 +88,11 @@
                 </td>
             </tr>
             <?php endif; ?>
+                 <td colspan="20">
+                    <div style="float: right; padding: 5px;"><?php echo @$vars->pagination->getResultsCounter(); ?></div>
+                    <?php echo @$vars->pagination->getPagesLinks(); ?>
+                </td>
+           
         </tbody>
     </table>
+ 
