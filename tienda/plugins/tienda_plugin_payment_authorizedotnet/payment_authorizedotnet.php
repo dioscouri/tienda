@@ -129,7 +129,7 @@ class plgTiendaPayment_authorizedotnet extends TiendaPaymentPlugin
      * 
      * @return unknown_type
      */
-    function _renderForm( $data )
+    function _renderForm( )
     {
         $vars = new JObject();
         $vars->prepop = array();
