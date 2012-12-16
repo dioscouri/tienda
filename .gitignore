@@ -1,2 +1,6 @@
 .project
 .settings/
+
+antconfig.txt
+
+*.txt
