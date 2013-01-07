@@ -9,6 +9,7 @@
 	<fields name="request">
 		<fieldset name="request" addfieldpath="/administrator/components/com_tienda/elements">
 			<field name="id" type="tiendaproduct" section="com_tienda" default="" label="COM_TIENDA_SELECT_PRODUCT" description="COM_TIENDA_A_TIENDA_PRODUCT_ID" />
+			<field name="task" type="hidden" section="com_tienda" default="view" />
 		</fieldset>
 	</fields>
 	<!-- Joomla 1.5 only -->
