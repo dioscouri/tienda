@@ -449,7 +449,7 @@ class TiendaHelperUser extends DSCHelperUser
 	 * 
 	 * @return	Array with result of password validation (position 0) and list of requirements which the password does not fullfil (position 1)
 	 */
-	function validatePassword( $password, $force=false )
+	function validatePassword( $password, $force_validation=false )
 	{
 		$errors = array();
 		$result = true;
