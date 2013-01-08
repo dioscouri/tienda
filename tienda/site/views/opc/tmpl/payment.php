@@ -13,10 +13,13 @@
     <?php if (!empty($this->payment_plugins)) { ?>
     
         <?php foreach($this->payment_plugins as $payment_plugin) { ?>
-            <li class="control">
-                <label class="radio">
+            <li class="control <?php echo $payment_plugin->element; ?>">
+                <label class="radio <?php echo $payment_plugin->element; ?>">
                     <input class="payment-plugin required" value="<?php echo $payment_plugin->element; ?>" onclick="Opc.payment.getPluginForm('<?php echo $payment_plugin->element; ?>', 'opc-payment-method-form-container', '<?php echo JText::_('COM_TIENDA_GETTING_PAYMENT_METHOD'); ?>');" name="payment_plugin" type="radio" <?php echo (!empty($payment_plugin->checked)) ? "checked" : ""; ?> />
-                    <?php echo $payment_plugin->getName(); ?>
+                    <div class="paymentOptionName <?php echo $payment_plugin->element;  ?>">
+                    <span class="paymentOptionNameText <?php echo $payment_plugin->element;  ?>"><?php echo $payment_plugin->getName();  ?></span>
+                    </div>
+                                    
                 </label>
             </li>
         <?php } ?>
