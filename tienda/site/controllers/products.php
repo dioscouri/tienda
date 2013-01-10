@@ -715,7 +715,7 @@ class TiendaControllerProducts extends TiendaController
             }
         }
 
-        if ( $downloadFile = TiendaFile::download( $productfile ) )
+        if ( $downloadFile = TiendaFile::download( $productfile->productfile_path ) )
         {
             $link = JRoute::_( $link, false );
             $this->setRedirect( $link );
