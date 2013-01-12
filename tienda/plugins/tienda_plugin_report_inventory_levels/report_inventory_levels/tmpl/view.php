@@ -1,9 +1,9 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 <?php $state = @$vars->state; ?>
-<?php $items = @$vars->items;
-var_dump($vars->pagination);
-?>
+<?php $items = @$vars->items;?>
+<?php $pagination = $vars->pagination; ?>
+
 
 <table class="adminlist" style="clear: both;">
         <thead>

@@ -34,7 +34,10 @@ class TiendaViewReports extends TiendaViewBase
     }
     
 	function _form($tpl=null)
-	{
+	{  
+        JHTML::_('script', 'bootstrapped-advanced-ui.js', 'media/dioscouri/js/');
+        JHTML::_('stylesheet', 'bootstrapped-advanced-ui.css', 'media/dioscouri/css/');
+        JHTML::_('stylesheet', 'reports.css', 'media/com_tienda/css/');
         parent::_form($tpl);
         
         // load the plugin

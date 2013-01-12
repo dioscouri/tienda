@@ -2,12 +2,8 @@
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 
-<form action="<?php echo JRoute::_( 'index.php?option=com_tienda&view=reports&layout=view' ) ?>" method="post" class="adminform" name="adminForm" >
+<form action="<?php echo JRoute::_( 'index.php?option=com_tienda&view=reports&layout=view' ) ?>" method="post" class="adminform" id="adminform" name="adminForm" >
 
-	<h3>
-	    <?php echo @$row->name ?>
-	</h3>
-	
 	<?php
 		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger( 'onGetReportView', array( $row ) );

@@ -5,7 +5,7 @@
 
 <h2><?php echo JText::_('COM_TIENDA_RESULTS'); ?></h2>
 
-<table class="adminlist" style="clear: both;">
+<table class="table table-striped table-bordered" style="clear: both;">
 	<thead>
 		<tr>
 			<th style="width: 10px;">

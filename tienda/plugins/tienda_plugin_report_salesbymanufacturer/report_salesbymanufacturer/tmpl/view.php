@@ -2,9 +2,10 @@
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
 <?php $state = @$vars->state; ?>
 <?php $items = @$vars->items; ?>
-<h2><?php echo JText::_('COM_TIENDA_RESULTS'); ?></h2>
+<div class="span7">
+<h3><?php echo JText::_('COM_TIENDA_RESULTS'); ?></h3>
 
-    <table class="adminlist" style="clear: both;">
+    <table class="table table-striped table-bordered" style="clear: both;">
         <thead>
             <tr>
                 <th style="width: 5px;">
@@ -57,3 +58,5 @@
             <?php endif; ?>
         </tbody>
     </table>
+</div>
+</div>
