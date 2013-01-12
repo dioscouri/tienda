@@ -45,6 +45,13 @@ div.option {
 	vertical-align: middle;
 	padding: 5px 0px;
 }
+div.userOption {
+	min-height: 150px;
+	padding:10px;
+}
+div.userOption label.radio {
+	display:none;
+}
 
 div.option_data {
     margin-left: 20px;
