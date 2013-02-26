@@ -334,7 +334,7 @@ class TiendaHelperUser extends DSCHelperUser
 				JLoader::register( "Ambra", JPATH_ADMINISTRATOR."/components/com_ambra/defines.php" );
 			}
 			//Get Ambra Avatar
-			if($image = Ambra::get( "AmbraHelperUser", 'helpers.user' )->getAvatar( $id ))
+			if($image = Ambra::getClass( "AmbraHelperUser", 'helpers.user' )->getAvatar( $id ))
 			{
 				$link = JRoute::_( JURI::root().'index.php?option=com_ambra&view=users&id='.$id, false );
 				$avatar .= "<a href='{$link}' target='_blank'>";
