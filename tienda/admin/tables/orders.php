@@ -1,9 +1,9 @@
 <?php
 /**
- * @version	1.5
- * @package	Tienda
- * @author 	Dioscouri Design
- * @link 	http://www.dioscouri.com
+ * @version 1.5
+ * @package Tienda
+ * @author  Dioscouri Design
+ * @link    http://www.dioscouri.com
  * @copyright Copyright (C) 2007 Dioscouri Design. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 */
@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 Tienda::load( 'TiendaTable', 'tables._base' );
 
 class TiendaTableOrders extends TiendaTable
-{	
+{   
     /** @var array An array of TiendaTableOrderItems objects */
     protected $_items = array();
 
@@ -68,57 +68,59 @@ class TiendaTableOrders extends TiendaTable
     protected $_usercoupons = array();
 
     protected $_weight = 0;    
-	/**
-	 * @param $db
-	 * @return unknown_type
-	 */
-	function TiendaTableOrders ( &$db )
-	{
-		$tbl_key 	= 'order_id';
-		$tbl_suffix = 'orders';
-		$this->set( '_suffix', $tbl_suffix );
-		$name 		= 'tienda';
 
-		parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );
-	}
+    protected $_anonymous = 0;    
+    /**
+     * @param $db
+     * @return unknown_type
+     */
+    function TiendaTableOrders ( &$db )
+    {
+        $tbl_key    = 'order_id';
+        $tbl_suffix = 'orders';
+        $this->set( '_suffix', $tbl_suffix );
+        $name       = 'tienda';
 
-	/**
-	 * Loads the Order object with values from the DB tables
-	 * (non-PHPdoc)
-	 * @see tienda/admin/tables/TiendaTable#load($oid, $reset)
-	 */
+        parent::__construct( "#__{$name}_{$tbl_suffix}", $tbl_key, $db );
+    }
+
+    /**
+     * Loads the Order object with values from the DB tables
+     * (non-PHPdoc)
+     * @see tienda/admin/tables/TiendaTable#load($oid, $reset)
+     */
     function load( $oid=null, $reset=true )
     {
-    	if ($return = parent::load($oid, $reset))
-    	{
-    		// TODO populate the protected vars with the info from the db
-    	}
-    	return $return;
+        if ($return = parent::load($oid, $reset))
+        {
+            // TODO populate the protected vars with the info from the db
+        }
+        return $return;
     }
-	
-	/**
-	 * Ensures integrity of the table object before storing to db
-	 * 
-	 * @return unknown_type
-	 */
-	function check()
-	{
-		$nullDate	= $this->_db->getNullDate();
+    
+    /**
+     * Ensures integrity of the table object before storing to db
+     * 
+     * @return unknown_type
+     */
+    function check()
+    {
+        $nullDate   = $this->_db->getNullDate();
 
-		if (empty($this->created_date) || $this->created_date == $nullDate)
-		{
-			$date = JFactory::getDate();
-			$this->created_date = $date->toMysql();
-		}
-		
-		if (empty($this->modified_date) || $this->modified_date == $nullDate)
-		{
-			$date = JFactory::getDate();
-			$this->modified_date = $date->toMysql();
-		}
-		
-		return parent::check();
-	}
+        if (empty($this->created_date) || $this->created_date == $nullDate)
+        {
+            $date = JFactory::getDate();
+            $this->created_date = $date->toMysql();
+        }
+        
+        if (empty($this->modified_date) || $this->modified_date == $nullDate)
+        {
+            $date = JFactory::getDate();
+            $this->modified_date = $date->toMysql();
+        }
+        
+        return parent::check();
+    }
 
   function store($updateNulls=false)
   {
@@ -137,9 +139,9 @@ class TiendaTableOrders extends TiendaTable
      * 
      * (non-PHPdoc)
      * @see tienda/admin/tables/TiendaTable#save()
-     */	
-	function save($src='', $orderingFilter = '', $ignore = '')
-	{
+     */ 
+    function save($src='', $orderingFilter = '', $ignore = '')
+    {
         if ($return = parent::save($src, $orderingFilter, $ignore))
         {
             // create the order_number when the order is saved, since it is based on the auto-inc value
@@ -150,7 +152,7 @@ class TiendaTableOrders extends TiendaTable
                 $this->store();
             }
             
-			// If the order_credit > 0.00, then save a usage in the order credits, with a - value of the credit amount
+            // If the order_credit > 0.00, then save a usage in the order credits, with a - value of the credit amount
             if ($this->order_credit > '0.00' && $this->_adjustCredits)
             {
                 $credit = JTable::getInstance( 'Credits', 'TiendaTable');
@@ -161,12 +163,12 @@ class TiendaTableOrders extends TiendaTable
                 $credit->credit_amount = 0 - $this->order_credit;
                 $credit->save();
             }
-			
-			
-            // TODO All of the protected vars information could be saved here instead, no?	
+            
+            
+            // TODO All of the protected vars information could be saved here instead, no?  
         }
         return $return;
-	}
+    }
     
     /**
      * Adds an item to the order object
@@ -181,7 +183,7 @@ class TiendaTableOrders extends TiendaTable
      */
     function addItem( $item )
     {
-    	Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
+        Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
         $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
         if (is_array($item))
         {
@@ -215,7 +217,7 @@ class TiendaTableOrders extends TiendaTable
 
         // flag the order as recurring
         if( $product->product_recurs )
-        	$this->order_recurs = true;
+            $this->order_recurs = true;
 
         if ( $orderItem->subscription_prorated )
         {
@@ -229,16 +231,16 @@ class TiendaTableOrders extends TiendaTable
             
             if( $product->subscription_prorated ) // prorated subscription
             {
-            	$result = TiendaHelperSubscription::calculateProRatedTrial( $product->subscription_prorated_date,
+                $result = TiendaHelperSubscription::calculateProRatedTrial( $product->subscription_prorated_date,
                     $product->subscription_prorated_term, 
                     $product->recurring_period_unit,
                     $product->recurring_trial_price,
                     $product->subscription_prorated_charge
                 );
-            	$orderItem->recurring_trial = $result['trial'];
-            	$orderItem->recurring_trial_period_interval = $result['interval'];
-            	$orderItem->recurring_trial_period_unit = $result['unit'];
-            	$orderItem->recurring_trial_price = $result['price'];
+                $orderItem->recurring_trial = $result['trial'];
+                $orderItem->recurring_trial_period_interval = $result['interval'];
+                $orderItem->recurring_trial_period_unit = $result['unit'];
+                $orderItem->recurring_trial_price = $result['price'];
             }
             else
             {
@@ -262,18 +264,18 @@ class TiendaTableOrders extends TiendaTable
         $hash = intval($orderItem->product_id).".".intval($orderItem->vendor_id).".".$orderItem->orderitem_attributes;
 
         $dispatcher = JDispatcher::getInstance();
-				$results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
-//				JFactory::getApplication()->enqueueMessage( 'orders.php - line 236 - '.Tienda::dump( $results ) );
-				foreach ($results as $result)
+                $results = $dispatcher->trigger( "onGetAdditionalOrderitemKeyValues", array( $orderItem ) );
+//              JFactory::getApplication()->enqueueMessage( 'orders.php - line 236 - '.Tienda::dump( $results ) );
+                foreach ($results as $result)
         {
             foreach($result as $key=>$value)
             {
-            	$hash = $hash.".".$value; 
+                $hash = $hash.".".$value; 
             }
-        }	        
+        }           
         if( isset( $orderItem->cart_id ) )
-        	unset( $orderItem->cart_id );
-//				$orderItem->orderitem_id = null; // so it can create a new ordreitem, if needed        
+            unset( $orderItem->cart_id );
+//              $orderItem->orderitem_id = null; // so it can create a new ordreitem, if needed        
         
         if (!empty($this->_items[$hash]))
         {
@@ -336,15 +338,15 @@ class TiendaTableOrders extends TiendaTable
         // if this product is from a vendor other than store owner, track it
         if (!empty($orderItem->vendor_id) && empty($this->_vendors[$orderItem->vendor_id]))
         {
-        	$orderVendor = JTable::getInstance('OrderVendors', 'TiendaTable');
-        	$orderVendor->vendor_id = $orderItem->vendor_id;
+            $orderVendor = JTable::getInstance('OrderVendors', 'TiendaTable');
+            $orderVendor->vendor_id = $orderItem->vendor_id;
             $this->_vendors[$orderItem->vendor_id] = $orderVendor;
         }
-    	
+        
         if (!empty($this->_vendors[$orderItem->vendor_id]))
         {
-        	// TODO update the order vendor's totals?
-        	// or just wait until the calculateTotals() method is executed?
+            // TODO update the order vendor's totals?
+            // or just wait until the calculateTotals() method is executed?
         }
     }
         
@@ -356,8 +358,8 @@ class TiendaTableOrders extends TiendaTable
      */
     function calculateTotals()
     {
-       	$this->order_discount = 0;
-       	
+        $this->order_discount = 0;
+        
         // get the subtotal first. 
         // if there are per_product coupons and coupons_before_tax, the orderitem_final_price will be adjusted
         // and ordercoupons created
@@ -369,7 +371,7 @@ class TiendaTableOrders extends TiendaTable
         // then calculate shipping total
         $this->calculateShippingTotals(); 
         
-		// coupons
+        // coupons
         $this->order_discount += $this->calculatePerOrderCouponValue($this->order_subtotal + $this->order_tax, 'price' );
         
         // this goes last, to be sure it gets the fully adjusted figures 
@@ -426,13 +428,13 @@ class TiendaTableOrders extends TiendaTable
         foreach ($items as $item)
         {
             // track the subtotal
-        	$item->orderitem_final_price = ( $item->orderitem_price + $item->orderitem_attributes_price ) * $item->orderitem_quantity;
-//	        if ($coupons_before_tax)
+            $item->orderitem_final_price = ( $item->orderitem_price + $item->orderitem_attributes_price ) * $item->orderitem_quantity;
+//          if ($coupons_before_tax)
 //            {
-            	$item->orderitem_final_price = $this->calculatePerProductCouponValue( $item->product_id, $item->orderitem_final_price, 'price' );       	
-//            	$item->price = $this->calculatePerProductCouponValue( $item->product_id, $item->price, 'price' );       	
+                $item->orderitem_final_price = $this->calculatePerProductCouponValue( $item->product_id, $item->orderitem_final_price, 'price' );           
+//              $item->price = $this->calculatePerProductCouponValue( $item->product_id, $item->price, 'price' );           
 //            }
-        	$subtotal += $item->orderitem_final_price;
+            $subtotal += $item->orderitem_final_price;
         }
 
         // set object properties
@@ -529,7 +531,7 @@ class TiendaTableOrders extends TiendaTable
         $order_shipping     = 0.00;
         $order_shipping_tax = 0.00;
         
-        $items = $this->getItems();		
+        $items = $this->getItems();     
 
         if (!is_array($items) || !$this->shipping)
         {
@@ -552,11 +554,11 @@ class TiendaTableOrders extends TiendaTable
             Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
             $shipping_total = TiendaHelperShipping::getTotal( $this->shipping_method_id, $geozone_id, $items );
             
-			$shipping_total = new stdClass();
-			$shipping_total->shipping_rate_price = 0;
-			$shipping_total->shipping_rate_total = 0;
-			$shipping_total->shipping_rate_handling = 0;
-			$shipping_total->shipping_tax_total = 0;
+            $shipping_total = new stdClass();
+            $shipping_total->shipping_rate_price = 0;
+            $shipping_total->shipping_rate_total = 0;
+            $shipping_total->shipping_rate_handling = 0;
+            $shipping_total->shipping_tax_total = 0;
             
             $order_shipping       += $shipping_total->shipping_rate_price + $shipping_total->shipping_rate_handling;
             $order_shipping_tax   += $shipping_total->shipping_tax_total;
@@ -571,12 +573,12 @@ class TiendaTableOrders extends TiendaTable
         $this->order_shipping       = $this->shipping->shipping_price + $this->shipping->shipping_extra;
         $this->order_shipping_tax   = $this->shipping->shipping_tax;
   
-		$order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
-		$this->order_shipping = $this->order_shipping - $order_shipping_discount;
-		if( $this->order_shipping < 0)
-		{
-		    $this->order_shipping = 0.00;
-		}
+        $order_shipping_discount = $this->calculatePerOrderCouponValue($this->order_shipping, 'shipping');
+        $this->order_shipping = $this->order_shipping - $order_shipping_discount;
+        if( $this->order_shipping < 0)
+        {
+            $this->order_shipping = 0.00;
+        }
         // Allow this to be modified via plugins
         $dispatcher    = JDispatcher::getInstance();
         $dispatcher->trigger( "onCalculateShippingTotals", array( $this ) );
@@ -655,10 +657,10 @@ class TiendaTableOrders extends TiendaTable
      */
     function calculateVendorTotals()
     {
-    	if (empty($this->_vendors))
-    	{
-    		return null;
-    	}
+        if (empty($this->_vendors))
+        {
+            return null;
+        }
 
         $items = $this->getItems();
         if (!is_array($items))
@@ -720,7 +722,7 @@ class TiendaTableOrders extends TiendaTable
             $orderitems = $model->getList();
             foreach ($orderitems as $orderitem)
             {
-            	unset($table);
+                unset($table);
                 $table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
                 $table->load( $orderitem->orderitem_id );
                 $this->addItem( $table );
@@ -743,7 +745,7 @@ class TiendaTableOrders extends TiendaTable
                 
                 if (empty($this->_recurringItemExists) && $item->orderitem_recurs)
                 {
-                	// Only one recurring item allowed per order. 
+                    // Only one recurring item allowed per order. 
                     // If the item is recurring, 
                     // check if there already is a recurring item accounted for in the order
                     // if so, remove this one from the order but leave it in the cart and continue
@@ -806,7 +808,7 @@ class TiendaTableOrders extends TiendaTable
     function getShippingTotal( $refresh=false )
     {
         // TODO If not set, should calculate it
-    	return $this->_shipping_total;
+        return $this->_shipping_total;
     }
 
     /**
@@ -1252,7 +1254,7 @@ class TiendaTableOrders extends TiendaTable
         return true;
     }
     
-	 /**
+     /**
      * Adds a credit amount to the order
      * 
      * @param float
@@ -1262,7 +1264,7 @@ class TiendaTableOrders extends TiendaTable
     {
         $this->order_credit = (float) $amount;
     }
-	
+    
     /**
      * Adds a coupon to the order
      * 
@@ -1275,7 +1277,7 @@ class TiendaTableOrders extends TiendaTable
         switch ($coupon->coupon_group)
         {
             case 'shipping':
-            	// Only Per Order
+                // Only Per Order
                 $this->addOrderCoupon( $coupon, 'shipping' );          
                 break;
             case 'price':
@@ -1289,7 +1291,7 @@ class TiendaTableOrders extends TiendaTable
                     case "0":
                         // per order
                         $this->addOrderCoupon( $coupon, 'price' );
-              	        break;
+                        break;
                 }
                 break;
         }
@@ -1300,89 +1302,89 @@ class TiendaTableOrders extends TiendaTable
         }
     }
     
-	/**
+    /**
      * Adds a per_order coupon to the order
      * 
      * @param object    $coupon      a TableCoupons object
-     * @param type    	$type		 could be price, tax, shipping
+     * @param type      $type        could be price, tax, shipping
      * @return void
      * @enterprise
      */
     function addOrderCoupon( $coupon, $type = 'price' )
     {
-    	switch($type)
-    	{
-    		case 'shipping':
-    			if (empty($this->_coupons['order_shipping']))
-        		{
-            		$this->_coupons['order_shipping'] = array();
-        		}
-        		$this->_coupons['order_shipping'][$coupon->coupon_id] = $coupon;
-    			break;
-    		case 'price':
-    		default:  
-    			if (empty($this->_coupons['order_price']))
-        		{
-            		$this->_coupons['order_price'] = array();
-        		}
-        		$this->_coupons['order_price'][$coupon->coupon_id] = $coupon;
-    			break;
-    	}
+        switch($type)
+        {
+            case 'shipping':
+                if (empty($this->_coupons['order_shipping']))
+                {
+                    $this->_coupons['order_shipping'] = array();
+                }
+                $this->_coupons['order_shipping'][$coupon->coupon_id] = $coupon;
+                break;
+            case 'price':
+            default:  
+                if (empty($this->_coupons['order_price']))
+                {
+                    $this->_coupons['order_price'] = array();
+                }
+                $this->_coupons['order_price'][$coupon->coupon_id] = $coupon;
+                break;
+        }
        
     }
     
-	/**
+    /**
      * Adds a per_product coupon to the order
      * 
      * @param object    $coupon      a TableCoupons object
-     * @param type    	$type		 could be price, tax, shipping
+     * @param type      $type        could be price, tax, shipping
      * @return void
      * @enterprise
      */
     function addProductCoupon( $coupon, $type = 'price' )
     {
-    	switch($type)
-    	{
-    		case 'shipping':
-    			if (empty($this->_coupons['product_shipping']))
-        		{
-            		$this->_coupons['product_shipping'] = array();
-        		}
-        		$this->_coupons['product_shipping'][$coupon->coupon_id] = $coupon;
-    			break;
-    		case 'price':
-    		default:  
-    			if (empty($this->_coupons['product_price']))
-        		{
-            		$this->_coupons['product_price'] = array();
-        		}
-        		$this->_coupons['product_price'][$coupon->coupon_id] = $coupon;
-    			break;
-    	}
+        switch($type)
+        {
+            case 'shipping':
+                if (empty($this->_coupons['product_shipping']))
+                {
+                    $this->_coupons['product_shipping'] = array();
+                }
+                $this->_coupons['product_shipping'][$coupon->coupon_id] = $coupon;
+                break;
+            case 'price':
+            default:  
+                if (empty($this->_coupons['product_price']))
+                {
+                    $this->_coupons['product_price'] = array();
+                }
+                $this->_coupons['product_price'][$coupon->coupon_id] = $coupon;
+                break;
+        }
        
     }
     
-	/**
+    /**
      * Calculates the discounted value of a per_product coupon
      * 
-     * @param	$product_id		the product id
-     * @param	$value			the original value on which calculate the discount
-     * @param	$type			could be price, tax, shipping
+     * @param   $product_id     the product id
+     * @param   $value          the original value on which calculate the discount
+     * @param   $type           could be price, tax, shipping
      */
     function calculatePerProductCouponValue( $product_id, $value, $type = 'price' )
     {
-    	$total = 0.00;
-    	
-    	switch($type)
-    	{
-    		case 'shipping':
-    			$coupons = !empty($this->_coupons['product_shipping']) ? $this->_coupons['product_shipping'] : array();
-    			break;
-    		default:
-    		case 'price':
-    			$coupons = !empty($this->_coupons['product_price']) ? $this->_coupons['product_price'] : array();
-    			break;
-    	}
+        $total = 0.00;
+        
+        switch($type)
+        {
+            case 'shipping':
+                $coupons = !empty($this->_coupons['product_shipping']) ? $this->_coupons['product_shipping'] : array();
+                break;
+            default:
+            case 'price':
+                $coupons = !empty($this->_coupons['product_price']) ? $this->_coupons['product_price'] : array();
+                break;
+        }
 
         Tienda::load('TiendaHelperCoupon', 'helpers.coupon');
         // If there are per_product coupons that apply to this product
@@ -1390,36 +1392,36 @@ class TiendaTableOrders extends TiendaTable
         // remember that the orderitem_final_price already == product_price * orderitem_quantity
         if( $coupons )
         {
-	        foreach (@$coupons as $coupon)
-	        {
-	        	$is_for_this_product = TiendaHelperCoupon::checkByProductIds( $coupon->coupon_id, array($product_id) );
-	        	if( $is_for_this_product )
-	        	{
-		            switch ($coupon->coupon_value_type)
-		            {
-		              	case "1": // percentage
-		                	$amount = ($coupon->coupon_value/100) * ($value);
-		                    break;
-		                case "0": // flat-rate
-		                    $amount = $coupon->coupon_value;
-		                    break;
-		            }
-		            
-		            // update the total amount of the discount
-		            $total += $amount;
-		            
-		            // save the ordercoupons object
-		            $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
-		            $oc->coupon_id = $coupon->coupon_id;
-		            $oc->ordercoupon_name = $coupon->coupon_name;
-		            $oc->ordercoupon_code = $coupon->coupon_code;
-		            $oc->ordercoupon_value = $coupon->coupon_value;
-		            $oc->ordercoupon_value_type = $coupon->coupon_value_type;
-		            $oc->ordercoupon_amount = $amount;
-		            
-		            $this->_ordercoupons[] = $oc;
-	        	}
-	        }
+            foreach (@$coupons as $coupon)
+            {
+                $is_for_this_product = TiendaHelperCoupon::checkByProductIds( $coupon->coupon_id, array($product_id) );
+                if( $is_for_this_product )
+                {
+                    switch ($coupon->coupon_value_type)
+                    {
+                        case "1": // percentage
+                            $amount = ($coupon->coupon_value/100) * ($value);
+                            break;
+                        case "0": // flat-rate
+                            $amount = $coupon->coupon_value;
+                            break;
+                    }
+                    
+                    // update the total amount of the discount
+                    $total += $amount;
+                    
+                    // save the ordercoupons object
+                    $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
+                    $oc->coupon_id = $coupon->coupon_id;
+                    $oc->ordercoupon_name = $coupon->coupon_name;
+                    $oc->ordercoupon_code = $coupon->coupon_code;
+                    $oc->ordercoupon_value = $coupon->coupon_value;
+                    $oc->ordercoupon_value_type = $coupon->coupon_value_type;
+                    $oc->ordercoupon_amount = $amount;
+                    
+                    $this->_ordercoupons[] = $oc;
+                }
+            }
         }
         
         // Allow this to be modified via plugins
@@ -1428,15 +1430,15 @@ class TiendaTableOrders extends TiendaTable
 
         if( $total > $value )
         {
-        	return 0;
+            return 0;
         }
         else
         {
-        	return $value - $total;
+            return $value - $total;
         }
     }
     
-	/**
+    /**
      * Calculates the per_order coupon discount for the order
      * and the total post-tax/shipping discount
      * and sets order->order_discount
@@ -1450,43 +1452,43 @@ class TiendaTableOrders extends TiendaTable
         
         switch($type)
         {
-        	case 'shipping':
-        		$coupons = !empty($this->_coupons['order_shipping']) ? $this->_coupons['order_shipping'] : array();
-        		break;
-        	default:
-        	case 'price':
-        		$coupons = !empty($this->_coupons['order_price']) ? $this->_coupons['order_price'] : array();
-        		break;
+            case 'shipping':
+                $coupons = !empty($this->_coupons['order_shipping']) ? $this->_coupons['order_shipping'] : array();
+                break;
+            default:
+            case 'price':
+                $coupons = !empty($this->_coupons['order_price']) ? $this->_coupons['order_price'] : array();
+                break;
         }
 
         if( $coupons )
         {
-	        foreach ($coupons as $coupon)
-	        {
-	            switch ($coupon->coupon_value_type)
-	            {
-	              	case "1": // percentage
-	                	$amount = ($coupon->coupon_value/100) * ($value);
-	                    break;
-	                case "0": // flat-rate
-	                    $amount = $coupon->coupon_value;
-	                    break;
-	            }
-	            
-	            // update the total amount of the discount
-	            $total += $amount;
-	            
-	            // save the ordercoupons object
-	            $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
-	            $oc->coupon_id = $coupon->coupon_id;
-	            $oc->ordercoupon_name = $coupon->coupon_name;
-	            $oc->ordercoupon_code = $coupon->coupon_code;
-	            $oc->ordercoupon_value = $coupon->coupon_value;
-	            $oc->ordercoupon_value_type = $coupon->coupon_value_type;
-	            $oc->ordercoupon_amount = $amount;
-	            
-	            $this->_ordercoupons[] = $oc;
-	        }
+            foreach ($coupons as $coupon)
+            {
+                switch ($coupon->coupon_value_type)
+                {
+                    case "1": // percentage
+                        $amount = ($coupon->coupon_value/100) * ($value);
+                        break;
+                    case "0": // flat-rate
+                        $amount = $coupon->coupon_value;
+                        break;
+                }
+                
+                // update the total amount of the discount
+                $total += $amount;
+                
+                // save the ordercoupons object
+                $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
+                $oc->coupon_id = $coupon->coupon_id;
+                $oc->ordercoupon_name = $coupon->coupon_name;
+                $oc->ordercoupon_code = $coupon->coupon_code;
+                $oc->ordercoupon_value = $coupon->coupon_value;
+                $oc->ordercoupon_value_type = $coupon->coupon_value_type;
+                $oc->ordercoupon_amount = $amount;
+                
+                $this->_ordercoupons[] = $oc;
+            }
         }
         
         // Allow this to be modified via plugins
@@ -1508,11 +1510,22 @@ class TiendaTableOrders extends TiendaTable
     {
         // TODO Attempt to set this if it is empty
         if(@$this->_coupons)
-        	return $this->_coupons;
+            return $this->_coupons;
         else
-        	return array();
+            return array();
     }
     
+    /**
+     * Gets the coupons for this order
+     * and returns an array of objects
+     * 
+     * @return unknown_type
+     * @enterprise
+     */
+    function makeAnonymous()
+    {
+       $this->_anonymous = 1;
+    }
     /**
      * Gets the user-submitted coupons for this order
      * and returns an array of objects

@@ -768,6 +768,8 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   `completed_tasks` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the OrderCompleted tasks executed?',
   `quantities_updated` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Were the Product Quantities updated?', 
 	`order_hash` VARCHAR( 40 ) NOT NULL,
+  `anonymous` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'allows for processing descret orders, or anoyomous donations',
+  `app_fee` DECIMAL(10,2) NULL DEFAULT '0.00' ,
   PRIMARY KEY (`order_id`) ,
   INDEX `idx_orders_user_id` (`user_id` ASC) ,
   INDEX `idx_orders_order_hash` (`order_hash` ASC) ,
