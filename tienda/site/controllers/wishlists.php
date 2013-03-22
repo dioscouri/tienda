@@ -119,6 +119,7 @@ class TiendaControllerWishlists extends TiendaController
     function update()
     {
 		$share = JRequest::getVar('share');
+        
 		if ($share) {
 		    $this->share();
 		    return;
@@ -385,4 +386,112 @@ class TiendaControllerWishlists extends TiendaController
         
         return $success;
     }
+
+    public function addToWishlist()
+    {
+        // verify form submitted by user
+        JRequest::checkToken( ) or jexit( 'Invalid Token' );
+
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = new TiendaHelperRoute();
+
+        $product_id = JRequest::getInt( 'product_id' );
+        $filter_category = JRequest::getInt( 'filter_category' );
+        if ( !$itemid = $router->product( $product_id, $filter_category, true ) )
+        {
+            $itemid = $router->category( 1, true );
+            if( !$itemid )
+                $itemid = JRequest::getInt( 'Itemid', 0 );
+        }
+
+        // set the default redirect URL
+        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category&Itemid=" . $itemid;
+        $redirect = JRoute::_( $redirect, false );
+
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+        $product = JTable::getInstance( 'Products', 'TiendaTable' );
+        $product->load( $product_id, true, false );
+
+        if (empty($product->product_id))
+        {
+            // not a valid product, so return to product detail page with invalid-product message
+            $this->messagetype = 'notice';
+            $this->message = JText::_('COM_TIENDA_INVALID_PRODUCT');
+            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            return;
+        }
+
+        $values = JRequest::get('post');
+
+        $attributes = array( );
+        foreach ( $values as $key => $value )
+        {
+            if ( substr( $key, 0, 10 ) == 'attribute_' )
+            {
+                $attributes[] = $value;
+            }
+        }
+        sort( $attributes );
+        $attributes_csv = implode( ',', $attributes );
+
+        $user_id = JFactory::getUser()->id;
+        if (empty($user_id))
+        {
+            // if not logged in, add item to session wishlist, then redirect to login/registration page, and upon login (in user plugin) add item from session to wishlist
+            $session = JFactory::getSession();
+            $session_id = $session->getId();
+            $session->set( 'old_sessionid', $session_id );
+                
+            $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
+            $wishlist->load(array('session_id'=>$session_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv));
+            $wishlist->session_id = $session_id;
+            $wishlist->product_id = $product->product_id;
+            $wishlist->product_attributes = $attributes_csv;
+            $wishlist->last_updated = JFactory::getDate()->toMySQL();
+            $wishlist->store();
+
+            JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_LOGIN_TO_ADD_ITEM_TO_WISHLIST') );
+
+            Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+            $router = new TiendaHelperRoute();
+            $url = $redirect; // set above
+            $option_users_component = 'com_users';
+            if(!version_compare(JVERSION,'1.6.0','ge')) {
+                // Joomla! 1.5 code here
+                $option_users_component = 'com_user';
+            }
+            $redirect = "index.php?option=".$option_users_component."&view=login&return=".base64_encode( $url );
+            $redirect = JRoute::_( $redirect, false );
+            JFactory::getApplication()->redirect( $redirect );
+            return;
+        }
+
+
+        // add to wishlist
+        $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
+        // load from db in case the item is in the wishlist already and should be updated
+        $wishlist->load( array( 'user_id'=>$user_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv ) );
+        // set the values
+        $wishlist->user_id = $user_id;
+        $wishlist->product_id = $product->product_id;
+        $wishlist->product_attributes = $attributes_csv;
+        $wishlist->last_updated = JFactory::getDate()->toMySQL();
+
+        if (!$wishlist->save())
+        {
+            $this->messagetype = 'notice';
+            $this->message = JText::_('COM_TIENDA_COULD_NOT_ADD_TO_WISHLIST');
+        }
+        else
+        {
+            $url = "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') );
+            $this->messagetype = 'message';
+            $this->message = JText::sprintf( JText::_('COM_TIENDA_ADDED_TO_WISHLIST'), $url );
+        }
+
+        // redirect back to product detail page, with message saying "item added, click here to view wishlist"
+        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        return;
+    }
+    
 }
