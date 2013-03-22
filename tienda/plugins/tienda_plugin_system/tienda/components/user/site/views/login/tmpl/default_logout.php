@@ -22,7 +22,7 @@
 <tr>
 	<td align="center">
 		<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php echo JText::_('COM_TIENDA_LOGOUT'); ?>" />
+			<input type="submit" name="Submit" class="btn" value="<?php echo JText::_('COM_TIENDA_LOGOUT'); ?>" />
 		</div>
 	</td>
 </tr>

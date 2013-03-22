@@ -61,7 +61,7 @@
         </div>
         
         <div class="row submit" >   
-            <input id="filter_submit" name="filter_submit" type="submit" value="<?php echo JText::_('COM_TIENDA_SEARCH') ?>" class="button" />
+            <input id="filter_submit" name="filter_submit" type="submit" value="<?php echo JText::_('COM_TIENDA_SEARCH') ?>" class="btn" />
         </div>
         
         <div class="reset"></div>

@@ -96,7 +96,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
             {
                 case "button":
                     ?>
-                    <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="button" />
+                    <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="btn" />
                     <?php
                     break;
                 case "image":

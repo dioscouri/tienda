@@ -55,7 +55,7 @@ $lang->load( 'com_tienda', JPATH_SITE );
                     <span style="float: left">
                         <input type="checkbox" name="remember" class="inputbox" value="yes"/>
                     </span>
-                    <input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
+                    <input type="submit" name="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
                 </td>
             </tr>
             <?php endif; ?>
@@ -101,7 +101,7 @@ $lang->load( 'com_tienda', JPATH_SITE );
         </tr>
         <tr>
             <td>
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register" ); ?>'" value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
+                <input type="button" class="btn" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_user&view=register" ); ?>'" value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
             </td>
         </tr>
         </table>

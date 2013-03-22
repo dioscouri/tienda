@@ -74,7 +74,7 @@ class TiendaControllerSearch extends TiendaController
      * (non-PHPdoc)
      * @see tienda/admin/TiendaController#display($cachable)
      */
-    function display()
+    function display($cachable = false, $urlparams = false)
     {
         JRequest::setVar( 'view', $this->get('suffix') );
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
@@ -97,7 +97,7 @@ class TiendaControllerSearch extends TiendaController
             }
         }
         
-        parent::display();
+        parent::display($cachable, $urlparams);
     }	
 	
 }

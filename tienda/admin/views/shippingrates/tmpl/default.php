@@ -53,7 +53,7 @@
                         <input id="shipping_rate_handling" name="shipping_rate_handling" value="" />
                     </td>
             		<td>
-            			<input class="btn btn-primary" type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?>" class="button" />
+            			<input class="btn btn-primary" type="button" onclick="document.getElementById('task').value='createrate'; document.adminForm.submit();" value="<?php echo JText::_('COM_TIENDA_CREATE_RATE'); ?>" class="btn" />
             		</td>
             	</tr>
             	</tbody>

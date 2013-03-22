@@ -16,10 +16,10 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=carts&task=update'); ?>" method="post" name="adminForm" enctype="multipart/form-data">
 
         <div style="float: right;">
-            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>" name="begincheckout" type="submit" class="button" />
+            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>" name="begincheckout" type="submit" class="btn" />
         </div>
         <div style="float: left;">
-            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>';" value="<?php echo JText::_('COM_TIENDA_VIEW_SHOPPING_CART'); ?>" name="begincheckout" type="submit" class="button" />
+            <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>';" value="<?php echo JText::_('COM_TIENDA_VIEW_SHOPPING_CART'); ?>" name="begincheckout" type="submit" class="btn" />
         </div>
                                 
         <table class="adminlist" style="clear: both;">
@@ -70,11 +70,11 @@ Tienda::load( 'TiendaHelperBase', 'helpers._base' );
                 <tr>
                     <td colspan="20">
                         <div style="float: right;">
-                        <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>" name="begincheckout" type="submit" class="button" />
+                        <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=checkout'); ?>';" value="<?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>" name="begincheckout" type="submit" class="btn" />
                         </div>
                         
                         <div style="float: left;">
-                        <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>';" value="<?php echo JText::_('COM_TIENDA_VIEW_SHOPPING_CART'); ?>" name="begincheckout" type="submit" class="button" />
+                        <input onclick="window.parent.document.getElementById('sbox-window').close(); window.parent.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>';" value="<?php echo JText::_('COM_TIENDA_VIEW_SHOPPING_CART'); ?>" name="begincheckout" type="submit" class="btn" />
                         </div>                        
                     </td>
                 </tr>

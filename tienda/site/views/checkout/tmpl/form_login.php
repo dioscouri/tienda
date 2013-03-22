@@ -37,7 +37,7 @@
                 <td>
                 </td>
                 <td style="text-align: right;">
-                    <input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
+                    <input type="submit" name="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
                 </td>
             </tr>
             <tr>
@@ -102,7 +102,7 @@
                 <td>
                 </td>
                 <td style="text-align: right;">
-                    <input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
+                    <input type="submit" name="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_LOGIN') ?>" />
                 </td>
             </tr>
             <tr>

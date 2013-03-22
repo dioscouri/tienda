@@ -36,7 +36,7 @@
     <input type='hidden' name='cardexp' value='<?php echo @$vars->cardexp; ?>'>
     <input type='hidden' name='cardcvv' value='<?php echo @$vars->cardcvv; ?>'>
 
-    <input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_COMPLETE_ORDER'); ?>" id="submit_button" onclick="document.getElementById('submit_button').disabled = 1; this.form.submit();" />
+    <input type="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_COMPLETE_ORDER'); ?>" id="submit_button" onclick="document.getElementById('submit_button').disabled = 1; this.form.submit();" />
 
     <input type='hidden' name='order_id' value='<?php echo @$vars->order_id; ?>'>
     <input type='hidden' name='orderpayment_id' value='<?php echo @$vars->orderpayment_id; ?>'>

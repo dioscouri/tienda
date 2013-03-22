@@ -210,7 +210,7 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null, $disabled = array() )
+	public static function category($selected, $name = 'filter_parentid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = true, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = null, $disabled = array() )
  	{
 		// Build list
         $list = array();

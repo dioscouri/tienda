@@ -8,7 +8,7 @@ defined('_JEXEC') or die('Restricted access');
     	<?php echo JText::_('COM_TIENDA_TIENDA_2CHECKOUT_PREPARATION_MESSAGE'); ?>
     </div>
     <div class="prepayment_action">
-    	<div style="float: left; padding: 10px;"><input type="submit" class="button" value="<?php echo JText::_('COM_TIENDA_COM_TIENDA_TIENDA_2CHECKOUT_PREPARATION_MESSAGE'); ?>" /></div>
+    	<div style="float: left; padding: 10px;"><input type="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_COM_TIENDA_TIENDA_2CHECKOUT_PREPARATION_MESSAGE'); ?>" /></div>
         <div style="float: left; padding: 10px;"><?php echo "<b>".JText::_('COM_TIENDA_CHECKOUT_AMOUNT').":</b> ".TiendaHelperBase::currency( @$vars->total ); ?></div>
           <div style="clear: both;"></div>
     </div>    

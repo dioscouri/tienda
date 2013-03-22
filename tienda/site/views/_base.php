@@ -41,7 +41,7 @@ class TiendaViewBase extends DSCViewSite
 	    
 	    DSC::loadJQuery('latest', true, 'tiendaJQ');
 	    
-	    if ($this->defines->get('use_bootstrap', '1'))
+	    if ($this->defines->get('use_bootstrap', '0'))
 	    {
 	    	DSC::loadBootstrap();
 	    }

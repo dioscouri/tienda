@@ -169,7 +169,6 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     <?php endif; ?>
     
     <?php if (!empty($item->product_check_inventory) && !empty($this->invalidQuantity) ) : ?>
-        <!-- Not avilable in stock  --->  
         <div id='out_of_stock_<?php echo $item->product_id; ?>' class="out_of_stock"> 
           <?php echo JText::_('COM_TIENDA_OUT_OF_STOCK'); ?> 
         </div>

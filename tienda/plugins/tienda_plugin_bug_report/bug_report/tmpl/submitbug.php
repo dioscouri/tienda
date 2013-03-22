@@ -33,7 +33,7 @@
                     </td>
                 </tr>
             </table>
-            <input class="button" type="submit" value="<?php echo JText::_('COM_TIENDA_SEND'); ?>">
-            <input type="button" class="button" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=dashboard'); ?>'" value="<?php echo JText::_('COM_TIENDA_CANCEL'); ?>" />
+            <input class="btn" type="submit" value="<?php echo JText::_('COM_TIENDA_SEND'); ?>">
+            <input type="button" class="btn" onclick="window.location = '<?php echo JRoute::_('index.php?option=com_tienda&view=dashboard'); ?>'" value="<?php echo JText::_('COM_TIENDA_CANCEL'); ?>" />
     </fieldset>
 </form>

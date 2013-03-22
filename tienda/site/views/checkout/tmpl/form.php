@@ -61,9 +61,9 @@
         <tr>
             <td>            
             <?php if (Tienda::getInstance()->get('one_page_checkout')){ ?>	
-             	<input type="button" class="button" onclick="tiendaGetRegistrationForm( 'tienda_checkout_method', '', '' ); " value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
+             	<input type="button" class="btn" onclick="tiendaGetRegistrationForm( 'tienda_checkout_method', '', '' ); " value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
             <?php }else{?>	
-                <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
+                <input type="button" class="btn" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&register=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('COM_TIENDA_REGISTER'); ?>" />
             <?php }?>
             </td>
         </tr>
@@ -86,10 +86,10 @@
             <tr>
                 <td>
                 <?php  if (Tienda::getInstance()->get('one_page_checkout')){?>
-				<input id="tienda_btn_register" type="button" class="button" onclick="tiendaGetCustomerInfo( 'onShowCustomerInfo');" value="<?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>" />
+				<input id="tienda_btn_register" type="button" class="btn" onclick="tiendaGetCustomerInfo( 'onShowCustomerInfo');" value="<?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>" />
           
 				<?php }else{?>
-                    <input type="button" class="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>" />
+                    <input type="button" class="btn" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=checkout&guest=1&Itemid=".$this->checkout_itemid, false ); ?>'" value="<?php echo JText::_('COM_TIENDA_CHECKOUT_AS_A_GUEST'); ?>" />
                	<?php }?>
                 </td>
             </tr>

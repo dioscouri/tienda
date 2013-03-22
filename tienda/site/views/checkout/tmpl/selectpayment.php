@@ -149,7 +149,7 @@
         <?php endif; ?>
 
     <p>
-        <input type="button" class="button" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm ); tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_('COM_TIENDA_VALIDATING');?>' );" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_REVIEW_ORDER_BEFORE_SUBMITTING_PAYMENT'); ?>" />
+        <input type="button" class="btn" onclick="tiendaFormValidation( '<?php echo @$form['validation']; ?>', 'validationmessage', 'preparePayment', document.adminForm ); tiendaPutAjaxLoader( 'validationmessage', '<?php echo JText::_('COM_TIENDA_VALIDATING');?>' );" value="<?php echo JText::_('COM_TIENDA_CLICK_HERE_TO_REVIEW_ORDER_BEFORE_SUBMITTING_PAYMENT'); ?>" />
         <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=carts'); ?>"><?php echo JText::_('COM_TIENDA_RETURN_TO_SHOPPING_CART'); ?></a>
     </p>
         

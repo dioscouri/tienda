@@ -97,7 +97,7 @@ $image_addtocart = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::ge
                 {
                     case "button":
                         ?>
-                        <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="button" />
+                        <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_ADD_TO_CART'); ?>" type="button" class="btn btn-primary btn-addtocart" />
                         <?php
                         break;
                     case "image":

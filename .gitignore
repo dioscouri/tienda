@@ -4,3 +4,7 @@
 antconfig.txt
 
 *.txt
+
+tienda/site/controllers/amritasingh.sublime-project
+
+*.sublime-workspace
