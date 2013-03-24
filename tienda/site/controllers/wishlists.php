@@ -112,6 +112,45 @@ class TiendaControllerWishlists extends TiendaController
     }
     
     /**
+     * (non-PHPdoc)
+     * @see TiendaController::display()
+     */
+    function view( $cachable = false, $urlparams = '')
+    {
+        $model  = $this->getModel( $this->get('suffix') );
+        $id = $model->getId();
+        $wishlist = $model->getItem($id);
+
+        
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = TiendaHelperBase::getInstance( 'Route' );
+        $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
+        if (empty($checkout_itemid)) { $checkout_itemid = JRequest::getInt('Itemid'); }
+
+        if ($return = JRequest::getVar('return', '', 'method', 'base64')) 
+        {
+            $return = base64_decode($return);
+            if (!JURI::isInternal($return)) 
+            {
+                $return = '';
+            }
+        }
+     
+        $redirect = $return ? $return : JRoute::_( "index.php?option=com_tienda&view=products" );
+        
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $view->assign( 'return', $redirect );
+        $view->assign( 'checkout_itemid', $checkout_itemid );
+        $view->assign( 'wishlist', $wishlist );      
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setLayout('view');
+        $view->display();        
+        $this->footer();
+        return;
+    }
+    /**
      * 
      * Enter description here ...
      * @return return_type
@@ -131,13 +170,21 @@ class TiendaControllerWishlists extends TiendaController
 		$model  = $this->getModel( $this->get('suffix') );
         $user = JFactory::getUser();
         $cids = JRequest::getVar('cid', array(0), '', 'array');        
-        
-        foreach ($cids as $key=>$wishlist_id)
-        {
-            $row = $model->getTable();
+        $id = JRequest::getVar('id');     
+        FB::log('updating');
+        FB::log($cids);
 
-            $ids = array('user_id'=>$user->id, 'wishlist_id'=>$wishlist_id);
+       
+        foreach ($cids as $key=>$wishlist_id)
+        {   
+
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $row = DSCTable::getInstance('WishlistsItems', 'TiendaTable'); 
+
+            $ids = array('user_id'=>$user->id, 'wishlist_item_id'=>$wishlist_id);
+            FB::log( $ids);
 	        $row->load( $ids );
+              FB::log( $row);
 	        if (!empty($row->wishlist_id))
 	        {
 	            $remove = JRequest::getVar('remove');
@@ -161,15 +208,19 @@ class TiendaControllerWishlists extends TiendaController
 	            }
 	            
 	            $addtocart = JRequest::getVar('addtocart');
+
 	        	if ($addtocart)
 	            {
 	                $msg = JText::_('COM_TIENDA_WISHLIST_ITEMS_ADDED_TO_CART');
 	                
+                   FB::log('addingtocart');
+
 	            	$product_attributes = $row->product_attributes;
     	            $product_id = $row->product_id;
     	            
     	            if ($cartitem = $row->addtocart())
                     {
+                         var_dump($cartitem);
                         $row->delete();
                         
                         $item = new JObject;
@@ -187,12 +238,12 @@ class TiendaControllerWishlists extends TiendaController
 	            }
 	        }
         }
-        
+       
         $model->clearCache();
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute(); 
-        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&task=view&id=".$id."&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
        	$this->setRedirect( $redirect, $msg );
     }
     
@@ -493,5 +544,12 @@ class TiendaControllerWishlists extends TiendaController
         $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;
     }
+
+
+
+    
+
+
+
     
 }

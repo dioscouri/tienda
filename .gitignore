@@ -8,3 +8,5 @@ antconfig.txt
 tienda/site/controllers/amritasingh.sublime-project
 
 *.sublime-workspace
+
+tienda/admin/.DS_Store
