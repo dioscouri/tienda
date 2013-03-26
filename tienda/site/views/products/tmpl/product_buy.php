@@ -175,12 +175,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
     <?php endif; ?>
 
 		<?php if( $display_wishlist ): ?>
-        <?php // echo  Tienda::getClass('WishlistHelper', 'helpers.wishlists')->button($item->product_id); ?>
-
-    <div id='add_to_wishlist_<?php echo $item->product_id; ?>' class="add_to_wishlist">
-        <?php $onclick = "document.$formName.task.value='addtowishlist'; document.$formName.submit();"; ?>
-        <a href="javascript:void(0);" onclick="<?php echo $onclick; ?>"><?php echo JText::_('COM_TIENDA_ADD_TO_WISHLIST'); ?></a>
-    </div>
+        <?php echo  Tienda::getClass('WishlistHelper', 'helpers.wishlists')->button($item->product_id); ?>
 		<?php endif; ?>            
     </form>
 </div>

@@ -15,7 +15,7 @@ Tienda::load( 'TiendaTableEav', 'tables._baseeav' );
 
 class TiendaTableWishlistsItems extends TiendaTableEav 
 {	
-	 public $cache_enabled = false;
+
     /**
      * @param $db
      * @return unknown_type

@@ -62,6 +62,7 @@ class TiendaModelWishlists extends DSCModel
         {
         	$query->where('tbl.wishlist_id IN('.implode(",", $filter_ids).')' );
         }
+
 	}
 
 	protected function _buildQueryJoins(&$query)
@@ -87,7 +88,7 @@ class TiendaModelWishlists extends DSCModel
     	 $model->setState('wishlist_id', $item->wishlist_id);
     	 $item->items = $model->getList();
     	 $router = new TiendaHelperRoute();
-    	 $item->link = $url = "index.php?option=com_tienda&view=wishlists&task=view&id=".$item->wishlist_id."&Itemid=".$router->findItemid( array('view'=>'wishlists') );
+    	 $item->link = $url = "index.php?option=com_tienda&view=wishlists&id=".$item->wishlist_id."&Itemid=".$router->findItemid( array('view'=>'wishlists') );
     
     }
 
@@ -130,7 +131,7 @@ class TiendaModelWishlists extends DSCModel
 	
 	public function clearSessionIds() 
 	{
-	    $query = new TiendaQuery();
+	    $query = new DSCQuery();
 	    $query->update( '#__tienda_wishlists' );
 	    $query->set( "session_id = ''" );
 	    $query->where( "user_id > '0'" );
@@ -140,7 +141,24 @@ class TiendaModelWishlists extends DSCModel
 	    }	    
 	}
 
+	public function getButtonLists($user_id) {
+	
 
+	    $this->emptyState();
+	    $this->setState('filter_user', $user_id );
+	    $this->setState('order', 'tbl.default' );
+	    $this->setState('direction', 'DESC');
+	   
+	    $list = $this->getList();
+
+	    if (!count($list)) {
+	    	$list = array();
+	    }
+
+	    return $list;
+
+
+	}
 	
 	public function mergeUserItems( $user_id )
 	{

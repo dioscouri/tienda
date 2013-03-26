@@ -18,87 +18,66 @@ class WishlistHelper {
 		JHTML::_('script', 'wishlist.js', 'media/com_tienda/js/');
 	}
 
-    public function addButton($product_id,  $attribs = array() ) {
-		
-		if(empty($attribs['addclass'])) {
-			$attribs['addclass'] = 'addWishList wishlist btn btn-primary';
-		}
-		$text = JText::_('COM_TIENDA_ADD_TO_WISHLIST');
-		$html = '';
-		$html .= '';
-		$html .= '<a id="wishlistbutton-' . $product_id .'" class="'.$attribs['addclass'].'"  data-loading-text="Loading..."';
-		$html .= ' href="';
-		$html .= $this -> makeurl($product_id);
-		$html .= '">' . $text;
-		$html .= '</a>';
-
-		return $html;
-
-	}
-
-	public function removeButton($product_id, $attribs = array()) {
-		if(empty($attribs['removeclass'])) {
-			$attribs['removeclass'] = 'removeWishlist wishlist btn btn-danger';
-		}
-		$text = JText::_('COM_TIENDA_REMOVE_FROM_WISHLIST');
-
-
-		$html = ''; 
-		$html .= '<a id="wishlistbutton-' . $product_id. '" class="'.$attribs['removeclass'].'"  data-loading-text="Loading..."';
-		$html .= ' href="';
-		$html .= $this -> removeurl($product_id);
-		$html .= '">' . $text;
-		$html .= '</a>';
-
-		return $html;
-	}
+    
 
 	public function button($product_id, $attribs = array()) {
 		
-		
+		$html = '';
 		if(empty($attribs)){
 			$attribs['addclass'] =  'addWishList wishlist btn btn-primary' ;
 			$attribs['removeclass'] = 'removeWishlist wishlist btn btn-danger' ;
 		}
 		$user = JFactory::getUser();
 		if ($user -> id) {
-			DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-			$model = DSCModel::getInstance('Wishlists', 'TiendaModel');
-			
-			$pid = $model -> checkItem($product_id, $user -> id);
-		
-			if ($pid) {
-				return $this -> removeButton($product_id,$attribs);
-			} else {
-				return $this -> addButton($product_id, $attribs);
+
+			if(empty($attribs['addclass'])) {
+			$attribs['addclass'] = 'addWishList wishlist btn btn-primary';
 			}
+			if(empty($attribs['formName'])) {
+			$attribs['formName'] = 'adminForm_'.$product_id;
+			}
+			$formName = $attribs['formName'];
+
+			$onclick = "document.$formName.task.value='addtowishlist'; document.$formName.submit();";
+
+
+			$text = JText::_('COM_TIENDA_ADD_TO_WISHLIST');
+			$class = $attribs['addclass'];
+                
+              
+			$html .= '<div id="add_to_wishlist_'.$product_id.'" class="add_to_wishlist btn-group">';
+			$html .= '<a class="'.$class.'" href="javascript:void(0);" onclick="'.$onclick.'">'.$text.'</a>';
+
+			$html .=  $this->makeSelect($user -> id);
+			$html .= '</div>';
+					
 		} else {
 
 		}
+
+		return $html;
 	}
 
-	function makeurl($product_id) {
+	function makeSelect($user_id, $caret = true) {
 
-		if (!empty($product_id)) {
-		$href = '';
-		$href .= JURI::root();
-		$href .= 'index.php?option=com_tienda&view=wishlists&task=add&format=raw';
-		$href .= '&pid=' . $product_id;
-		}
-		
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR .'/components/com_tienda/models' );
+		$model = DSCModel::getInstance('Wishlists', 'TiendaModel');
+		$items = $model->getButtonLists($user_id);
+       
+        $html ='';
+	        if($caret){
+	        $html .= ' <button class="addWishList btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';	
+	        }
+        $html .= '<ul class="dropdown-menu">';
+	        foreach ($items as $item) {
+	         $checked= ''; if($item->default) {$checked= 'checked';}
+	         $html .= '<li><input type="radio" name="wishlist_id" value="'.$item->wishlist_id.'" '.$checked.'> '.$item->name.'</li>';
+	        }
 
-		return $href;
+
+        $html .= '</ul>';
+
+        return $html;
 	}
-	function removeurl($product_id) {
-
-		if (!empty($product_id)) {
-		$href = '';
-		$href .= JURI::root();
-		$href .= 'index.php?option=com_tienda&view=wishlists&task=remove&format=raw';
-		$href .= '&pid=' . $product_id;
-		}
-		
-
-		return $href;
-	}
+	
 }

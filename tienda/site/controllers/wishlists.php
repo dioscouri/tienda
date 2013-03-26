@@ -67,21 +67,27 @@ class TiendaControllerWishlists extends TiendaController
     function display( $cachable = false, $urlparams = '')
     {
         $model  = $this->getModel( $this->get('suffix') );
-        $model->clearSessionIds();
+        $id = $model->getId();
         $user = JFactory::getUser();        
-        $model->mergeUserItems( $user->id );
+      
         
         $this->_setModelState();
-        if ($items = $model->getList())
-        {
-            foreach ($items as $item)
-            {
-                $row = $model->getTable();
-                $row->bind( $item );
-                $item->available = $row->isAvailable(); 
-            }
-        }
+        $items = $model->getList();
         
+        foreach($items as $wishlist) {
+            if($wishlist->wishlist_id == $id) {
+               $wishlist->active = 1; 
+               $active = $wishlist;
+            }
+            if(empty($id) && $wishlist->default) {
+               $wishlist->active = 1; 
+               $active = $wishlist;
+            }
+           
+        }
+
+        
+
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = TiendaHelperBase::getInstance( 'Route' );
         $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
@@ -101,7 +107,8 @@ class TiendaControllerWishlists extends TiendaController
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->assign( 'return', $redirect );
         $view->assign( 'checkout_itemid', $checkout_itemid );
-      	$view->assign( 'items', $items );      
+      	$view->assign( 'items', $items );
+        $view->assign( 'active', $active );       
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
@@ -111,12 +118,27 @@ class TiendaControllerWishlists extends TiendaController
         return;
     }
     
-    /**
-     * (non-PHPdoc)
-     * @see TiendaController::display()
-     */
-    function view( $cachable = false, $urlparams = '')
-    {
+    
+    function save() {
+        $model  = $this->getModel( $this->get('suffix') );
+        $row = $model->getTable();
+
+        $row->load( $model->getId() );
+        $row->bind( JRequest::get('POST') );
+        $row->user_id = JFactory::getUser()->id;
+        if ( $row->save() ) {  
+        
+            $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists");
+            } else {
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists");
+        }
+
+        $this->setRedirect( $redirect, $msg );
+        return;
+    }
+
+
+    function edit() {
         $model  = $this->getModel( $this->get('suffix') );
         $id = $model->getId();
         $wishlist = $model->getItem($id);
@@ -145,11 +167,12 @@ class TiendaControllerWishlists extends TiendaController
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
-        $view->setLayout('view');
+        $view->setLayout('form');
         $view->display();        
         $this->footer();
         return;
     }
+
     /**
      * 
      * Enter description here ...
@@ -171,8 +194,7 @@ class TiendaControllerWishlists extends TiendaController
         $user = JFactory::getUser();
         $cids = JRequest::getVar('cid', array(0), '', 'array');        
         $id = JRequest::getVar('id');     
-        FB::log('updating');
-        FB::log($cids);
+       
 
        
         foreach ($cids as $key=>$wishlist_id)
@@ -182,9 +204,9 @@ class TiendaControllerWishlists extends TiendaController
             $row = DSCTable::getInstance('WishlistsItems', 'TiendaTable'); 
 
             $ids = array('user_id'=>$user->id, 'wishlist_item_id'=>$wishlist_id);
-            FB::log( $ids);
+           
 	        $row->load( $ids );
-              FB::log( $row);
+        
 	        if (!empty($row->wishlist_id))
 	        {
 	            $remove = JRequest::getVar('remove');

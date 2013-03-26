@@ -2211,7 +2211,8 @@ class TiendaControllerProducts extends TiendaController
     }
 
     public function addToWishlist()
-    {
+    {   
+      
         // verify form submitted by user
         JRequest::checkToken( ) or jexit( 'Invalid Token' );
 
@@ -2219,6 +2220,11 @@ class TiendaControllerProducts extends TiendaController
         $router = new TiendaHelperRoute();
 
         $product_id = JRequest::getInt( 'product_id' );
+        $wishlist_id = JRequest::getInt( 'wishlist_id' );
+
+        //TODO if wishlist_id is empty, we could create them a wishlist and assign this product to the new list. 
+
+
         $filter_category = JRequest::getInt( 'filter_category' );
         if ( !$itemid = $router->product( $product_id, $filter_category, true ) )
         {
@@ -2258,50 +2264,23 @@ class TiendaControllerProducts extends TiendaController
         $attributes_csv = implode( ',', $attributes );
 
         $user_id = JFactory::getUser()->id;
-        if (empty($user_id))
-        {
-            // if not logged in, add item to session wishlist, then redirect to login/registration page, and upon login (in user plugin) add item from session to wishlist
-            $session = JFactory::getSession();
-            $session_id = $session->getId();
-            $session->set( 'old_sessionid', $session_id );
-            	
-            $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
-            $wishlist->load(array('session_id'=>$session_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv));
-            $wishlist->session_id = $session_id;
-            $wishlist->product_id = $product->product_id;
-            $wishlist->product_attributes = $attributes_csv;
-            $wishlist->last_updated = JFactory::getDate()->toMySQL();
-            $wishlist->store();
-
-            JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_LOGIN_TO_ADD_ITEM_TO_WISHLIST') );
-
-            Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-            $router = new TiendaHelperRoute();
-            $url = $redirect; // set above
-            $option_users_component = 'com_users';
-            if(!version_compare(JVERSION,'1.6.0','ge')) {
-                // Joomla! 1.5 code here
-                $option_users_component = 'com_user';
-            }
-            $redirect = "index.php?option=".$option_users_component."&view=login&return=".base64_encode( $url );
-            $redirect = JRoute::_( $redirect, false );
-            JFactory::getApplication()->redirect( $redirect );
-            return;
-        }
-
+      
 
         // add to wishlist
-        $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
+        $wishlist = JTable::getInstance( 'WishlistsItems', 'TiendaTable' );
         // load from db in case the item is in the wishlist already and should be updated
-        $wishlist->load( array( 'user_id'=>$user_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv ) );
+        $wishlist->load( array('wishlist_id'=>$wishlist_id, 'user_id'=>$user_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv ) );
         // set the values
+        $wishlist->wishlist_id = $wishlist_id;
         $wishlist->user_id = $user_id;
         $wishlist->product_id = $product->product_id;
         $wishlist->product_attributes = $attributes_csv;
         $wishlist->last_updated = JFactory::getDate()->toMySQL();
 
+
+
         if (!$wishlist->save())
-        {
+        {   
             $this->messagetype = 'notice';
             $this->message = JText::_('COM_TIENDA_COULD_NOT_ADD_TO_WISHLIST');
         }
