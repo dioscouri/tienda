@@ -39,7 +39,7 @@
 <div class="wishlistitems">
     <?php if (!empty($items)) { ?>
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=wishlists&task=update&Itemid='.$router->findItemid( array('view'=>'wishlists') ) ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
-
+        <?php  echo DSCSocial::getInstance('facebook')->customsharebutton($url);?>
         <div style="float: right;">
         <a class="btn btn-primary btn-checkout" href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('COM_TIENDA_CHECK_CART_UPDATE'); ?>');">
             <?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>
@@ -74,7 +74,7 @@
             		$link = JRoute::_($link);
             	?>
             
-                <tr class="row<?php echo $k; ?>">
+                <tr class="row<?php echo $k; ?>" id="wishlistitem<?php echo $item->wishlist_item_id;?>">
                     <td style="width: 20px; text-align: center;">
                         <input type="checkbox" id="cb<?php echo $i; ?>" name="cid[<?php echo $item->wishlist_item_id; ?>]" value="<?php echo $item->wishlist_item_id; ?>" onclick="isChecked(this.checked);" />
                     </td>
@@ -120,12 +120,15 @@
 					    <?php endif; ?>                        
                     </td>
                     <td style="width: 50px; text-align: center;">
-                        <?php echo JHTML::_( 'date', $item->last_updated, '%b %d' ); ?>
+                        <?php echo JHTML::_( 'date', $item->last_updated ); ?>
                     </td>
                     <td style="width: 50px; text-align: center;">
                         <span class="<?php if (empty($item->available)) { echo "wishlist_item_unavailable"; } else { echo "wishlist_item_available"; } ?>">
                         <?php if (empty($item->available)) { echo JText::_('COM_TIENDA_WISHLIST_UNAVAILABLE'); } else { echo JText::_('COM_TIENDA_WISHLIST_AVAILABLE'); } ?>
                         </span>
+                    </td>
+                    <td style="width: 50px; text-align: center;">
+                       <a class='btn btn-danger removeWishlist' href="<?php echo 'index.php?option=com_tienda&view=wishlists&task=remove&id='.$item->wishlist_item_id  ?>"><?php echo JText::_('COM_TIENDA_REMOVE'); ?></a>
                     </td>
                 </tr>
             <?php ++$i; $k = (1 - $k); ?>

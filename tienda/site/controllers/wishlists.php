@@ -173,6 +173,30 @@ class TiendaControllerWishlists extends TiendaController
         return;
     }
 
+    function remove() {
+        $model  = $this->getModel( $this->get('suffix') );
+        $id = $model->getId();
+        $user = JFactory::getUser();
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $row = DSCTable::getInstance('WishlistsItems', 'TiendaTable');
+        $ids = array('user_id'=>$user->id, 'wishlist_item_id'=>$id);
+        $row->load( $ids ); 
+        $item = $row;
+
+        if ($return = $row->delete()) {
+            $dispatcher = JDispatcher::getInstance();
+            $dispatcher->trigger( 'onRemoveFromWishlist', array( $item ) );
+
+        $response = array();
+        $response['msg'] = 'Product Removed';
+        $response['success'] = 'true';
+        echo ( json_encode( $response ) );
+        }       
+
+    }
+
+
+
     /**
      * 
      * Enter description here ...
