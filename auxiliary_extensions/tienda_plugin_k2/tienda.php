@@ -155,8 +155,8 @@ class plgK2Tienda extends K2Plugin
 
 		//Handle unassignment
 		if(JRequest::getBool('tiendaRemove')){
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$product = JTable::getInstance('Products', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$product = DSCTable::getInstance('Products', 'TiendaTable');
 			$product->delete($plugins->get('tiendaproductID'));
 			$plugins->set('tiendaproductID', NULL);
 			$plugins->set('tiendaproductName', NULL);
@@ -176,8 +176,8 @@ class plgK2Tienda extends K2Plugin
 
 		//Handle form
 		if($tiendaParams->get('productName', NULL) && $tiendaParams->get('productSKU', NULL)){
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$product = JTable::getInstance('Products', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$product = DSCTable::getInstance('Products', 'TiendaTable');
 			$product->product_id = $tiendaParams->get('productID', NULL);
 			$product->product_name = $tiendaParams->get('productName', NULL);
 			$product->product_sku = $tiendaParams->get('productSKU', NULL);
@@ -194,7 +194,7 @@ class plgK2Tienda extends K2Plugin
 
 			$price = $tiendaParams->get('productPrice', NULL);
 			if($price){
-				$price = JTable::getInstance('ProductPrices', 'TiendaTable');
+				$price = DSCTable::getInstance('ProductPrices', 'TiendaTable');
 				$price->product_id = $product->product_id;
 				$price->product_price = $tiendaParams->get('productPrice', NULL);
 				$price->save();

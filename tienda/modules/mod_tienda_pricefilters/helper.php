@@ -37,14 +37,14 @@ class modTiendaPriceFiltersHelper extends JObject
         // load the config class
         Tienda::load( 'Tienda', 'defines' );
                 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+    	DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
     						
 		$ranges = array();    	
     	$link = '';
     	
         // get the model
-    	$model = JModel::getInstance( 'Products', 'TiendaModel' );   
+    	$model = DSCModel::getInstance( 'Products', 'TiendaModel' );   
         $app = JFactory::getApplication();
         $ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
         

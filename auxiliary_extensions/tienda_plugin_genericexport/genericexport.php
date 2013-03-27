@@ -75,9 +75,9 @@ class plgTiendaGenericExport extends JPlugin
         
       //// load the plugins
       JPluginHelper::importPlugin( 'tienda' );
-      JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');
+      DSCModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');
       $params = json_decode( base64_decode( $request['exportParams'] ) );
-      $model = JModel::getInstance($params->view,'TiendaModel');
+      $model = DSCModel::getInstance($params->view,'TiendaModel');
       $list = $model->getList();
 
       $arr = array();

@@ -231,8 +231,8 @@ class TiendaHelperBase extends DSCHelper
 		$options = (array) $options;
     if ( !$default_currency )
     {
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-			$model = JModel::getInstance('Currencies', 'TiendaModel');
+			DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+			$model = DSCModel::getInstance('Currencies', 'TiendaModel');
      	$model->SetId(TiendaConfig::getInstance()->get('default_currencyid', '1'));
      	$default_currency = $model->getItem();
 		}
@@ -275,7 +275,7 @@ class TiendaHelperBase extends DSCHelper
 	}
 
 	/**
-	 * Takes an elements object and converts it to an array that can be binded to a JTable object
+	 * Takes an elements object and converts it to an array that can be binded to a DSCTable object
 	 *
 	 * @param $elements is an array of objects with ->name and ->value properties, all posted from a form
 	 * @return array[name] = value

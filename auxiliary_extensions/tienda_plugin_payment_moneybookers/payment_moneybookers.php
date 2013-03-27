@@ -54,7 +54,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         $vars->action_url = $this->_getActionUrl();        
 
         // properties as specified in moneybookers gateway manual
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $data['order_id'] );
 	    $vars->is_recurring = $order->isRecurring();
 	    $items = $order->getItems();
@@ -92,15 +92,15 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
      	//Currency Static ? 
 	    
 	    
-	    JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
         $model->setState( 'select', 'tbl.orderitem_id' );
         $model->setState( 'filter_orderid', $vars->order_id );
         $model->setState( 'filter_recurs', '1' );          	  	   	
         $recurring_orderitem_id = $model->getResult();        	
 			
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $recurring_orderitem_table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $recurring_orderitem_table = DSCTable::getInstance( 'OrderItems', 'TiendaTable' );
 		$recurring_orderitem_table->load( $recurring_orderitem_id );    
 		$recurring_order_id = $recurring_orderitem_table->order_id;
 		$recurring_orderitem_final_price = 0;
@@ -108,7 +108,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		{    	
 			$recurring_orderitem_final_price = $recurring_orderitem_table->orderitem_final_price + $recurring_orderitem_table->orderitem_tax;
 		}
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $vars->orderpayment_id );
 	    // if order has both recurring and non-recurring items
 	    if ($vars->is_recurring && count($items) > '1')  //Mixed
@@ -120,7 +120,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
             $orderpayment->save();
                         
 			//$this->_sendErrorEmails($error, 'A0 -'.$orderpayment->orderpayment_amount.' = '.$order->order_total.' - '.$recurring_orderitem_final_price.' Recurring ID '.$recurring_order_id);
-            $order = JTable::getInstance('Orders', 'TiendaTable');
+            $order = DSCTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $data['order_id'] );
             $order->calculateTotals(); 
             $order->save();
@@ -155,7 +155,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	{	
 		//error_reporting(E_ALL);
 		// Prepare order
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         
 		// Use AJAX to show plugins that are available
 		JLoader::import( 'com_tienda.library.json', JPATH_ADMINISTRATOR.'/components' );
@@ -169,7 +169,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 			$guest = false;
 		}
 		
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
         
         // set the currency
 		$order->currency_id = Tienda::getInstance()->get( 'default_currencyid', '1' ); // USD is default if no currency selected
@@ -203,8 +203,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		
 		// get the order totals
 		
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$row = JTable::getInstance('OrderInfo', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$row = DSCTable::getInstance('OrderInfo', 'TiendaTable');
 		$row->order_id = $order->order_id;
 		$row->user_email = JFactory::getUser()->get('email');
 		
@@ -258,8 +258,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		}
 
 		// Save an orderpayment with an Incomplete status
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->order_id = $order->order_id;
 		$orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
 		$orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment
@@ -372,15 +372,15 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
                     if( $carts_helper->hasRecurringItem($user->id) && $checkout == '1' )
                     {
                     	// check if the cart has only 1 item  
-                    	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        				$model = JModel::getInstance( 'Carts', 'TiendaModel' );        
+                    	DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        				$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );        
         				$model->setState( 'filter_user', $user->id );
         				$items = $model->getList();
         				
         				if (count($items) == '1')
         				{
         					// check if the item in the cart is recurring product
-        					$model = JModel::getInstance( 'Products', 'TiendaModel' );
+        					$model = DSCModel::getInstance( 'Products', 'TiendaModel' );
         					$model->setId( $items[0]->product_id );  
         					$product = $model->getItem();
         					if( $product->product_recurs )
@@ -388,7 +388,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         						// get the order_id from the session set by the prePayment
 				                $mainframe = JFactory::getApplication();
 				                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
-				                $order = JTable::getInstance('Orders', 'TiendaTable');
+				                $order = DSCTable::getInstance('Orders', 'TiendaTable');
 				                $order->load( $order_id );
 				                $items = $order->getItems();
         						// prepare payment for the recurring item Click Here to View and Print an Invoice 
@@ -510,8 +510,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
     	echo $data[0];
      	// check that payment amount is correct for order_id 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
         
         if (empty($orderpayment->order_id))
@@ -536,7 +536,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors))
         {
@@ -603,8 +603,8 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 		$payment_details = $this->_getFormattedPaymentDetails($keyarray);
     	
      	// check that payment amount is correct for order_id 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
         if (empty($orderpayment->order_id))
         {
@@ -627,7 +627,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors)) 
         {
@@ -683,7 +683,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	        }
 	        // if no subscription exists for this subscr_id,
 	        // create new subscription for the user
-	        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+	        $subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
 	        $subscription->load( array('transaction_id'=>$data['rec_payment_id']));
 	        if (empty($subscription->subscription_id))
 	        {
@@ -749,7 +749,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	            }
 	            
 	            // add a sub history entry, email the user?
-	            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+	            $subscriptionhistory = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
 	            $subscriptionhistory->subscription_id = $subscription->subscription_id;
 	            $subscriptionhistory->subscriptionhistory_type = 'creation';
 	            $subscriptionhistory->created_datetime = $date->toMySQL();
@@ -791,7 +791,7 @@ class plgTiendaPayment_moneybookers extends TiendaPaymentPlugin
 	            }
 	            
 	            // add a sub history entry, email the user?
-	            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+	            $subscriptionhistory = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
 	            $subscriptionhistory->subscription_id = $subscription->subscription_id;
 	            $subscriptionhistory->subscriptionhistory_type = 'payment';
 	            $subscriptionhistory->created_datetime = $date->toMySQL();

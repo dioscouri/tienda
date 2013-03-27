@@ -53,7 +53,7 @@ class TiendaTableProductComments extends TiendaTable
 	    {
 	        if ($oid)
 	        {
-	            $row = JTable::getInstance('ProductComments', 'TiendaTable');
+	            $row = DSCTable::getInstance('ProductComments', 'TiendaTable');
 	            $row->load( $oid );
 	            $product_id = $row->product_id;
 	        }
@@ -82,7 +82,7 @@ class TiendaTableProductComments extends TiendaTable
 		    
 		    if ($doReconciliation) 
 		    {
-		        $product = JTable::getInstance('Products', 'TiendaTable');
+		        $product = DSCTable::getInstance('Products', 'TiendaTable');
 		        $product->load( $product_id );
 		        $product->updateOverallRating();
 		        if ( !$product->save() )
@@ -112,7 +112,7 @@ class TiendaTableProductComments extends TiendaTable
             if ($this->productcomment_enabled && empty($this->rating_updated))
             {
                 // get the product row
-                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product = DSCTable::getInstance('Products', 'TiendaTable');
                 $product->load( $this->product_id );
                 
                 $product->updateOverallRating();
@@ -133,7 +133,7 @@ class TiendaTableProductComments extends TiendaTable
                 // so remove it from the overall rating
                 
                 // get the product row
-                $product = JTable::getInstance('Products', 'TiendaTable');
+                $product = DSCTable::getInstance('Products', 'TiendaTable');
                 $product->load( $this->product_id );
                 
                 $product->updateOverallRating();

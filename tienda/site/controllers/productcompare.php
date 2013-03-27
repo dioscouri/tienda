@@ -161,7 +161,7 @@ class TiendaControllerProductCompare extends TiendaController
 		$response['msg'] .= '<ul>';
 		foreach($items as $item)
 		{
-			$table = JTable::getInstance('Products', 'TiendaTable');
+			$table = DSCTable::getInstance('Products', 'TiendaTable');
 			$table->load(array('product_id'=> $item->product_id));
 			$response['msg'] .= '<li>';
 			$response['msg'] .= '<a href="'.JRoute::_('index.php?option=com_tienda&view=products&task=view&id='.$item->product_id).'">';
@@ -281,7 +281,7 @@ class TiendaControllerProductCompare extends TiendaController
 		{
 			foreach ($quantities as $cart_id=>$value)
 			{
-				$carts = JTable::getInstance( 'Carts', 'TiendaTable' );
+				$carts = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 				$carts->load( array( 'cart_id'=>$cart_id) );
 				$product_id = $carts->product_id;
 				$value = (int) $value;
@@ -314,7 +314,7 @@ class TiendaControllerProductCompare extends TiendaController
 
 				if ($value > 1)
 				{
-					$product = JTable::getInstance( 'Products', 'TiendaTable' );
+					$product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 					$product->load( array( 'product_id'=>$product_id) );
 					if( $product->quantity_restriction )
 					{

@@ -30,8 +30,8 @@ class TiendaControllerCarts extends TiendaController
 		$items = $cart_helper->getProductsInfo();
 		
 		// create the order object
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$this->_order = JTable::getInstance('Orders', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$this->_order = DSCTable::getInstance('Orders', 'TiendaTable');
 	}
 	
     /**
@@ -133,7 +133,7 @@ class TiendaControllerCarts extends TiendaController
 	        
 	        // are there any enabled coupons?
 			$coupons_present = false;
-			$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+			$model = DSCModel::getInstance( 'Coupons', 'TiendaModel' );
 			$model->setState('filter_enabled', '1');
 			if ($coupons = $model->getList())
 			{
@@ -351,7 +351,7 @@ class TiendaControllerCarts extends TiendaController
         {          
             foreach ($quantities as $cart_id=>$value) 
             {
-                $carts = JTable::getInstance( 'Carts', 'TiendaTable' );
+                $carts = DSCTable::getInstance( 'Carts', 'TiendaTable' );
                 $carts->load( array( 'cart_id'=>$cart_id) );
                 $product_id = $carts->product_id;
                 $value = (int) $value;
@@ -385,7 +385,7 @@ class TiendaControllerCarts extends TiendaController
                 
               if ($value > 1)
               {
-	              $product = JTable::getInstance( 'Products', 'TiendaTable' );
+	              $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 	              $product->load( array( 'product_id'=>$product_id) );
 	              if( $product->quantity_restriction )
 	              {
@@ -661,7 +661,7 @@ class TiendaControllerCarts extends TiendaController
 		{
 			foreach ($values['coupons'] as $coupon_id)
 			{
-				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon = DSCTable::getInstance('Coupons', 'TiendaTable');
 				$coupon->load(array('coupon_id'=>$coupon_id));
 				$order->addCoupon( $coupon );
 			}
@@ -702,7 +702,7 @@ private function addCouponCodes($values)
 		{
 			foreach ($values['coupons'] as $coupon_id)
 			{
-				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon = DSCTable::getInstance('Coupons', 'TiendaTable');
 				$coupon->load(array('coupon_id'=>$coupon_id));
 				$order->addCoupon( $coupon );
 				if (empty($mult_enabled))
@@ -721,7 +721,7 @@ private function addCouponCodes($values)
 		$date = $date->toMysql();
 
 		// Per Order Automatic Coupons
-		$model = JModel::getInstance('Coupons', 'TiendaModel');
+		$model = DSCModel::getInstance('Coupons', 'TiendaModel');
 		$model->setState('filter_automatic', '1');
 		$model->setState('filter_date_from', $date);
 		$model->setState('filter_date_to', $date);
@@ -924,7 +924,7 @@ private function addCouponCodes($values)
 		{
 			foreach ($values['coupons'] as $coupon_id)
 			{
-				$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+				$coupon = DSCTable::getInstance('Coupons', 'TiendaTable');
 				$coupon->load(array('coupon_id'=>$coupon_id));
 				$order->addCoupon( $coupon );
 			}
@@ -951,7 +951,7 @@ private function addCouponCodes($values)
 	function saveOrderCoupons()
 	{
 		$order = $this->_order;
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 		$error = false;
 		$errorMsg = "";

@@ -20,12 +20,12 @@ class modTiendaComparedProductsHelper extends JObject
 	 */
     function getComparedProducts()
     {
-    	JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+    	DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 		$user_id = JFactory::getUser()->id;	
 		$session =  JFactory::getSession();
 		
-    	$model  = JModel::getInstance( 'ProductCompare', 'TiendaModel' );
+    	$model  = DSCModel::getInstance( 'ProductCompare', 'TiendaModel' );
      	$model->setState('filter_user', $user_id );
         
      	if (empty($this->user_id))
@@ -37,7 +37,7 @@ class modTiendaComparedProductsHelper extends JObject
 		
 		foreach($items as $item)
 		{		
-			$table = JTable::getInstance('Products', 'TiendaTable');
+			$table = DSCTable::getInstance('Products', 'TiendaTable');
 			$table->load(array('product_id'=> $item->product_id));
 		
 			$item->product_name = $table->product_name;

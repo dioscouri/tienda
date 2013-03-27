@@ -18,7 +18,7 @@ jimport('joomla.event.dispatcher');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelRegistration extends JModelForm
+class UsersModelRegistration extends DSCModelForm
 {
 	/**
 	 * @var		object	The user registration data.

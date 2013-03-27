@@ -99,7 +99,7 @@
                 </td>
                 <td style="text-align: center;">
                     <?php echo JText::_('COM_TIENDA_ZONES_ASSIGNED'); ?>:
-                    <?php $model = JModel::getInstance( 'Zonerelations', 'TiendaModel' ); ?>
+                    <?php $model = DSCModel::getInstance( 'Zonerelations', 'TiendaModel' ); ?>
                     <?php $model->setState( 'filter_geozoneid', $item->geozone_id); ?>
                     <?php echo $model->getTotal(); ?>
                     <br/>

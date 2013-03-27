@@ -45,7 +45,7 @@ class plgTiendaPayment_cmcic_v30 extends TiendaPaymentPlugin {
         
         $vars->order_id = $data['order_id'];
 
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load($data['order_id']);
         $sOptions = "";
 
@@ -174,7 +174,7 @@ class plgTiendaPayment_cmcic_v30 extends TiendaPaymentPlugin {
                 // get the order_id from the session set by the prePayment
                 $mainframe = JFactory::getApplication();
                 $order_id = (int) $mainframe->getUserState('tienda.order_id');
-                $order = JTable::getInstance('Orders', 'TiendaTable');
+                $order = DSCTable::getInstance('Orders', 'TiendaTable');
                 $order->load($order_id);
                 $items = $order->getItems();
 
@@ -255,8 +255,8 @@ class plgTiendaPayment_cmcic_v30 extends TiendaPaymentPlugin {
             $order_id = $CMCIC_bruteVars['reference'];
 
             // load the orderpayment record and set some values
-            JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
-            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            DSCTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+            $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load($orderpayment_id);
             if (empty($orderpayment_id) || empty($orderpayment->orderpayment_id)) {
                 $errors[] = JText::_('TIENDA_SIPS_INVALID ORDERID');
@@ -267,7 +267,7 @@ class plgTiendaPayment_cmcic_v30 extends TiendaPaymentPlugin {
             // set the order's new status and update quantities if necessary
             Tienda::load('TiendaHelperOrder', 'helpers.order');
             Tienda::load('TiendaHelperCarts', 'helpers.carts');
-            $order = JTable::getInstance('Orders', 'TiendaTable');
+            $order = DSCTable::getInstance('Orders', 'TiendaTable');
             $order->load($orderpayment->order_id);
             $retour = $CMCIC_bruteVars['code-retour'];
 

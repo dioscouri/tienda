@@ -37,11 +37,11 @@ class modTiendaManufacturersHelper extends JObject
         // load the config class
         Tienda::load( 'Tienda', 'defines' );
                 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+    	DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
         // get the model
-    	$model = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
+    	$model = DSCModel::getInstance( 'Manufacturers', 'TiendaModel' );
 
     	// TODO Make this depend on the current filter_category? 
     	

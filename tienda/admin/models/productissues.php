@@ -79,7 +79,7 @@ class TiendaModelProductIssues extends TiendaModelBase
 	}
 
 	/**
-	 * Gets an item for displaying (as opposed to saving, which requires a JTable object)
+	 * Gets an item for displaying (as opposed to saving, which requires a DSCTable object)
 	 * using the query from the model
 	 *
 	 * @return database->loadObject() record

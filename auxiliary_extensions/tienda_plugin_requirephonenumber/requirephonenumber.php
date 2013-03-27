@@ -46,7 +46,7 @@ class plgTiendaRequirePhonenumber extends TiendaPluginBase
         if (!empty($values['billing_address_id']))
         {
             // Load the address from the database
-            $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+            $model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
             $model->setId( $values['billing_address_id'] );
             $address = $model->getItem();
             

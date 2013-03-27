@@ -170,7 +170,7 @@ class TiendaModelWishlistsItems extends TiendaModelEav
 
 		if (empty( $this->_list ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$items = parent::getList($refresh);
 
 			// If no item in the list, return an array()
@@ -232,7 +232,7 @@ class TiendaModelWishlistsItems extends TiendaModelEav
 						if (empty($pao[$attrib_id]))
 						{
 							// load the attrib's object
-							$pao[$attrib_id] = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+							$pao[$attrib_id] = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 							$pao[$attrib_id]->load( $attrib_id );
 						}
 						$table = $pao[$attrib_id];
@@ -263,7 +263,7 @@ class TiendaModelWishlistsItems extends TiendaModelEav
 						// store a csv of the attrib names, built by Attribute name + Attribute option name
 						if (empty($pa[$table->productattribute_id]))
 						{
-							$pa[$table->productattribute_id] = JTable::getInstance('ProductAttributes', 'TiendaTable');
+							$pa[$table->productattribute_id] = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
 							$pa[$table->productattribute_id]->load( $table->productattribute_id );
 						}
 						$atable = $pa[$table->productattribute_id];

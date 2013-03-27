@@ -54,14 +54,14 @@ class TiendaHelperBillets extends TiendaHelperBase
         }
         
         // get the order
-        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
         
         // find the products in the order that impact billets ticket limit 
         foreach ($order->orderitems as $orderitem)
         {
-            $model = JModel::getInstance( 'Products', 'TiendaModel' );
+            $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
             $model->setId( $orderitem->product_id );
             $product = $model->getItem();
             
@@ -74,8 +74,8 @@ class TiendaHelperBillets extends TiendaHelperBase
             if ( $billets_ticket_limit_increase > '0' || $billets_ticket_limit_exclusion == '1' )
             {
                 // update userdata
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_billets/tables' );
-                $userdata = JTable::getInstance('Userdata', 'BilletsTable');
+                DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_billets/tables' );
+                $userdata = DSCTable::getInstance('Userdata', 'BilletsTable');
                 $userdata->load( array('user_id'=>$order->user_id) );
                 $userdata->user_id = $order->user_id;
                 $userdata->ticket_max = $userdata->ticket_max + $billets_ticket_limit_increase;
@@ -90,8 +90,8 @@ class TiendaHelperBillets extends TiendaHelperBase
             if ( $billets_hour_limit_increase > '0' || $billets_hour_limit_exclusion == '1' )
             {
                 // update userdata
-                JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_billets/tables' );
-                $userdata = JTable::getInstance('Userdata', 'BilletsTable');
+                DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_billets/tables' );
+                $userdata = DSCTable::getInstance('Userdata', 'BilletsTable');
                 $userdata->load( array('user_id'=>$order->user_id) );
                 $userdata->user_id = $order->user_id;
                 $userdata->hour_max = $userdata->hour_max + $billets_hour_limit_increase;

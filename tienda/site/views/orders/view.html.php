@@ -54,7 +54,7 @@ class TiendaViewOrders extends TiendaViewBase
         $shop_info = array();
         
    		 // Get the shop country name
-		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
+		$countryModel = DSCModel::getInstance('Countries', 'TiendaModel');
 		$countryModel->setId(Tienda::getInstance()->get('shop_country'));
 		$countryItem = $countryModel->getItem();
 		if($countryItem){
@@ -62,7 +62,7 @@ class TiendaViewOrders extends TiendaViewBase
 		}
 		
 		// Get the shop zone name
-		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
+		$zoneModel = DSCModel::getInstance('Zones', 'TiendaModel');
 		$zoneModel->setId(Tienda::getInstance()->get('shop_zone'));
 		$zoneItem = $zoneModel->getItem();
 		if($zoneItem){

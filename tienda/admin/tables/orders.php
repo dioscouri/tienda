@@ -155,7 +155,7 @@ class TiendaTableOrders extends TiendaTable
             // If the order_credit > 0.00, then save a usage in the order credits, with a - value of the credit amount
             if ($this->order_credit > '0.00' && $this->_adjustCredits)
             {
-                $credit = JTable::getInstance( 'Credits', 'TiendaTable');
+                $credit = DSCTable::getInstance( 'Credits', 'TiendaTable');
                 $credit->user_id = $this->user_id;
                 $credit->order_id = $this->order_id;
                 $credit->credittype_code = 'usage';
@@ -184,7 +184,7 @@ class TiendaTableOrders extends TiendaTable
     function addItem( $item )
     {
         Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-        $orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
+        $orderItem = DSCTable::getInstance('OrderItems', 'TiendaTable');
         if (is_array($item))
         {
             $orderItem->bind( $item );
@@ -209,8 +209,8 @@ class TiendaTableOrders extends TiendaTable
         }
         
         // check whether/not the item recurs
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'Products', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
         $model->setId( $orderItem->product_id );
         $product = $model->getItem();
         $orderItem->subscription_prorated = $product->subscription_prorated;
@@ -304,8 +304,8 @@ class TiendaTableOrders extends TiendaTable
     function addDownloads( $orderItem )
     {
         // if this orderItem product has productfiles that are enabled and only available when product is purchased
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $orderItem->product_id );
         $model->setState( 'filter_enabled', 1 );
         $model->setState( 'filter_purchaserequired', 1 );
@@ -318,7 +318,7 @@ class TiendaTableOrders extends TiendaTable
         // then add them to the order as a productdownloads table object
         foreach ($items as $item)
         {
-            $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+            $productDownload = DSCTable::getInstance('ProductDownloads', 'TiendaTable');
             $productDownload->product_id = $orderItem->product_id;
             $productDownload->productfile_id = $item->productfile_id;
             $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
@@ -338,7 +338,7 @@ class TiendaTableOrders extends TiendaTable
         // if this product is from a vendor other than store owner, track it
         if (!empty($orderItem->vendor_id) && empty($this->_vendors[$orderItem->vendor_id]))
         {
-            $orderVendor = JTable::getInstance('OrderVendors', 'TiendaTable');
+            $orderVendor = DSCTable::getInstance('OrderVendors', 'TiendaTable');
             $orderVendor->vendor_id = $orderItem->vendor_id;
             $this->_vendors[$orderItem->vendor_id] = $orderVendor;
         }
@@ -630,7 +630,7 @@ class TiendaTableOrders extends TiendaTable
             $total += $amount;
             
             // save the ordercoupons object
-            $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
+            $oc = DSCTable::getInstance('OrderCoupons', 'TiendaTable');
             $oc->coupon_id = $coupon->coupon_id;
             $oc->ordercoupon_name = $coupon->coupon_name;
             $oc->ordercoupon_code = $coupon->coupon_code;
@@ -708,14 +708,14 @@ class TiendaTableOrders extends TiendaTable
     function getItems()
     {
         // TODO once all references use this getter, we can do fun things with this method, such as fire a plugin event
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         // if empty($items) && !empty($this->order_id), then this is an order from the db,  
         // so we grab all the orderitems from the db  
         if (empty($this->_items) && !empty($this->order_id))
         {
             // TODO Do this?  How will this impact Site::TiendaControllerCheckout->saveOrderItems()?
             //retrieve the order's items
-            $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+            $model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
             $model->setState( 'filter_orderid', $this->order_id);
             $model->setState( 'order', 'tbl.orderitem_name' );
             $model->setState( 'direction', 'ASC' );
@@ -723,7 +723,7 @@ class TiendaTableOrders extends TiendaTable
             foreach ($orderitems as $orderitem)
             {
                 unset($table);
-                $table = JTable::getInstance( 'OrderItems', 'TiendaTable' );
+                $table = DSCTable::getInstance( 'OrderItems', 'TiendaTable' );
                 $table->load( $orderitem->orderitem_id );
                 $this->addItem( $table );
             }
@@ -857,7 +857,7 @@ class TiendaTableOrders extends TiendaTable
         // Set this if it isn't
         if (empty($this->_billing_geozones) && !empty($this->order_id))
         {
-            $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+            $orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
             $orderinfo->load( array('order_id'=>$this->order_id) );
             $orderinfo->zone_id = $orderinfo->billing_zone_id; 
             // TODO What to do about orders that exist from pre 0.5.0 without zone_id
@@ -877,7 +877,7 @@ class TiendaTableOrders extends TiendaTable
         // Set this if it isn't
         if (empty($this->_shipping_geozones) && !empty($this->order_id))
         {
-            $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+            $orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
             $orderinfo->load( array('order_id'=>$this->order_id) );
             $orderinfo->zone_id = $orderinfo->shipping_zone_id; 
             // TODO What to do about orders that exist from pre 0.5.0 without zone_id
@@ -1170,8 +1170,8 @@ class TiendaTableOrders extends TiendaTable
         if (empty($this->_recurringItem))
         {
             // get the item from the DB
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-            $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
             $model->setState( 'filter_orderid', $this->order_id );
             $model->setState( 'filter_recurs', '1' );
             if ($orderitems = $model->getList())
@@ -1411,7 +1411,7 @@ class TiendaTableOrders extends TiendaTable
                     $total += $amount;
                     
                     // save the ordercoupons object
-                    $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
+                    $oc = DSCTable::getInstance('OrderCoupons', 'TiendaTable');
                     $oc->coupon_id = $coupon->coupon_id;
                     $oc->ordercoupon_name = $coupon->coupon_name;
                     $oc->ordercoupon_code = $coupon->coupon_code;
@@ -1479,7 +1479,7 @@ class TiendaTableOrders extends TiendaTable
                 $total += $amount;
                 
                 // save the ordercoupons object
-                $oc = JTable::getInstance('OrderCoupons', 'TiendaTable');
+                $oc = DSCTable::getInstance('OrderCoupons', 'TiendaTable');
                 $oc->coupon_id = $coupon->coupon_id;
                 $oc->ordercoupon_name = $coupon->coupon_name;
                 $oc->ordercoupon_code = $coupon->coupon_code;

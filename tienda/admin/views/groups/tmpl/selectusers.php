@@ -106,7 +106,7 @@
 					<?php echo $item->email; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php $table = JTable::getInstance('UserGroups', 'TiendaTable'); ?>
+					<?php $table = DSCTable::getInstance('UserGroups', 'TiendaTable'); ?>
 					<?php
                     $keynames = array();
                     $keynames['user_id'] = $item->id;

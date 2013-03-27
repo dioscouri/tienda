@@ -624,7 +624,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 			$mailfrom = $mainframe->getCfg('mailfrom');
 		}
 		$vendor_name = $config->get('shop_owner_name', 'Admin');
-		$ProductQuantities_model = JTable::getInstance('ProductQuantities', 'TiendaTable');
+		$ProductQuantities_model = DSCTable::getInstance('ProductQuantities', 'TiendaTable');
 		$ProductQuantities_model->load( array( 'productquantity_id' => $productquantity_id ) );
 		$quantity = $ProductQuantities_model -> quantity;
 		$product_id = $ProductQuantities_model -> product_id;
@@ -639,7 +639,7 @@ class TiendaHelperEmail extends TiendaHelperBase
 			$productattributeoption_id_array = NULL;
 		}
 
-		$productsTable = JTable::getInstance('Products', 'TiendaTable');
+		$productsTable = DSCTable::getInstance('Products', 'TiendaTable');
 		$productsTable -> load( $product_id, true, false );
 		$product_name = $productsTable-> product_name;
 		$subject = "[" . $config -> get('shop_name', 'SHOP') . " - " . JText::sprintf('COM_TIENDA_LOW_STOCK_MAIL_SUBJECT_NAME_AND_ID', $product_name, $product_id) . "]";
@@ -651,11 +651,11 @@ class TiendaHelperEmail extends TiendaHelperBase
 		{
 			foreach ($productattributeoption_id_array as $productattributeoption_id)
 			{
-				$productattributeoptionsTable = JTable::getInstance('Productattributeoptions', 'TiendaTable');
+				$productattributeoptionsTable = DSCTable::getInstance('Productattributeoptions', 'TiendaTable');
 				$productattributeoptionsTable -> load($productattributeoption_id);
 				$productattribute_id = $productattributeoptionsTable -> productattribute_id;
 				$productattributeoption_name = $productattributeoptionsTable -> productattributeoption_name;
-				$productattributesTable = JTable::getInstance('Productattributes', 'TiendaTable');
+				$productattributesTable = DSCTable::getInstance('Productattributes', 'TiendaTable');
 				$productattributesTable -> load($productattribute_id);
 				$productattribute_name = $productattributesTable -> productattribute_name;
 				$text .= JText::sprintf( "COM_TIENDA_LOW_STOCK_MAIL_OPTION_DETAILS", $productattribute_name, $productattributeoption_name ) . "\n";

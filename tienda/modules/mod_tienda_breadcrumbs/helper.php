@@ -41,8 +41,8 @@ class modTiendaBreadcrumbsHelper extends JObject
     	}
     	    	
     	// get the root category
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();                
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $root = DSCTable::getInstance('Categories', 'TiendaTable')->getRoot();                
         $root_itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category($root->category_id, true);
 		
         $catRoot = $this->params->get('showcatroot', '1');
@@ -55,7 +55,7 @@ class modTiendaBreadcrumbsHelper extends JObject
         	$pathway .= " <a href='$link'>".$rootText.'</a> ';
         }
                
-		$table = JTable::getInstance('Categories', 'TiendaTable');
+		$table = DSCTable::getInstance('Categories', 'TiendaTable');
         $table->load( $catid );  
 
 		if (empty($table->category_id))

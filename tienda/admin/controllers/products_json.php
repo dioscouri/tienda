@@ -50,11 +50,11 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		$product_id = $submitted_values['new_relationship_productid_from'];
 		$productrelation_id = JRequest::getInt('productrelation_id');
 
-		$table = JTable::getInstance('ProductRelations', 'TiendaTable');
+		$table = DSCTable::getInstance('ProductRelations', 'TiendaTable');
 		$table->delete( $productrelation_id );
 		
-		JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->clearCache();
         
 		$response['error'] = '0';
@@ -92,7 +92,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		$relation_type = $submitted_values['new_relationship_type'];
 
 		// verify product id exists
-		$product = JTable::getInstance('Products', 'TiendaTable');
+		$product = DSCTable::getInstance('Products', 'TiendaTable');
 		$product->load( $product_to, true, false );
 		if (empty($product->product_id) || $product_id == $product_to)
 		{
@@ -140,14 +140,14 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 				}
 
 				// then add it, need to flip to/from
-				$table = JTable::getInstance('ProductRelations', 'TiendaTable');
+				$table = DSCTable::getInstance('ProductRelations', 'TiendaTable');
 				$table->product_id_from = $product_to;
 				$table->product_id_to = $product_id;
 				$table->relation_type = $rtype;
 				$table->save();
 				break;
 			default:
-				$table = JTable::getInstance('ProductRelations', 'TiendaTable');
+				$table = DSCTable::getInstance('ProductRelations', 'TiendaTable');
 				$table->product_id_from = $product_id;
 				$table->product_id_to = $product_to;
 				$table->relation_type = $relation_type;
@@ -155,8 +155,8 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 				break;
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->clearCache();
 		
 		$response['error'] = '0';
@@ -182,7 +182,7 @@ class TiendaControllerProductsJson extends TiendaControllerProducts implements T
 		Tienda::load( 'TiendaUrl', 'library.url' );
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load($product_id);
 
 		$response['default_image'] = TiendaHelperProduct::getImage($row->product_id, 'id', $row->product_name, 'full', false, false, array( 'height'=>80 ) );

@@ -33,7 +33,7 @@ class TiendaModelElementproduct extends DSCModelElement
 	public $clear_constant = 'COM_TIENDA_CLEAR_SELECTION';
 	
 	function getTable($name = '', $prefix = null, $options = array()) {
-		$table = JTable::getInstance('Products', 'TiendaTable');
+		$table = DSCTable::getInstance('Products', 'TiendaTable');
 		return $table;
 	}
 	

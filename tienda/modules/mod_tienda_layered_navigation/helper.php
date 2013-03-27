@@ -107,7 +107,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 					}
 					else
 					{
-						$pmodel = JModel::getInstance('Products', 'TiendaModel');
+						$pmodel = DSCModel::getInstance('Products', 'TiendaModel');
 						$pmodel->setState('filter_category', $item->category_id);
 						//make sure that it is enabled
 						$pmodel->setState('filter_enabled', '1');
@@ -600,7 +600,7 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		$this->_filter_price_to = $app->getUserStateFromRequest($ns.'.price_to', 'filter_price_to', '', '');
 		$this->_filter_rating = $app->getUserStateFromRequest($ns.'.rating', 'filter_rating', '0', 'int');
 
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Products', 'TiendaModel' );
 		$model->setState('filter_category', $this->_filter_category);
 
 		if($this->_multi_mode)

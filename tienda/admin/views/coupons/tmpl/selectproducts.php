@@ -65,7 +65,7 @@
 				<td style="text-align: center;">
 					<?php 
 					Tienda::load('TiendaTableProductCoupons', 'tables.productcoupons');
-					$table = JTable::getInstance('ProductCoupons', 'TiendaTable');
+					$table = DSCTable::getInstance('ProductCoupons', 'TiendaTable');
                     $keynames = array();
                     $keynames['product_id'] = $item->product_id;
                     $keynames['coupon_id'] = $row->coupon_id;

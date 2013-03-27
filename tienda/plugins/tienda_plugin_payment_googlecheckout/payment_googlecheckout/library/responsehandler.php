@@ -261,12 +261,12 @@
   	
   	function _getOrder($data)
   	{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 		$oredrPaymentId=$data['shopping-cart']['merchant-private-data']['orderPaymentId']['VALUE'];
 		$orderpayment->load($oredrPaymentId);
 		
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $orderpayment->order_id );
   		return $order;
   	}

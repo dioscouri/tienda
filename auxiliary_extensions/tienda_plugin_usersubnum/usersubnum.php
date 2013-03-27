@@ -65,7 +65,7 @@ class plgUserUserSubNum extends JPlugin {
 			// load the config class
 			Tienda::load( 'Tienda', 'defines' );
 			$notify = $this->params->get( 'notify_person', 1 );
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
 			$component = JRequest::getCmd( 'option' );
 
@@ -80,7 +80,7 @@ class plgUserUserSubNum extends JPlugin {
 			}
 
 			//save the subscription number
-			$tblUser = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+			$tblUser = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
 			$tblUser->load( array( 'user_id' => $user['id'] ) );
 			$tblUser->user_id = $user['id'];
 			$tblUser->sub_number = TiendaHelperSubscription::getNextSubNum();
@@ -103,7 +103,7 @@ class plgUserUserSubNum extends JPlugin {
  			// (tienda takes care about it automatically)
 			if( $create_address && $component != 'com_tienda' )
 			{
-				$tblAddress = JTable::getInstance( 'Addresses', 'TiendaTable' );				
+				$tblAddress = DSCTable::getInstance( 'Addresses', 'TiendaTable' );				
 				$tblAddress->user_id = $user['id'];
 				$tblAddress->addresstype_id = 1;
 				$tblAddress->address_name = $this->params->get( 'address_title', JText::_('Main Address Default') );

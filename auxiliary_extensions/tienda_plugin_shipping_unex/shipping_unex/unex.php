@@ -271,7 +271,7 @@ class TiendaUnexPrice extends TiendaUnex
             $serviceType = $details->Service->Code;            
             $rate_details = $details->EstimatedCharges;
             
-            $model = JModel::getInstance('UnexServices', 'TiendaModel');
+            $model = DSCModel::getInstance('UnexServices', 'TiendaModel');
             $model->setState('filter_code', (string)$serviceType );                    	
             $service = $model->getList();
             $service = $service[0];
@@ -487,7 +487,7 @@ class TiendaUnexShipment extends TiendaUnex
 	                    {
 	                    	foreach($tracking_numbers as $t)
 	                    	{
-	                    		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
+	                    		$row = DSCTable::getInstance('OrderShippings', 'TiendaTable');
 	                    		$row->load($ordershipping_id);
 	                    		
 	                    		$row->ordershipping_tracking_id = $row->ordershipping_tracking_id . $t->TrackingNumber . "\n";

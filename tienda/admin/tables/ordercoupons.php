@@ -39,7 +39,7 @@ class TiendaTableOrderCoupons extends TiendaTable
 	    {
 	        if ($this->_increase_coupon_uses) 
 	        {
-	            $coupon = JTable::getInstance( 'Coupons', 'TiendaTable' );
+	            $coupon = DSCTable::getInstance( 'Coupons', 'TiendaTable' );
 	            $coupon->load( array( 'coupon_id'=>$this->coupon_id ) );
 	            $coupon->coupon_uses = $coupon->coupon_uses + 1;
 	            if (!$coupon->save())

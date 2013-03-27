@@ -224,9 +224,9 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
     	$errors = array();
     	
     	// load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment_id = JRequest::getVar('orderpayment_id');
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         $orderpayment->transaction_details  = $data['key'];
         $orderpayment->transaction_id       = $data['order_number'];
@@ -244,7 +244,7 @@ class plgTiendaPayment_2checkout extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         $send_email = false;
         

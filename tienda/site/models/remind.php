@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 
-class TiendaModelRemind extends JModel
+class TiendaModelRemind extends DSCModel
 {
 	/**
 	 * Registry namespace prefix

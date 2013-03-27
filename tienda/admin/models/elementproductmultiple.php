@@ -25,7 +25,7 @@ jimport( 'joomla.application.component.model');
  * @subpackage	Content
  * @since		1.5
  */
-class TiendaModelElementProductMultiple extends JModel
+class TiendaModelElementProductMultiple extends DSCModel
 {
 	/**
 	 * Content data in category array

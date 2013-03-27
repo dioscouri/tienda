@@ -122,7 +122,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
             return $success;    
         }
         
-	    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+	    $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $orderid );
 		$order = $model->getItem();		
 			
@@ -160,7 +160,7 @@ class plgTiendaAward_alphauserpoints extends JPlugin
             }
             else 
             {            	
-            	$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+            	$model = DSCModel::getInstance( 'OrderPayments', 'TiendaModel' );
             	$model->setState( 'select', 'tbl.orderpayment_type');
 				$model->setState( 'filter_orderid', $orderid );
 				$orderpayment_type = $model->getResult();
@@ -285,9 +285,9 @@ class plgTiendaAward_alphauserpoints extends JPlugin
 			
 			if( empty( $rule_name ) )
 			{
-				JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
+				DSCTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
 				// save new points into alpha_userpoints_rules table
-				$row = JTable::getInstance('Rules');
+				$row = DSCTable::getInstance('Rules');
 				$row->id			   = NULL;
 				$row->rule_name		   = 'Tienda Award AlphaUserPoints';
 				$row->rule_description = 'Rule for awarding points on Tienda action';

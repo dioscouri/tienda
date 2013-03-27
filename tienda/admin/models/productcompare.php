@@ -156,8 +156,8 @@ class TiendaModelProductCompare extends TiendaModelBase
         $now = $date->toMySQL();
         
         // Update config to say this has been done already
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-        $config = JTable::getInstance( 'Config', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+        $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
         $config->load( array( 'config_name'=>'last_deleted_expired_sessionproductscompared') );
         $config->config_name = 'last_deleted_expired_sessionproductscompared';
         $config->value = $now;

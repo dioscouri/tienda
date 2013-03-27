@@ -110,7 +110,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         }
         
         // get the order
-        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
         
@@ -122,7 +122,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
         }
         
         // If here, create a commissions record
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_amigos/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_amigos/tables' );
         if (!class_exists('Amigos'))
         {
             JLoader::import( 'com_amigos.defines', JPATH_ADMINISTRATOR.'/components' );    
@@ -136,11 +136,11 @@ class TiendaHelperAmigos extends TiendaHelperBase
             
             if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
             {
-                $account = JTable::getInstance('Accounts', 'Table');
+                $account = DSCTable::getInstance('Accounts', 'Table');
             } 
                 else
             {
-                $account = JTable::getInstance('Accounts', 'AmigosTable');
+                $account = DSCTable::getInstance('Accounts', 'AmigosTable');
             }
             
             $account->load( $referral->accountid );
@@ -148,11 +148,11 @@ class TiendaHelperAmigos extends TiendaHelperBase
             // get payout type and value
             if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
             {
-                $payout = JTable::getInstance('Payouts', 'Table');
+                $payout = DSCTable::getInstance('Payouts', 'Table');
             } 
                 else
             {
-                $payout = JTable::getInstance('Payouts', 'AmigosTable');
+                $payout = DSCTable::getInstance('Payouts', 'AmigosTable');
             }
             
             $payout->load( $account->payoutid );
@@ -163,7 +163,7 @@ class TiendaHelperAmigos extends TiendaHelperBase
             $commission_value = 0;
             foreach ($order->orderitems as $orderitem)
             {
-                $model = JModel::getInstance( 'Products', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
                 $model->setId( $orderitem->product_id );
                 $product = $model->getItem();
                 
@@ -184,11 +184,11 @@ class TiendaHelperAmigos extends TiendaHelperBase
             // create commission record
             if (version_compare(Amigos::getInstance()->getVersion(), '1.2.1', '<')) 
             {
-                $commission = JTable::getInstance('Commissions', 'Table');
+                $commission = DSCTable::getInstance('Commissions', 'Table');
             } 
                 else
             {
-                $commission = JTable::getInstance('Commissions', 'AmigosTable');
+                $commission = DSCTable::getInstance('Commissions', 'AmigosTable');
             }
             
             $commission->accountid          = $account->id;

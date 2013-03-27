@@ -55,7 +55,7 @@ class TiendaModelProductQuantities extends TiendaModelBase
         	
 	public function getList($emptyState = true)
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		
 		$list = parent::getList($emptyState); 
 		
@@ -71,7 +71,7 @@ class TiendaModelProductQuantities extends TiendaModelBase
 	        	$product_attribute_names = array();
 	            foreach ($product_attributes as $pao_id)
 	            {
-	            	$pao = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+	            	$pao = DSCTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
 	            	$pao->load( $pao_id );
 	            	$product_attribute_names[] = JText::_( $pao->productattributeoption_name );
 	            }

@@ -190,7 +190,7 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
         
         foreach ( $orderItems as $item )
         {
-            $product = JTable::getInstance('Products', 'TiendaTable');
+            $product = DSCTable::getInstance('Products', 'TiendaTable');
             $product->load($item->product_id);
             if ($product->product_ships)
             {

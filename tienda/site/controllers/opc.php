@@ -50,8 +50,8 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         $view->assign( 'order', $order );
         $view->assign( 'user', $this->user );
     
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'addresses', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'addresses', 'TiendaModel' );
         $model->setState("filter_userid", $this->user->id);
         $model->setState("filter_deleted", 0);
         $addresses = $model->getList();
@@ -251,8 +251,8 @@ class TiendaControllerOpc extends TiendaControllerCheckout
 
         $order = &$this->_order;
         $order = $this->populateOrder();
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $dummyaddress = JTable::getInstance('Addresses', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $dummyaddress = DSCTable::getInstance('Addresses', 'TiendaTable');
         
         $billingAddress = unserialize( $session->get('tienda.opc.billingAddress') );
         $shippingAddress = unserialize( $session->get('tienda.opc.shippingAddress') );
@@ -627,8 +627,8 @@ class TiendaControllerOpc extends TiendaControllerCheckout
         }
         
         // Save an orderpayment with an Incomplete status
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->order_id = $order->order_id;
         $orderpayment->orderpayment_type = $orderpayment_type; // this is the payment plugin selected
         $orderpayment->transaction_status = $transaction_status; // payment plugin updates this field onPostPayment

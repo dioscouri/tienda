@@ -44,7 +44,7 @@ $image_addtocart = TiendaHelperImage::getLocalizedName("addcart.png", Tienda::ge
         $k = 0;         
         foreach ($items as $item): ?>
             <?php 
-            $model = JModel::getInstance('Products', 'TiendaModel'); 
+            $model = DSCModel::getInstance('Products', 'TiendaModel'); 
             $model->setId($item->product_id_to); 
             $item->full_object = $model->getItem(); 
             ?>

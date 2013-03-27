@@ -91,7 +91,7 @@ class TiendaViewConfig extends TiendaViewBase
 			$this->assign('required', $required );
 			
 		// Elements
-		$elementArticleModel 	= JModel::getInstance( 'ElementArticle', 'TiendaModel' );
+		$elementArticleModel 	= DSCModel::getInstance( 'ElementArticle', 'TiendaModel' );
 		$this->assign( 'elementArticleModel', $elementArticleModel );
 		
 			// terms

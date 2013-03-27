@@ -65,8 +65,8 @@ class TiendaControllerUsers extends TiendaController
 		$orderstates_array=explode(',', $orderstates_csv);
 
 		//Get Data From OrdersItems Model
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$modelOrders= JModel::getInstance( 'Orders', 'TiendaModel');
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$modelOrders= DSCModel::getInstance( 'Orders', 'TiendaModel');
 		$modelOrders->setState( 'filter_userid',  $row->id );
 		$modelOrders->setState( 'order', 'tbl.created_date' );
 		$modelOrders->setState( 'direction', 'DESC' );
@@ -86,7 +86,7 @@ class TiendaControllerUsers extends TiendaController
 		
 
 		//Get Data From Carts Model
-		$modelCarts = JModel::getInstance( 'Carts', 'TiendaModel' );
+		$modelCarts = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 		$modelCarts->setState( 'filter_user', $row->id );
 		$carts = $modelCarts->getList();
 		$view->assign( 'carts', $carts );
@@ -102,7 +102,7 @@ class TiendaControllerUsers extends TiendaController
 
 
 		//Subcription Data
-		$modelSubs= JModel::getInstance( 'subscriptions', 'TiendaModel');
+		$modelSubs= DSCModel::getInstance( 'subscriptions', 'TiendaModel');
 		$modelSubs->setState( 'filter_userid',  $row->id );
 		$modelSubs->setState( 'filter_enabled', 1 );
 		$modelOrders->setState( 'limit', '5' );
@@ -137,7 +137,7 @@ class TiendaControllerUsers extends TiendaController
 	function change_subnum()
 	{
 		$sub_num  = JRequest::getInt( 'sub_number', 0 );
-		$model = JModel::getInstance( 'Users', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Users', 'TiendaModel' );
 		$id = $model->getId();
 		$url = JRoute::_( 'index.php?option=com_tienda&controller=users&view=users&task=view&id='.$id, false );
 		

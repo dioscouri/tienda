@@ -134,9 +134,9 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $user = JFactory::getUser();
        
         // load the orderpayment record and set some values
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $orderpayment_id = $data['orderpayment_id'];
-	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+	    $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 	    $orderpayment->load( $orderpayment_id );
 	    $orderpayment->transaction_details  = $data['orderpayment_type'];
 	    $orderpayment->transaction_id       = $data['orderpayment_id'];
@@ -154,7 +154,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	    // set the order's new status and update quantities if necessary
 	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-	    $order = JTable::getInstance('Orders', 'TiendaTable');
+	    $order = DSCTable::getInstance('Orders', 'TiendaTable');
 	    $order->load( $orderpayment->order_id );
 	    
     	// check if user has enough points
@@ -216,7 +216,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
      	// successful payment
 	 	// if here, all OK
 		// create a pointhistory table object
-	   	$pointhistory = JTable::getInstance('PointHistory', 'AmbraTable');
+	   	$pointhistory = DSCTable::getInstance('PointHistory', 'AmbraTable');
 		// set properties
 		$pointhistory->user_id = $user->id;
 	  	$pointhistory->points = "-".$data['amount_points'];

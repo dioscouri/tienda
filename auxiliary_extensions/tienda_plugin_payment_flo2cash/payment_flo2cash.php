@@ -67,7 +67,7 @@ class plgTiendaPayment_flo2cash extends TiendaPaymentPlugin
         $vars->orderpayment_type = $this->_element;
 
         // set flo2cash checkout type
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
 
         $items = $order->getItems();
@@ -144,8 +144,8 @@ class plgTiendaPayment_flo2cash extends TiendaPaymentPlugin
 		$errors = array();
 		
 		// load the orderpayment record and set some values
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->load( $data['reference'] );
 		$orderpayment->transaction_details  = $data['key'];
 		$orderpayment->transaction_id       = $data['txn_id'];
@@ -153,7 +153,7 @@ class plgTiendaPayment_flo2cash extends TiendaPaymentPlugin
 		// set the order's new status and update quantities if necessary
 		Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 		Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $orderpayment->order_id );
 		
 		if($data['txn_status'] == '2')

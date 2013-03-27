@@ -63,7 +63,7 @@
 					<?php echo $item->product_name; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php $table = JTable::getInstance('EavAttributeEntities', 'TiendaTable'); ?>
+					<?php $table = DSCTable::getInstance('EavAttributeEntities', 'TiendaTable'); ?>
 					<?php
                     $keynames = array();
                     $keynames['eaventity_id'] = $item->product_id;

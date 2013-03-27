@@ -105,8 +105,8 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSCustomersXref') );
             $config->config_name = 'checkTableLSCustomersXref';
             $config->value = '1';
@@ -141,8 +141,8 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSOrdersXref') );
             $config->config_name = 'checkTableLSOrdersXref';
             $config->value = '1';
@@ -177,8 +177,8 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSProductsXref') );
             $config->config_name = 'checkTableLSProductsXref';
             $config->value = '1';
@@ -213,8 +213,8 @@ class TiendaHelperDiagnosticsLightspeed extends TiendaHelperDiagnostics
         if ($this->createTable( $table, $definition ))
         {
             // Update config to say this has been done already
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
             $config->load( array( 'config_name'=>'checkTableLSCategoriesXref') );
             $config->config_name = 'checkTableLSCategoriesXref';
             $config->value = '1';

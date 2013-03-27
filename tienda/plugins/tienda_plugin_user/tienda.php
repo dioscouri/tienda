@@ -81,9 +81,6 @@ class plgUserTienda extends JPlugin
         {
             $helper->mergeSessionCartWithUserCart( $old_sessionid, $user['id'] );
             
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-		    $wishlist_model = JModel::getInstance( 'Wishlists', 'TiendaModel' );
-            $wishlist_model->setUserForSessionItems( $old_sessionid, $user['id'] );
         }
             else
         {
@@ -121,8 +118,8 @@ class plgUserTienda extends JPlugin
     private function checkUserGroup()
     {
         $user = JFactory::getUser();
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $user_groups = JTable::getInstance('UserGroups', 'TiendaTable');
+        Tienda::load('TiendaTableUserGroups', 'tables.usergroups');
+        $user_groups = DSCTable::getInstance('UserGroups', 'TiendaTable');
         $user_groups->load(array('user_id'=>$user->id));
         
         if (empty($user_groups->group_id))

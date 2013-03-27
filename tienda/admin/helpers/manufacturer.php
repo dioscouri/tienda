@@ -46,8 +46,8 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 			if (!empty($id))
 			{
 				// load the item, get the filename, create tmpl
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-				$row = JTable::getInstance('Manufacturers', 'TiendaTable');
+				DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+				$row = DSCTable::getInstance('Manufacturers', 'TiendaTable');
 				$row->load( (int) $id );
 				$id = $row->manufacturer_image;
 
@@ -72,7 +72,7 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 	function calculateStatsOrder( $items )
 	{
 		$db = JFactory::getDbo();
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		Tienda::load( 'TiendaQuery' ,'library.query' );
 		$q = new TiendaQuery();
 		$q->select( 'manufacturer_id' );
@@ -90,7 +90,7 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 				$man_id = $res->manufacturer_id;
 			if( !isset( $result[ $man_id ] ) )
 			{
-				$model = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
+				$model = DSCModel::getInstance( 'Manufacturers', 'TiendaModel' );
 				$model->setId( $man_id );
 				if (!$man_item = $model->getItem()) {
 				    $man_item = new stdClass();

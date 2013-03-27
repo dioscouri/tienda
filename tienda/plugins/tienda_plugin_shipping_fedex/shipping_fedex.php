@@ -178,7 +178,7 @@ class plgTiendaShipping_Fedex extends TiendaShippingPlugin {
 		$packages = array();
 
 		foreach ($orderItems as $item) {
-			$product = JTable::getInstance('Products', 'TiendaTable');
+			$product = DSCTable::getInstance('Products', 'TiendaTable');
 			$product -> load($item -> product_id);
 			if ($product -> product_ships) {
 				$product_totalWeight = $product -> product_weight * $item -> orderitem_quantity;

@@ -71,7 +71,7 @@
 					<?php // echo $item->ordering; ?>
 				</td>
 				<td style="text-align: center;">
-					<?php $table = JTable::getInstance('ProductCategories', 'TiendaTable'); ?>
+					<?php $table = DSCTable::getInstance('ProductCategories', 'TiendaTable'); ?>
 					<?php
                     $keynames = array();
                     $keynames['product_id'] = $row->product_id;

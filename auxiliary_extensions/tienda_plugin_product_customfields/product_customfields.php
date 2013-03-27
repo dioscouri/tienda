@@ -119,7 +119,7 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
     		JError::raiseNotice('onAfterSaveOrderItem', JText::_('TIENDA_PRODUCT_CUSTOMFIELDS_UPDATEORDERITEM_FAILED').'(No item)');
     	}
     	
-		$orderitem = JTable::getInstance( 'OrderItems', 'TiendaTable' );
+		$orderitem = DSCTable::getInstance( 'OrderItems', 'TiendaTable' );
 		$orderitem->load( $item->orderitem_id );
 		if (empty($orderitem) || empty($item))
     	{
@@ -284,8 +284,8 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
             return array();
         }
         
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Products', 'TiendaModel' );
 		$model->setId( $product_id );
 
 		$item = $model->getItem();

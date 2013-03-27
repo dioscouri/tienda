@@ -63,7 +63,7 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 				if ($product_attributes = explode(',', $attribute_option -> product_attributes)) {
 					foreach ($product_attributes as $pao_id) {
 						if (empty($pao[$pao_id])) {
-							$pao[$pao_id] = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+							$pao[$pao_id] = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 							$pao[$pao_id] -> load($pao_id);
 						}
 						$table = $pao[$pao_id];
@@ -123,8 +123,8 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 		if (empty($id)) {
 			return array();
 		}
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		$model = JModel::getInstance('ProductAttributes', 'TiendaModel');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
+		$model = DSCModel::getInstance('ProductAttributes', 'TiendaModel');
 		$model -> setState('filter_product', $id);
 
 		$model -> setState('order', 'tbl.ordering');
@@ -138,8 +138,8 @@ class plgTiendaReport_inventory_levels extends TiendaReportPlugin {
 		if (empty($id)) {
 			return array();
 		}
-		JModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-		$model = JModel::getInstance('ProductQuantities', 'TiendaModel');
+		DSCModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
+		$model = DSCModel::getInstance('ProductQuantities', 'TiendaModel');
 		$model -> setState('filter_productid', $id);
 
 		$items = $model -> getList();

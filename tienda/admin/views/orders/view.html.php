@@ -134,7 +134,7 @@ class TiendaViewOrders extends TiendaViewBase
 		$this->assign('state', $state);
 
 		// get the data
-		// not using getItem here to enable ->checkout (which requires JTable object)
+		// not using getItem here to enable ->checkout (which requires DSCTable object)
 		$row = $model->getTable();
 		$row->load((int)$model->getId());
 		// TODO Check if the item is checked out and if so, setlayout to view

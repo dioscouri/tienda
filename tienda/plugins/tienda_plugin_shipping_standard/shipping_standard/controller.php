@@ -26,12 +26,12 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		parent::__construct();
 		if(version_compare(JVERSION,'1.6.0','ge')) { 
 			// Joomla! 1.6+ code
-			JModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/shipping_standard/models');
-			JTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/shipping_standard/tables');
+			DSCModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/shipping_standard/models');
+			DSCTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/shipping_standard/tables');
 		}
 		else {
-			JModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/models');
-			JTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/tables');
+			DSCModel::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/models');
+			DSCTable::addIncludePath(JPATH_SITE.'/plugins/tienda/shipping_standard/tables');
 		}
 		$this->registerTask( 'newMethod', 'newMethod' );
 	}
@@ -56,7 +56,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$values = JRequest::get('post');
 
 		$this->includeCustomTables();
-		$table = JTable::getInstance('ShippingMethods', 'TiendaTable');
+		$table = DSCTable::getInstance('ShippingMethods', 'TiendaTable');
 		 
 		$table->bind($values);
 		 
@@ -85,10 +85,10 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$sid = JRequest::getVar('sid');
 
 		$this->includeCustomTables();
-		$row = JTable::getInstance('ShippingMethods', 'TiendaTable');
+		$row = DSCTable::getInstance('ShippingMethods', 'TiendaTable');
 		$row->load($sid);
 
-		$model = JModel::getInstance('ShippingRates', 'TiendaModel');
+		$model = DSCModel::getInstance('ShippingRates', 'TiendaModel');
 		$model->setState('filter_shippingmethod', $sid);
 		$app = JFactory::getApplication();
 		$ns = $this->getNamespace();
@@ -137,7 +137,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$sid = TiendaShippingPlugin::getShippingId();
 		$this->includeCustomModel('ShippingMethods');
 
-		$model = JModel::getInstance('ShippingMethods', 'TiendaModel');
+		$model = DSCModel::getInstance('ShippingMethods', 'TiendaModel');
 		$model->setId((int)$sid);
 
 		$item = $model->getItem();
@@ -171,7 +171,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 		$this->message 		= '';
 
 		$model = $this->getModel('shippingmethods');
-		$row = JTable::getInstance('ShippingMethods', 'TiendaTable');
+		$row = DSCTable::getInstance('ShippingMethods', 'TiendaTable');
 
 		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
 		foreach (@$cids as $cid)

@@ -70,7 +70,7 @@ class TiendaModelReports extends TiendaModelBase
 	}
 	
 	/**
-	 * Gets an item for displaying (as opposed to saving, which requires a JTable object)
+	 * Gets an item for displaying (as opposed to saving, which requires a DSCTable object)
 	 * using the query from the model and the tbl's unique identifier
 	 *
 	 * @return database->loadObject() record

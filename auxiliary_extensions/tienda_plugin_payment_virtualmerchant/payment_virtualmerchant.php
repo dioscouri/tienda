@@ -135,13 +135,13 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
 		$vars->transaction_type = $this->params->get('transaction_type');
 		$vars->order_id	= $data['order_id'];
 
-		$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+		$orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
         $orderinfo->load( $vars->order_id );
 
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $vars->order_id );
 
-		$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 		$orderpayment->load( $vars->order_id );
 
 		$vars->address     = $orderinfo->billing_address_1;
@@ -303,8 +303,8 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
     	$send_email = false;
     	
     	// load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         if (empty($orderpayment_id) || empty($orderpayment->orderpayment_id))
         {
@@ -327,7 +327,7 @@ class plgTiendaPayment_virtualmerchant extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors)) 
         {

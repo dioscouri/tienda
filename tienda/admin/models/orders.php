@@ -294,8 +294,8 @@ class TiendaModelOrders extends TiendaModelBase
                 $order_currency = new DSCParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 
-                //JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-                //$cmodel = JModel::getInstance( 'Currencies', 'TiendaModel' );
+                //DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+                //$cmodel = DSCModel::getInstance( 'Currencies', 'TiendaModel' );
                 //$cmodel->setId($item->currency_id);
                 $item->currency = $currency_helper->load( $item->currency_id );
                 
@@ -327,25 +327,25 @@ class TiendaModelOrders extends TiendaModelBase
 	    if (empty( $this->_item ))
 	    {
 	        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
             $amigos = TiendaHelperBase::getInstance( 'Amigos' );
             $currency_helper = TiendaHelperBase::getInstance( 'Currency' );
             
             if ($item = parent::getItem( $pk, $refresh, $emptyState))
             {
                 // get the orderinfo
-                $item->orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+                $item->orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
                 $item->orderinfo->load(array('order_id'=>$item->order_id));
                 
                 //retrieve the order's items
-                $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.orderitem_name' );
                 $model->setState( 'direction', 'ASC' );
                 $item->orderitems = $model->getList($refresh);
                 foreach ($item->orderitems as $orderitem)
                 {
-                    $model = JModel::getInstance( 'OrderItemAttributes', 'TiendaModel' );
+                    $model = DSCModel::getInstance( 'OrderItemAttributes', 'TiendaModel' );
                     $model->setState( 'filter_orderitemid', $orderitem->orderitem_id);
                     $attributes = $model->getList();
                     $attributes_names = array();
@@ -366,7 +366,7 @@ class TiendaModelOrders extends TiendaModelBase
                 
                 
                 //retrieve the order's history
-                $model = JModel::getInstance( 'OrderHistory', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'OrderHistory', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.date_added' );
                 $model->setState( 'direction', 'ASC' );
@@ -374,28 +374,28 @@ class TiendaModelOrders extends TiendaModelBase
                 $item->link_view = 'index.php?option=com_tienda&view=orders&task=view&id='.$item->order_id;
                 
                 //retrieve the order's payments
-                $model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'OrderPayments', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.created_date' );
                 $model->setState( 'direction', 'ASC' );
                 $item->orderpayments = $model->getList($refresh);
                 
                 //retrieve the order's shippings
-                $model = JModel::getInstance( 'OrderShippings', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'OrderShippings', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.created_date' );
                 $model->setState( 'direction', 'ASC' );
                 $item->ordershippings = $model->getList($refresh);
                 
                 //retrieve the order's taxclasses
-                $model = JModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'OrderTaxClasses', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.ordertaxclass_description' );
                 $model->setState( 'direction', 'ASC' );
                 $item->ordertaxclasses = $model->getList($refresh);
 
                 // retrieve the order's taxrates
-                $model = JModel::getInstance( 'OrderTaxRates', 'TiendaModel' );
+                $model = DSCModel::getInstance( 'OrderTaxRates', 'TiendaModel' );
                 $model->setState( 'filter_orderid', $item->order_id);
                 $model->setState( 'order', 'tbl.ordertaxclass_id, tbl.ordertaxrate_level' );
                 $item->ordertaxrates = $model->getList($refresh);
@@ -406,7 +406,7 @@ class TiendaModelOrders extends TiendaModelBase
                 $order_currency = new DSCParameter($item->order_currency);
                 $order_currency = $order_currency->toArray();
                 
-                //$model = JModel::getInstance( 'Currencies', 'TiendaModel' );
+                //$model = DSCModel::getInstance( 'Currencies', 'TiendaModel' );
                 //$model->setId($item->currency_id);
                 $item->currency = $currency_helper->load( $item->currency_id );
                 
@@ -758,7 +758,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 */
 	protected function saveOrderItems()
 	{
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $order = $this->_order;
 	    $items = $order->getItems();
 	
@@ -793,7 +793,7 @@ class TiendaModelOrders extends TiendaModelBase
 	                $date = JFactory::getDate();
 	                // these are only for one-time payments that create subscriptions
 	                // recurring payment subscriptions are handled differently - by the payment plugins
-	                $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+	                $subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
 	                $subscription->user_id = $order->user_id;
 	                $subscription->order_id = $order->order_id;
 	                $subscription->product_id = $item->product_id;
@@ -848,7 +848,7 @@ class TiendaModelOrders extends TiendaModelBase
 	                }
 	
 	                // add a sub history entry, email the user?
-	                $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+	                $subscriptionhistory = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
 	                $subscriptionhistory->subscription_id = $subscription->subscription_id;
 	                $subscriptionhistory->subscriptionhistory_type = 'creation';
 	                $subscriptionhistory->created_datetime = $date->toMySQL();
@@ -865,9 +865,9 @@ class TiendaModelOrders extends TiendaModelBase
 	                {
 	                    unset($productattribute);
 	                    unset($orderitemattribute);
-	                    $productattribute = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+	                    $productattribute = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 	                    $productattribute->load( $attribute );
-	                    $orderitemattribute = JTable::getInstance('OrderItemAttributes', 'TiendaTable');
+	                    $orderitemattribute = DSCTable::getInstance('OrderItemAttributes', 'TiendaTable');
 	                    $orderitemattribute->orderitem_id = $item->orderitem_id;
 	                    $orderitemattribute->productattributeoption_id = $productattribute->productattributeoption_id;
 	                    $orderitemattribute->orderitemattribute_name = $productattribute->productattributeoption_name;
@@ -903,8 +903,8 @@ class TiendaModelOrders extends TiendaModelBase
 	{
 	    $order = $this->_order;
 	
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-	    $row = JTable::getInstance('OrderInfo', 'TiendaTable');
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    $row = DSCTable::getInstance('OrderInfo', 'TiendaTable');
 	    $row->order_id = $order->order_id;
 	    $row->user_email = @$this->_values['email_address'];
 	    $row->bind( $this->_orderinfoBillingAddressArray );
@@ -940,8 +940,8 @@ class TiendaModelOrders extends TiendaModelBase
 	    $order = $this->_order;
 	    $values = $this->_values;
 	    
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-	    $row = JTable::getInstance('OrderHistory', 'TiendaTable');
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    $row = DSCTable::getInstance('OrderHistory', 'TiendaTable');
 	    $row->order_id = $order->order_id;
 	    $row->order_state_id = $order->order_state_id;
 	
@@ -1009,13 +1009,13 @@ class TiendaModelOrders extends TiendaModelBase
 	{
 	    $order = $this->_order;
 	    $values = $this->_values;
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	
 	    $taxclasses = $order->getTaxClasses();
 	    foreach ($taxclasses as $taxclass)
 	    {
 	        unset($row);
-	        $row = JTable::getInstance('OrderTaxClasses', 'TiendaTable');
+	        $row = DSCTable::getInstance('OrderTaxClasses', 'TiendaTable');
 	        $row->order_id = $order->order_id;
 	        $row->tax_class_id = $taxclass->tax_class_id;
 	        $row->ordertaxclass_amount = $order->getTaxClassAmount( $taxclass->tax_class_id );
@@ -1027,7 +1027,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    foreach ($taxrates as $taxrate)
 	    {
 	        unset($row);
-	        $row = JTable::getInstance('OrderTaxRates', 'TiendaTable');
+	        $row = DSCTable::getInstance('OrderTaxRates', 'TiendaTable');
 	        $row->order_id = $order->order_id;
 	        $row->tax_rate_id = $taxrate->tax_rate_id;
 	        $row->ordertaxrate_rate = $taxrate->tax_rate;
@@ -1053,8 +1053,8 @@ class TiendaModelOrders extends TiendaModelBase
 	        $values = $this->_values;
 	    }
 	    
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-	    $row = JTable::getInstance('OrderShippings', 'TiendaTable');
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    $row = DSCTable::getInstance('OrderShippings', 'TiendaTable');
 	    $row->order_id = $order->order_id;
 	    $row->ordershipping_type = $values['shipping_plugin'];
 	    $row->ordershipping_price = $values['shipping_price'];
@@ -1084,7 +1084,7 @@ class TiendaModelOrders extends TiendaModelBase
 	{
 	    $order = $this->_order;
 	    $values = $this->_values;
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	
 	    $error = false;
 	    $errorMsg = "";
@@ -1167,9 +1167,9 @@ class TiendaModelOrders extends TiendaModelBase
 	    $this->_billingAddressArray = $billingAddressArray;
 	    $this->_shippingAddressArray = $shippingAddressArray;
 	
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-	    $billingAddress = JTable::getInstance('Addresses', 'TiendaTable');
-	    $shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    $billingAddress = DSCTable::getInstance('Addresses', 'TiendaTable');
+	    $shippingAddress = DSCTable::getInstance('Addresses', 'TiendaTable');
 	
 	    // set the order billing address
 	    $billingAddress->bind( $billingAddressArray );
@@ -1230,11 +1230,11 @@ class TiendaModelOrders extends TiendaModelBase
 	    {
 	        $addressArray = $this->filterArrayUsingPrefix($form_input_array, $input_prefix, '', false );
 	        // set the zone name
-	        $zone = JTable::getInstance('Zones', 'TiendaTable');
+	        $zone = DSCTable::getInstance('Zones', 'TiendaTable');
 	        $zone->load( @$addressArray['zone_id'] );
 	        $addressArray['zone_name'] = $zone->zone_name;
 	        // set the country name
-	        $country = JTable::getInstance('Countries', 'TiendaTable');
+	        $country = DSCTable::getInstance('Countries', 'TiendaTable');
 	        $country->load( @$addressArray['country_id'] );
 	        $addressArray['country_name'] = $country->country_name;
 	    }
@@ -1249,7 +1249,7 @@ class TiendaModelOrders extends TiendaModelBase
 	 */
 	public function retrieveAddressIntoArray( $address_id )
 	{
-	    $model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+	    $model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
 	    $model->setId($address_id);
 	    $item = $model->getItem();
 	    if (is_object($item))
@@ -1310,7 +1310,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    {
 	        foreach ($values['coupons'] as $coupon_id)
 	        {
-	            $coupon = JTable::getInstance('Coupons', 'TiendaTable');
+	            $coupon = DSCTable::getInstance('Coupons', 'TiendaTable');
 	            $coupon->load(array('coupon_id'=>$coupon_id));
 	            $order->addCoupon( $coupon );
 	            if (empty($mult_enabled))
@@ -1331,7 +1331,7 @@ class TiendaModelOrders extends TiendaModelBase
 	    $date = $date->toMysql();
 	
 	    // Per Order Automatic Coupons
-	    $model = JModel::getInstance('Coupons', 'TiendaModel');
+	    $model = DSCModel::getInstance('Coupons', 'TiendaModel');
 	    $model->setState('filter_automatic', '1');
 	    $model->setState('filter_date_from', $date);
 	    $model->setState('filter_date_to', $date);

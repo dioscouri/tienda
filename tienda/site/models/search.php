@@ -25,7 +25,7 @@ class TiendaModelSearch extends TiendaModelProducts
             $name = $this->getName();
         }
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         if ($table = $this->_createTable( $name, $prefix, $options ))  {
             return $table;
         }

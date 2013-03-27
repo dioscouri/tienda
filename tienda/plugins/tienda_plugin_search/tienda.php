@@ -121,9 +121,9 @@ class plgSearchTienda extends JPlugin
             return array();
         }
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'Products', 'TiendaModel' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
         $model->setState( 'filter_published', 1 );
         $model->setState( 'filter_published_date', JFactory::getDate()->toMySQL() );
         $phrase = strtolower($phrase);
@@ -217,9 +217,9 @@ class plgSearchTienda extends JPlugin
             return array();
         }
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'Products', 'TiendaModel' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
         $model->setState( 'filter_published', 1 );
         $model->setState( 'filter_published_date', JFactory::getDate()->toMySQL() );
         $match = strtolower($match);

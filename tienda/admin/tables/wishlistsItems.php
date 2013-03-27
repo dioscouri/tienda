@@ -273,8 +273,8 @@ class TiendaTableWishlistsItems extends TiendaTableEav
 		$item->vendor_id = $this->vendor_id;
 		$item->cartitem_params = $this->wishlistitem_params;
 		
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-		$product = JTable::getInstance( 'Products', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+		$product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 		$product->load( array( 'product_id' => $this->product_id ) );
 		
 		if ( empty( $product->product_enabled ) || empty( $product->product_id ) )

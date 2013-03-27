@@ -67,7 +67,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 		if (!isset($ordershipping_id))
 			return;
 
-		$row = JTable::getInstance('OrderShippings', 'TiendaTable');
+		$row = DSCTable::getInstance('OrderShippings', 'TiendaTable');
 		$row -> load($ordershipping_id);
 
 		if ($row -> ordershipping_tracking_id) {
@@ -170,7 +170,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 	 * @return unknown_type
 	 */
 	function sendShipmentAjax() {
-		$model = JModel::getInstance('Orders', 'TiendaModel');
+		$model = DSCModel::getInstance('Orders', 'TiendaModel');
 		$model -> setId(JRequest::getInt('order_id'));
 		$order = $model -> getItem();
 
@@ -219,7 +219,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 		$orderinfo = $order -> orderinfo;
 
 		foreach ($orderItems as $item) {
-			$product = JTable::getInstance('Products', 'TiendaTable');
+			$product = DSCTable::getInstance('Products', 'TiendaTable');
 			$product -> load($item -> product_id);
 			if ($product -> product_ships) {
 				$packageCount = $packageCount + 1;
@@ -258,7 +258,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 		$ups -> setDestStateOrProvinceCode($orderinfo -> shipping_zone_code);
 		$ups -> setDestPostalCode($orderinfo -> shipping_postal_code);
 
-		$country = JTable::getInstance('Countries', 'TiendaTable');
+		$country = DSCTable::getInstance('Countries', 'TiendaTable');
 		$country -> load($orderinfo -> shipping_country_id);
 
 		$ups -> setDestCountryCode($country -> country_isocode_2);
@@ -372,7 +372,7 @@ class plgTiendaShipping_ups extends TiendaShippingPlugin {
 		$packages = array();
 
 		foreach ($orderItems as $item) {
-			$product = JTable::getInstance('Products', 'TiendaTable');
+			$product = DSCTable::getInstance('Products', 'TiendaTable');
 			$product -> load($item -> product_id);
 			if ($product -> product_ships) {
 				$product_totalWeight = $product -> product_weight * $item -> orderitem_quantity;

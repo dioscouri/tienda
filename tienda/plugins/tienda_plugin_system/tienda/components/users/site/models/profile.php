@@ -18,7 +18,7 @@ jimport('joomla.event.dispatcher');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelProfile extends JModelForm
+class UsersModelProfile extends DSCModelForm
 {
 	/**
 	 * @var		object	The user profile data.
@@ -40,7 +40,7 @@ class UsersModelProfile extends JModelForm
 
 		if ($userId) {
 			// Initialise the table with JUser.
-			$table = JTable::getInstance('User');
+			$table = DSCTable::getInstance('User');
 
 			// Attempt to check the row in.
 			if (!$table->checkin($userId)) {
@@ -66,7 +66,7 @@ class UsersModelProfile extends JModelForm
 
 		if ($userId) {
 			// Initialise the table with JUser.
-			$table = JTable::getInstance('User');
+			$table = DSCTable::getInstance('User');
 
 			// Get the current user object.
 			$user = JFactory::getUser();

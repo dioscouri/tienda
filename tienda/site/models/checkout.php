@@ -17,7 +17,7 @@ class TiendaModelCheckout extends TiendaModelBase
 {
     function getTable($name='Config', $prefix='TiendaTable', $options = array())
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         return parent::getTable($name, $prefix, $options);
     }
 
@@ -127,8 +127,8 @@ class TiendaModelCheckout extends TiendaModelBase
         $apply_credit_amount = (float) $values['apply_credit_amount'];
         $user_id = $values['user_id'];
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $userinfo = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $userinfo = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
         $userinfo->load( array( 'user_id'=>$user_id ) );
         $userinfo->credits_total = (float) $userinfo->credits_total;
         if ($apply_credit_amount > $userinfo->credits_total)
@@ -147,8 +147,8 @@ class TiendaModelCheckout extends TiendaModelBase
         
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
         $userHelper = new TiendaHelperUser();
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $userinfo = DSCTable::getInstance('UserInfo', 'TiendaTable');
         
         $user_id = $values["user_id"];
         $create_account = ($values["checkout_method"] == 'register') ? true : false;

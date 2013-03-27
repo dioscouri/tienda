@@ -501,8 +501,8 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $data = JRequest::get('post');
         
         // get order information
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         if ( empty($order->order_id) ) {
             return JText::_('Tienda Sagepay Message Invalid Order');
@@ -539,18 +539,18 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         $sagepay_useremail             = empty($user->id) ? $submitted_email : $user->email;
         
         // order info
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['orderpayment_id'] );
-        $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+        $orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
         $orderinfo->load( array( 'order_id'=>$data['order_id']) );
-        $billingzone = JTable::getInstance('Zones', 'TiendaTable');
+        $billingzone = DSCTable::getInstance('Zones', 'TiendaTable');
         $billingzone->load( $orderinfo->billing_zone_id );
-		$currency = JTable::getInstance('Currencies', 'TiendaTable');
+		$currency = DSCTable::getInstance('Currencies', 'TiendaTable');
 		$currency->load( array( 'currency_id'=>$order->currency_id) );
-		$country = JTable::getInstance('Countries', 'TiendaTable');
+		$country = DSCTable::getInstance('Countries', 'TiendaTable');
 		$country->load( array( 'country_id'=>$orderinfo->billing_country_id) );
 		
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
@@ -812,8 +812,8 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         // verify & create payment
         // =======================
         // check that payment amount is correct for order_id
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load(array('order_id'=>$submitted_values['VendorTxCode']));
 
         $orderpayment->transaction_details  = $resp;
@@ -823,7 +823,7 @@ class plgTiendaPayment_sagepay extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $submitted_values['VendorTxCode'] );
         if (count($errors)) 
         {

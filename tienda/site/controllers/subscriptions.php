@@ -78,7 +78,7 @@ class TiendaControllerSubscriptions extends TiendaController
      */
     function unsubscribe()
     {  
-        $row = JTable::getInstance('Subscriptions', 'TiendaTable');
+        $row = DSCTable::getInstance('Subscriptions', 'TiendaTable');
         $id=JRequest::getInt('id');
         $row->load($id);
         $row->subscription_enabled="0";

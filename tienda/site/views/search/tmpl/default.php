@@ -115,7 +115,7 @@
                             if (empty($geozones))
                             {
                                 // use the default
-                                $table = JTable::getInstance('Geozones', 'TiendaTable');
+                                $table = DSCTable::getInstance('Geozones', 'TiendaTable');
                                 $table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
                                 $geozones = array( $table );
                             }

@@ -84,7 +84,7 @@ class TiendaTableProductAttributes extends TiendaTable
         {
             if ($oid)
             {
-                $row = JTable::getInstance('ProductAttributes', 'TiendaTable');
+                $row = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
                 $row->load( $oid );
                 $product_id = $row->product_id;
             }

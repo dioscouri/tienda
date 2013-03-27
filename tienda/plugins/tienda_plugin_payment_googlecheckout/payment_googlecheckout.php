@@ -96,7 +96,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		 * get all necessary data and prepare vars for assigning to the template
 		 */
 		$vars = new JObject();
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $data['order_id'] );
 
 		$items = $order->getItems();
@@ -139,8 +139,8 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			$couponIds = $data['coupons'];
 		
 			//NOTE: checking the coupon if its valid for the user is already done in the controller
-       		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-       		$model = JModel::getInstance( 'Coupons', 'TiendaModel' );
+       		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+       		$model = DSCModel::getInstance( 'Coupons', 'TiendaModel' );
 			$model->setState( 'filter_ids', $couponIds );					
         	$coupons = $model->getList();   	
 			if(!empty($coupons))
@@ -464,8 +464,8 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 		function _saveTransaction($data, $error='')
 		{
 			$errors = array();
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 			$oredrPaymentId=$data['shopping-cart']['merchant-private-data']['orderPaymentId']['VALUE'];
 		
 			$orderpayment->load($oredrPaymentId);
@@ -485,7 +485,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			// set the order's new status and update quantities if necessary
 			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 			Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		
 			$order->load( $orderpayment->order_id );
 			// if the transaction has the "pending" status,
@@ -533,8 +533,8 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 				$errors[] = $error;
 			}
 			// load the orderpayment record and set some values
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 				
 			$googleOrderNumber=$data['google-order-number']['VALUE'];
 				
@@ -557,7 +557,7 @@ class plgTiendaPayment_googlecheckout extends TiendaPaymentPlugin
 			// set the order's new status and update quantities if necessary
 			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 			Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order = DSCTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $orderpayment->order_id );
 			if (count($errors))
 			{

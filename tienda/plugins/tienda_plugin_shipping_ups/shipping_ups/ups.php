@@ -421,7 +421,7 @@ class TiendaUpsShipment extends TiendaUps
                     // Save Tracking Numbers & Images
                     if($results)
                     {
-                    	$row = JTable::getInstance('OrderShippings', 'TiendaTable');
+                    	$row = DSCTable::getInstance('OrderShippings', 'TiendaTable');
                     	$row->load($ordershipping_id);
                     	
                     	// Structure: Shipment_id\nTracking_id_1\nTracking_id_2\n....

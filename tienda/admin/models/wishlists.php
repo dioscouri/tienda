@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaModelEav', 'models._baseeav' );
+Tienda::load( 'TiendaModelWishlistsItems', 'models.wishlistsitems' );
 
 class TiendaModelWishlists extends DSCModel
 {
@@ -82,8 +83,6 @@ class TiendaModelWishlists extends DSCModel
 	protected function prepareItem( &$item, $key=0, $refresh=false )
     {	
     	 parent::prepareItem( $item, $key, $refresh );
-    	 DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-     	 DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
     	 $model = DSCModel::getInstance('WishlistsItems', 'TiendaModel');
     	 $model->setState('wishlist_id', $item->wishlist_id);
     	 $item->items = $model->getList();

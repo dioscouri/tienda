@@ -44,8 +44,8 @@ class TiendaGenericExporterModelBase extends JObject
 	 */
 	function loadDataList()
 	{	 
-      	JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');     
-      	$model = JModel::getInstance($this->getName(),'TiendaModel');
+      	DSCModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/models');     
+      	$model = DSCModel::getInstance($this->getName(),'TiendaModel');
       	$this->_setModelState($model);
     	$items = $model->getList($model);
  	

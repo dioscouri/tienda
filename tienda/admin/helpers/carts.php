@@ -26,8 +26,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$session = JFactory::getSession();
 		$user = JFactory::getUser();
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$table = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 
 		// first, determine if this product+attribute+vendor(+additonal_keys) exists in the cart
 		// if so, update quantity
@@ -178,8 +178,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$date = JFactory::getDate();
 		$session = JFactory::getSession();
 	  
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 		$model->setState( 'filter_user_leq', '0' );
 		$model->setState( 'filter_session', $session_id );
 		$session_cartitems = $model->getList();
@@ -187,8 +187,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		if (!empty($session_cartitems))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$table = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 			foreach ($session_cartitems as $session_cartitem)
 			{
 				$keynames = array();
@@ -272,8 +272,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$session_id2use = $session->getId();
 			}
 				
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-			$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+			DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+			$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 			$model->setState( 'filter_user', '0' );
 			$model->setState( 'filter_session', $session_id2use );
 			$cart = $model->getList();
@@ -283,10 +283,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 
 		if (!empty($cart))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			foreach ($cart as $item)
 			{
-				$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+				$table = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 				$user_id = empty($new_userid) ? JFactory::getUser()->id : $new_userid;
 				$item->user_id = (empty($item->user_id)) ? $user_id : $item->user_id;
 
@@ -395,10 +395,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 	public static function removeOrderItems( $order_id )
 	{
 		// load the order to get the user_id
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$cart = JTable::getInstance( 'Carts', 'TiendaTable' );
-		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$cart = DSCTable::getInstance( 'Carts', 'TiendaTable' );
+		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$order = $model->getItem();
 		if (!empty($order->order_id))
@@ -422,14 +422,14 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	function fixQuantities()
 	{
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$product = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
-		$tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$product = DSCTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+		$tableProduct = DSCTable::getInstance( 'Products', 'TiendaTable' );
 
 		$suffix = strtolower( TiendaHelperCarts::getSuffix() );
-		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 
 		switch ($suffix)
 		{
@@ -483,7 +483,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 								}
 							}
 							// load table to adjust quantity in cart
-							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+							$table = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 							//$table->load($keynames);
 							$table->load( array('cart_id' => $cartitem->cart_id ), true, false );
 							$table->product_id = $cartitem->product_id;
@@ -508,7 +508,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 							JFactory::getApplication()->enqueueMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE_QUANTITY", $cartitem->product_name, $cartitem->product_qty ));
 
 							// load table to adjust quantity in cart
-							$table = JTable::getInstance( 'Carts', 'TiendaTable' );
+							$table = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 							$table->load($keynames, true, false);
 							$table->product_id = $cartitem->product_id;
 							$table->product_attributes = $cartitem->product_attributes;
@@ -535,10 +535,10 @@ class TiendaHelperCarts extends TiendaHelperBase
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 	  
-		JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$model = JModel::getInstance( 'Carts', 'TiendaModel');
+		DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel');
 
 		$session = JFactory::getSession();
 		$session_id = $session->getId();
@@ -560,7 +560,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		foreach ($cartitems as $cartitem)
 		{
 			unset($productModel);
-			$productModel = JModel::getInstance('Products', 'TiendaModel');
+			$productModel = DSCModel::getInstance('Products', 'TiendaModel');
 			$filter_group = $user_helper->getUserGroup($user->id, $cartitem->product_id);
 			$productModel->setState('filter_group', $filter_group );
 			$productModel->setId($cartitem->product_id);
@@ -606,7 +606,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					}
 				}
 				// TODO Push this into the orders object->addItem() method?
-				$orderItem = JTable::getInstance('OrderItems', 'TiendaTable');
+				$orderItem = DSCTable::getInstance('OrderItems', 'TiendaTable');
 				$orderItem->cart_id													= $cartitem->cart_id;
 				$orderItem->product_id                      = $productItem->product_id;
 				$orderItem->orderitem_sku                   = $cartitem->product_sku;
@@ -659,9 +659,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 	function hasRecurringItem( $cart_id, $id_type='user_id' )
 	{
 		// get the cart's items
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 
 		switch ($id_type)
 		{
@@ -707,12 +707,12 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$ordered_items = array();
 		$active_subs = array();
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		// does this cart item have any dependencies?
 		// if not, return true
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState('filter_product_from', $item->product_id);
 		$model->setState('filter_relations', array('requires', 'requires_past', 'requires_current') );
 		if (!$relations = $model->getList())
@@ -721,7 +721,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 		}
 
 		// get the cart's items as well as user info (if logged in)
-		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 		switch ($id_type)
 		{
 			case "session":
@@ -733,7 +733,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 			default:
 				$model->setState('filter_user', $cart_id);
 				// get the user's ordered items
-				$oi_model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
+				$oi_model = DSCModel::getInstance( 'OrderItems', 'TiendaModel' );
 				$oi_model->setState( 'filter_userid', $cart_id );
 				if ($oi = $oi_model->getList())
 				{
@@ -743,7 +743,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 					}
 				}
 				// get the user's active subscriptions
-				$subs_model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+				$subs_model = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
 				$subs_model->setState("filter_userid", $cart_id );
 				$subs_model->setState("filter_enabled", 1);
 				if ($subs = $subs_model->getList())
@@ -823,11 +823,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 		$user_id = 0;
 		$session_id = '';
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		// get the cart's items as well as user info (if logged in)
-		$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
 		switch ($id_type)
 		{
 			case "session":

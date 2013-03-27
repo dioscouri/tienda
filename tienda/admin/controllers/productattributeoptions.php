@@ -34,7 +34,7 @@ class TiendaControllerProductAttributeOptions extends TiendaController
 		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
 				
 		// Get the ProductQuantities model
-		$qmodel = JModel::getInstance('ProductQuantities', 'TiendaModel');
+		$qmodel = DSCModel::getInstance('ProductQuantities', 'TiendaModel');
 		// Filter the quantities
 		$qmodel->setState('filter_attributes', implode(',', $cids));
 		$quantities = $qmodel->getList();

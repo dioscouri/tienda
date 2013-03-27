@@ -177,7 +177,7 @@ class TiendaTableEav extends TiendaTable
 				foreach($custom_fields as $cf)
 				{
 					// get the value table
-					$table = JTable::getInstance('EavValues', 'TiendaTable');
+					$table = DSCTable::getInstance('EavValues', 'TiendaTable');
 					// set the type based on the attribute
 					$table->setType($cf['eav']->eavattribute_type);
 					 
@@ -246,7 +246,7 @@ class TiendaTableEav extends TiendaTable
 			foreach(@$eavs as $eav)
 			{
 				// get the value table
-				$table = JTable::getInstance('EavValues', 'TiendaTable');
+				$table = DSCTable::getInstance('EavValues', 'TiendaTable');
 				// set the type based on the attribute
 				$table->setType($eav->eavattribute_type);
 				 

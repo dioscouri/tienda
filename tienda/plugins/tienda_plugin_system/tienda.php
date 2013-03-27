@@ -192,8 +192,8 @@ class plgSystemTienda extends JPlugin
         {
             // run it
             jimport( 'joomla.application.component.model' );
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-            $model = JModel::getInstance( 'Carts', 'TiendaModel');
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'Carts', 'TiendaModel');
             $model->deleteExpiredSessionCarts();
         } 
 
@@ -223,8 +223,8 @@ class plgSystemTienda extends JPlugin
         {
             // run it
             jimport( 'joomla.application.component.model' );
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-            $model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'ProductCompare', 'TiendaModel');
             $model->deleteExpiredSessionProductCompared();
         } 
 

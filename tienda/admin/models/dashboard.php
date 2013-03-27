@@ -130,7 +130,7 @@ class TiendaModelDashboard extends TiendaModelBase
     {
         $interval = $this->getStatIntervalValues($stats_interval);
          
-        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
         $datetime_field = 'created_date';
          
         $filter_date_from = date( 'Y-m-d 00:00:00', strtotime( $interval->date_from ) );
@@ -192,7 +192,7 @@ class TiendaModelDashboard extends TiendaModelBase
     {
         $interval = $this->getStatIntervalValues($stats_interval);
          
-        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
         $datetime_field = 'created_date';
 
         $filter_date_from = date( 'Y-m-d 00:00:00', strtotime( $interval->date_from ) );

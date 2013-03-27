@@ -44,8 +44,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	 */
 	protected function setCompleted( $fieldname, $value='1' )
 	{
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-	    $config = JTable::getInstance( 'Config', 'TiendaTable' );
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+	    $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 	    $config->load( array( 'config_name'=>$fieldname ) );
 	    $config->config_name = $fieldname;
 	    $config->value = '1';
@@ -605,8 +605,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductFiles') );
 			$config->config_name = 'checkProductFiles';
 			$config->value = '1';
@@ -640,8 +640,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsInventory') );
 			$config->config_name = 'checkProductsInventory';
 			$config->value = '1';
@@ -675,8 +675,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrdersOrderCurrency') );
 			$config->config_name = 'checkOrdersOrderCurrency';
 			$config->value = '1';
@@ -698,8 +698,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 			return true;
 		}
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$category = DSCTable::getInstance( 'Categories', 'TiendaTable' );
 		$root = $category->getRoot();
 
 		if ($root->category_name == "ROOT" || $root->category_description == "root" || !empty($root->category_description))
@@ -714,8 +714,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		}
 
 		// Update config to say this has been done already
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 		$config->load( array( 'config_name'=>'checkCategoriesRootDesc') );
 		$config->config_name = 'checkCategoriesRootDesc';
 		$config->value = '1';
@@ -749,8 +749,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsParamsLayout') );
 			$config->config_name = 'checkProductsParamsLayout';
 			$config->value = '1';
@@ -789,8 +789,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCategoriesParamsLayout') );
 			$config->config_name = 'checkCategoriesParamsLayout';
 			$config->value = '1';
@@ -823,8 +823,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCountriesEnabled') );
 			$config->config_name = 'checkCountriesEnabled';
 			$config->value = '1';
@@ -856,14 +856,14 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 			// also fix the ordering values for the countries
-			$country = JTable::getInstance( 'Countries', 'TiendaTable' );
+			$country = DSCTable::getInstance( 'Countries', 'TiendaTable' );
 			$country->reorder();
 
 			// Update config to say this has been done already
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCountriesOrdering') );
 			$config->config_name = 'checkCountriesOrdering';
 			$config->value = '1';
@@ -896,10 +896,10 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 			// Update config to say this has been done already
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderHistory') );
 			$config->config_name = 'checkOrderHistory';
 			$config->value = '1';
@@ -931,10 +931,10 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 			// Update config to say this has been done already
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsShortDesc') );
 			$config->config_name = 'checkProductsShortDesc';
 			$config->value = '1';
@@ -967,14 +967,14 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 			// also fix the ordering values
-			$country = JTable::getInstance( 'Taxclasses', 'TiendaTable' );
+			$country = DSCTable::getInstance( 'Taxclasses', 'TiendaTable' );
 			$country->reorder();
 
 			// Update config to say this has been done already
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkTaxclassesOrdering') );
 			$config->config_name = 'checkTaxclassesOrdering';
 			$config->value = '1';
@@ -1008,8 +1008,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrdersOrderNumber') );
 			$config->config_name = 'checkOrdersOrderNumber';
 			$config->value = '1';
@@ -1052,8 +1052,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderInfoZones') );
 			$config->config_name = 'checkOrderInfoZones';
 			$config->value = '1';
@@ -1090,8 +1090,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCurrenciesExchange') );
 			$config->config_name = 'checkCurrenciesExchange';
 			$config->value = '1';
@@ -1125,8 +1125,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCartsSessionId') );
 			$config->config_name = 'checkCartsSessionId';
 			$config->value = '1';
@@ -1165,8 +1165,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderZoneAndUser') );
 			$config->config_name = 'checkOrderZoneAndUser';
 			$config->value = '1';
@@ -1200,8 +1200,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderCompletedTasks') );
 			$config->config_name = 'checkOrderCompletedTasks';
 			$config->value = '1';
@@ -1235,8 +1235,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderQuantitiesUpdated') );
 			$config->config_name = 'checkOrderQuantitiesUpdated';
 			$config->value = '1';
@@ -1270,8 +1270,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrdersOrderShips') );
 			$config->config_name = 'checkOrdersOrderShips';
 			$config->value = '1';
@@ -1306,8 +1306,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsName') );
 			$config->config_name = 'checkProductsName';
 			$config->value = '1';
@@ -1357,8 +1357,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkUserInfoEmailDropId') );
 			$config->config_name = 'checkUserInfoEmailDropId';
 			$config->value = '1';
@@ -1392,8 +1392,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsOrdering') );
 			$config->config_name = 'checkProductsOrdering';
 			$config->value = '1';
@@ -1427,8 +1427,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderitemsRecurringPrice') );
 			$config->config_name = 'checkOrderitemsRecurringPrice';
 			$config->value = '1';
@@ -1467,8 +1467,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsCheckInventory') );
 			$config->config_name = 'checkProductsCheckInventory';
 			$config->value = '1';
@@ -1502,8 +1502,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($rows)
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductRelationsExisting') );
 			$config->config_name = 'checkProductRelationsExisting';
 			$config->value = '1';
@@ -1546,8 +1546,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($db->query())
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductRelationsExisting') );
 			$config->config_name = 'checkProductRelationsExisting';
 			$config->value = '1';
@@ -1581,8 +1581,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductRelationsType') );
 			$config->config_name = 'checkProductRelationsType';
 			$config->value = '1';
@@ -1616,8 +1616,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubscriptionsExpire') );
 			$config->config_name = 'checkSubscriptionsExpire';
 			$config->value = '1';
@@ -1660,8 +1660,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsSubscriptions') );
 			$config->config_name = 'checkProductsSubscriptions';
 			$config->value = '1';
@@ -1704,8 +1704,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderItemsSubscriptions') );
 			$config->config_name = 'checkOrderItemsSubscriptions';
 			$config->value = '1';
@@ -1742,8 +1742,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsNotForSale') );
 			$config->config_name = 'checkProductsNotForSale';
 			$config->value = '1';
@@ -1777,8 +1777,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubscriptionsCheckFiles') );
 			$config->config_name = 'checkSubscriptionsCheckFiles';
 			$config->value = '1';
@@ -1812,8 +1812,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsSQL') );
 			$config->config_name = 'checkProductsSQL';
 			$config->value = '1';
@@ -1848,8 +1848,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductcommentshelpful_votes') );
 			$config->config_name = 'checkProductcommentshelpful_votes';
 			$config->value = '1';
@@ -1883,8 +1883,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderitemsDiscount') );
 			$config->config_name = 'checkOrderitemsDiscount';
 			$config->value = '1';
@@ -1921,8 +1921,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrdershippings') );
 			$config->config_name = 'checkOrdershippings';
 			$config->value = '1';
@@ -1956,8 +1956,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductCommentsReported') );
 			$config->config_name = 'checkProductCommentsReported';
 			$config->value = '1';
@@ -1991,8 +1991,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductFilesMaxDownload') );
 			$config->config_name = 'checkProductFilesMaxDownload';
 			$config->value = '1';
@@ -2029,8 +2029,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsProductListprice') );
 			$config->config_name = 'checkProductsProductListprice';
 			$config->value = '1';
@@ -2064,8 +2064,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductCommentsRatingUpdated') );
 			$config->config_name = 'checkProductCommentsRatingUpdated';
 			$config->value = '1';
@@ -2102,8 +2102,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsOverallRating') );
 			$config->config_name = 'checkProductsOverallRating';
 			$config->value = '1';
@@ -2133,8 +2133,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($helper->updateOverallRatings())
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'updateOverallRatings') );
 			$config->config_name = 'updateOverallRatings';
 			$config->value = '1';
@@ -2168,8 +2168,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCartParams') );
 			$config->config_name = 'checkCartParams';
 			$config->value = '1';
@@ -2203,8 +2203,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderitemParams') );
 			$config->config_name = 'checkOrderitemParams';
 			$config->value = '1';
@@ -2238,8 +2238,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkPricesGroupId') );
 			$config->config_name = 'checkPricesGroupId';
 			$config->value = '1';
@@ -2269,8 +2269,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($helper->updatePriceUserGroups())
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'updatePriceUserGroups') );
 			$config->config_name = 'updatePriceUserGroups';
 			$config->value = '1';
@@ -2309,8 +2309,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductQuantityLimits') );
 			$config->config_name = 'checkProductQuantityLimits';
 			$config->value = '1';
@@ -2344,8 +2344,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderItemAttributeCode') );
 			$config->config_name = 'checkOrderItemAttributeCode';
 			$config->value = '1';
@@ -2379,8 +2379,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductAttributeOptionCode') );
 			$config->config_name = 'checkProductAttributeOptionCode';
 			$config->value = '1';
@@ -2414,8 +2414,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkZoneRelationsZipRange') );
 			$config->config_name = 'checkZoneRelationsZipRange';
 			$config->value = '1';
@@ -2470,8 +2470,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		}
 		 
 		// Update config to say this has been done already
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 		$config->load( array( 'config_name'=>'checkProductCommentsUserEmail') );
 		$config->config_name = 'checkProductCommentsUserEmail';
 		$config->value = '1';
@@ -2503,8 +2503,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCategoriesOrdering') );
 			$config->config_name = 'checkCategoriesOrdering';
 			$config->value = '1';
@@ -2538,8 +2538,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductsArticle') );
 			$config->config_name = 'checkProductsArticle';
 			$config->value = '1';
@@ -2572,8 +2572,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkEavEntityID') );
 			$config->config_name = 'checkEavEntityID';
 			$config->value = '1';
@@ -2606,8 +2606,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkEavEditableBy') );
 			$config->config_name = 'checkEavEditableBy';
 			$config->value = '1';
@@ -2650,8 +2650,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if(!$error)
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkEavEntityType') );
 			$config->config_name = 'checkEavEntityType';
 			$config->value = '1';
@@ -2686,8 +2686,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCartsCartId') );
 			$config->config_name = 'checkCartsCartId';
 			$config->value = '1';
@@ -2718,8 +2718,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
  		{
       // Update config to say this has been done already
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-  		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+  		$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
   		$config->load( array( 'config_name'=>'checkProductCommentsUserName') );
   		$config->config_name = 'checkProductCommentsUserName';
   		$config->value = '1';
@@ -2756,8 +2756,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkManufacturersDescParams') );
 			$config->config_name = 'checkManufacturersDescParams';
 			$config->value = '1';
@@ -2788,8 +2788,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkGroupsOrdering') );
 			$config->config_name = 'checkGroupsOrdering';
 			$config->value = '1';
@@ -2820,8 +2820,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkParentAttributeOption') );
 			$config->config_name = 'checkParentAttributeOption';
 			$config->value = '1';
@@ -2852,8 +2852,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkParentAttributeOption2') );
 			$config->config_name = 'checkParentAttributeOption2';
 			$config->value = '1';
@@ -2886,8 +2886,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkEavRequired') );
 			$config->config_name = 'checkEavRequired';
 			$config->value = '1';
@@ -2920,8 +2920,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkEavAlias') );
 			$config->config_name = 'checkEavAlias';
 			$config->value = '1';
@@ -2959,8 +2959,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProRatedSubscriptionProducts') );
 			$config->config_name = 'checkProRatedSubscriptionProducts';
 			$config->value = '1';
@@ -2992,8 +2992,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProRatedSubscriptionOrderitems') );
 			$config->config_name = 'checkProRatedSubscriptionOrderitems';
 			$config->value = '1';
@@ -3025,8 +3025,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubscriptionByIssue') );
 			$config->config_name = 'checkSubscriptionByIssue';
 			$config->value = '1';
@@ -3058,8 +3058,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubNumUserInfo') );
 			$config->config_name = 'checkSubNumUserInfo';
 			$config->value = '1';
@@ -3091,8 +3091,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubNumSubscriptions') );
 			$config->config_name = 'checkSubNumSubscriptions';
 			$config->value = '1';
@@ -3124,8 +3124,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkAddressTaxNumber') );
 			$config->config_name = 'checkAddressTaxNumber';
 			$config->value = '1';
@@ -3159,8 +3159,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderInfoTaxNumber') );
 			$config->config_name = 'checkOrderInfoTaxNumber';
 			$config->value = '1';
@@ -3194,8 +3194,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->changeTableFields( $table, $fields, $definitions, $newnames ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkSubByIssueGtmField') );
 			$config->config_name = 'checkSubByIssueGtmField';
 			$config->value = '1';
@@ -3230,8 +3230,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkCategoryDisplayFields') );
 			$config->config_name = 'checkCategoryDisplayFields';
 			$config->value = '1';
@@ -3263,8 +3263,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ( $ok )
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkEmptyEavTable') );
 			$config->config_name = 'checkEmptyEavTable';
 			$config->value = '1';
@@ -3294,8 +3294,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderCreditFields') );
 			$config->config_name = 'checkOrderCreditFields';
 			$config->value = '1';
@@ -3329,8 +3329,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkUserInfoCreditFields') );
 			$config->config_name = 'checkUserInfoCreditFields';
 			$config->value = '1';
@@ -3362,8 +3362,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkProductAttributeOptionsBlank') );
 			$config->config_name = 'checkProductAttributeOptionsBlank';
 			$config->value = '1';
@@ -3395,8 +3395,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkLevelTaxes') );
 			$config->config_name = 'checkLevelTaxes';
 			$config->value = '1';
@@ -3430,8 +3430,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 		if ($this->insertTableFields( $table, $fields, $definitions ))
 		{
 			// Update config to say this has been done already
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$config = JTable::getInstance( 'Config', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			$config->load( array( 'config_name'=>'checkOrderitemLevelTaxes') );
 			$config->config_name = 'checkOrderitemLevelTaxes';
 			$config->value = '1';
@@ -3451,8 +3451,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	{
 		//if this has already been done, don't repeat
 		if (Tienda::getInstance()->get('checkSecretWord', '0')) return true;
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 		$config->config_name = 'secret_word';
 		
 		Tienda::load( 'TiendaHelperBase', 'helper._base' );
@@ -3488,8 +3488,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     $table = '#__tienda_orderinfo';
 		if ($this->dropTableFields( $table, $fields ) )
 		{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'dropZoneIdOrderInfo') );
 			$config->config_name = 'dropZoneIdOrderInfo';
@@ -3519,8 +3519,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     $table = '#__tienda_orders';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )
 		{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkOrderHashField') );
 			$config->config_name = 'checkOrderHashField';
@@ -3550,8 +3550,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     $table = '#__tienda_shippingmethods';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )
 		{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkSubtotalMax') );
 			$config->config_name = 'checkSubtotalMax';
@@ -3583,8 +3583,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     $table = '#__tienda_orderitems';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )
 		{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkOrderItemsWeight') );
 			$config->config_name = 'checkOrderItemsWeight';
@@ -3616,8 +3616,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     $table = '#__tienda_orderitemattributes';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )
 		{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkOrderItemAttributesWeight') );
 			$config->config_name = 'checkOrderItemAttributesWeight';
@@ -3649,8 +3649,8 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     $table = '#__tienda_productattributeoptions';
 		if ($this->insertTableFields( $table, $fields, $definitions ) )
 		{
-  		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $config = JTable::getInstance( 'Config', 'TiendaTable' );
+  		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 			// Update config to say this has been done already
 			$config->load( array( 'config_name'=>'checkProductAttributesWeight') );
 			$config->config_name = 'checkProductAttributesWeight';

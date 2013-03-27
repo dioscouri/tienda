@@ -67,8 +67,8 @@ class plgTiendaTool_CsvCoupons extends TiendaToolPluginImportCsv {
 		$datas = $this->data;		
 		$result = '';
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
-		$coupon = JTable::getInstance('Coupons', 'TiendaTable');
+		DSCTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		$coupon = DSCTable::getInstance('Coupons', 'TiendaTable');
 
 		$i = 0;
 		foreach($datas as $data) {

@@ -329,13 +329,13 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 				$this->shopAddress->country = $config->get( 'shop_country' );
 				
 				$this->includeTiendaTables( );
-				$table = JTable::getInstance( 'Countries', 'TiendaTable' );
+				$table = DSCTable::getInstance( 'Countries', 'TiendaTable' );
 				$table->load( $this->shopAddress->country );
 				$this->shopAddress->country_isocode_2 = $table->country_isocode_2;
 				
 				$this->shopAddress->zone = $config->get( 'shop_zone' );
 				
-				$table = JTable::getInstance( 'Zones', 'TiendaTable' );
+				$table = DSCTable::getInstance( 'Zones', 'TiendaTable' );
 				$table->load( $this->shopAddress->zone );
 				$this->shopAddress->zone_code = $table->code;
 				
@@ -357,7 +357,7 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 			{
 				if ( !empty( $address->zone_id ) )
 				{
-					$table = JTable::getInstance( 'Zones', 'TiendaTable' );
+					$table = DSCTable::getInstance( 'Zones', 'TiendaTable' );
 					$table->load( $address->zone_id );
 					$address->zone_code = $table->code;
 				}
@@ -368,7 +368,7 @@ if ( !class_exists( 'TiendaShippingPlugin' ) )
 			{
 				if ( !empty( $address->country_id ) )
 				{
-					$table = JTable::getInstance( 'Countries', 'TiendaTable' );
+					$table = DSCTable::getInstance( 'Countries', 'TiendaTable' );
 					$table->load( $address->country_id );
 					$address->country_name = $table->country_name;
 					$address->country_isocode_3 = $table->country_isocode_3;

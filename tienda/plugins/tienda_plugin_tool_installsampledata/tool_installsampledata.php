@@ -210,13 +210,13 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
         // load the config class
         Tienda::load( 'Tienda', 'defines' );
                 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-    	JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+    	DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		if($empty)
     	{
 	        // get the manufacturer model
-	    	$categoryM = JModel::getInstance( 'Categories', 'TiendaModel' );
+	    	$categoryM = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 			
 	    	$categoryTotal = $categoryM->getTotal();
 	    	if( $categoryTotal > 1 ) $empty = false;
@@ -225,7 +225,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
     	if($empty)
     	{
 	        // get the manufacturer model
-	    	$manufacturerM = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
+	    	$manufacturerM = DSCModel::getInstance( 'Manufacturers', 'TiendaModel' );
 			
 	    	$manufacturerTotal = $manufacturerM->getTotal();
 	    	if( $manufacturerTotal > 0 ) $empty = false;
@@ -234,7 +234,7 @@ class plgTiendaTool_InstallSampleData extends TiendaToolPlugin
 		if($empty)
     	{
 	        // get the manufacturer model
-	    	$productM = JModel::getInstance( 'Products', 'TiendaModel' );
+	    	$productM = DSCModel::getInstance( 'Products', 'TiendaModel' );
 			
 	    	$productTotal = $productM->getTotal();
 	    	if( $productTotal > 0 ) $empty = false;

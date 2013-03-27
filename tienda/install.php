@@ -73,7 +73,7 @@ class TiendaInstaller extends JObject
         if (!class_exists('DSC')) {
             if (!JFile::exists(JPATH_SITE.'/libraries/dioscouri/dioscouri.php')) 
             {
-                JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_installer/models' );
+                DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_installer/models' );
                 if ($this->install('library')) 
                 {
                     // if j15, move files

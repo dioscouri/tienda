@@ -389,8 +389,8 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 				}
 			}
 			
-			JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
-			$product = JTable::getInstance( 'Products', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+			$product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 			
 			if ( !$isNew )
 			{
@@ -448,7 +448,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					if ( empty( $prices ) )
 					{
 						// set price if new or no prices set
-						$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
+						$price = DSCTable::getInstance( 'Productprices', 'TiendaTable' );
 						$price->product_id = $product->id;
 						$price->product_price = ( string ) $data->product_price;
 						$price->group_id = Tienda::getInstance( )->get( 'default_user_group', '1' );
@@ -458,7 +458,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					else
 					{
 						// set price if new or no prices set
-						$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
+						$price = DSCTable::getInstance( 'Productprices', 'TiendaTable' );
 						$price->load( $prices[0]->product_price_id );
 						$price->product_price = ( string ) $data->product_price;
 						$price->group_id = Tienda::getInstance( )->get( 'default_user_group', '1' );
@@ -469,7 +469,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					if ( empty( $quantities ) )
 					{
 						// save default quantity
-						$quantity = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+						$quantity = DSCTable::getInstance( 'Productquantities', 'TiendaTable' );
 						$quantity->product_id = $product->id;
 						$quantity->quantity = ( string ) $data->product_quantity;
 						$quantity->save( );
@@ -478,7 +478,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					else
 					{
 						// save default quantity
-						$quantity = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+						$quantity = DSCTable::getInstance( 'Productquantities', 'TiendaTable' );
 						$quantity->load( $quantities[0]->productquantity_id );
 						$quantity->product_id = $product->id;
 						$quantity->quantity = ( string ) $data->product_quantity;
@@ -558,7 +558,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 		foreach ( $attributes->children( ) as $attribute )
 		{
 			// Add the Attribute
-			$table = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
+			$table = DSCTable::getInstance( 'ProductAttributes', 'TiendaTable' );
 			$table->product_id = $product_id;
 			$table->productattribute_name = ( string ) $attribute->productattribute_name;
 			$table->save( );
@@ -567,7 +567,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			$id = $table->productattribute_id;
 			foreach ( $attribute->productattribute_options->children( ) as $option )
 			{
-				$otable = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+				$otable = DSCTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
 				$otable->bind( $this->simpleXml2Array( $option ) );
 				$otable->productattribute_id = $id;
 				$otable->save( );
@@ -593,8 +593,8 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			else
 			{
 				// check for existance
-				JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
-				$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+				DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+				$model = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 				$model->setState( 'filter_name', ( string ) $category->category_name );
 				$matches = $model->getList( );
 				$matched = false;
@@ -615,7 +615,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 				// Not matched, create category
 				if ( !$matched )
 				{
-					$tcategory = JTable::getInstance( 'Categories', 'TiendaTable' );
+					$tcategory = DSCTable::getInstance( 'Categories', 'TiendaTable' );
 					$tcategory->category_name = ( string ) $category->category_name;
 					$tcategory->parent_id = 1;
 					$tcategory->category_enabled = 1;
@@ -627,7 +627,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			}
 			
 			// save xref in every case
-			$xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+			$xref = DSCTable::getInstance( 'ProductCategories', 'TiendaTable' );
 			$xref->product_id = $product_id;
 			$xref->category_id = $category_id;
 			$xref->save( );
@@ -645,7 +645,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 		foreach ( $files->children( ) as $file )
 		{
 			// Add the File
-			$table = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
+			$table = DSCTable::getInstance( 'ProductFiles', 'TiendaTable' );
 			$table->bind( $this->simpleXml2Array( $file ) );
 			$table->product_id = $product_id;
 			
@@ -692,7 +692,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			
 			// Parent-Child Relation
 			// Add the Attribute
-			$table = JTable::getInstance( 'ProductRelations', 'TiendaTable' );
+			$table = DSCTable::getInstance( 'ProductRelations', 'TiendaTable' );
 			$table->product_id_from = $product_id;
 			$table->product_id_to = $product->product_id;
 			$table->relation_type = 'parent';
@@ -719,7 +719,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			
 			// Relation
 			// Add the Attribute
-			$table = JTable::getInstance( 'ProductRelations', 'TiendaTable' );
+			$table = DSCTable::getInstance( 'ProductRelations', 'TiendaTable' );
 			$table->product_id_from = $product_id;
 			$table->product_id_to = $product->product_id;
 			$table->relation_type = 'relates';
@@ -781,7 +781,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 				$keynames['enabled'] = 0;
 			}
 			
-			$eav = JTable::getInstance( 'EavAttributes', 'TiendaTable' );
+			$eav = DSCTable::getInstance( 'EavAttributes', 'TiendaTable' );
 			$loaded = $eav->load( $keynames );
 			
 			if ( !$loaded )
@@ -792,7 +792,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			}
 			
 			// Link it to a product
-			$table = JTable::getInstance( 'EavAttributeEntities', 'TiendaTable' );
+			$table = DSCTable::getInstance( 'EavAttributeEntities', 'TiendaTable' );
 			$table->eavattribute_id = $eav->eavattribute_id;
 			$table->eaventity_id = $product_id;
 			$table->eaventity_type = 'products';
@@ -801,7 +801,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 			
 			// Save the value
 			// get the value table
-			$table = JTable::getInstance( 'EavValues', 'TiendaTable' );
+			$table = DSCTable::getInstance( 'EavValues', 'TiendaTable' );
 			// set the type based on the attribute
 			$table->setType( $attribute_type );
 			
@@ -927,7 +927,7 @@ class plgTiendaTool_XmlImporter extends TiendaToolPlugin
 					}
 					
 					Tienda::load( 'TiendaTableProducts', 'tables.products' );
-					$product = JTable::getInstance( 'Products', 'TiendaTable' );
+					$product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 					
 					$product->load( $product_id );
 					$path = $product->getImagePath( );

@@ -246,7 +246,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Price
 		$currency_id = Tienda::getInstance()->get('default_currencyid', '1');
 		Tienda::load('TiendaTableCurrencies', 'tables.currencies');
-        $currency = JTable::getInstance('Currencies', 'TiendaTable');
+        $currency = DSCTable::getInstance('Currencies', 'TiendaTable');
         $currency->load( (int) $currency_id );
         
 		$xml['scp:price']['attributes']['unit'] = trim(strtoupper($currency->currency_code));
@@ -254,7 +254,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		
 		// Manufacturer
 		Tienda::load('TiendaTableManufacturers', 'tables.manufacturers');
-		$manufacturer = JTable::getInstance('Manufacturers', 'TiendaTable');
+		$manufacturer = DSCTable::getInstance('Manufacturers', 'TiendaTable');
 		if($manufacturer->load($product->manufacturer_id))
 		{
 			$xml['scp:brand'] = $manufacturer->manufacturer_name;
@@ -400,7 +400,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		// Price
 		$currency_id = Tienda::getInstance()->get('default_currencyid', '1');
 		Tienda::load('TiendaTableCurrencies', 'tables.currencies');
-        $currency = JTable::getInstance('Currencies', 'TiendaTable');
+        $currency = DSCTable::getInstance('Currencies', 'TiendaTable');
         $currency->load( (int) $currency_id );
         
 		$xml['scp:price']['attributes']['unit'] = trim(strtoupper($currency->currency_code));
@@ -408,7 +408,7 @@ class plgTiendaGoogleProducts extends TiendaPluginBase
 		
 		// Manufacturer
 		Tienda::load('TiendaTableManufacturers', 'tables.manufacturers');
-		$manufacturer = JTable::getInstance('Manufacturers', 'TiendaTable');
+		$manufacturer = DSCTable::getInstance('Manufacturers', 'TiendaTable');
 		if($manufacturer->load($product->manufacturer_id))
 		{
 			$xml['scp:brand'] = $manufacturer->manufacturer_name;

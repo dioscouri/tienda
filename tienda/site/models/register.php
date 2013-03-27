@@ -17,8 +17,8 @@ class TiendaModelRegister extends TiendaModelBase
 {
 	function getTable()
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$table = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$table = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
 		return $table;
 	}
 }

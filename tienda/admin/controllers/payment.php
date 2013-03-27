@@ -56,10 +56,10 @@ class TiendaControllerPayment extends TiendaController
        
 		if(version_compare(JVERSION,'1.6.0','ge')) {
 	        // Joomla! 1.6+ code here
-	        $row  = JTable::getInstance('extension');
+	        $row  = DSCTable::getInstance('extension');
 	    } else {
 	        // Joomla! 1.5 code here
-	       $row  = JTable::getInstance('plugin');
+	       $row  = DSCTable::getInstance('plugin');
 	    }
 		
         $row->bind( JRequest::get('post') );

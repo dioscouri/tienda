@@ -300,13 +300,13 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
         $order_id 			= $data['order_id'];
         $order_payment_id	= $data['orderpayment_id'];
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $order_id );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $order_payment_id );
-        $orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+        $orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
         $orderinfo->load( array( 'order_id'=>$order_id) );
         
         if ( empty($order->order_id) || empty($orderpayment) || empty($orderinfo)) {
@@ -401,16 +401,16 @@ class plgTiendaPayment_firstdata extends TiendaPaymentPlugin
 		}
 
         //get the order payment record		        
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         if ($orderpayment->order_id != $result["r_ordernum"])
         {
         	$errors[] = JText::_('TIENDA LINKPOINT FIRSTDATA MESSAGE UNKNOWN ORDER');
         }
         
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $orderpayment->order_id );
 		if (count($errors)){
 			$order->order_state_id = $this->params->get('failed_order_state', '10'); //FAILED

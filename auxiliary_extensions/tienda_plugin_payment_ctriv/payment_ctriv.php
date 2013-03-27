@@ -233,9 +233,9 @@ class plgTiendaPayment_ctriv extends TiendaPaymentPlugin
     	$errors = array();    	
     	
     	// load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $orderpayment_id = $data['orderpayment_id'];
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $orderpayment_id );
         $orderpayment->transaction_details  = $data['key'];
         $orderpayment->transaction_id       = $data['trans_id'];
@@ -244,7 +244,7 @@ class plgTiendaPayment_ctriv extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if ($data['error'] != "0") 
         {

@@ -54,9 +54,9 @@ class TiendaViewEavAttributes extends TiendaViewBase
 			{
 				case 'products':
 					// Products
-					$productModel 	= JModel::getInstance( 'ElementProduct', 'TiendaModel' );
+					$productModel 	= DSCModel::getInstance( 'ElementProduct', 'TiendaModel' );
 		         	// terms
-		         	$product = JTable::getInstance('Products', 'TiendaTable');
+		         	$product = DSCTable::getInstance('Products', 'TiendaTable');
 		         	$product->load(@$item->eaventity_id);
 					$elementArticle_product 		= $productModel->fetchElement( 'eaventity_id',@$product->product_name) ;
 					$resetArticle_product		= $productModel->clearElement( 'eaventity_id', '0' );

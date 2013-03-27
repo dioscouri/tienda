@@ -64,7 +64,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->img_url_mixed = $this->_getParam( 'img_url_mixed', 'https://www.paypal.com/en_US/i/btn/x-click-but02.gif' );
 
         // set paypal checkout type
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         $items = $order->getItems();
         $vars->is_recurring = $order->isRecurring();
@@ -72,7 +72,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         if ($vars->is_recurring) {
             //get the orderitem_attributes_price for the recurring item and then add to the $vars->amount
             //assumption that only 1 recurring per order
-            $orderitems = JTable::getInstance('OrderItems', 'TiendaTable');
+            $orderitems = DSCTable::getInstance('OrderItems', 'TiendaTable');
             $orderitems->load( array('order_id'=>$order->order_id, 'orderitem_recurs'=>'1') );
         }
 
@@ -83,7 +83,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             // Adjust the orderpayment amount since it's a mixed cart
             // first orderpayment is just the non-recurring items total
             // then upon return, ask user to checkout again for recurring items
-            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load( $vars->orderpayment_id );
             $vars->amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
 
@@ -103,7 +103,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $vars->mixed_cart = false;
         }
 
-        $product = JTable::getInstance('Products', 'TiendaTable');
+        $product = DSCTable::getInstance('Products', 'TiendaTable');
         foreach ($items as $item) {
             $desc = $item->orderitem_name;
             $product->load( array('product_id'=>$item->product_id) );
@@ -140,7 +140,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->city         = $data['orderinfo']->shipping_city;
 
         //get 2-character IS0-3166-1 country code
-        $countryTable = JTable::getInstance('Countries', 'TiendaTable');
+        $countryTable = DSCTable::getInstance('Countries', 'TiendaTable');
         $countryTable->load( $data['orderinfo']->shipping_country_id );
 
         $vars->country      = $countryTable->country_isocode_2;
@@ -166,7 +166,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
      */
     public function _secondPayment( $order_id )
     {
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $order_id );
         $items = $order->getItems();
         $vars->is_recurring = $order->isRecurring();
@@ -174,7 +174,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // create a new orderpayment record
         // we're creating a new orderpayment record,
         // this one just for the recurring item
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->order_id = $order->order_id;
         $orderpayment->orderpayment_type = $this->_element;
         $orderpayment->transaction_status = JText::_('COM_TIENDA_INCOMPLETE');
@@ -211,7 +211,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->currency_code = $this->_getParam( 'currency', 'USD' ); // TODO Eventually use: Tienda::getInstance()->get('currency');
 
         // set variables for user info
-        $row = JTable::getInstance('OrderInfo', 'TiendaTable');
+        $row = DSCTable::getInstance('OrderInfo', 'TiendaTable');
         $row->load(array('order_id'=>$order_id));
         $data = array('orderinfo'=>$row);
 
@@ -223,7 +223,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         $vars->city         = $data['orderinfo']->shipping_city;
 
          //get 2-character IS0-3166-1 country code
-        $countryTable = JTable::getInstance('Countries', 'TiendaTable');
+        $countryTable = DSCTable::getInstance('Countries', 'TiendaTable');
         $countryTable->load( $data['orderinfo']->shipping_country_id );
 
         $vars->country      = $countryTable->country_isocode_2;
@@ -258,7 +258,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
                 // get the order_id from the session set by the prePayment
                 $mainframe = JFactory::getApplication();
                 $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
-                $order = JTable::getInstance('Orders', 'TiendaTable');
+                $order = DSCTable::getInstance('Orders', 'TiendaTable');
                 $order->load( $order_id );
                 $items = $order->getItems();
 
@@ -545,8 +545,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         }
 
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id)) {
             $errors[] = JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID');
@@ -574,7 +574,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors)) {
             // if an error occurred
@@ -794,8 +794,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             return false;
         }
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id)) {
             $this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
@@ -807,8 +807,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
         // create new subscription for the user
         // for the order's recurring_trial_period_interval
         // using it's recurring_trial_period_unit
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['item_number'] );
         $items = $order->getItems();
         if (!empty($order->recurring_trial) && (float) $order->recurring_trial_price == (float) '0.00' ) {
@@ -853,14 +853,14 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
 
             // Update orderitem_status
             $order_item = $order->getRecurringItem();
-            $orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
+            $orderitem = DSCTable::getInstance('OrderItems', 'TiendaTable');
             $orderitem->orderitem_id = $order_item->orderitem_id;
             $orderitem->orderitem_status = '1';
             $orderitem->save();
 
             $date = JFactory::getDate();
             // create free subscription
-            $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+            $subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
             $subscription->user_id = $order->user_id;
             $subscription->order_id = $order->order_id;
             $subscription->product_id = $orderitem->product_id;
@@ -896,7 +896,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             }
 
             // add a sub history entry, email the user?
-            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+            $subscriptionhistory = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
             $subscriptionhistory->subscription_id = $subscription->subscription_id;
             $subscriptionhistory->subscriptionhistory_type = 'creation';
             $subscriptionhistory->created_datetime = $date->toMySQL();
@@ -937,8 +937,8 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             return false;
         }
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         if (empty($data['custom']) || empty($orderpayment->orderpayment_id)) {
             $this->setError( JText::_('PAYPAL MESSAGE INVALID ORDERPAYMENTID') );
@@ -952,14 +952,14 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             $errors[] = $orderpayment->getError();
         }
 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['item_number'] );
         $items = $order->getItems();
 
         // Update orderitem_status
         $order_item = $order->getRecurringItem();
-        $orderitem = JTable::getInstance('OrderItems', 'TiendaTable');
+        $orderitem = DSCTable::getInstance('OrderItems', 'TiendaTable');
         $orderitem->orderitem_id = $order_item->orderitem_id;
         $orderitem->orderitem_status = '1';
         $orderitem->save();
@@ -968,7 +968,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
 
         // if no subscription exists for this subscr_id,
         // create new subscription for the user
-        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+        $subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->load( array('transaction_id'=>$data['subscr_id']));
         if (empty($subscription->subscription_id)) {
             $date = JFactory::getDate();
@@ -1019,7 +1019,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             }
 
             // add a sub history entry, email the user?
-            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+            $subscriptionhistory = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
             $subscriptionhistory->subscription_id = $subscription->subscription_id;
             $subscriptionhistory->subscriptionhistory_type = 'creation';
             $subscriptionhistory->created_datetime = $date->toMySQL();
@@ -1057,7 +1057,7 @@ class plgTiendaPayment_paypal extends TiendaPaymentPlugin
             }
 
             // add a sub history entry, email the user?
-            $subscriptionhistory = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+            $subscriptionhistory = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
             $subscriptionhistory->subscription_id = $subscription->subscription_id;
             $subscriptionhistory->subscriptionhistory_type = 'payment';
             $subscriptionhistory->created_datetime = $date->toMySQL();

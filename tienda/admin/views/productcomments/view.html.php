@@ -58,13 +58,13 @@ class TiendaViewProductComments extends TiendaViewBase
 			$item = $model->getItem();
 			$this->assign( 'item', $item);
 		    // Products
-			$productModel 	= JModel::getInstance( 'ElementProduct', 'TiendaModel' );
+			$productModel 	= DSCModel::getInstance( 'ElementProduct', 'TiendaModel' );
          	// terms
 			$elementArticle_product 		= $productModel->_fetchElement( 'product_id',@$item->product_id) ;
 			$resetArticle_product		= $productModel->_clearElement( 'product_id', '0' );
 			$this->assign('elementArticle_product', $elementArticle_product);
 			$this->assign('resetArticle_product', $resetArticle_product);
-			$userModel 	= JModel::getInstance( 'ElementUser', 'TiendaModel' );
+			$userModel 	= DSCModel::getInstance( 'ElementUser', 'TiendaModel' );
          	// terms
 			$elementUser_product 		= $userModel->fetchElement( 'user_id',@$item->user_id ) ;
 			$resetUser_product		= $userModel->clearElement( 'user_id','0' );

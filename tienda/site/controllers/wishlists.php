@@ -505,8 +505,8 @@ class TiendaControllerWishlists extends TiendaController
         $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category&Itemid=" . $itemid;
         $redirect = JRoute::_( $redirect, false );
 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-        $product = JTable::getInstance( 'Products', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+        $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
         $product->load( $product_id, true, false );
 
         if (empty($product->product_id))
@@ -539,7 +539,7 @@ class TiendaControllerWishlists extends TiendaController
             $session_id = $session->getId();
             $session->set( 'old_sessionid', $session_id );
                 
-            $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
+            $wishlist = DSCTable::getInstance( 'Wishlists', 'TiendaTable' );
             $wishlist->load(array('session_id'=>$session_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv));
             $wishlist->session_id = $session_id;
             $wishlist->product_id = $product->product_id;
@@ -565,7 +565,7 @@ class TiendaControllerWishlists extends TiendaController
 
 
         // add to wishlist
-        $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
+        $wishlist = DSCTable::getInstance( 'Wishlists', 'TiendaTable' );
         // load from db in case the item is in the wishlist already and should be updated
         $wishlist->load( array( 'user_id'=>$user_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv ) );
         // set the values

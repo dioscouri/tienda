@@ -297,8 +297,8 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
         // Rebuild Categories tree
         Tienda::load('TiendaModelCategories', 'models.categories');
         Tienda::load('TiendaTableCategories', 'tables.categories');
-        JModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
-		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
+        DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
+		DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
         
         $this->_migrateImages($prefix, $vm_prefix, $results);
         
@@ -375,7 +375,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
     			}
 	    		
 	    		Tienda::load( 'TiendaTableProducts', 'tables.products' );
-	        	$product = JTable::getInstance( 'Products', 'TiendaTable' );
+	        	$product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 	        	
 	    		$product->load($result['id']);
 	    		$path = $product->getImagePath();
@@ -487,7 +487,7 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 				
 				// Save correct image name
 				Tienda::load( 'TiendaTableCategories', 'tables.categories' );
-	        	$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+	        	$category = DSCTable::getInstance( 'Categories', 'TiendaTable' );
 	        	
 	    		$category->load($result['id']);
 				$category->category_full_image = $name;
@@ -663,8 +663,8 @@ class plgTiendaTool_VirtueMartMigration extends TiendaToolPlugin
 		// Rebuild categories tree
 		Tienda::load('TiendaModelCategories', 'models.categories');
         Tienda::load('TiendaTableCategories', 'tables.categories');
-        JModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
-		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
+        DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
+		DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
         
         $this->_migrateImages($prefix, $vm_prefix, $results, false);
         

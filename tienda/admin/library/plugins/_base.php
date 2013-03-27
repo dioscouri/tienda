@@ -34,8 +34,8 @@ class TiendaPluginBase extends DSCPlugin
 	 */
 	protected function _getMe() {
 		if (empty($this -> _row)) {
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
-			$table = JTable::getInstance('Shipping', 'TiendaTable');
+			DSCTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+			$table = DSCTable::getInstance('Shipping', 'TiendaTable');
 			$table -> load(array('element' => $this -> _element, 'folder' => 'tienda'));
 			$this -> _row = $table;
 		}
@@ -47,7 +47,7 @@ class TiendaPluginBase extends DSCPlugin
 	 */
 	protected function includeTiendaTables() {
 		// Include Tienda Tables Classes
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+		DSCTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
 	}
 
 	/**
@@ -104,7 +104,7 @@ class TiendaPluginBase extends DSCPlugin
 		$customPath = JPATH_SITE . DS . 'plugins' . DS . $group . DS . $plugin . DS . 'tables';
 		}
 		
-		JTable::addIncludePath($customPath);
+		DSCTable::addIncludePath($customPath);
 	}
 
 	/**

@@ -37,7 +37,7 @@ class TiendaTableUserInfo extends TiendaTable
 		
 		$notnew = isset( $this->user_info_id );
 		
-		$old_record = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+		$old_record = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
 		$old_record->load( $this->user_info_id );
 		$changed_sub_num = $old_record->sub_number != $this->sub_number;
 		

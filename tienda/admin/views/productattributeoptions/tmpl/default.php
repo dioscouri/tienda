@@ -142,7 +142,7 @@
 					if($item->parent_productattributeoption_id)
 					{
 						Tienda::load('TiendaTableProductAttributeOptions', 'tables.productattributeoptions');
-						$opt = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+						$opt = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 						$opt->load($item->parent_productattributeoption_id);
 						$attribute_id = $opt->productattribute_id;
 					}

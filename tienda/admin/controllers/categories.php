@@ -75,8 +75,8 @@ class TiendaControllerCategories extends TiendaController
 	 */
 	function rebuild()
 	{
-		JModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
-		JModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
+		DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
+		DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
 			
 		$redirect = "index.php?option=com_tienda&view=".$this->get('suffix');
 		$redirect = JRoute::_( $redirect, false );
@@ -240,7 +240,7 @@ class TiendaControllerCategories extends TiendaController
 		$keynames = array();
 		foreach (@$cids as $cid)
 		{
-			$table = JTable::getInstance('ProductCategories', 'TiendaTable');
+			$table = DSCTable::getInstance('ProductCategories', 'TiendaTable');
 			$keynames["category_id"] = $id;
 			$keynames["product_id"] = $cid;
 			$table->load( $keynames );

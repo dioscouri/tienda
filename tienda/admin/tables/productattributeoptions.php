@@ -63,7 +63,7 @@ class TiendaTableProductAttributeOptions extends TiendaTable
     {
     	if ($return = parent::save( $src, $orderingFilter, $ignore))
     	{
-            $pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
+            $pa = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
             $pa->load( $this->productattribute_id );
             
             Tienda::load( "TiendaHelperProduct", 'helpers.product' );
@@ -87,10 +87,10 @@ class TiendaTableProductAttributeOptions extends TiendaTable
         
         if ($doReconciliation) 
         {
-            $pa = JTable::getInstance('ProductAttributes', 'TiendaTable');
+            $pa = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
             if ($oid)
             {
-                $row = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+                $row = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
                 $row->load( $oid );
 
                 $pa->load( $row->productattribute_id );                

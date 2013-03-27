@@ -87,7 +87,7 @@ class TiendaModelProductAttributes extends TiendaModelBase
 //        $list = parent::getList(); 
 //        foreach(@$list as $item)
 //        {
-//            $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+//            $model = DSCModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
 //            $model->setState( 'filter_attribute', $item->productattribute_id );
 //            $model->setState('order', 'tbl.ordering');
 //            $item->productattributeoptions = $model->getList(); 

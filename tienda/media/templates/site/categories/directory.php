@@ -17,7 +17,7 @@ $citems = @$this->citems;
             <div class="directory_categories" style="width: 100%;">
                 <?php
                 foreach ($citems as $citem) :
-                    $model = JModel::getInstance('Categories', 'TiendaModel');
+                    $model = DSCModel::getInstance('Categories', 'TiendaModel');
                     $model->setState('filter_enabled', '1');
                     $model->setState('filter_level', $citem->category_id);
                     $model->setState('order', 'tbl.ordering');
@@ -31,7 +31,7 @@ $citems = @$this->citems;
                         <?php if (!empty($categories)) { ?>
                             <ul class="directory_subcategory">
                             <?php foreach ($categories as $category) { 
-                                $pmodel = JModel::getInstance('Products', 'TiendaModel');
+                                $pmodel = DSCModel::getInstance('Products', 'TiendaModel');
                                 $pmodel->setState('filter_category', $category->category_id);
                                 $products = $pmodel->getTotal();
                                 ?>

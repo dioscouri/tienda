@@ -22,7 +22,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	public function checkLimit()
 	{
 		$canAdd = true;
-		$model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
+		$model = DSCModel::getInstance( 'ProductCompare', 'TiendaModel');
 		$user = JFactory::getUser();
         $model->setState( 'filter_user', $user->id ); 
         if (empty($user->id))
@@ -44,7 +44,7 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	
 	public static function getComparedProducts()
 	{
-		$model = JModel::getInstance( 'ProductCompare', 'TiendaModel');
+		$model = DSCModel::getInstance( 'ProductCompare', 'TiendaModel');
 		
 	 	$user = JFactory::getUser();
         $model->setState( 'filter_user', $user->id ); 
@@ -76,8 +76,8 @@ class TiendaHelperProductCompare extends TiendaHelperBase
        	$session = JFactory::getSession();
         $user = JFactory::getUser();
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $table = JTable::getInstance( 'ProductCompare', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $table = DSCTable::getInstance( 'ProductCompare', 'TiendaTable' );
         
         $keynames = array();
         $item->user_id = (empty($item->user_id)) ? $user->id : $item->user_id;
@@ -172,8 +172,8 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 	 	$date = JFactory::getDate();
 	    $session = JFactory::getSession();
 	    
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'ProductCompare', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'ProductCompare', 'TiendaModel' );
         $model->setState( 'filter_user', '0' );
         $model->setState( 'filter_session', $session_id );
         $session_compareditems = $model->getList();
@@ -181,11 +181,11 @@ class TiendaHelperProductCompare extends TiendaHelperBase
 		$this->deleteSessionProductComparedItems( $session_id );
         if (!empty($session_compareditems))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
            
             foreach ($session_compareditems as $session_compareditem)
             {      
-            	$table = JTable::getInstance( 'ProductCompare', 'TiendaTable' );
+            	$table = DSCTable::getInstance( 'ProductCompare', 'TiendaTable' );
             	$keynames = array();
                 $keynames['user_id'] = $user_id;
                 $keynames['product_id'] = $session_compareditem->product_id;

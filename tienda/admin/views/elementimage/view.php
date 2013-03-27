@@ -65,7 +65,7 @@ class TiendaViewElementImage extends JView
 		jimport('joomla.client.helper');
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		//$model = JModel::getInstance('ElementImage', 'TiendaModel');
+		//$model = DSCModel::getInstance('ElementImage', 'TiendaModel');
 		$this->assign( 'session',	JFactory::getSession());
 		$this->assign( 'config',		$config);
 		$this->assign( 'state',		$this->get('state'));

@@ -57,7 +57,7 @@ class TiendaViewProducts extends TiendaViewBase
 		if (empty($item->product_id))
 		{
 		    // this is a new product
-		    $item = JTable::getInstance('Products', 'TiendaTable');
+		    $item = DSCTable::getInstance('Products', 'TiendaTable');
             $item->product_parameters = new DSCParameter( $item->product_params );
             $this->assign( 'row', $item );
 		}
@@ -69,7 +69,7 @@ class TiendaViewProducts extends TiendaViewBase
         
 		$this->assign('shippingHtml', $shippingHtml);
 		
-		$elementArticleModel = JModel::getInstance( 'ElementArticle', 'TiendaModel' );
+		$elementArticleModel = DSCModel::getInstance( 'ElementArticle', 'TiendaModel' );
 		$this->assign( 'elementArticleModel', $elementArticleModel );
 	}
 	

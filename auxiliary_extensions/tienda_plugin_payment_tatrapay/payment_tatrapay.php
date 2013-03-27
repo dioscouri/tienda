@@ -190,8 +190,8 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
     	}
     	
       // check that payment amount is correct for order_id
-      JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-      $orderpayment = JTable::getInstance( 'OrderPayments', 'TiendaTable' );
+      DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      $orderpayment = DSCTable::getInstance( 'OrderPayments', 'TiendaTable' );
       $orderpayment->load( array( 'order_id'=>$data['vs'] ) );
 
       unset( $data[ 'secure_key' ] );
@@ -201,7 +201,7 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
            
       // set the order's new status and update quantities if necessary
       Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
-      $order = JTable::getInstance('Orders', 'TiendaTable');
+      $order = DSCTable::getInstance('Orders', 'TiendaTable');
       $order->load( $data['vs'] );
       if ( count( $errors ) ) 
       {
@@ -264,7 +264,7 @@ class plgTiendaPayment_tatrapay extends TiendaPaymentPlugin
     function _loadData( &$data, $type)
     {
     	$session = JFactory::getSession();
-      $order = JTable::getInstance( 'Orders', 'TiendaTable' );
+      $order = DSCTable::getInstance( 'Orders', 'TiendaTable' );
     	$data['secure_key'] = $this->_getParam( 'secure_key' );
       switch( $type )
     	{

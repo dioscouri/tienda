@@ -36,7 +36,7 @@ class TiendaControllerShippingUnex extends TiendaControllerShippingPlugin
     	$this->includeCustomModel('UnexServices'); 
     	$this->includeCustomTables();
 
-    	$model = JModel::getInstance('UnexServices', 'TiendaModel');
+    	$model = DSCModel::getInstance('UnexServices', 'TiendaModel');
     	if($sid)
     	{
 	        $model->setId((int)$sid);
@@ -68,7 +68,7 @@ class TiendaControllerShippingUnex extends TiendaControllerShippingPlugin
 		$values = JRequest::get('post');
 		
     	$this->includeCustomTables(); 
-    	$table = JTable::getInstance('UnexServices', 'TiendaTable');
+    	$table = DSCTable::getInstance('UnexServices', 'TiendaTable');
     	
     	$table->bind($values);
     	

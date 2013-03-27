@@ -74,7 +74,7 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
         $quantity = 0;
         foreach ( $orderItems as $item )
         {
-        	$product = JTable::getInstance('Products', 'TiendaTable');
+        	$product = DSCTable::getInstance('Products', 'TiendaTable');
             $product->load($item->product_id);
             if($product->product_ships)
             {
@@ -94,8 +94,8 @@ class plgTiendaShipping_eDeliver extends TiendaShippingPlugin
         $edeliver->setLength($dim);
         $edeliver->setQuantity($quantity);
 	
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$zone = JTable::getInstance('Zones', 'TiendaTable');
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$zone = DSCTable::getInstance('Zones', 'TiendaTable');
 		$zone->load($address->zone_id);
 		
 		$edeliver->setDestCountryCode($address->country_isocode_2);

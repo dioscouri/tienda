@@ -36,12 +36,12 @@ class modTiendaCategoriesHelper extends JObject
 
 		// load the config class
 		Tienda::load( 'Tienda', 'defines' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 
 		// get the model
 		Tienda::load( 'TiendaModelCategories', 'models.categories' );
 		$model = new TiendaModelCategories( array() );
-		// $model = JModel::getInstance( 'Categories', 'TiendaModel' ); doesnt work sometimes without no apparent reason
+		// $model = DSCModel::getInstance( 'Categories', 'TiendaModel' ); doesnt work sometimes without no apparent reason
 		
 		// TODO Make this depend on the current filter_category?
 		 

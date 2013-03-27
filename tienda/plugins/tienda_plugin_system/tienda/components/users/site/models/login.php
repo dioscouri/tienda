@@ -17,7 +17,7 @@ jimport('joomla.event.dispatcher');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelLogin extends JModelForm
+class UsersModelLogin extends DSCModelForm
 {
 	/**
 	 * Method to get the login form.

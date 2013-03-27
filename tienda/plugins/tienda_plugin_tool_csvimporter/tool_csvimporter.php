@@ -388,7 +388,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 					}
 
 					Tienda::load('TiendaTableProducts', 'tables.products');
-					$product = JTable::getInstance('Products', 'TiendaTable');
+					$product = DSCTable::getInstance('Products', 'TiendaTable');
 
 					$product -> load($product_id);
 					$path = $product -> getImagePath();
@@ -432,8 +432,8 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 					$isNew = true;
 				}
 
-				JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
-				$product = JTable::getInstance('Products', 'TiendaTable');
+				DSCTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+				$product = DSCTable::getInstance('Products', 'TiendaTable');
 
 				if (!$isNew) {
 					if (!$product -> load($data['product_id'])) {
@@ -476,7 +476,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 						// New price?
 						if (empty($prices)) {
 							// set price if new or no prices set
-							$price = JTable::getInstance('Productprices', 'TiendaTable');
+							$price = DSCTable::getInstance('Productprices', 'TiendaTable');
 							$price -> product_id = $product -> id;
 							$price -> product_price = $data['product_price'];
 							$price -> group_id = Tienda::getInstance() -> get('default_user_group', '1');
@@ -485,7 +485,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 						// Overwrite price
 						else {
 							// set price if new or no prices set
-							$price = JTable::getInstance('Productprices', 'TiendaTable');
+							$price = DSCTable::getInstance('Productprices', 'TiendaTable');
 							$price -> load($prices[0] -> product_price_id);
 							$price -> product_price = $data['product_price'];
 							$price -> group_id = Tienda::getInstance() -> get('default_user_group', '1');
@@ -495,7 +495,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 						// New quantity?
 						if (empty($quantities)) {
 							// save default quantity
-							$quantity = JTable::getInstance('Productquantities', 'TiendaTable');
+							$quantity = DSCTable::getInstance('Productquantities', 'TiendaTable');
 							$quantity -> product_id = $product -> id;
 							$quantity -> quantity = $data['product_quantity'];
 							$quantity -> save();
@@ -503,7 +503,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 						// Overwrite Quantity
 						else {
 							// save default quantity
-							$quantity = JTable::getInstance('Productquantities', 'TiendaTable');
+							$quantity = DSCTable::getInstance('Productquantities', 'TiendaTable');
 							$quantity -> load($quantities[0] -> productquantity_id);
 							$quantity -> product_id = $product -> id;
 							$quantity -> quantity = $data['product_quantity'];
@@ -523,8 +523,8 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 						// Numeric = id, string = category name
 						if (!is_numeric($category_id)) {
 							// check for existance
-							JModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
-							$model = JModel::getInstance('Categories', 'TiendaModel');
+							DSCModel::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models');
+							$model = DSCModel::getInstance('Categories', 'TiendaModel');
 							$model -> setState('filter_name', $category_id);
 							$matches = $model -> getList();
 							$matched = false;
@@ -541,7 +541,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 
 							// Not matched, create category
 							if (!$matched) {
-								$category = JTable::getInstance('Categories', 'TiendaTable');
+								$category = DSCTable::getInstance('Categories', 'TiendaTable');
 								$category -> category_name = $category_id;
 								$category -> parent_id = 1;
 								$category -> category_enabled = 1;
@@ -553,7 +553,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 						}
 
 						// save xref in every case
-						$xref = JTable::getInstance('ProductCategories', 'TiendaTable');
+						$xref = DSCTable::getInstance('ProductCategories', 'TiendaTable');
 						$xref -> product_id = $product -> product_id;
 						$xref -> category_id = $category_id;
 						$xref -> save();
@@ -585,7 +585,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 	private function _migrateAttributes($product_id, $attributes) {
 		foreach ($attributes as $attribute_name => $options) {
 			// Add the Attribute
-			$table = JTable::getInstance('ProductAttributes', 'TiendaTable');
+			$table = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
 			$table -> product_id = $product_id;
 			$table -> productattribute_name = $attribute_name;
 			$table -> save();
@@ -593,7 +593,7 @@ class plgTiendaTool_CsvImporter extends TiendaToolPlugin {
 			// Add the Options for this attribute
 			$id = $table -> productattribute_id;
 			foreach ($options as $option) {
-				$otable = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+				$otable = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 				$otable -> productattribute_id = $id;
 				$otable -> productattributeoption_name = $option;
 				$otable -> save();

@@ -92,8 +92,8 @@ class TiendaControllerManufacturers extends TiendaController
 		$filter_manufacturer = $model->getState( 'filter_manufacturer' );
 
 		// get the manufacturer we're looking at
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$cmodel = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$cmodel = DSCModel::getInstance( 'Manufacturers', 'TiendaModel' );
 		$cat = $cmodel->getTable();
 		$cat->load( $filter_manufacturer );
 
@@ -171,8 +171,8 @@ class TiendaControllerManufacturers extends TiendaController
 		$product_description = TiendaArticle::fromString( $row->product_description );
 
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$cmodel = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 		$cat = $cmodel->getTable();
 		$cat->load( $filter_category );
 
@@ -265,7 +265,7 @@ class TiendaControllerManufacturers extends TiendaController
 
 		$view   = $this->getView( 'products', 'html' );
 		//$model  = $this->getModel( $this->get('suffix') );
-		$model = JModel::getInstance('Products', 'TiendaModel');
+		$model = DSCModel::getInstance('Products', 'TiendaModel');
 		$model->setId( $product_id );
 
 		Tienda::load('TiendaHelperUser', 'helpers.user');
@@ -309,7 +309,7 @@ class TiendaControllerManufacturers extends TiendaController
 			if (empty($geozones))
 			{
 				// use the default
-				$table = JTable::getInstance('Geozones', 'TiendaTable');
+				$table = DSCTable::getInstance('Geozones', 'TiendaTable');
 				$table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
 				$geozones = array( $table );
 			}
@@ -376,7 +376,7 @@ class TiendaControllerManufacturers extends TiendaController
 			}
 
 			// adjust the displayed price based on the selected attributes
-			$table = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+			$table = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 			$attrs = array();
 			foreach ($attributes as $attrib_id)
 			{
@@ -455,15 +455,15 @@ class TiendaControllerManufacturers extends TiendaController
 		$html = '';
 
 		// get the product's files
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$model->setState( 'filter_enabled', 1 );
 		//$model->setState( 'filter_purchaserequired', 1 );
 		$items = $model->getList();
 
 		// get the user's active subscriptions to this product, if possible
-		$submodel = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+		$submodel = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
 		$submodel->setState('filter_userid', JFactory::getUser()->id);
 		$submodel->setState('filter_productid', $product_id);
 		$subs = $submodel->getList();
@@ -512,8 +512,8 @@ class TiendaControllerManufacturers extends TiendaController
 		$validation = "";
 
 		// get the list
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_relation', $relation_type );
 
 		switch ($relation_type)
@@ -632,8 +632,8 @@ class TiendaControllerManufacturers extends TiendaController
 			$this->setRedirect( $link, $this->message, $this->messagetype );
 			return false;
 		}
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$productfile = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$productfile = DSCTable::getInstance( 'ProductFiles', 'TiendaTable' );
 		$productfile->load( $productfile_id );
 		if (empty($productfile->productfile_id))
 		{
@@ -656,7 +656,7 @@ class TiendaControllerManufacturers extends TiendaController
 
 		if (!empty($productToDownload))
 		{
-			$productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+			$productDownload = DSCTable::getInstance('ProductDownloads', 'TiendaTable');
 			$productDownload->load($productToDownload->productdownload_id);
 			$productDownload->productdownload_max = $productDownload->productdownload_max-1;
 			if (!$productDownload->save())
@@ -751,7 +751,7 @@ class TiendaControllerManufacturers extends TiendaController
 			return false;
 		}
 
-		$product = JTable::getInstance('Products', 'TiendaTable');
+		$product = DSCTable::getInstance('Products', 'TiendaTable');
 		$product->load( array( 'product_id'=>$product_id ) );
 
 		// if product notforsale, fail
@@ -773,7 +773,7 @@ class TiendaControllerManufacturers extends TiendaController
 		}
 		$keynames['product_id'] = $product_id;
 
-		$cartitem = JTable::getInstance( 'Carts', 'TiendaTable' );
+		$cartitem = DSCTable::getInstance( 'Carts', 'TiendaTable' );
 		$cartitem->load($keynames);
 		if ($product->quantity_restriction)
 		{
@@ -910,7 +910,7 @@ class TiendaControllerManufacturers extends TiendaController
 		}
 
 		// do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
-		$product = JTable::getInstance('Products', 'TiendaTable');
+		$product = DSCTable::getInstance('Products', 'TiendaTable');
 		$product->load( array( 'product_id'=>$product_id ) );
 
 		// if product notforsale, fail
@@ -1074,8 +1074,8 @@ class TiendaControllerManufacturers extends TiendaController
 		$html = '';
 		$view   = $this->getView( 'products', 'html' );
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'productcomments', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'productcomments', 'TiendaModel' );
 		$selectsort = JRequest::getVar('default_selectsort', '');
 		$model->setstate('order', $selectsort );
 		$limitstart = JRequest::getInt('limitstart', 0);
@@ -1214,8 +1214,8 @@ class TiendaControllerManufacturers extends TiendaController
 		// TODO get the children
 		// loop thru each child,
 		// get the list
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$model->setState( 'filter_relation', 'parent' );
 		if ($children = $model->getList())
@@ -1240,7 +1240,7 @@ class TiendaControllerManufacturers extends TiendaController
 				}
 
 				// do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
-				$product = JTable::getInstance('Products', 'TiendaTable');
+				$product = DSCTable::getInstance('Products', 'TiendaTable');
 				$product->load( array( 'product_id'=>$child->product_id_to ) );
 
 				// if product notforsale, fail
@@ -1377,8 +1377,8 @@ class TiendaControllerManufacturers extends TiendaController
 		// TODO get the children
 		// loop thru each child,
 		// get the list
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState( 'filter_product', $product_id );
 		$model->setState( 'filter_relation', 'parent' );
 		if ($children = $model->getList())
@@ -1403,7 +1403,7 @@ class TiendaControllerManufacturers extends TiendaController
 				}
 
 				// do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
-				$product = JTable::getInstance('Products', 'TiendaTable');
+				$product = DSCTable::getInstance('Products', 'TiendaTable');
 				$product->load( array( 'product_id'=>$child->product_id_to ) );
 
 				// if product notforsale, fail
@@ -1523,8 +1523,8 @@ class TiendaControllerManufacturers extends TiendaController
 	 */
 	function addReview()
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$productreviews = JTable::getInstance('productcomments', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$productreviews = DSCTable::getInstance('productcomments', 'TiendaTable');
 		$post = JRequest::get('post');
 		$captcha_enable = Tienda::getInstance()->get('use_captcha', '0');
 		$privatekey = "6LcAcbwSAAAAANZOTZWYzYWRULBU_S--368ld2Fb";
@@ -1595,8 +1595,8 @@ class TiendaControllerManufacturers extends TiendaController
 			$productcomment_id = JRequest::getInt('productcomment_id', '');
 			Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
 			$producthelper = new TiendaHelperProduct();
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$productcomment = JTable::getInstance('productcomments', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$productcomment = DSCTable::getInstance('productcomments', 'TiendaTable');
 			$productcomment->load( $productcomment_id );
 
 			$helpful_votes_total = $productcomment->helpful_votes_total;
@@ -1621,8 +1621,8 @@ class TiendaControllerManufacturers extends TiendaController
 			$help['helpful'] = $helpfulness;
 			$help['user_id'] = $user_id;
 			$help['reported'] = $report;
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$reviewhelpfulness = JTable::getInstance('ProductCommentsHelpfulness', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$reviewhelpfulness = DSCTable::getInstance('ProductCommentsHelpfulness', 'TiendaTable');
 			$reviewhelpfulness->load(array('user_id'=>$user_id));
 			if ($report == 1 && !empty($reviewhelpfulness->productcommentshelpfulness_id) && empty($reviewhelpfulness->reported))
 			{

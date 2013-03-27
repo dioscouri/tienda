@@ -31,8 +31,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$errors = array();
 		$error = false;
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
 		$lang = JFactory::getLanguage();
 		$lang->load( 'com_tienda', JPATH_ADMINISTRATOR );
@@ -45,7 +45,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		}
 
 		// optionally email the user
-		$row = JTable::getInstance('OrderHistory', 'TiendaTable');
+		$row = DSCTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order_id;
 		$row->order_state_id = $order->order_state_id;
 		$row->notify_customer = Tienda::getInstance()->get( 'autonotify_onSetOrderPaymentReceived', '0');
@@ -96,11 +96,11 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$error = false;
 		$errorMsg = "";
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$productsModel = JModel::getInstance( 'Products', 'TiendaModel' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$productsModel = DSCModel::getInstance( 'Products', 'TiendaModel' );
 
-		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$order = $model->getItem();
 		if ($order->orderitems)
@@ -108,7 +108,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 			foreach ($order->orderitems as $orderitem)
 			{
 				// if this orderItem product has productfiles that are enabled and only available when product is purchased
-				$model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+				$model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
 				$model->setState( 'filter_product', $orderitem->product_id );
 				$model->setState( 'filter_enabled', 1 );
 				//$model->setState( 'filter_purchaserequired', 1 ); //we still show the downloable file in the My Downloads area if the user completed the checkout
@@ -120,7 +120,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 				// then create a productdownloads table object
 				foreach ($items as $item)
 				{
-					$productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+					$productDownload = DSCTable::getInstance('ProductDownloads', 'TiendaTable');
 					$productDownload->product_id = $orderitem->product_id;
 					$productDownload->productfile_id = $item->productfile_id;
 					// Download Maximum Number is respective of the quantity purchased
@@ -149,10 +149,10 @@ class TiendaHelperOrder extends TiendaHelperBase
 	 */
 	public static function updateProductQuantities( $order_id, $delta='-' )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$productsModel = JModel::getInstance( 'Products', 'TiendaModel' );
-		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$productsModel = DSCModel::getInstance( 'Products', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$order = $model->getItem();
 		if (!empty($order->orderitems) && empty($order->quantities_updated))
@@ -161,10 +161,10 @@ class TiendaHelperOrder extends TiendaHelperBase
 			{
 				// update quantities
 				// TODO Update quantity based on vendor_id
-				$product = JTable::getInstance('ProductQuantities', 'TiendaTable');
+				$product = DSCTable::getInstance('ProductQuantities', 'TiendaTable');
 				$product->load( array('product_id'=>$orderitem->product_id, 'vendor_id'=>'0', 'product_attributes'=>$orderitem->orderitem_attributes), true, false);
 
-				$productsTable = JTable::getInstance( 'Products', 'TiendaTable' );
+				$productsTable = DSCTable::getInstance( 'Products', 'TiendaTable' );
 				$productsTable->load($orderitem->product_id);
 				 
 
@@ -235,8 +235,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		}
 
 		$app = JFactory::getApplication();
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$ns = $app->getName().'::'.'com.tienda.model.'.$model->getTable()->get('_suffix');
 		$state = array();
 
@@ -300,8 +300,8 @@ class TiendaHelperOrder extends TiendaHelperBase
     		return false;
 		}
 		 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance('Currencies', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance('Currencies', 'TiendaModel' );
 		$table = $model->getTable();
 
 		// Load the currency
@@ -337,8 +337,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$errors = array();
 		$error = false;
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
 		 
 		if (empty($order->order_id))
@@ -473,9 +473,9 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$error = false;
 		$errorMsg = "";
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$model_issues = null;
 		$order = $model->getItem();
@@ -488,7 +488,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 				{
 					// these are only for one-time payments that create subscriptions
 					// recurring payment subscriptions are handled differently - by the payment plugins
-					$subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+					$subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
 					$subscription->load( array( 'orderitem_id'=>$orderitem->orderitem_id ) );
 					if (!empty($subscription->subscription_id))
 					{
@@ -498,7 +498,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 
 						if( $product->subscription_period_unit == 'I' ) // subscription by issue => calculate ID of the end issue (create the rest of them if they dont exist)
 						{
-							$model_issues = JModel::getInstance( 'ProductIssues', 'TiendaModel' );
+							$model_issues = DSCModel::getInstance( 'ProductIssues', 'TiendaModel' );
 							$subscription->subscription_issue_end_id = $model_issues->getEndIssueId( $subscription->product_id, $product->subscription_period_interval );
 						}
 						if (!$subscription->save())

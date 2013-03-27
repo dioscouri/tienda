@@ -69,7 +69,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         
         
         $rates = array();
-        $model = JModel::getInstance('ShippingMethods', 'TiendaModel');
+        $model = DSCModel::getInstance('ShippingMethods', 'TiendaModel');
         $model->setState( 'filter_enabled', '1' );
         $model->setState( 'filter_subtotal', $order->order_subtotal );
         if ($methods = $model->getList())
@@ -77,7 +77,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
             foreach( $methods as $method )
             {
                 // filter the list of methods according to geozone
-                $ratemodel = JModel::getInstance('ShippingRates', 'TiendaModel');
+                $ratemodel = DSCModel::getInstance('ShippingRates', 'TiendaModel');
                 $ratemodel->setState('filter_shippingmethod', $method->shipping_method_id);
                 $ratemodel->setState('filter_geozones', $gz_array);
                 if ($ratesexist = $ratemodel->getList())
@@ -131,7 +131,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
         
         $this->includeCustomModel('ShippingMethods');
 
-        $model = JModel::getInstance('ShippingMethods', 'TiendaModel');
+        $model = DSCModel::getInstance('ShippingMethods', 'TiendaModel');
         $list = $model->getList();
 		$vars->list = $list;
 		
@@ -172,7 +172,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 		
 		// determine the shipping method type
 		$this->includeCustomTables('shipping_standard');
-		$shippingmethod = JTable::getInstance( 'ShippingMethods', 'TiendaTable' );
+		$shippingmethod = DSCTable::getInstance( 'ShippingMethods', 'TiendaTable' );
 		$shippingmethod->load( $shipping_method_id );
 	 
 		if (empty($shippingmethod->shipping_method_id))
@@ -202,8 +202,8 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
                             $geozone_rates[$geozone_id] = array();
                         }
 
-                        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-				        $model = JModel::getInstance('ShippingRates', 'TiendaModel');
+                        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+				        $model = DSCModel::getInstance('ShippingRates', 'TiendaModel');
 				        $model->setState('filter_shippingmethod', $shipping_method_id);
 				        $model->setState('filter_geozone', $geozone_id);
 				        $model->setState('filter_weight', $total); // Use weight as total
@@ -212,7 +212,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 	       
 				        if (empty($items))
 				        {
-				            return JTable::getInstance('ShippingRates', 'TiendaTable');           
+				            return DSCTable::getInstance('ShippingRates', 'TiendaTable');           
 				        }
 				        
 				        $rate = $items[0];                
@@ -240,13 +240,13 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
 				$sum_weight = 0;
 				$count_shipped_items = 0;
 				$order_ships = false;
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+				DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 				foreach ($orderItems as $item)
 				{
 				    // find out if the order ships
 				    // and while looping through, sum the weight of all shippable products in the order
 					$pid = $item->product_id;
-		            $product = JTable::getInstance( 'Products', 'TiendaTable' );
+		            $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 		            $product->load( $pid );
 		            if (!empty($product->product_ships))
 		            {
@@ -431,24 +431,24 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
     public function getRate( $shipping_method_id, $geozone_id, $product_id='', $use_weight='0', $weight='0' )
     {
         // TODO Give this better error reporting capabilities
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance('ShippingRates', 'TiendaModel');
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance('ShippingRates', 'TiendaModel');
         $model->setState('filter_shippingmethod', $shipping_method_id);
         $model->setState('filter_geozone', $geozone_id);
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
-        $product = JTable::getInstance( 'Products', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+        $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
               
         $product->load( $product_id );
       
         if (empty($product->product_id))
         {
-            return JTable::getInstance('ShippingRates', 'TiendaTable');           
+            return DSCTable::getInstance('ShippingRates', 'TiendaTable');           
         }
         if (empty($product->product_ships))
         {
             // product doesn't require shipping, therefore cannot impact shipping costs
-            return JTable::getInstance('ShippingRates', 'TiendaTable');
+            return DSCTable::getInstance('ShippingRates', 'TiendaTable');
         }
       
         if (!empty($use_weight) && $use_weight == '1')
@@ -466,7 +466,7 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
      
         if (empty($items))
         {
-            return JTable::getInstance('ShippingRates', 'TiendaTable');           
+            return DSCTable::getInstance('ShippingRates', 'TiendaTable');           
         }
         
         return $items[0];

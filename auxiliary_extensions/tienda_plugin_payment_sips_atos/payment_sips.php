@@ -51,7 +51,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         $vars->order_id = $data['order_id'];
 
         $this->os_info = $this->_getOperatingSystemInfo();        // set sips checkout type
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load($data['order_id']);
         $merchant_id = $this->_getMerchantId();
         if (!$pathfile = $this->_getPathfileFileName()) {
@@ -117,7 +117,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
                 // get the order_id from the session set by the prePayment
                 $mainframe = JFactory::getApplication();
                 $order_id = (int) $mainframe->getUserState('tienda.order_id');
-                $order = JTable::getInstance('Orders', 'TiendaTable');
+                $order = DSCTable::getInstance('Orders', 'TiendaTable');
                 $order->load($order_id);
                 $items = $order->getItems();
 
@@ -220,8 +220,8 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
             $errors[] = JText::_('TIENDA_SIPS_MERCHANT_ID_RECEIVED_INVALID');
         } else {
             // load the orderpayment record and set some values
-            JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
-            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            DSCTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables');
+            $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load($orderpayment_id);
             if (empty($orderpayment_id) || empty($orderpayment->orderpayment_id)) {
                 $errors[] = JText::_('TIENDA_SIPS_INVALID ORDERPAYMENTID');
@@ -248,7 +248,7 @@ class plgTiendaPayment_sips extends TiendaPaymentPlugin {
         // set the order's new status and update quantities if necessary
         Tienda::load('TiendaHelperOrder', 'helpers.order');
         Tienda::load('TiendaHelperCarts', 'helpers.carts');
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load($orderpayment->order_id);
         if (count($errors) or $response_code != '00') {
             if ($response_code != '00') {

@@ -135,7 +135,7 @@ class TiendaControllerEavAttributes extends TiendaController
 		$keynames = array();
 		foreach (@$cids as $cid)
 		{
-			$table = JTable::getInstance('EavAttributeEntities', 'TiendaTable');
+			$table = DSCTable::getInstance('EavAttributeEntities', 'TiendaTable');
 			$keynames["eavattribute_id"] = $id;
 			$keynames["eaventity_id"] = $cid;
 			$keynames["eaventity_type"] = $type;

@@ -93,8 +93,8 @@ class TiendaTableCategories extends TiendaTableNested
 			if ($database->query())
 			{
 				$insertid = $database->insertid();					
-				JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-				$table = JTable::getInstance('Categories', 'TiendaTable');
+				DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+				$table = DSCTable::getInstance('Categories', 'TiendaTable');
 				$table->load( $insertid );
 				$table->rebuildTree();
 				$result = $table;

@@ -29,7 +29,7 @@ $citems = @$this->citems;
             <div class="tienda_subcategories">
                 <?php
                 foreach ($citems as $citem) :
-                    $model = JModel::getInstance('Products', 'TiendaModel');
+                    $model = DSCModel::getInstance('Products', 'TiendaModel');
                     $model->setState('filter_enabled', '1');
                     $model->setState('filter_category', $citem->category_id);
                     $model->setState('order', 'tbl.ordering');

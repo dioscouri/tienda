@@ -119,9 +119,9 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 		$errors = array();
         
         // load the orderpayment record and set some values
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	    $orderpayment_id = $data['orderpayment_id'];
-	    $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+	    $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 	    $orderpayment->load( $orderpayment_id );
 	    $orderpayment->transaction_details  = $data['orderpayment_type'];
 	    $orderpayment->transaction_id       = $data['orderpayment_id'];
@@ -147,7 +147,7 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 	    // set the order's new status and update quantities if necessary
 	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-	    $order = JTable::getInstance('Orders', 'TiendaTable');
+	    $order = DSCTable::getInstance('Orders', 'TiendaTable');
 	    $order->load( $orderpayment->order_id );
 	    
 		if (count($errors)) 
@@ -334,9 +334,9 @@ class plgTiendaPayment_alphauserpoints extends TiendaPaymentPlugin
 			
 			if( empty( $rule_name ) )
 			{
-				JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
+				DSCTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_alphauserpoints/tables');
 				// save new points into alpha_userpoints_rules table
-				$row = JTable::getInstance('Rules');
+				$row = DSCTable::getInstance('Rules');
 				$row->id			   = NULL;
 				$row->rule_name		   = 'Tienda Payment';
 				$row->rule_description = 'Rule for substraction points during Tienda payment';

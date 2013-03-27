@@ -21,7 +21,7 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 require_once( JPATH_ADMINISTRATOR.'/components/com_media/helpers/media.php' );
 
-class TiendaModelElementImage extends JModel
+class TiendaModelElementImage extends DSCModel
 {
 	function getState($property = null)
 	{

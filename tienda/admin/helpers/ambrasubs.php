@@ -53,7 +53,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
         }
         
         // get the order
-        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
         $this->order = $order;
@@ -61,7 +61,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
         // find the products in the order that are integrated 
         foreach ($order->orderitems as $orderitem)
         {
-            $model = JModel::getInstance( 'Products', 'TiendaModel' );
+            $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
             $model->setId( $orderitem->product_id );
             $product = $model->getItem();
             
@@ -83,8 +83,8 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
     {
         if (is_numeric($subscription))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $table = JTable::getInstance( 'Subscriptions', 'TiendaTable' );
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $table = DSCTable::getInstance( 'Subscriptions', 'TiendaTable' );
             $table->load( array( 'subscription_id' => $subscription ) );
             $subscription = $table;
         }
@@ -98,8 +98,8 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
 
         if (!empty($subscription->product_id))
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-            $model = JModel::getInstance( 'Products', 'TiendaModel' );
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
             $model->setId( $subscription->product_id );
             $product = $model->getItem();
             
@@ -247,7 +247,7 @@ class TiendaHelperAmbrasubs extends TiendaHelperBase
      */
     function onAfterSaveProducts( $product )
     {
-        $model = JModel::getInstance( 'Products', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
         $model->setId( $product->product_id );
         $product = $model->getItem();
 

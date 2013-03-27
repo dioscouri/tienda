@@ -20,7 +20,7 @@ class TiendaModelElementUser extends DSCModelElement
     
     function getTable($name='', $prefix=null, $options = array())
     {
-        $table = JTable::getInstance('User', 'DSCTable');
+        $table = DSCTable::getInstance('User', 'DSCTable');
         return $table;
     }
     

@@ -23,8 +23,8 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 	function __construct()
 	{
 		parent::__construct();
-		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
-		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
+		DSCModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		DSCTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
 	}
 
 	/**
@@ -47,7 +47,7 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 		$values = JRequest::get('post');
 
 		$this->includeCustomTables();
-		$table = JTable::getInstance('ShippingMethodsWeightbased', 'TiendaTable');
+		$table = DSCTable::getInstance('ShippingMethodsWeightbased', 'TiendaTable');
 		 
 		$table->bind($values);
 		 
@@ -75,10 +75,10 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 		$sid = JRequest::getVar('sid');
 
 		$this->includeCustomTables();
-		$row = JTable::getInstance('ShippingMethodsWeightbased', 'TiendaTable');
+		$row = DSCTable::getInstance('ShippingMethodsWeightbased', 'TiendaTable');
 		$row->load($sid);
 
-		$model = JModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
+		$model = DSCModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
 		$model->setState('filter_shippingmethod', $sid);
 		$app = JFactory::getApplication();
 		$ns = $this->getNamespace();
@@ -125,7 +125,7 @@ class TiendaControllerShippingWeightbased extends TiendaControllerShippingPlugin
 		$sid = TiendaShippingPlugin::getShippingId();
 		$this->includeCustomModel('ShippingMethodsWeightbased');
 
-		$model = JModel::getInstance('ShippingMethodsWeightbased', 'TiendaModel');
+		$model = DSCModel::getInstance('ShippingMethodsWeightbased', 'TiendaModel');
 		$model->setId( (int)$sid );
 
 		$item = $model->getItem();

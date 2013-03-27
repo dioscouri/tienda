@@ -47,7 +47,7 @@ class TiendaControllerDashboard extends TiendaController
 		$view->setLayout('default');
 
 		$user_id = JFactory::getUser()->id;
-		$userinfo = JTable::getInstance('UserInfo', 'TiendaTable');
+		$userinfo = DSCTable::getInstance('UserInfo', 'TiendaTable');
 		$userinfo->load( array( 'user_id'=>$user_id ) );
 		$view->assign( 'userinfo', $userinfo );
 

@@ -166,7 +166,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     			
     		// Load Product
     		Tienda::load('TiendaModelProducts', 'models.products');
-    		$model = JModel::getInstance('Products', 'TiendaModel');
+    		$model = DSCModel::getInstance('Products', 'TiendaModel');
     		$model->setId( (int) $params['id'] );
     		$row = $model->getItem();
     		
@@ -188,8 +188,8 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     		Tienda::load( 'TiendaArticle', 'library.article' );
     		$product_description = TiendaArticle::fromString( $row->product_description );
     
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-    		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
+    		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+    		$cmodel = DSCModel::getInstance( 'Categories', 'TiendaModel' );
     		$cat = $cmodel->getTable();
     		$cat->load( $filter_category );
     
@@ -246,7 +246,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
 	                if (empty($geozones))
 	                {
 	                    // use the default
-	                    $table = JTable::getInstance('Geozones', 'TiendaTable');
+	                    $table = DSCTable::getInstance('Geozones', 'TiendaTable');
 	                    $table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
 	                    $geozones = array( $table );
 	                }
@@ -307,8 +307,8 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
             $validation = "";
     
             // get the list
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-            $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
             $model->setState( 'filter_relation', $relation_type );
           
             switch ($relation_type)
@@ -395,7 +395,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
 			            if (empty($geozones))
 			            {
 			                // use the default
-			                $table = JTable::getInstance('Geozones', 'TiendaTable');
+			                $table = DSCTable::getInstance('Geozones', 'TiendaTable');
 			                $table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
 			                $geozones = array( $table );
 			            }
@@ -437,15 +437,15 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     		$html = '';
     
     		// get the product's files
-    		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-    		$model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+    		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+    		$model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
     		$model->setState( 'filter_product', $product_id );
     		$model->setState( 'filter_enabled', 1 );
     		//$model->setState( 'filter_purchaserequired', 1 );
     		$items = $model->getList();
     
     		// get the user's active subscriptions to this product, if possible
-    		$submodel = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+    		$submodel = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
     		$submodel->setState('filter_userid', JFactory::getUser()->id);
     		$submodel->setState('filter_productid', $product_id);
     		$subs = $submodel->getList(); 
@@ -488,7 +488,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
             $html = '';
     
             Tienda::load('TiendaModelProducts', 'models.products');
-            $model  = JModel::getInstance('Products', 'TiendaModel');
+            $model  = DSCModel::getInstance('Products', 'TiendaModel');
             
             $user = JFactory::getUser();
             Tienda::load('TiendaHelperUser', 'helpers.user');  
@@ -526,7 +526,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
                 if (empty($geozones))
                 {
                     // use the default
-                    $table = JTable::getInstance('Geozones', 'TiendaTable');
+                    $table = DSCTable::getInstance('Geozones', 'TiendaTable');
                     $table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
                     $geozones = array( $table );
                 }

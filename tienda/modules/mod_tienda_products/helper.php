@@ -41,11 +41,11 @@ class modTiendaProductsHelper extends JObject
 		Tienda::load( 'Tienda', 'defines' );
 		Tienda::load('TiendaHelperProduct', 'helpers.product');
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 
 		// get the model
-		$model = JModel::getInstance( 'Products', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Products', 'TiendaModel' );
 		 
 		// setting the model's state tells it what items to return
 		$model->setState('filter_published', '1');
@@ -122,7 +122,7 @@ class modTiendaProductsHelper extends JObject
 				if (empty($geozones))
 				{
 					// use the default
-					$table = JTable::getInstance('Geozones', 'TiendaTable');
+					$table = DSCTable::getInstance('Geozones', 'TiendaTable');
 					$table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
 					$geozones = array( $table );
 				}

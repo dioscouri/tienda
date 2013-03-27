@@ -18,7 +18,7 @@ jimport('joomla.event.dispatcher');
  * @subpackage	com_users
  * @version		1.5
  */
-class UsersModelRemind extends JModelForm
+class UsersModelRemind extends DSCModelForm
 {
 	/**
 	 * Method to get the username remind request form.

@@ -89,13 +89,13 @@ class TiendaTableGroups extends TiendaTable
 			{
 				
 				// Delete user group relationships
-				$model = JModel::getInstance('UserGroups', 'TiendaModel');
+				$model = DSCModel::getInstance('UserGroups', 'TiendaModel');
 				$model->setState('filter_group', $this->$k);
 				$links = $model->getList();
 				
 				if($links)
 				{
-					$table = JTable::getInstance('UserGroups', 'TiendaTable');
+					$table = DSCTable::getInstance('UserGroups', 'TiendaTable');
 					foreach($links as $link)
 					{
 						$table->delete($link->user_id);
@@ -103,13 +103,13 @@ class TiendaTableGroups extends TiendaTable
 				}
 				
 				// Delete prices
-				$model = JModel::getInstance('ProductPrices', 'TiendaModel');
+				$model = DSCModel::getInstance('ProductPrices', 'TiendaModel');
 				$model->setState('filter_user_group', $this->$k);
 				$prices = $model->getList();
 				
 				if($prices)
 				{
-					$table = JTable::getInstance('ProductPrices', 'TiendaTable');
+					$table = DSCTable::getInstance('ProductPrices', 'TiendaTable');
 					foreach($prices as $price)
 					{
 						$table->delete($price->user_id);

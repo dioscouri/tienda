@@ -62,7 +62,7 @@ class TiendaTableCredits extends TiendaTable
                )
             {
                 // add the credits to the total
-                $userdata = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+                $userdata = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
                 $userdata->load( array( 'user_id' => $this->user_id ) );
                 $userdata->user_id = $this->user_id;
                 
@@ -92,7 +92,7 @@ class TiendaTableCredits extends TiendaTable
             {
                 // if this is an existing credit that is now being disabled,
                 // remove the credits from the total
-                $userdata = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+                $userdata = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
                 $userdata->load( array( 'user_id' => $this->user_id ) );
                 $userdata->user_id = $this->user_id;
                 $userdata->credits_total = $userdata->credits_total - $this->credit_amount;
@@ -123,7 +123,7 @@ class TiendaTableCredits extends TiendaTable
                 // but is now being changed to a withdrawable amount,
                 // then we need to adjust the user's withdrawable total
 
-                $userdata = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+                $userdata = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
                 $userdata->load( array( 'user_id' => $this->user_id ) );
                 $userdata->user_id = $this->user_id;
                 
@@ -145,7 +145,7 @@ class TiendaTableCredits extends TiendaTable
                 // but is now being changed to a non-withdrawable amount,
                 // then we need to adjust the user's withdrawable total
 
-                $userdata = JTable::getInstance( 'UserInfo', 'TiendaTable' );
+                $userdata = DSCTable::getInstance( 'UserInfo', 'TiendaTable' );
                 $userdata->load( array( 'user_id' => $this->user_id ) );
                 $userdata->user_id = $this->user_id;
                 
@@ -176,7 +176,7 @@ class TiendaTableCredits extends TiendaTable
         {
             // this record cause a credit change for the user
             // so deduct their value from the users total
-            $userdata = JTable::getInstance( 'Userdata', 'TiendaTable' );
+            $userdata = DSCTable::getInstance( 'Userdata', 'TiendaTable' );
             $userdata->load( array( 'user_id' => $this->user_id ) );
             $userdata->user_id = $this->user_id;
             $userdata->credits_total = $userdata->credits_total - $this->credit_amount;

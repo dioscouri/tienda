@@ -68,7 +68,7 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
          $canadaPost= new CanadaPost ($key) ;
         foreach ( $orderItems as $item )
         {
-        	$product = JTable::getInstance('Products', 'TiendaTable');
+        	$product = DSCTable::getInstance('Products', 'TiendaTable');
             $product->load($item->product_id);
             $description=strip_tags($product->product_description);
             if ($product->product_ships)
@@ -81,8 +81,8 @@ class plgTiendaShipping_Canada extends TiendaShippingPlugin
 		// $address->city $address->zone_id $address->country_name $address->postal_code
 		//
 	  // $address->city="Delhi";
-	    JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$zone = JTable::getInstance('Zones', 'TiendaTable');
+	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$zone = DSCTable::getInstance('Zones', 'TiendaTable');
 		$zone->load($address->zone_id);
 		$canadaPost->getQuote($address->city, $zone->zone_name, $address->country_name, $address->postal_code);
 

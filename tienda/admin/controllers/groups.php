@@ -154,7 +154,7 @@ class TiendaControllerGroups extends TiendaController
 		$keynames = array();
 		foreach (@$cids as $cid)
 		{
-			$table = JTable::getInstance('UserGroups', 'TiendaTable');
+			$table = DSCTable::getInstance('UserGroups', 'TiendaTable');
 			$keynames["group_id"] = $id;
 			$keynames["user_id"] = $cid;
 			$table->load( $keynames );

@@ -16,11 +16,11 @@ class modTiendaUserAddressHelper
     function getAddresses()
     {
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 
         // get the user's addresses using the address model
-    	$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+    	$model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
     	$model->setState('filter_userid', JRequest::getVar('id', 0, 'request', 'int'));
     	$model->setState('filter_deleted', 0);
     	$userAddresses = $model->getList();

@@ -103,7 +103,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
        
 
         // set paypal checkout type
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $data['order_id'] );
         $items = $order->getItems();
         $vars->is_recurring = $order->isRecurring();
@@ -116,7 +116,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
             // Adjust the orderpayment amount since it's a mixed cart
             // first orderpayment is just the non-recurring items total
             // then upon return, ask user to checkout again for recurring items
-            $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+            $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
             $orderpayment->load( $vars->orderpayment_id );
             $vars->amount = $order->recurring_trial ? $order->recurring_trial_price : $order->recurring_amount;
             $orderpayment->orderpayment_amount = $orderpayment->orderpayment_amount - $vars->amount; 
@@ -160,7 +160,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
         $vars->city         = $data['orderinfo']->shipping_city;
         
        	//get 2-character IS0-3166-1 country code
-        $countryTable = JTable::getInstance('Countries', 'TiendaTable');       
+        $countryTable = DSCTable::getInstance('Countries', 'TiendaTable');       
         $countryTable->load( $data['orderinfo']->shipping_country_id );     
         
         $vars->country      = $countryTable->country_isocode_2;        
@@ -237,7 +237,7 @@ class plgTiendaPayment_paypalpro extends TiendaPaymentPlugin
 //                // get the order_id from the session set by the prePayment
 //                $mainframe = JFactory::getApplication();
 //                $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
-//                $order = JTable::getInstance('Orders', 'TiendaTable');
+//                $order = DSCTable::getInstance('Orders', 'TiendaTable');
 //                $order->load( $order_id );
 //                $items = $order->getItems();
 //

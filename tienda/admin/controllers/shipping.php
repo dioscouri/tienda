@@ -56,10 +56,10 @@ class TiendaControllerShipping extends TiendaController
        
 		if(version_compare(JVERSION,'1.6.0','ge')) {
 	        // Joomla! 1.6+ code here
-	        $row  = JTable::getInstance('extension');
+	        $row  = DSCTable::getInstance('extension');
 	    } else {
 	        // Joomla! 1.5 code here
-	       $row  = JTable::getInstance('plugin');
+	       $row  = DSCTable::getInstance('plugin');
 	    }
 		
         $row->bind( JRequest::get('post') );
@@ -154,7 +154,7 @@ class TiendaControllerShipping extends TiendaController
     		$model->setId($id);
 	
 			// get the data
-			// not using getItem here to enable ->checkout (which requires JTable object)
+			// not using getItem here to enable ->checkout (which requires DSCTable object)
 			$row = $model->getTable();
 			$row->load( (int) $model->getId() );
     		$element = $row->element;

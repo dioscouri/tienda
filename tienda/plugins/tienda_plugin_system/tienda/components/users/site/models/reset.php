@@ -18,7 +18,7 @@ jimport('joomla.database.table');
  * @subpackage	com_users
  * @since		1.5
  */
-class UsersModelReset extends JModelForm
+class UsersModelReset extends DSCModelForm
 {
 	/**
 	 * Method to get the password reset request form.

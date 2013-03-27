@@ -17,12 +17,12 @@ class modTiendaCartHelper
     function getCart()
     {
         Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        JModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
 
         // determine whether we're working with a session or db cart
         $suffix = TiendaHelperCarts::getSuffix();
-    	$model = JModel::getInstance( 'Carts', 'TiendaModel' );
+    	$model = DSCModel::getInstance( 'Carts', 'TiendaModel' );
     	
         $session = JFactory::getSession();
         $user = JFactory::getUser();
@@ -48,7 +48,7 @@ class modTiendaCartHelper
             {
                 // use the default
                 $this->using_default_geozone = true;
-                $table = JTable::getInstance('Geozones', 'TiendaTable');
+                $table = DSCTable::getInstance('Geozones', 'TiendaTable');
                 $table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
                 $geozones = array( $table );
             }

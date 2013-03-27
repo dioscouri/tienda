@@ -90,7 +90,7 @@ class TiendaTableProductFiles extends TiendaTable
 		// or because they have purchased it and the num_downloads is < max (or max == -1)
 
 		// Check if they have an unlimited number of downloads
-		$productdownloads = JTable::getInstance('ProductDownloads', 'TiendaTable');
+		$productdownloads = DSCTable::getInstance('ProductDownloads', 'TiendaTable');
 		$productdownloads -> load(array('productfile_id' => $this -> productfile_id, 'user_id' => $user_id));
 
 		if ($productdownloads -> productdownload_id) 
@@ -113,7 +113,7 @@ class TiendaTableProductFiles extends TiendaTable
 	 */
 	function logDownload($user_id) 
 	{
-		$downloadlog = JTable::getInstance('ProductDownloadLogs', 'TiendaTable');
+		$downloadlog = DSCTable::getInstance('ProductDownloadLogs', 'TiendaTable');
 		$downloadlog -> user_id = $user_id;
 		$downloadlog -> productfile_id = $this -> productfile_id;
 		$downloadlog -> save();

@@ -103,7 +103,7 @@ class plgTiendaAmbraPoints extends JPlugin
             return $success;    
         }
         
-	    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+	    $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $orderid );
 		$item=$model->getItem();
 		$subtotal=$item->order_subtotal;

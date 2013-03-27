@@ -158,7 +158,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     function fetchStickersAjax()
     {
     	$order_id = JRequest::getInt('order_id');
-    	$model = JModel::getInstance('Orders', 'TiendaModel');
+    	$model = DSCModel::getInstance('Orders', 'TiendaModel');
     	$model->setId($order_id);
     	
     	$order = $model->getItem();
@@ -463,8 +463,8 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		{
 			$urls[$id] = '';
 			
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $row = JTable::getInstance('Products', 'TiendaTable');
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $row = DSCTable::getInstance('Products', 'TiendaTable');
             $row->load( (int) $id );
 			if (empty($row->product_id))
 			{
@@ -482,7 +482,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
     
     function sendShipmentAjax()
     {
-    	$model = JModel::getInstance('Orders', 'TiendaModel');
+    	$model = DSCModel::getInstance('Orders', 'TiendaModel');
     	$model->setId( JRequest::getInt('order_id') );
     	$order = $model->getItem();
     	
@@ -521,7 +521,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         
 	        foreach ( $orderItems as $item )
 	        {
-	            $product = JTable::getInstance('Products', 'TiendaTable');
+	            $product = DSCTable::getInstance('Products', 'TiendaTable');
 	            $product->load($item->product_id);
 	            if ($product->product_ships)
 	            {
@@ -596,14 +596,14 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 		$unex->setDestAddressLine($orderinfo->shipping_address_2);
 		$unex->setDestCity($orderinfo->shipping_city);
 		
-		$zone = JTable::getInstance('Zones', 'TiendaTable');
+		$zone = DSCTable::getInstance('Zones', 'TiendaTable');
 		$zone->load($orderinfo->shipping_zone_id);
 		
 		
 		$unex->setDestStateOrProvinceCode($zone->code);
 		$unex->setDestPostalCode($orderinfo->shipping_postal_code);
 		
-		$country = JTable::getInstance('Countries', 'TiendaTable');
+		$country = DSCTable::getInstance('Countries', 'TiendaTable');
 		$country->load($orderinfo->shipping_country_id);
 		
 		$unex->setDestCountryCode($country->country_isocode_2);
@@ -641,7 +641,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         $this->includeCustomModel('UnexServices');
         $this->includeCustomTables();
         
-        $model = JModel::getInstance('UnexServices', 'TiendaModel');
+        $model = DSCModel::getInstance('UnexServices', 'TiendaModel');
         $services = $model->getList();
         
         return $services;
@@ -717,7 +717,7 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
         
 	        foreach ( $orderItems as $item )
 	        {
-	            $product = JTable::getInstance('Products', 'TiendaTable');
+	            $product = DSCTable::getInstance('Products', 'TiendaTable');
 	            $product->load($item->product_id);
 	            if ($product->product_ships)
 	            {
@@ -889,8 +889,8 @@ class plgTiendaShipping_Unex extends TiendaShippingPlugin
 	        if ($result_1 && $result_2)
 	        {
 	            // Update config to say this has been done already
-	            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-	            $config = JTable::getInstance( 'Config', 'TiendaTable' );
+	            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+	            $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 	            $config->load( array( 'config_name'=>'checkTableUnexServices') );
 	            $config->config_name = 'checkTableUnexServices';
 	            $config->value = '1';

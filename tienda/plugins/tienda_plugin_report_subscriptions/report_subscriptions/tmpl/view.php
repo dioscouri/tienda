@@ -82,7 +82,7 @@
                 <td style="text-align: center;">
                     <?php // Order state ?>
                     <?php 
-                    	$orderstate = JTable::getInstance('Orderstates', 'TiendaTable');
+                    	$orderstate = DSCTable::getInstance('Orderstates', 'TiendaTable');
             			$orderstate->load( $item->order_state_id);
                     
                     	echo $orderstate->order_state_name; 

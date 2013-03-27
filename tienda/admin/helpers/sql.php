@@ -26,7 +26,7 @@ class TiendaHelperSQL extends TiendaHelperBase
     function processOrder( $order_id ) 
     {
         // get the order
-        $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
         
@@ -43,7 +43,7 @@ class TiendaHelperSQL extends TiendaHelperBase
         // find the products in the order that are integrated 
         foreach ($order->orderitems as $orderitem)
         {
-            $model = JModel::getInstance( 'Products', 'TiendaModel' );
+            $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
             $product = $model->getTable();
             $product->load( $orderitem->product_id );
 

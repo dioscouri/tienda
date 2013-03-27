@@ -54,8 +54,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		}
 
 		$vars = array();
-		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
-		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
+		DSCModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		DSCTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
 		
 		$this->includeTiendaTables();
 		$this->includeCustomModel('ShippingMethodsWeightbased');
@@ -70,7 +70,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		}
 
 		$rates = array();
-		$model = JModel::getInstance('ShippingMethodsWeightbased', 'TiendaModel');
+		$model = DSCModel::getInstance('ShippingMethodsWeightbased', 'TiendaModel');
 		$model->setState( 'filter_enabled', '1' );
 		$model->setState( 'filter_price', $order->order_subtotal );
 		$i = 0;
@@ -79,7 +79,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 			foreach( $methods as $method )
 			{
 				// filter the list of methods according to geozone
-				$ratemodel = JModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
+				$ratemodel = DSCModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
 				$ratemodel->setState('filter_shippingmethod', $method->shipping_method_weightbased_id);
 				$ratemodel->setState('filter_geozones', $gz_array);
 				if ($ratesexist = $ratemodel->getList())
@@ -115,8 +115,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	{
 		$html = "";
 
-		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
-		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
+		DSCModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		DSCTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
 		JLoader::import( 'com_tienda.library.button', JPATH_ADMINISTRATOR.'/components' );
 		TiendaToolBarHelper::custom( 'newMethod', 'new', 'new', 'COM_TIENDA_NEW', false, 'shippingTask' );
 		TiendaToolBarHelper::custom( 'delete', 'delete', 'delete', 'COM_TIENDA_DELETE', false, 'shippingTask' );
@@ -127,7 +127,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 
 		$this->includeCustomModel('ShippingMethodsWeightbased');
 
-		$model = JModel::getInstance('ShippingMethodsWeightbased', 'TiendaModel');
+		$model = DSCModel::getInstance('ShippingMethodsWeightbased', 'TiendaModel');
 		$list = $model->getList();
 		$vars->list = $list;
 
@@ -163,7 +163,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 
 		// determine the shipping method type
 		$this->includeCustomTables('shipping_weightbased');
-		$shippingmethod = JTable::getInstance( 'ShippingMethodsWeightbased', 'TiendaTable' );
+		$shippingmethod = DSCTable::getInstance( 'ShippingMethodsWeightbased', 'TiendaTable' );
 		$shippingmethod->load( $shipping_method_id );
 
 		if( empty( $shippingmethod->shipping_method_weightbased_id ) )
@@ -281,8 +281,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	public function getRate( $shipping_method_id, $geozone_id, $weight )
 	{
 		// TODO Give this better error reporting capabilities
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance('ShippingRatesWeightbased', 'TiendaModel');
 		$model->setState('filter_shippingmethod', $shipping_method_id);
 		$model->setState('filter_geozone', $geozone_id);
 
@@ -298,7 +298,7 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		
 		if ( empty( $items ) )
 		{
-			return JTable::getInstance('ShippingRatesWeightbased', 'TiendaTable');
+			return DSCTable::getInstance('ShippingRatesWeightbased', 'TiendaTable');
 		}
 	
 		return $items[0];
@@ -342,11 +342,11 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	{
 		$weight = 0;
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
 		foreach ( $orderItems as $item )
 		{
 			$pid = $item->product_id;
-			$product = JTable::getInstance( 'Products', 'TiendaTable' );
+			$product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 			$product->load( $pid );
 			if( !empty( $product->product_ships ) )
 				$weight += ( $product->product_weight * $item->orderitem_quantity );
@@ -361,15 +361,15 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	 */
 	function delete()
 	{
-		JModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
-		JTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
+		DSCModel::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/models' );
+		DSCTable::addIncludePath( JPATH_SITE.'/plugins/tienda/shipping_weightbased/tables' );
 		
 		$error = false;
 		$this->messagetype	= '';
 		$this->message 		= '';
 
 		$model = $this->getModel('shippingmethodsweightbased');
-		$row = JTable::getInstance('ShippingMethodsWeightbased', 'TiendaTable');
+		$row = DSCTable::getInstance('ShippingMethodsWeightbased', 'TiendaTable');
 
 		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
 		$row->load( $cid[0] );
@@ -428,8 +428,8 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 		$db->query( $q );
 
 		// Update config to say this has been done already
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 		$config->load( array( 'config_name'=>'checkWeightbasedPluginTable') );
 		$config->config_name = 'checkWeightbasedPluginTable';
 		$config->value = '1';

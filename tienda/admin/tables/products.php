@@ -232,8 +232,8 @@ class TiendaTableProducts extends TiendaTableEav
 	 */
 	function updateOverallRating( $save = false )
 	{
-		JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
-		$model = JModel::getInstance( 'ProductComments', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+		$model = DSCModel::getInstance( 'ProductComments', 'TiendaModel' );
 		$model->setState( 'filter_product', $this->product_id );
 		$model->setState( 'filter_enabled', '1' );
 		
@@ -297,7 +297,7 @@ class TiendaTableProducts extends TiendaTableEav
 			//if ( $product_price )
 			//{
 				Tienda::load( 'TiendaTableProductPrices', 'tables.productprices' );
-				$price = JTable::getInstance( 'ProductPrices', 'TiendaTable' );
+				$price = DSCTable::getInstance( 'ProductPrices', 'TiendaTable' );
 				$price->product_id = $this->product_id;
 				$price->product_price = $product_price;
 				$price->group_id = Tienda::getInstance( )->get( 'default_user_group', '1' );
@@ -314,7 +314,7 @@ class TiendaTableProducts extends TiendaTableEav
 			if ( $product_quantity )
 			{
 				Tienda::load( 'TiendaTableProductQuantities', 'tables.productquantities' );
-				$quantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+				$quantity = DSCTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 				$quantity->product_id = $this->product_id;
 				$quantity->quantity = $product_quantity;
 				$success = $quantity->save( );
@@ -336,8 +336,8 @@ class TiendaTableProducts extends TiendaTableEav
 					if ( !is_numeric( $product_category ) )
 					{
 						// check for existance
-						JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
-						$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+						DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+						$model = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 						$model->setState( 'filter_name', $product_category );
 						$matches = $model->getList( );
 						$matched = false;
@@ -359,7 +359,7 @@ class TiendaTableProducts extends TiendaTableEav
 						if ( !$matched )
 						{
 							Tienda::load( 'TiendaTableCategories', 'tables.categories' );
-							$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+							$category = DSCTable::getInstance( 'Categories', 'TiendaTable' );
 							$category->category_name = $product_category;
 							$category->parent_id = 1;
 							$category->category_enabled = 1;
@@ -372,7 +372,7 @@ class TiendaTableProducts extends TiendaTableEav
 					
 					// save xref in every case
 					Tienda::load( 'TiendaTableProductCategories', 'tables.productcategories' );
-					$xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+					$xref = DSCTable::getInstance( 'ProductCategories', 'TiendaTable' );
 					$xref->product_id = $this->product_id;
 					$xref->category_id = $product_category;
 					$xref->save( );
@@ -440,7 +440,7 @@ class TiendaTableProducts extends TiendaTableEav
 				}
 				
 				Tienda::load( 'TiendaTableProductPrices', 'tables.productprices' );
-				$price = JTable::getInstance( 'ProductPrices', 'TiendaTable' );
+				$price = DSCTable::getInstance( 'ProductPrices', 'TiendaTable' );
 				// load the price if it does exist
 				if ( $price_id )
 				{
@@ -476,7 +476,7 @@ class TiendaTableProducts extends TiendaTableEav
 				}
 				
 				Tienda::load( 'TiendaTableProductQuantities', 'tables.productquantities' );
-				$quantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
+				$quantity = DSCTable::getInstance( 'ProductQuantities', 'TiendaTable' );
 				// load the quantity if it does exist
 				if ( $quantity_id )
 				{
@@ -504,8 +504,8 @@ class TiendaTableProducts extends TiendaTableEav
 					if ( !is_numeric( $product_category ) )
 					{
 						// check for existance
-						JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
-						$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+						DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+						$model = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 						$model->setState( 'filter_name', $product_category );
 						$matches = $model->getList( );
 						$matched = false;
@@ -527,7 +527,7 @@ class TiendaTableProducts extends TiendaTableEav
 						if ( !$matched )
 						{
 							Tienda::load( 'TiendaTableCategories', 'tables.categories' );
-							$category = JTable::getInstance( 'Categories', 'TiendaTable' );
+							$category = DSCTable::getInstance( 'Categories', 'TiendaTable' );
 							$category->category_name = $product_category;
 							$category->parent_id = 1;
 							$category->category_enabled = 1;
@@ -540,7 +540,7 @@ class TiendaTableProducts extends TiendaTableEav
 					
 					// save xref in every case
 					Tienda::load( 'TiendaTableProductCategories', 'tables.productcategories' );
-					$xref = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
+					$xref = DSCTable::getInstance( 'ProductCategories', 'TiendaTable' );
 					$xref->product_id = $this->product_id;
 					$xref->category_id = $product_category;
 					$xref->save( );

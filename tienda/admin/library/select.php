@@ -219,15 +219,15 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('none', "- ".JText::_('COM_TIENDA_ORPHAN_PRODUCTS')." -", 'category_id', 'category_name' );
 		}
  	 if ($allowNone) {
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$root = JTable::getInstance('Categories', 'TiendaTable')->getRoot();
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$root = DSCTable::getInstance('Categories', 'TiendaTable')->getRoot();
 			$list[] =  self::option( $root->category_id, "- ".JText::_( $title_none )." -", 'category_id', 'category_name' );
 		}
 
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 		
-		$model = JModel::getInstance( 'Categories', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 		$model->setState('order', 'tbl.lft');
 		if (intval($enabled) == '1')
 		{
@@ -279,8 +279,8 @@ class TiendaSelect extends DSCSelect
  	 		$list[] =  self::option('0', "- ".JText::_( $title_none )." -", 'manufacturer_id', 'manufacturer_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Manufacturers', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Manufacturers', 'TiendaModel' );
 		$model->setState( 'order', 'manufacturer_name' );
 		$model->setState( 'direction', 'ASC' );
 		$items = $model->getList();
@@ -316,8 +316,8 @@ class TiendaSelect extends DSCSelect
  	 		$list[] =  self::option('0', "- ".JText::_( $title_none )." -", 'tax_class_id', 'tax_class_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Taxclasses', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Taxclasses', 'TiendaModel' );
 		$model->setState( 'order', 'ordering' );
 		$model->setState( 'direction', 'ASC' );
 		$items = $model->getList();
@@ -345,8 +345,8 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_COUNTRY')." -", 'country_id', 'country_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Countries', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Countries', 'TiendaModel' );
 		if (!empty($enabled))
 		{
             $model->setState( 'filter_enabled', '1' );
@@ -378,8 +378,8 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_GEO_ZONE_TYPE')." -", 'geozonetype_id', 'geozonetype_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Geozonetypes', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Geozonetypes', 'TiendaModel' );
 		$model->setState( 'order', 'geozonetype_name' );
 		$model->setState( 'direction', 'ASC' );
 		$items = $model->getList();
@@ -408,8 +408,8 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_ZONE')." -", 'zone_id', 'zone_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Zones', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Zones', 'TiendaModel' );
 		$model->setState( 'order', 'zone_name' );
 		$model->setState( 'direction', 'ASC' );
 		if ($countryid !== null)
@@ -453,8 +453,8 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_GEO_ZONE')." -", 'geozone_id', 'geozone_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Geozones', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Geozones', 'TiendaModel' );
 		$model->setState( 'order', 'geozone_name' );
 		$model->setState( 'direction', 'ASC' );
 		$model->setState( 'filter_geozonetype', $type );
@@ -483,8 +483,8 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_CURRENCY')." -", 'currency_id', 'currency_code' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'currencies', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'currencies', 'TiendaModel' );
 		$items = $model->getList();
         foreach (@$items as $item)
         {
@@ -555,8 +555,8 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_( 'Select '.$address_type.' Address' )." -", 'address_id', 'address_name' );
 		}
 		
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'addresses', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'addresses', 'TiendaModel' );
 		$model->setState("filter_userid", $userid);
 		$model->setState("filter_deleted", 0);
 		$items = $model->getList();
@@ -662,9 +662,9 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('', "- ".JText::_('COM_TIENDA_SELECT_STATE')." -", 'order_state_id', 'order_state_name' );
 		}
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$model = JModel::getInstance( 'OrderStates', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$model = DSCModel::getInstance( 'OrderStates', 'TiendaModel' );
 		$items = $model->getList();
         foreach (@$items as $item)
         {
@@ -711,8 +711,8 @@ class TiendaSelect extends DSCSelect
 	{
 	    $list = array();
 
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'shippingmethods', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'shippingmethods', 'TiendaModel' );
 		$model->setState('filter_enabled', true);
 		$items = $model->getList();
         foreach (@$items as $item)
@@ -735,8 +735,8 @@ class TiendaSelect extends DSCSelect
     public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox'), $idtag = null, $opt_selected = array())
     {
         $list = array();
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
         $model->setState( 'filter_attribute', $productattribute_id );
         $model->setState('order', 'tbl.ordering');
                 
@@ -760,7 +760,7 @@ class TiendaSelect extends DSCSelect
 						if ( empty( $geozones ) )
 						{
 							// use the default
-							$table = JTable::getInstance( 'Geozones', 'TiendaTable' );
+							$table = DSCTable::getInstance( 'Geozones', 'TiendaTable' );
 							$table->load( array(
 										'geozone_id' => Tienda::getInstance( )->get( 'default_tax_geozone' )
 									) );
@@ -810,8 +810,8 @@ class TiendaSelect extends DSCSelect
         
         $opt_name = "parent";
         
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState('order', 'tbl.ordering');
         if($product_id)
         {
@@ -1045,9 +1045,9 @@ class TiendaSelect extends DSCSelect
 		if ($allowAny) {
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'product_id', 'product_name' );
 		}
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'products', 'TiendaModel' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'products', 'TiendaModel' );
 		$items = $model->getList();
 		foreach (@$items as $item)
         {
@@ -1066,9 +1066,9 @@ class TiendaSelect extends DSCSelect
 		if ($allowAny) {
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'id', 'name' );
 		}
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'users', 'TiendaModel' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'users', 'TiendaModel' );
 		$items = $model->getList();
 		foreach (@$items as $item)
         {
@@ -1087,9 +1087,9 @@ class TiendaSelect extends DSCSelect
 		if ($allowAny) {
 			$list[] =  self::option('', "- ".JText::_( $title )." -", 'group_id', 'group_name' );
 		}
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Groups', 'TiendaModel' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Groups', 'TiendaModel' );
 		$items = $model->getList();
 		foreach (@$items as $item)
         {
@@ -1279,8 +1279,8 @@ class TiendaSelect extends DSCSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'ProductDownloads', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'ProductDownloads', 'TiendaModel' );
         $model->setState('filter_user', $user_id);
         $query = $model->getQuery();
         $query->group( 'tbl.product_id' );
@@ -1309,7 +1309,7 @@ class TiendaSelect extends DSCSelect
             $list[] =  self::option('', JText::_('COM_TIENDA_ORDERING') );
         }
 
-      	$products = JTable::getInstance( 'Products', 'TiendaTable' ); 
+      	$products = DSCTable::getInstance( 'Products', 'TiendaTable' ); 
        	$columns = $products->getProperties();
    		$columns['price']='';
    		$columns['product_quantity'] = '';
@@ -1465,9 +1465,9 @@ class TiendaSelect extends DSCSelect
             $list[] =  self::option('', "- ".JText::_( $title )." -" );
         }
 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'CreditTypes', 'TiendaModel' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'CreditTypes', 'TiendaModel' );
         $items = $model->getList();
         foreach (@$items as $item)
         {
@@ -1508,7 +1508,7 @@ class TiendaSelect extends DSCSelect
     public static function userelement( $selected, $name = 'customer', $onChange = '' )
     {
         $return = array();
-        $model = JModel::getInstance( 'ElementUser', 'TiendaModel' );
+        $model = DSCModel::getInstance( 'ElementUser', 'TiendaModel' );
         $return['select'] = $model->fetchElement( $name, $selected, '','', $onChange );
         $return['clear'] = $model->clearElement( $name, '0', '', '', $onChange );
         return $return;

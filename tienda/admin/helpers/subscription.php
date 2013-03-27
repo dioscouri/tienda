@@ -24,8 +24,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
      */
     function cancel( $subscription_id )
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->subscription_id = $subscription_id;
         $subscription->subscription_enabled = 0;
         if (!$subscription->save())
@@ -49,8 +49,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
     function isValid( $user_id, $product_id )
     {
         $date='';
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
         $model->setState("filter_userid", $user_id );
         $model->setState("filter_productid", $product_id );
         $model->setState("filter_enabled", 1);
@@ -75,8 +75,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
      */
     function getHistory( $subscription_id )
     {
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'SubscriptionHistory', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'SubscriptionHistory', 'TiendaModel' );
         $model->setState("filter_subscriptionid", $subscription_id );
         $model->setState("order", 'tbl.created_datetime' );
         $model->setState("direction", 'ASC');
@@ -99,8 +99,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $today = $date->toFormat( "%Y-%m-%d 00:00:00" );
         
         // select all subs that have expired but still have status = '1';
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );        
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );        
         $model->setState("filter_datetype", 'expires' );
         $model->setState("filter_date_to", $today );
         $model->setState("filter_enabled", '1' );
@@ -121,8 +121,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
         }
         
         // Update config to say this has been done
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $config = JTable::getInstance( 'Config', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $config = DSCTable::getInstance( 'Config', 'TiendaTable' );
         $config->load( array( 'config_name'=>'subscriptions_last_checked') );
         $config->config_name = 'subscriptions_last_checked';
         $config->value = $today;
@@ -143,8 +143,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
     function setExpired( $subscription_id, $item='', $issues = false )
     {
         // change status = '0'
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $subscription = JTable::getInstance('Subscriptions', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $subscription = DSCTable::getInstance('Subscriptions', 'TiendaTable');
         $subscription->subscription_id = $subscription_id;
         $subscription->subscription_enabled = 0;
         if( $issues )
@@ -163,8 +163,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
         
         if (empty($item))
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-            $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+            $model = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
             $model->setId( $subscription_id );
             $item = $model->getItem();
         }
@@ -217,8 +217,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
         $end_date = $database->loadResult();
         
         // select all subs that expire between those dates
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'Subscriptions', 'TiendaModel' );
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        $model = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
         $model->setState("filter_datetype", 'expires' );
         $model->setState("filter_date_from", $start_date );
         $model->setState("filter_date_to", $end_date );
@@ -268,8 +268,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
             // if files is empty, get the product's files
             if (empty($productfiles))
             {
-                JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-                $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
+                DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+                $model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
                 $model->setState( 'filter_product', $subscription->product_id );
                 $model->setState( 'filter_enabled', 1 );
                 $model->setState( 'filter_purchaserequired', 1 );
@@ -287,7 +287,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
                     (empty($subscription->subscription_enabled) && $subscription->created_datetime < $file->created_date && $file->created_date < $subscription->expires_datetime)
                     )
                     {
-                        $productDownload = JTable::getInstance('ProductDownloads', 'TiendaTable');
+                        $productDownload = DSCTable::getInstance('ProductDownloads', 'TiendaTable');
                         $productDownload->product_id = $subscription->product_id;
                         $productDownload->productfile_id = $file->productfile_id;
                         $productDownload->productdownload_max = '-1'; // TODO For now, infinite. In the future, add a field to productfiles that allows admins to limit downloads per file per purchase
@@ -305,7 +305,7 @@ class TiendaHelperSubscription extends TiendaHelperBase
                 }
             }
             
-            $subtable = JTable::getInstance('Subscriptions', 'TiendaTable');
+            $subtable = DSCTable::getInstance('Subscriptions', 'TiendaTable');
             $subtable->subscription_id = $subscription->subscription_id;
             $subtable->checkedfiles_datetime = $date->toMySQL();
             $subtable->save();

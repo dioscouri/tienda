@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaModelEav', 'models._baseeav' );
+Tienda::load( 'TiendaTableConfig', 'tables.config' );
 
 class TiendaModelCarts extends TiendaModelEav
 {
@@ -153,7 +154,7 @@ class TiendaModelCarts extends TiendaModelEav
 
 		if (empty( $this->_list ))
 		{
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$items = parent::getList($refresh);
 
 			// If no item in the list, return an array()
@@ -215,7 +216,7 @@ class TiendaModelCarts extends TiendaModelEav
 						if (empty($pao[$attrib_id]))
 						{
 							// load the attrib's object
-							$pao[$attrib_id] = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+							$pao[$attrib_id] = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 							$pao[$attrib_id]->load( $attrib_id );
 						}
 						$table = $pao[$attrib_id];
@@ -265,7 +266,7 @@ class TiendaModelCarts extends TiendaModelEav
 						// store a csv of the attrib names, built by Attribute name + Attribute option name
 						if (empty($pa[$table->productattribute_id]))
 						{
-							$pa[$table->productattribute_id] = JTable::getInstance('ProductAttributes', 'TiendaTable');
+							$pa[$table->productattribute_id] = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
 							$pa[$table->productattribute_id]->load( $table->productattribute_id );
 						}
 						$atable = $pa[$table->productattribute_id];
@@ -308,7 +309,7 @@ class TiendaModelCarts extends TiendaModelEav
 	 */
 	public function getShippingIsEnabled()
 	{
-		$model = JModel::getInstance( 'Carts', 'TiendaModel');
+		$model = DSCModel::getInstance( 'Carts', 'TiendaModel');
 
 		$session = JFactory::getSession();
 		$user = JFactory::getUser();
@@ -378,8 +379,7 @@ class TiendaModelCarts extends TiendaModelEav
 		$now = $date->toMySQL();
 
 		// Update config to say this has been done already
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-		$config = JTable::getInstance( 'Config', 'TiendaTable' );
+		$config = DSCTable::getInstance( 'Config', 'TiendaTable' );
 		$config->load( array( 'config_name'=>'last_deleted_expired_sessioncarts') );
 		$config->config_name = 'last_deleted_expired_sessioncarts';
 		$config->value = $now;

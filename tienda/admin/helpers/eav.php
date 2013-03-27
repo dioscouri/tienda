@@ -30,8 +30,8 @@ class TiendaHelperEav extends TiendaHelperBase
         
         if (!isset($sets[$alias]))
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-            $table = JTable::getInstance('EavAttributes', 'TiendaTable');
+            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            $table = DSCTable::getInstance('EavAttributes', 'TiendaTable');
             $table->load(array('eavattribute_alias' => $alias));
             switch( $table->eavattribute_type )
             {
@@ -105,7 +105,7 @@ class TiendaHelperEav extends TiendaHelperBase
         	Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
         	
             // get the value table
-            $table = JTable::getInstance('EavValues', 'TiendaTable');
+            $table = DSCTable::getInstance('EavValues', 'TiendaTable');
             // set the type based on the attribute
             $table->setType($eav->eavattribute_type);
             // load the value based on the entity id
@@ -318,8 +318,8 @@ class TiendaHelperEav extends TiendaHelperBase
         if( !$entity_id_mirror )
             $entity_id_mirror = $entity_id;
 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $tbl_eav = JTable::getInstance( 'Eavvalues', 'TiendaTable' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $tbl_eav = DSCTable::getInstance( 'Eavvalues', 'TiendaTable' );
         $eavs = TiendaHelperEav::getAttributes( $entity_type, $entity_id ); // get list of EAV fields
         for( $i = 0, $c = count( $eavs ); $i < $c; $i++ )
         {

@@ -338,8 +338,8 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
         }
 
         // load the orderpayment record and set some values
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-        $orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+        $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
         $orderpayment->load( $data['custom'] );
         $orderpayment->transaction_details  = $data['transaction_details'];
         $orderpayment->transaction_id       = $data['txn_id'];
@@ -362,7 +362,7 @@ class plgTiendaPayment_pagseguro extends TiendaPaymentPlugin
         // set the order's new status and update quantities if necessary
         JLoader::import( 'com_tienda.helpers.order', JPATH_ADMINISTRATOR.'/components' );
         JLoader::import( 'com_tienda.helpers.carts', JPATH_ADMINISTRATOR.'/components' );
-        $order = JTable::getInstance('Orders', 'TiendaTable');
+        $order = DSCTable::getInstance('Orders', 'TiendaTable');
         $order->load( $orderpayment->order_id );
         if (count($errors))
         {

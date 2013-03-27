@@ -28,20 +28,20 @@ class TiendaHelperCoupon extends TiendaHelperBase
 	 */
 	function isValid( $coupon_id, $id_type='code', $user_id='' )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
 
 		switch($id_type)
 		{
 			case 'id':
 			case 'coupon_id':
-				$coupon = JTable::getInstance( 'Coupons', 'TiendaTable' );
+				$coupon = DSCTable::getInstance( 'Coupons', 'TiendaTable' );
 				$coupon->load( array('coupon_id'=>$coupon_id) );
 				break;
 			case 'code':
 			case 'coupon_code':
 			default:
-				$coupon = JTable::getInstance( 'Coupons', 'TiendaTable' );
+				$coupon = DSCTable::getInstance( 'Coupons', 'TiendaTable' );
 				$coupon->load( array('coupon_code'=>$coupon_id) );
 				break;
 		}
@@ -84,7 +84,7 @@ class TiendaHelperCoupon extends TiendaHelperBase
 		if (!empty($user_id))
 		{
 			// Check the user's uses of this coupon
-			$model = JModel::getInstance( 'OrderCoupons', 'TiendaModel' );
+			$model = DSCModel::getInstance( 'OrderCoupons', 'TiendaModel' );
 			$model->setState('filter_user', $user_id);
 			$model->setState('filter_coupon', $coupon->coupon_id);
 			$user_uses = $model->getResult();
@@ -108,8 +108,8 @@ class TiendaHelperCoupon extends TiendaHelperBase
 
 			// Check the product_id
 			Tienda::load( 'TiendaQuery', 'library.query' );
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$table = JTable::getInstance( 'ProductCoupons', 'TiendaTable' );
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$table = DSCTable::getInstance( 'ProductCoupons', 'TiendaTable' );
 			 
 			$query = new TiendaQuery();
 			$query->select( "COUNT(*)" );

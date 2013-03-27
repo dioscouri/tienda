@@ -48,9 +48,9 @@ class TiendaHelperTags extends JObject
     {
         // TODO cache this
         
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tags/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tags/tables' );
         
-        $table = JTable::getInstance( 'Scopes', 'TagsTable' );
+        $table = DSCTable::getInstance( 'Scopes', 'TagsTable' );
         $table->load( array( 'scope_identifier'=>$scope ) );
         
         if (empty($table->scope_id)) 

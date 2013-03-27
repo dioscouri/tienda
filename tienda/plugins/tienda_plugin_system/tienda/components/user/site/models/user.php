@@ -56,7 +56,7 @@ class UserModelUser extends TiendaModelBase
     
     function getTable()
     {
-        $return = JTable::getInstance('user');
+        $return = DSCTable::getInstance('user');
         return $return;
     }
     
@@ -118,7 +118,7 @@ class UserModelUser extends TiendaModelBase
         // check if username has been changed
         if ( $username != $user->get('username') )
         {
-            $table = $this->getTable('session', 'JTable');
+            $table = $this->getTable('session', 'DSCTable');
             $table->load($session->getId());
             $table->username = $user->get('username');
             $table->store();

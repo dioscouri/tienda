@@ -20,7 +20,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	 * 
 	 * @param $eventName
 	 * @param $folder
-	 * @return array of JTable objects
+	 * @return array of DSCTable objects
 	 */
 	public static function getPluginsWithEvent( $eventName, $folder='Tienda' )
 	{
@@ -127,7 +127,7 @@ class TiendaHelperPlugin extends TiendaHelperBase
 	/**
 	 * Checks if a plugin has an event
 	 * 
-	 * @param obj      $element    the plugin JTable object
+	 * @param obj      $element    the plugin DSCTable object
 	 * @param string   $eventName  the name of the event to test for
 	 * @return unknown_type
 	 */
@@ -190,8 +190,8 @@ class TiendaHelperPlugin extends TiendaHelperBase
 		if(empty($plugins[$geozone->geozonetype_id]))
 		{
 			$suffix = TiendaHelperPlugin::getSuffix($geozone->geozonetype_id);
-			JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-			$model = JModel::getInstance( $suffix, 'TiendaModel' );
+			DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+			$model = DSCModel::getInstance( $suffix, 'TiendaModel' );
 			$model->setState('filter_enabled', '1');
 			$plugins[$geozone->geozonetype_id] = $model->getList( );
 		}

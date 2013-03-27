@@ -114,7 +114,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
             return $success;    
         }        
         
-	    $model = JModel::getInstance( 'Orders', 'TiendaModel' );
+	    $model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $orderid );
 		$order = $model->getItem();
 			
@@ -132,7 +132,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
 	        }
 	        else
 	        {
-	          	$model = JModel::getInstance( 'OrderPayments', 'TiendaModel' );
+	          	$model = DSCModel::getInstance( 'OrderPayments', 'TiendaModel' );
             	$model->setState( 'select', 'tbl.orderpayment_type');
 				$model->setState( 'filter_orderid', $orderid );
 				$orderpayment_type = $model->getResult();
@@ -175,13 +175,13 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         
         // get the user's userdata
         jimport( 'joomla.application.component.model' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_ambra/tables' );
+        DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_ambra/tables' );
         
         
         $max_points = Ambra::get( "AmbraHelperUser", "helpers.user" )->getMaxPoints( JFactory::getUser( $user_id )->id );
          
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_ambra/models' );
-        $model = JModel::getInstance('Users', 'AmbraModel');
+        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_ambra/models' );
+        $model = DSCModel::getInstance('Users', 'AmbraModel');
         $model->setId( $user_id );
        
         $manual_approval = Ambra::get( "AmbraHelperUser", "helpers.user" )->getManualApproval($user_id);
@@ -207,7 +207,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
         // get the enabled, not expired pointrules for this scope + event where profile_id = '0' (all profiles) OR profile_id = this user's profile
         // (by using filter_pointprofile instead of filter_profile)
         $today = Ambra::get( "AmbraHelperBase", "helpers._base" )->getToday();
-        $model = JModel::getInstance('PointRules', 'AmbraModel');
+        $model = DSCModel::getInstance('PointRules', 'AmbraModel');
         $model->setState( 'filter_enabled', 1 );
         $model->setState( 'filter_datetype', 'expires' );
         $model->setState( 'filter_date_from', $today );
@@ -252,7 +252,7 @@ class plgTiendaAward_AmbraPoints extends JPlugin
     
             // if here, all OK
             // create a pointhistory table object
-            $pointhistory = JTable::getInstance('PointHistory', 'AmbraTable');
+            $pointhistory = DSCTable::getInstance('PointHistory', 'AmbraTable');
            
             // set properties
             $pointhistory->user_id = $user_id;

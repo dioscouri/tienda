@@ -89,7 +89,7 @@ class TiendaControllerProducts extends TiendaController
 		$model  = $this->getModel( $this->get('suffix') );
 		$row = $model->getTable();
 		$row->load( $model->getId() );
-		if (isset($row->checked_out) && !JTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
+		if (isset($row->checked_out) && !DSCTable::isCheckedOut( JFactory::getUser()->id, $row->checked_out) )
 		{
 			$row->checkin();
 		}
@@ -186,7 +186,7 @@ class TiendaControllerProducts extends TiendaController
 			if (( $row->_isNew || empty($prices) ) && ! $isSaveAs)
 			{   
 				// set price if new or no prices set
-				$price = JTable::getInstance( 'Productprices', 'TiendaTable' );
+				$price = DSCTable::getInstance( 'Productprices', 'TiendaTable' );
 				$price->product_id = $row->id;
 				$price->product_price = JRequest::getVar( 'product_price' );
 				$price->group_id = Tienda::getInstance()->get('default_user_group', '1');
@@ -201,7 +201,7 @@ class TiendaControllerProducts extends TiendaController
 			if ($row->_isNew && !$isSaveAs)
 			{
 				// set category
-				$category = JTable::getInstance( 'Productcategories', 'TiendaTable' );
+				$category = DSCTable::getInstance( 'Productcategories', 'TiendaTable' );
 				$category->product_id = $row->id;
 				$category->category_id = JRequest::getVar( 'category_id' );
 				if (!$category->save())
@@ -211,7 +211,7 @@ class TiendaControllerProducts extends TiendaController
 				}
                
 				// save default quantity
-				$quantity = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+				$quantity = DSCTable::getInstance( 'Productquantities', 'TiendaTable' );
 				$quantity->product_id = $row->id;
 				$quantity->quantity = JRequest::getInt( 'product_quantity' );
 				if (!$quantity->save())
@@ -225,7 +225,7 @@ class TiendaControllerProducts extends TiendaController
 			if ($isSaveAs)
 			{
 				// set price when cloning
-				$priceTable = JTable::getInstance( 'Productprices', 'TiendaTable' );
+				$priceTable = DSCTable::getInstance( 'Productprices', 'TiendaTable' );
 				foreach($prices as $price)
 				{
     				$priceTable->product_id = $row->id;
@@ -245,7 +245,7 @@ class TiendaControllerProducts extends TiendaController
 				}
 				
 			    // set category
-			    $categoryTable = JTable::getInstance( 'Productcategories', 'TiendaTable' );
+			    $categoryTable = DSCTable::getInstance( 'Productcategories', 'TiendaTable' );
 			    $categories = TiendaHelperProduct::getCategories($oldPk);
 			    foreach ($categories as $category)
 			    {
@@ -268,7 +268,7 @@ class TiendaControllerProducts extends TiendaController
 			   
 			    foreach ($attributes as $attribute)
 			    {
-			    	$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
+			    	$attributeTable = DSCTable::getInstance( 'ProductAttributes', 'TiendaTable' );
     			  $attributeTable->productattribute_name = $attribute->productattribute_name;
     			  $attributeTable->product_id = $row->id;
     			  $attributeTable->ordering = $attribute->ordering;
@@ -295,7 +295,7 @@ class TiendaControllerProducts extends TiendaController
     				$options  = TiendaHelperProduct::getAttributeOptionsObjects($oldAttrbuteId);
     				foreach ($options as $option)
     				{
-    					$attributeOptionsTable = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+    					$attributeOptionsTable = DSCTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
     					$attributeOptionsTable->productattribute_id   = $newAttributeId ;
     			    	$attributeOptionsTable->productattributeoption_name   = $option->productattributeoption_name ; 
     			    	$attributeOptionsTable->productattributeoption_price   = $option->productattributeoption_price ;
@@ -317,7 +317,7 @@ class TiendaControllerProducts extends TiendaController
             // save parent relationship
             if( $attrbuteParentMappingArray [ $newAttributeId ] )
             {
-  			    	$attributeTable = JTable::getInstance( 'ProductAttributes', 'TiendaTable' );
+  			    	$attributeTable = DSCTable::getInstance( 'ProductAttributes', 'TiendaTable' );
               $attributeTable->load( $newAttributeId );
               $attributeTable->parent_productattributeoption_id = $attrbuteOptionsMappingArray[ $attrbuteParentMappingArray [ $newAttributeId ] ];
               if (!$attributeTable->save())
@@ -329,7 +329,7 @@ class TiendaControllerProducts extends TiendaController
 				}
 
 				// set quantity
-			    $quantityTable = JTable::getInstance( 'Productquantities', 'TiendaTable' );
+			    $quantityTable = DSCTable::getInstance( 'Productquantities', 'TiendaTable' );
 			    $quantities  = TiendaHelperProduct::getProductQuantitiesObjects($oldPk );
 			    foreach ($quantities as $quantity)
 			    {
@@ -382,7 +382,7 @@ class TiendaControllerProducts extends TiendaController
 				$listFiles = $modelFiles->getList();
 				if( count( $listFiles ) ) // if there are files attached to the first product, we should duplicate the record in db
 				{
-					$row_file = JTable::getInstance( 'Productfiles', 'TiendaTable' );
+					$row_file = DSCTable::getInstance( 'Productfiles', 'TiendaTable' );
 					for( $i = 0, $c = count( $listFiles ); $i < $c; $i++ )
 					{
 						$row_file->bind( $listFiles[$i] ); // bind old data
@@ -393,8 +393,8 @@ class TiendaControllerProducts extends TiendaController
 				}
 				
 			// create duplicate connections for EAV custom fields
-            JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-	    	$model = JModel::getInstance('EavAttributes', 'TiendaModel');
+            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+	    	$model = DSCModel::getInstance('EavAttributes', 'TiendaModel');
 	    	$model->setState('filter_entitytype', 'products' );
 	    	$model->setState('filter_entityid', $oldPk);    	
 	    	$listEAV = $model->getList();
@@ -404,7 +404,7 @@ class TiendaControllerProducts extends TiendaController
 				{
 					for( $i = 0, $c = count( $listEAV ); $i < $c; $i++ )
 					{
-						$tblEAV = JTable::getInstance( 'EavAttributeEntities', 'TiendaTable' );
+						$tblEAV = DSCTable::getInstance( 'EavAttributeEntities', 'TiendaTable' );
 						$tblEAV->eaventity_id = $row->product_id;
 						$tblEAV->eaventity_type = 'products';
 						$tblEAV->eavattribute_id = $listEAV[$i]->eavattribute_id;
@@ -414,7 +414,7 @@ class TiendaControllerProducts extends TiendaController
 						$teav->load($listEAV[$i]->eavattribute_id); 
 						$value = TiendaHelperEav::getAttributeValue($teav, 'products', $row->product_id);
 						
-						$newValue = JTable::getInstance('EavValues', 'TiendaTable');
+						$newValue = DSCTable::getInstance('EavValues', 'TiendaTable');
 						$newValue->setType($teav->eavattribute_type);
 		    			$newValue->eavattribute_id = $listEAV[$i]->eavattribute_id;
 		    			$newValue->eaventity_id = $row->product_id;
@@ -618,7 +618,7 @@ class TiendaControllerProducts extends TiendaController
 	function viewGallery()
 	{
 		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load( $id );
 
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
@@ -687,7 +687,7 @@ class TiendaControllerProducts extends TiendaController
 		$keynames = array();
 		foreach (@$cids as $cid)
 		{
-			$table = JTable::getInstance('ProductCategories', 'TiendaTable');
+			$table = DSCTable::getInstance('ProductCategories', 'TiendaTable');
 			$keynames["product_id"] = $id;
 			$keynames["category_id"] = $cid;
 			$table->load( $keynames );
@@ -771,7 +771,7 @@ class TiendaControllerProducts extends TiendaController
 		$model->setState('filter_vendorid', '0');
 		$items = $model->getAll();
 
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load($model->getId());
 
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
@@ -863,7 +863,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );
 		}
 
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load($model->getId());
 
 		$model->setState('filter_id', $model->getId());
@@ -994,7 +994,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );
 		}
 		
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load( $model->getId() );
 		$model->setState('filter_product_id', $model->getId());
 		$view	= $this->getView( 'productissues', 'html' );
@@ -1117,7 +1117,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );
 		}
 
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load($model->getId());
 
 		$view   = $this->getView( 'productattributes', 'html' );
@@ -1240,7 +1240,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );
 		}
 
-		$row = JTable::getInstance('ProductAttributes', 'TiendaTable');
+		$row = DSCTable::getInstance('ProductAttributes', 'TiendaTable');
 		$row->load($model->getId());
 
 		$view   = $this->getView( 'productattributeoptions', 'html' );
@@ -1275,7 +1275,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );
 		}
 
-		$row = JTable::getInstance('ProductAttributeOptions', 'TiendaTable');
+		$row = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
 		$row->load($model->getId());
 
 		$view   = $this->getView( 'productattributeoptionvalues', 'html' );
@@ -1506,7 +1506,7 @@ class TiendaControllerProducts extends TiendaController
 			$model->setState( $key, $value );
 		}
 
-		$row = JTable::getInstance('Products', 'TiendaTable');
+		$row = DSCTable::getInstance('Products', 'TiendaTable');
 		$row->load($model->getId());
 
 		$view   = $this->getView( 'productfiles', 'html' );
@@ -1955,7 +1955,7 @@ class TiendaControllerProducts extends TiendaController
 	function getRelationshipsHtml( $view, $product_id )
 	{
 		$html = '';
-		$model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
 		$model->setState('filter_product', $product_id);
 
 		if ($items = $model->getList())
@@ -2022,7 +2022,7 @@ class TiendaControllerProducts extends TiendaController
 	        $upload->handleUpload( 'Filedata' );
 	         
 	        // then save image to appropriate folder
-	        $product = JTable::getInstance( 'Products', 'TiendaTable' );
+	        $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
 	        $product->load( $product_id );
 	        $path = $product->getImagePath( );
 	         

@@ -72,7 +72,7 @@ class TiendaControllerSubscriptions extends TiendaController
      */
     function update()
     {
-        $row = JTable::getInstance('SubscriptionHistory', 'TiendaTable');
+        $row = DSCTable::getInstance('SubscriptionHistory', 'TiendaTable');
         $post = JRequest::get('post', '4');
         $row->bind( $post );
         $row->subscription_id = JRequest::getInt('id');

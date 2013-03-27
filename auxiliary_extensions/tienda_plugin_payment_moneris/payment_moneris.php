@@ -332,7 +332,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 	function _process()
 	{
 		$data = JRequest::get('post');
-		$order = JTable::getInstance('Orders', 'TiendaTable');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $data['order_id'] );
 		$items = $order->getItems();
 		$orderpayment_id = $data['orderpayment_id'];
@@ -614,8 +614,8 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 				$errors[] = $error;
 			}
 			// load the orderpayment record and set some values
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 
 			$orderpayment->load($data->orderpayment_id );
 
@@ -632,7 +632,7 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			// set the order's new status and update quantities if necessary
 			Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 			Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-			$order = JTable::getInstance('Orders', 'TiendaTable');
+			$order = DSCTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $orderpayment->order_id );
 			if (count($errors))
 			{
@@ -696,8 +696,8 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 			}
 
 			// load the orderpayment record and set some values
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$orderpayment = JTable::getInstance('OrderPayments', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 
 			$orderpayment->load($data->orderpayment_id );
 
@@ -765,11 +765,11 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		function _getBillingAddress($data)
 		{
 			// order info
-			$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+			$orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
 			$orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$order = JTable::getInstance('Orders', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$order = DSCTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $data['order_id'] );
 
 			$address = $orderinfo->billing_address_1;
@@ -814,11 +814,11 @@ class plgTiendaPayment_moneris extends TiendaPaymentPlugin
 		function _getShippingAddress($data)
 		{
 			/// order info
-			$orderinfo = JTable::getInstance('OrderInfo', 'TiendaTable');
+			$orderinfo = DSCTable::getInstance('OrderInfo', 'TiendaTable');
 			$orderinfo->load( array( 'order_id'=>$data['order_id']) );
 
-			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-			$order = JTable::getInstance('Orders', 'TiendaTable');
+			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$order = DSCTable::getInstance('Orders', 'TiendaTable');
 			$order->load( $data['order_id'] );
 
 			$address = $orderinfo->shipping_address_1;

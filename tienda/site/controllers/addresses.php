@@ -89,7 +89,7 @@ class TiendaControllerAddresses extends TiendaController
 	function getInnerAddressForm($address_id)
 	{
 		$html = '';
-		$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
 		$address_id = JRequest::getVar('address_id');
 		$model->setId($address_id);
 		$item = $model->getItem();
@@ -283,7 +283,7 @@ class TiendaControllerAddresses extends TiendaController
 	function getAddress()
 	{
 		$html = '';
-		$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
 		$address_id = JRequest::getVar('address_id');
 		$model->setId($address_id);
 		if ($item = $model->getItem())

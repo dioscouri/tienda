@@ -22,8 +22,8 @@ class TiendaHelperUser extends DSCHelperUser
 	 */
 	public static function getBasicInfo( $userid )
 	{
-		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		$row = JTable::getInstance('UserInfo', 'TiendaTable');
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$row = DSCTable::getInstance('UserInfo', 'TiendaTable');
 		$row->load( array( 'user_id' => $userid ) );
 		return $row;
 	}
@@ -37,8 +37,8 @@ class TiendaHelperUser extends DSCHelperUser
 	public static function getPrimaryAddress( $userid, $type='billing' )
 	{
 		$return = false;
-		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		$model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
 		switch($type)
 		{
 			case "shipping":
@@ -53,7 +53,7 @@ class TiendaHelperUser extends DSCHelperUser
 		$items = $model->getList();
 		if (empty($items))
 		{
-			$model = JModel::getInstance( 'Addresses', 'TiendaModel' );
+			$model = DSCModel::getInstance( 'Addresses', 'TiendaModel' );
 			$model->setState('filter_userid', (int) $userid);
 			$model->setState( 'filter_deleted', 0 );
 			$items = $model->getList();
@@ -202,7 +202,7 @@ class TiendaHelperUser extends DSCHelperUser
 	function processOrder( $order_id )
 	{
 		// get the order
-		$model = JModel::getInstance( 'Orders', 'TiendaModel' );
+		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
 		$model->setId( $order_id );
 		$order = $model->getItem();
 		if( $order->user_id < Tienda::getGuestIdStart() ) {
@@ -237,7 +237,7 @@ class TiendaHelperUser extends DSCHelperUser
 		// find the products in the order that are integrated
 		foreach ($order->orderitems as $orderitem)
 		{
-			$model = JModel::getInstance( 'Products', 'TiendaModel' );
+			$model = DSCModel::getInstance( 'Products', 'TiendaModel' );
 			$model->setId( $orderitem->product_id );
 			$product = $model->getItem();
 
@@ -273,8 +273,8 @@ class TiendaHelperUser extends DSCHelperUser
 			{
 				if (!isset($groups[$user_id]))
 				{
-					JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-					$model = JModel::getInstance('UserGroups', 'TiendaModel');
+					DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+					$model = DSCModel::getInstance('UserGroups', 'TiendaModel');
 					$model->setState( 'filter_user', $user_id );
 					//order to get the upper group
 					$model->setState('order', 'g.ordering');

@@ -38,8 +38,8 @@ class TiendaControllerProductFiles extends TiendaController
 		Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 		$helper = TiendaHelperBase::getInstance( 'ProductDownload', 'TiendaHelper' );
 		
-		JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
-		$productfile = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
+		DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+		$productfile = DSCTable::getInstance( 'ProductFiles', 'TiendaTable' );
 		$productfile->load( $productfile_id );
 		if ( empty( $productfile->productfile_id ) )
 		{

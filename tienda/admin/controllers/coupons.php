@@ -135,7 +135,7 @@ class TiendaControllerCoupons extends TiendaController
 		$keynames = array();
 		foreach (@$cids as $cid)
 		{
-			$table = JTable::getInstance('ProductCoupons', 'TiendaTable');
+			$table = DSCTable::getInstance('ProductCoupons', 'TiendaTable');
 			$keynames["coupon_id"] = $id;
 			$keynames["product_id"] = $cid;
 			$table->load( $keynames );
