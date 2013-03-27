@@ -14,13 +14,14 @@
 	$menu = TiendaMenu::getInstance( @$this->submenu );
 ?>
 
-<div class='componentheading'>
-    <span><?php echo JText::_('COM_TIENDA_MY_WISHLISTS'); ?></span>
-</div>
+
 
 
 <div class="container">
 	<div class="span2">
+        <div class='componentheading'>
+    <span><?php echo JText::_('COM_TIENDA_MY_WISHLISTS'); ?></span>
+</div>
 		<ul>
 <?php foreach($wishlists as $item) : ?>
 
@@ -28,6 +29,9 @@
 
 <?php endforeach; ?>
 </ul>
+
+<?php $options = array('update'=> 'yes', 'linkclass'=>'btn wishlistBtn wishlistBtnCreate' ); echo DSCUrl::popup('index.php?option=com_tienda&view=wishlists&task=edit&tmpl=component', JText::_('COM_TIENDA_MY_WISHLISTS_NEW'), $options); ?>
+
 </div>
 <div class="span8">
 	<div class='componentheading'>
@@ -39,7 +43,9 @@
 <div class="wishlistitems">
     <?php if (!empty($items)) { ?>
     <form action="<?php echo JRoute::_('index.php?option=com_tienda&view=wishlists&task=update&Itemid='.$router->findItemid( array('view'=>'wishlists') ) ); ?>" method="post" name="adminForm" enctype="multipart/form-data">
-        <?php  echo DSCSocial::getInstance('facebook')->customsharebutton($url);?>
+        <?php  echo DSCSocial::getInstance('facebook')->customsharebutton(); ?>
+        <?php  echo DSCSocial::getInstance('twitter')->customsharebutton(); ?>
+        <?php  echo DSCSocial::getInstance('google')->customsharebutton(); ?>
         <div style="float: right;">
         <a class="btn btn-primary btn-checkout" href="<?php echo JRoute::_('index.php?option=com_tienda&view=checkout&Itemid='.$this->checkout_itemid ); ?>" onclick="return tiendaCheckUpdateCartQuantities(document.adminForm, '<?php echo JText::_('COM_TIENDA_CHECK_CART_UPDATE'); ?>');">
             <?php echo JText::_('COM_TIENDA_BEGIN_CHECKOUT'); ?>
