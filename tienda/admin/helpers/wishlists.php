@@ -68,10 +68,10 @@ class WishlistHelper {
 	        if($caret){
 	        $html .= ' <button class="addWishList btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';	
 	        }
-        $html .= '<ul class="dropdown-menu">';
+        $html .= '<ul class="wishlists dropdown-menu nav nav-list">';
 	        foreach ($items as $item) {
 	         $checked= ''; if($item->default) {$checked= 'checked';}
-	         $html .= '<li><input type="radio" name="wishlist_id" value="'.$item->wishlist_id.'" '.$checked.'> '.$item->name.'</li>';
+	         $html .= '<li><label class="checkbox"><input type="radio" name="wishlist_id" value="'.$item->wishlist_id.'" '.$checked.'> '.$item->name.'</label></li>';
 	        }
 
 

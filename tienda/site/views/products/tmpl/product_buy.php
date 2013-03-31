@@ -173,7 +173,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
           <?php echo JText::_('COM_TIENDA_OUT_OF_STOCK'); ?> 
         </div>
     <?php endif; ?>
-
+      
 		<?php if( $display_wishlist ): ?>
         <?php echo  Tienda::getClass('WishlistHelper', 'helpers.wishlists')->button($item->product_id); ?>
 		<?php endif; ?>            
