@@ -36,14 +36,14 @@ class JFakeElementTiendaGeoZone extends JFakeElementBase
 	
 	public function getInput() 
 	{
-		$list = Tienda::getClass( 'TiendaSelect', 'library.select' )->geozone($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, 'Select GeoZone', '', true );
+		$list = Tienda::getClass( 'TiendaSelect', 'library.select' )->geozone($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, JText::_('COM_TIENDA_SELECT_GEOZONE'), '', true );
 		return $list;
 	}
 	
 	
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->geozone($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select GeoZone', '', true );
+	    $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->geozone($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, JText::_('COM_TIENDA_SELECT_GEOZONE'), '', true );
 		return $list;
 	}
 	

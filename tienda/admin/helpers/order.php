@@ -31,7 +31,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$errors = array();
 		$error = false;
 
-		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		Tienda::load('TiendaTableOrders', 'tables.orders');
 		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
 		$lang = JFactory::getLanguage();
@@ -45,6 +45,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		}
 
 		// optionally email the user
+		Tienda::load('TiendaTableOrderHistory', 'tables.orderhistory');
 		$row = DSCTable::getInstance('OrderHistory', 'TiendaTable');
 		$row->order_id = $order_id;
 		$row->order_state_id = $order->order_state_id;
@@ -98,6 +99,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 
 		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		Tienda::load('TiendaModelProducts', 'models.products');
 		$productsModel = DSCModel::getInstance( 'Products', 'TiendaModel' );
 
 		$model = DSCModel::getInstance( 'Orders', 'TiendaModel' );
@@ -337,7 +339,8 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$errors = array();
 		$error = false;
 
-		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		
+		Tienda::load('TiendaTableOrders', 'tables.orders');
 		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $order_id );
 		 
@@ -417,7 +420,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		JPluginHelper::importPlugin( 'tienda' );
 
 		JLoader::register( "TiendaViewOrders", JPATH_SITE."/components/com_tienda/views/orders/view.html.php" );
-
+	
 		// tells JView to load the front-end view, and enable template overrides
 		$config = array();
 		$config['base_path'] = JPATH_SITE."/components/com_tienda";
@@ -565,7 +568,7 @@ class TiendaHelperOrder extends TiendaHelperBase
 		$db = JFactory::getDBO();
 		$today = TiendaHelperBase::getToday();
 
-		$q = new TiendaQuery();
+		$q = new DSCQuery();
 		$q->select( 'tbl.created_date AS date' );
 		$q->from( '#__tienda_orders AS tbl' );
 		$q->where(" tbl.order_state_id IN ( ".$states." ) " );

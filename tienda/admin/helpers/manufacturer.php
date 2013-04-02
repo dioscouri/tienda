@@ -73,8 +73,8 @@ class TiendaHelperManufacturer extends TiendaHelperBase
 	{
 		$db = JFactory::getDbo();
 		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		Tienda::load( 'TiendaQuery' ,'library.query' );
-		$q = new TiendaQuery();
+		Tienda::load( 'DSCQuery' ,'library.query' );
+		$q = new DSCQuery();
 		$q->select( 'manufacturer_id' );
 		$q->from( '`#__tienda_products`' );
 		

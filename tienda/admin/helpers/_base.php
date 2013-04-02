@@ -579,7 +579,7 @@ class TiendaHelperBase extends DSCHelper
 
 				// grab all records
 				// TODO Set the query here
-				$query = new TiendaQuery();
+				$query = new DSCQuery();
 				$query->select( $select );
 				$rows = $this->selectPeriodData( $thisdate, $nextdate, $select, $type );
 				$total = $this->selectPeriodData( $thisdate, $nextdate, "COUNT(*)", "result" );

@@ -110,9 +110,9 @@ class TiendaModelTaxrates extends TiendaModelBase
 		if( isset( $taxrates[$tax_class_id][$geozone_id][$level] ) && !$update )
 			return $taxrates[$tax_class_id][$geozone_id][$level];
 	
-		Tienda::load( 'TiendaQuery', 'library.query' );
+		Tienda::load( 'DSCQuery', 'library.query' );
 		$db = JFactory::getDbo();
-		$q = new TiendaQuery();
+		$q = new DSCQuery();
 		$q->select( array( 'tax_rate_id', 'geozone_id', 'tax_class_id', 'tax_rate', 'tax_rate_description', 'level' ) );
 		$q->from( '#__tienda_taxrates' );
 		$q->where( 'level = '.( int )$level );

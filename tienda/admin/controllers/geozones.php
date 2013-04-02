@@ -65,7 +65,8 @@ class TiendaControllerGeozones extends TiendaController
         $ns = $this->getNamespace();
 
         $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-        $row = $model->getTable( 'geozones' );
+        Tienda::load('TiendaTableGeozones', 'tables.geozones');
+        $row = DSCTable::getInstance('Geozones', 'TiendaTable'); 
         $row->load( $id );
 
         $state['filter_associated']   = $app->getUserStateFromRequest($ns.'associated', 'filter_associated', '', '');
@@ -151,7 +152,8 @@ class TiendaControllerGeozones extends TiendaController
 
         $keynames = array();
         foreach (@$cids as $cid)
-        {
+        {   
+            Tienda::load('TiendaTableZoneRelations', 'tables.zonerelations');
             $table = DSCTable::getInstance('ZoneRelations', 'TiendaTable');
             $keynames["geozone_id"] = $id;
             $keynames["zone_id"] = $cid;
@@ -232,7 +234,8 @@ class TiendaControllerGeozones extends TiendaController
         $this->messagetype  = '';
         $this->message      = '';
         $model = $this->getModel('zonerelations');
-        $row = $model->getTable();
+        Tienda::load('TiendaTableZoneRelations', 'tables.zonerelations');
+        $row = DSCTable::getInstance('ZoneRelations', 'TiendaTable');
 
         $id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
         $cids = JRequest::getVar('cid', array(0), 'request', 'array');

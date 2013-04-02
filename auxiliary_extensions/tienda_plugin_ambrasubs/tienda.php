@@ -48,7 +48,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
             $params = new DSCParameter( trim($row->params) );
             $product_id = $params->get( 'tienda_product_id' );
             
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+           Tienda::load('TiendaModelProducts', 'models.products');
             $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
             $model->setId( $product_id );
             $product = $model->getItem();

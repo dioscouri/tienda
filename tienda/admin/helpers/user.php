@@ -426,8 +426,8 @@ class TiendaHelperUser extends DSCHelperUser
 	public function getNextGuestUserId()
 	{
 		$db = JFactory::getDbo();
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$q = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$q = new DSCQuery();
 		$start_id = Tienda::getGuestIdStart();
 		
 		$q->select( 'min( tbl.user_id)' );

@@ -50,7 +50,7 @@ class plgTiendaReport_salesbymanufacturer extends TiendaReportPlugin {
 	 */
 	function _getData() {
 		$app = JFactory::getApplication();
-		Tienda::load('TiendaQuery', 'library.query');
+		Tienda::load('DSCQuery', 'library.query');
 		// just in case
 		$db = JFactory::getDbo();
 		$state = $this -> _getState();

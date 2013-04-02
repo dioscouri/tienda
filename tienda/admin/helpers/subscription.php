@@ -453,8 +453,8 @@ class TiendaHelperSubscription extends TiendaHelperBase
 		static function getNumberIssues( $product_id, $start_date = null , $end_date = null )
 		{
 			$db = JFactory::getDbo();
-			Tienda::load( 'TiendaQuery', 'library.query' );
-			$q = new TiendaQuery();
+			Tienda::load( 'DSCQuery', 'library.query' );
+			$q = new DSCQuery();
 			$q->select( 'count( tbl.`product_issue_id` ) ' );
 			$q->from( '`#__tienda_productissues` tbl' );
 			$q->where( 'tbl.`product_id`='.$product_id );

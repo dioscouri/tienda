@@ -139,7 +139,7 @@ class TiendaTableWishlistsItems extends TiendaTableEav
         $db = $this->getDBO();
         
         // initialize the query
-        $query = new TiendaQuery();
+        $query = new DSCQuery();
         $query->delete();
         $query->from( $this->getTableName() );
         

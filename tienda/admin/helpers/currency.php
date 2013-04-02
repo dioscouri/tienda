@@ -323,7 +323,8 @@ class TiendaHelperCurrency extends TiendaHelperBase
      * @return unknown_type
      */
     function format($amount, $currency='', $options='')
-    {
+    {   
+        Tienda::load('TiendaTableCurrencies', 'tables.currencies');
         $currencies = $this->currencies;
         $codes = $this->codes;
         
@@ -338,7 +339,6 @@ class TiendaHelperCurrency extends TiendaHelperBase
 	        if ( !isset( $currencies[$default_currencyid] ) )
 	        {
 	            // if currency is an integer, load the object for its id
-	            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	            $currencies[$default_currencyid] = DSCTable::getInstance('Currencies', 'TiendaTable');
 	            $currencies[$default_currencyid]->load( (int) $default_currencyid );
 	        }
@@ -364,7 +364,7 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($currencies[$currency]))
             {
                 // if currency is an integer, load the object for its id
-                DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+                
                 $currencies[$currency] = DSCTable::getInstance('Currencies', 'TiendaTable');
                 $currencies[$currency]->load( (int) $currency );               
             }
@@ -384,7 +384,6 @@ class TiendaHelperCurrency extends TiendaHelperBase
             if (!isset($codes[$currency]))
             {
                 // if currency is a string (currency_code) load the object for its code
-                DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
                 $codes[$currency] = DSCTable::getInstance('Currencies', 'TiendaTable');
                 $keynames = array();
                 $keynames['currency_code'] = (string) $currency;
@@ -417,7 +416,8 @@ class TiendaHelperCurrency extends TiendaHelperBase
     {
         if (empty($this->currencies[$id]))
         {
-            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+      
+            Tienda::load('TiendaTableCurrencies', 'tables.currencies');
             $this->currencies[$id] = DSCTable::getInstance('Currencies', 'TiendaTable');
             $this->currencies[$id]->load($id);          
         }

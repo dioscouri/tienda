@@ -112,8 +112,8 @@ class TiendaControllerUsers extends TiendaController
 
 		//Get Data from Productcomments Model and left join to products
 		$database = $model->getDbo();
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$query = new DSCQuery();
 		$query->select( 'tbl.*');
 		$query->select( 'substring(tbl.productcomment_text, 1, 250) AS trimcom' );
 		$query->from( '#__tienda_productcomments AS tbl' );

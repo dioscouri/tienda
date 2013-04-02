@@ -70,7 +70,7 @@ class TiendaHelperTax extends TiendaHelperBase
 
 					if( !isset( $result->tax_class_rates[ $taxrate->rates[$i]->tax_class_id] ) )
 					{
-						$q = new TiendaQuery( );
+						$q = new DSCQuery( );
 						$q->select( '*' );
 						$q->from( '#__tienda_taxclasses' );
 						$q->where( 'tax_class_id = '.( int )$taxrate->rates[$i]->tax_class_id );
@@ -115,7 +115,7 @@ class TiendaHelperTax extends TiendaHelperBase
 		}
 
 		Tienda::load( 'TiendaHelperShipping', 'helpers.shipping' );
-		Tienda::load( 'TiendaQuery', 'library.query' );
+		Tienda::load( 'DSCQuery', 'library.query' );
 		Tienda::load( 'TiendaTools', 'library.tools' );
 		if ( $billing_address ) {
 			$billing_zones = TiendaHelperShipping::getGeoZones( $billing_address->zone_id, '1', $billing_address->postal_code );
@@ -176,11 +176,11 @@ class TiendaHelperTax extends TiendaHelperBase
 		$result->rates = array();
 		$result->amount = 0;
 		
-		Tienda::load( 'TiendaQuery', 'library.query' );
+		Tienda::load( 'DSCQuery', 'library.query' );
 		$db = JFactory::getDBO( );
 		if( $tax_class_id === null )
 		{
-			$q = new TiendaQuery( );
+			$q = new DSCQuery( );
 			$q->select( 'tax_class_id' );
 			$q->from( '#__tienda_products' );
 			$q->where( 'product_id = '.( int )$product_id );
@@ -192,7 +192,7 @@ class TiendaHelperTax extends TiendaHelperBase
 			$data = $tax_rates[$geozone_id][$tax_class_id];
 		else 
 		{
-			$q = new TiendaQuery();
+			$q = new DSCQuery();
 			$q->select( 'tax_class_id, tax_rate_id, tax_rate, tax_rate_description, level ' );
 			$q->from( '#__tienda_taxrates' );
 			if( $geozone_id !== null )

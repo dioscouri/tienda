@@ -114,7 +114,7 @@ class TiendaModelCountries extends TiendaModelBase
 	
 	public function getDefault()
 	{
-	    $query = new TiendaQuery();
+	    $query = new DSCQuery();
 	    $query->select( 'tbl.*' );
 	    $query->from( $this->getTable()->getTableName() . " AS tbl" );
 	    $query->where( "tbl.country_enabled = '1'" );

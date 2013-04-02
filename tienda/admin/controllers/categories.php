@@ -74,7 +74,8 @@ class TiendaControllerCategories extends TiendaController
 	 * @return unknown_type
 	 */
 	function rebuild()
-	{
+	{	
+		Tienda::load('TiendaModelCategories', 'models.categories');
 		DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->updateParents();
 		DSCModel::getInstance('Categories', 'TiendaModel')->getTable()->rebuildTreeOrdering();
 			
@@ -208,7 +209,7 @@ class TiendaControllerCategories extends TiendaController
 		$model = $this->getModel($this->get('suffix'));
 		$row = $model->getTable();
 
-		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
+		$id =   JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
 		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
 		$task = JRequest::getVar( 'task' );
 		$vals = explode('_', $task);
@@ -239,7 +240,8 @@ class TiendaControllerCategories extends TiendaController
 
 		$keynames = array();
 		foreach (@$cids as $cid)
-		{
+		{	
+			Tienda::load('TiendaTableProductCategories', 'tables.productcategories');
 			$table = DSCTable::getInstance('ProductCategories', 'TiendaTable');
 			$keynames["category_id"] = $id;
 			$keynames["product_id"] = $cid;
@@ -326,8 +328,9 @@ class TiendaControllerCategories extends TiendaController
 		Tienda::load( 'TiendaImage', 'library.image' );
 		$width = Tienda::getInstance()->get('category_img_width', '0');
 		$height = Tienda::getInstance()->get('category_img_height', '0');
-
-		$model = $this->getModel('Categories', 'TiendaModel');
+		
+		Tienda::load('TiendaModelProductCategories', 'models.productcategories');
+		$model = DSCModel::getInstance('ProductCategories', 'TiendaModel');
 		$model->setState('limistart', $from_id);
 		$model->setState('limit', $to);
 			

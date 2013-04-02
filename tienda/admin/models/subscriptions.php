@@ -187,8 +187,8 @@ class TiendaModelSubscriptions extends TiendaModelBase
             return array();
         }
         $db = JFactory::getDbo();
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        $q = new TiendaQuery();
+        Tienda::load( 'DSCQuery', 'library.query' );
+        $q = new DSCQuery();
         $q->select( 'order_hash' );
         $q->from( '#__tienda_orders' );
         
@@ -216,8 +216,8 @@ class TiendaModelSubscriptions extends TiendaModelBase
             $item->link_view = 'index.php?option=com_tienda&view=subscriptions&task=view&id='.$item->subscription_id;
             $item->history = TiendaHelperSubscription::getHistory( $item->subscription_id );           
 
-            Tienda::load( 'TiendaQuery', 'library.query' );
-            $q = new TiendaQuery();
+            Tienda::load( 'DSCQuery', 'library.query' );
+            $q = new DSCQuery();
             $q->select( 'order_hash' );
             $q->from( '#__tienda_orders' );
             $q->where( 'order_id = '.$item->order_id );
@@ -246,8 +246,8 @@ class TiendaModelSubscriptions extends TiendaModelBase
 		$date->setOffset( -JFactory::getConfig()->getValue( 'config.offset' ) );
 		$today = $date->toFormat( "%Y-%m-%d" );
 		
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$q = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$q = new DSCQuery();
 		$q->select( 's.*' );
 		$q->from( '`#__tienda_productissues` tbl' );
 		$q->join( 'left', '`#__tienda_subscriptions` s ON s.`product_id` = tbl.`product_id`' );

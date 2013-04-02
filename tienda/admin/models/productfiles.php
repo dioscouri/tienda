@@ -91,7 +91,7 @@ class TiendaModelProductFiles extends TiendaModelBase
         $fields[] = " tbl.* ";
         // select the total downloads  
         
-        $downloads = new TiendaQuery();
+        $downloads = new DSCQuery();
         $downloads->select( 'SUM(tbl_downloads_tmp.`productdownload_max`)' );
         $downloads->from( '#__tienda_productdownloads AS tbl_downloads_tmp' );
         $downloads->where( 'tbl_downloads_tmp.productfile_id = tbl.productfile_id' ); 

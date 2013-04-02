@@ -128,10 +128,10 @@ class TiendaModelProductCompare extends TiendaModelBase
     {
         $db = JFactory::getDBO();
 
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         Tienda::load( "TiendaHelperBase", 'helpers._base' );
         $helper = new TiendaHelperBase();                
-        $query = new TiendaQuery();
+        $query = new DSCQuery();
         
         $query->select( "tbl.session_id" );
         $query->from( "#__session AS tbl" );
@@ -139,7 +139,7 @@ class TiendaModelProductCompare extends TiendaModelBase
         $results = $db->loadAssocList();
         $session_ids = $helper->getColumn($results, 'session_id');        
         
-        $query = new TiendaQuery();        
+        $query = new DSCQuery();        
         $query->delete();
         $query->from( "#__tienda_productcompare" );
         $query->where( "`user_id` = '0'" );

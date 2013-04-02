@@ -30,7 +30,7 @@ class TiendaHelperEav extends TiendaHelperBase
         
         if (!isset($sets[$alias]))
         {
-            DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+            Tienda::load('TiendaTableEavAttributes', 'tables.eavattributes');
             $table = DSCTable::getInstance('EavAttributes', 'TiendaTable');
             $table->load(array('eavattribute_alias' => $alias));
             switch( $table->eavattribute_type )
@@ -68,7 +68,7 @@ class TiendaHelperEav extends TiendaHelperBase
         
         if (!isset( $sets[$entity][$id][$editable_by] ) )
         {
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+            Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
             $model = DSCModel::getInstance('EavAttributes', 'TiendaModel');
             $model->setState('filter_entitytype', $entity);
             $model->setState('filter_entityid', $id);

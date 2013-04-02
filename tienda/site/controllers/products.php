@@ -65,10 +65,8 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_attribute_set'] = $app->getUserStateFromRequest( $ns . 'attribute', 'filter_attribute_set', '', '' );
         $state['filter_manufacturer'] = $app->getUserStateFromRequest( $ns . 'manufacturer', 'filter_manufacturer', '', 'int' );
         $state['filter_manufacturer_set'] = $app->getUserStateFromRequest( $ns . 'manufacturer_set', 'filter_manufacturer_set', '', '' );
-        $state['filter_attributeoptionname'] = $app
-        ->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
+        $state['filter_attributeoptionname'] = $app->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
         $state['filter_rating'] = $app->getUserStateFromRequest( $ns . 'rating', 'filter_rating', '', '' );
-
         $state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
         $state['filter_dir'] = $app->getUserStateFromRequest( $ns . 'dir', 'filter_dir', 'asc', '' );
 
@@ -113,7 +111,7 @@ class TiendaControllerProducts extends TiendaController
 
         if ( $state['filter_category'] )
         {
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+            Tienda::load('TiendaModelCategories', 'models.categories');
             $cmodel = DSCModel::getInstance( 'Categories', 'TiendaModel' );
             $cmodel->setId( $state['filter_category'] );
             if ( $item = $cmodel->getItem( ) )
@@ -161,7 +159,7 @@ class TiendaControllerProducts extends TiendaController
 
         // get the category we're looking at
         $filter_category = $model->getState( 'filter_category', JRequest::getVar( 'filter_category' ) );
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        Tienda::load('TiendaModelCategories', 'models.categories');
         $cmodel = DSCModel::getInstance( 'Categories', 'TiendaModel' );
         $cat = $cmodel->getTable( );
         $cat->load( $filter_category );
@@ -248,7 +246,7 @@ class TiendaControllerProducts extends TiendaController
         // add the media/templates folder as a valid path for templates
         $view->addTemplatePath( Tienda::getPath( 'categories_templates' ) );
         // but add back the template overrides folder to give it priority
-        $template_overrides = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate( ) . DS . 'html' . DS . 'com_tienda' . DS . $view->getName( );
+        $template_overrides = JPATH_BASE .  '/templates/'  . $app->getTemplate( ) . '/html/com_tienda/' . $view->getName( );
         $view->addTemplatePath( $template_overrides );
 
         // using a helper file, we determine the category's layout
@@ -310,7 +308,7 @@ class TiendaControllerProducts extends TiendaController
         Tienda::load( 'TiendaArticle', 'library.article' );
         $product_description = TiendaArticle::fromString( $row->product_description );
 
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        Tienda::load('TiendaModelCategories', 'models.categories');
         $cmodel = DSCModel::getInstance( 'Categories', 'TiendaModel' );
         $cat = $cmodel->getTable( );
         $cat->load( $filter_category );
@@ -369,14 +367,11 @@ class TiendaControllerProducts extends TiendaController
         // add the media/templates folder as a valid path for templates
         $view->addTemplatePath( Tienda::getPath( 'products_templates' ) );
         // but add back the template overrides folder to give it priority
-        $template_overrides = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate( ) . DS . 'html' . DS . 'com_tienda' . DS . $view->getName( );
+        $template_overrides = JPATH_BASE . '/templates/'  . $app->getTemplate( ) . '/html/com_tienda/' . $view->getName( );
         $view->addTemplatePath( $template_overrides );
 
         // using a helper file, we determine the product's layout
-        $layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )
-        ->getLayout( $row->product_id, array(
-                'category_id' => $cat->category_id
-        ) );
+        $layout = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getLayout( $row->product_id, array( 'category_id' => $cat->category_id ) );
         $view->setLayout( $layout );
 
         $dispatcher = JDispatcher::getInstance( );
@@ -416,8 +411,8 @@ class TiendaControllerProducts extends TiendaController
             $layout = $values['layout'];
         }
 
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = DSCModel::getInstance('Products', 'TiendaModel');
+        
+        $model = $this->getModel( $this->get( 'suffix' ) );
         $model->setId( $product_id );
         $row = $model->getItem( false );
         $buy_layout_override = $row->product_parameters->get('product_buy_layout_override');
@@ -485,7 +480,7 @@ class TiendaControllerProducts extends TiendaController
         $html = '';
 
         // get the product's files
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        Tienda::load( 'TiendaModelProductFiles', 'models.productfiles' );
         $model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $model->setState( 'filter_enabled', 1 );
@@ -493,6 +488,7 @@ class TiendaControllerProducts extends TiendaController
         $items = $model->getList( );
 
         // get the user's active subscriptions to this product, if possible
+        Tienda::load( 'TiendaModelSubscriptions', 'models.subscriptions' );
         $submodel = DSCModel::getInstance( 'Subscriptions', 'TiendaModel' );
         $submodel->setState( 'filter_userid', JFactory::getUser( )->id );
         $submodel->setState( 'filter_productid', $product_id );
@@ -501,8 +497,8 @@ class TiendaControllerProducts extends TiendaController
         if ( !empty( $items ) )
         {
             // reconcile the list of files to the date the sub's files were last checked
-            Tienda::load( 'TiendaHelperSubscription', 'helpers.subscription' );
-            $subhelper = new TiendaHelperSubscription( );
+            
+            $subhelper =  Tienda::getClass( 'TiendaHelperSubscription', 'helpers.subscription' );
             $subhelper->reconcileFiles( $subs );
             	
             Tienda::load( 'TiendaHelperBase', 'helpers._base' );
@@ -542,7 +538,7 @@ class TiendaControllerProducts extends TiendaController
         $validation = "";
 
         // get the list
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        Tienda::load( 'TiendaModelProductRelations', 'models.productrelations' );
         $model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->setState( 'filter_relation', $relation_type );
         $user = JFactory::getUser( );
@@ -681,7 +677,8 @@ class TiendaControllerProducts extends TiendaController
             $this->setRedirect( $link, $this->message, $this->messagetype );
             return false;
         }
-        DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+        
+        Tienda::load('TiendaTableProductFiles', 'tables.productfiles');
         $productfile = DSCTable::getInstance( 'ProductFiles', 'TiendaTable' );
         $productfile->load( $productfile_id );
         if ( empty( $productfile->productfile_id ) )
@@ -776,8 +773,8 @@ class TiendaControllerProducts extends TiendaController
      */
     function validate( )
     {
-        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-        $helper = new TiendaHelperBase( );
+        
+        $helper =  Tienda::getClass( 'TiendaHelperBase', 'helpers._base' );
 
         $response = array( );
         $response['msg'] = '';
@@ -842,7 +839,7 @@ class TiendaControllerProducts extends TiendaController
             echo ( json_encode( $response ) );
             return false;
         }
-
+        Tienda::load('TiendaTableProducts', 'tables.products');
         $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
         $product->load( array(
                 'product_id' => $product_id
@@ -866,7 +863,7 @@ class TiendaControllerProducts extends TiendaController
             $keynames['session_id'] = $session->getId( );
         }
         $keynames['product_id'] = $product_id;
-
+        Tienda::load('TiendaTableProducts', 'tables.products');
         $cartitem = DSCTable::getInstance( 'Carts', 'TiendaTable' );
         $cartitem->load( $keynames );
         
@@ -974,7 +971,7 @@ class TiendaControllerProducts extends TiendaController
         $filter_category = JRequest::getInt( 'filter_category' );
 
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-        $router = new TiendaHelperRoute( );
+        $router = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' );
         if ( !$itemid = $router->product( $product_id, $filter_category, true ) )
         {
             $itemid = $router->category( 1, true );
@@ -1038,9 +1035,7 @@ class TiendaControllerProducts extends TiendaController
 
         // do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
         $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
-        $product->load( array(
-                'product_id' => $product_id
-        ), true, false );
+        $product->load( array( 'product_id' => $product_id ), true, false );
 
         // if product notforsale, fail
         if ( $product->product_notforsale )
@@ -1061,8 +1056,7 @@ class TiendaControllerProducts extends TiendaController
             $id_type = "session";
         }
 
-        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $carthelper = new TiendaHelperCarts( );
+        $carthelper = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' );
 
         $cart_recurs = $carthelper->hasRecurringItem( $cart_id, $id_type );
         if ( $product->product_recurs && $cart_recurs )
@@ -1144,8 +1138,7 @@ class TiendaControllerProducts extends TiendaController
         $session->set( 'old_sessionid', $session->getId( ) );
 
         // add the item to the cart
-        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $cart_helper = new TiendaHelperCarts( );
+        $cart_helper =  Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' );
         $cartitem = $cart_helper->addItem( $item );
 
         // fire plugin event
@@ -1238,7 +1231,7 @@ class TiendaControllerProducts extends TiendaController
     {
         $html = '';
 
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+        Tienda::load('TiendaModelProductComments', 'models.productcomments');
         $model = DSCModel::getInstance( 'productcomments', 'TiendaModel' );
         $selectsort = JRequest::getVar( 'default_selectsort', '' );
         $model->setstate( 'order', $selectsort );
@@ -1373,15 +1366,15 @@ class TiendaControllerProducts extends TiendaController
             $id_type = "session";
         }
 
-        Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
-        $carthelper = new TiendaHelperCarts( );
+       
+        $carthelper = Tienda::getClass( 'TiendaHelperCarts', 'helpers.carts' );
 
         $cart_recurs = $carthelper->hasRecurringItem( $cart_id, $id_type );
 
         // TODO get the children
         // loop thru each child,
-        // get the list
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        // get the TiendaModel
+        Tienda::load( 'TiendaModelProductRelations', 'models.carts' );
         $model = DSCModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $model->setState( 'filter_relation', 'parent' );
@@ -1410,10 +1403,9 @@ class TiendaControllerProducts extends TiendaController
                 }
 
                 // do the item's charges recur? does the cart already have a subscription in it?  if so, fail with notice
+                Tienda::load( 'TiendaTableProducts', 'tables.products' );
                 $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
-                $product->load( array(
-                        'product_id' => $child->product_id_to
-                ) );
+                $product->load( array('product_id' => $child->product_id_to) );
 
                 // if product notforsale, fail
                 if ( $product->product_notforsale )
@@ -1453,7 +1445,7 @@ class TiendaControllerProducts extends TiendaController
                             $keynames['session_id'] = $session->getId( );
                         }
                         $keynames['product_id'] = $product_id;
-                        
+                         Tienda::load( 'TiendaTableCarts', 'tables.carts' );   
                         $cartitem = DSCTable::getInstance( 'Carts', 'TiendaTable' );
                         $cartitem->load( $keynames );
                         

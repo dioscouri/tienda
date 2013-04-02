@@ -62,8 +62,8 @@ class TiendaViewTaxrates extends TiendaViewBase
 	function listRateLevels( $selected, $taxrate_id, $tax_class_id )
 	{
 		$list = array();
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$q = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$q = new DSCQuery();
 		$db = JFactory::getDbo();
 		$q->select( 'max( level ) as `max_level`, min( level ) as `min_level`' );
 		$q->from( '#__tienda_taxrates' );

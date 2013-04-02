@@ -688,7 +688,7 @@ class TiendaTableProducts extends TiendaTableEav
 	        $this->$k = intval( $oid );
 	    }
 	    
-        $query = new TiendaQuery();
+        $query = new DSCQuery();
         $query->delete();
         $query->from( '#__tienda_product'.$type.'xref' );
         $query->where( 'product_id = '.$this->$k );

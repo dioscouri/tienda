@@ -252,8 +252,8 @@ class plgTiendaProduct_customfields extends TiendaPluginBase
     {
         $return = false;
         
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        $query = new TiendaQuery();
+        Tienda::load( 'DSCQuery', 'library.query' );
+        $query = new DSCQuery();
         $query->select( 'max(tbl.cartitem_customfields_id) as customfields_id' );
         $query->from( '#__tienda_carts AS tbl' );
 

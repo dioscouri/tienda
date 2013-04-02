@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-Tienda::load( 'TiendaQuery', 'library.query' );
+Tienda::load( 'DSCQuery', 'library.query' );
 
 class modTiendaRecentOrdersHelper extends TiendaHelperBase
 {

@@ -72,7 +72,7 @@ class TiendaModelEav extends TiendaModelBase
 			return $this->_query;
 		}
 
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 
 		$this->_buildQueryFields($query);
 		$this->_buildQueryFrom($query);
@@ -141,7 +141,7 @@ class TiendaModelEav extends TiendaModelBase
 
 	/**
 	 * Dedicated function for eav fields filtering
-	 * @param TiendaQuery $query
+	 * @param DSCQuery $query
 	 */
 	protected function _buildQueryEav(&$query)
 	{

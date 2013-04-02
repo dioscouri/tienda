@@ -134,8 +134,9 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
         $user = JFactory::getUser();
        
         // load the orderpayment record and set some values
-	    DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+
 	    $orderpayment_id = $data['orderpayment_id'];
+        Tienda::load( 'TiendaTableOrderPayments', 'tables.orderpayments' );
 	    $orderpayment = DSCTable::getInstance('OrderPayments', 'TiendaTable');
 	    $orderpayment->load( $orderpayment_id );
 	    $orderpayment->transaction_details  = $data['orderpayment_type'];
@@ -154,6 +155,7 @@ class plgTiendaPayment_ambrapoints extends TiendaPaymentPlugin
 	    // set the order's new status and update quantities if necessary
 	    Tienda::load( 'TiendaHelperOrder', 'helpers.order' );
 	    Tienda::load( 'TiendaHelperCarts', 'helpers.carts' );
+        Tienda::load( 'TiendaTableOrders', 'tables.orders' );
 	    $order = DSCTable::getInstance('Orders', 'TiendaTable');
 	    $order->load( $orderpayment->order_id );
 	    

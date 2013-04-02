@@ -248,12 +248,12 @@ class plgTiendaShipping_Weightbased extends TiendaShippingPlugin
 	 */
 	protected function getTaxRate( $shipping_method_id, $geozone_id )
 	{
-		Tienda::load( 'TiendaQuery', 'library.query' );
+		Tienda::load( 'DSCQuery', 'library.query' );
 
 		$taxrate = "0.00000";
 		$db = JFactory::getDBO();
 
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query->select( 'tbl.*' );
 		$query->from('#__tienda_taxrates AS tbl');
 		$query->join('LEFT', '#__tienda_shippingmethods_weightbased AS shippingmethod ON shippingmethod.tax_class_id = tbl.tax_class_id');

@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-Tienda::load( 'TiendaQuery', 'library.query' );
+Tienda::load( 'DSCQuery', 'library.query' );
 
 class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 {
@@ -127,7 +127,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$database = JFactory::getDBO();
 		$end_date = TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
 
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query = " SELECT DATE_SUB('".$end_date."', INTERVAL 1 DAY) ";
 		$database->setQuery( $query );
 		$start_date = $database->loadResult();
@@ -143,7 +143,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$database = JFactory::getDBO();
 		$enddate = TiendaHelperBase::getCorrectBeginDayTime( JFactory::getDate() );
 
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query = " SELECT DATE_SUB('".$enddate."', INTERVAL 7 DAY) ";
 		$database->setQuery( $query );
 		$startdate = $database->loadResult();
@@ -187,7 +187,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$last_day = $date->toFormat( "%Y-%m-01 00:00:00" );
 		$enddate = TiendaHelperBase::getCorrectBeginDayTime( $last_day );
 
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query = " SELECT DATE_SUB('".$last_day."', INTERVAL 1 MONTH) ";
 		$database->setQuery( $query );
 		$first_day = $database->loadResult();				
@@ -234,7 +234,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 		$first_day_year = $date->toFormat( "%Y-01-01 00:00:00" );
 		$enddate = TiendaHelperBase::getCorrectBeginDayTime( $first_day_year );
 
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query = " SELECT DATE_SUB('".$enddate."', INTERVAL 1 YEAR) ";
 		$database->setQuery( $query );
 		$startdate = $database->loadResult();
@@ -271,7 +271,7 @@ class modTiendaSaleStatisticsHelper extends TiendaHelperBase
 	{
 		$db = JFactory::getDbo();
 		
-		$q = new TiendaQuery();
+		$q = new DSCQuery();
 		$q->select( 'COUNT(*) AS num' );
 		$q->select( 'SUM(order_total) AS amount' );
 		$q->select( 'AVG(order_total) AS average' );

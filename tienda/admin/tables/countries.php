@@ -35,7 +35,7 @@ class TiendaTableCountries extends TiendaTable
     {
         $k = $this->_tbl_key;
 
-        $query = new TiendaQuery();
+        $query = new DSCQuery();
         $query->select( $this->_tbl_key );
         $query->select( 'ordering' );
         $query->from( $this->_tbl );
@@ -58,7 +58,7 @@ class TiendaTableCountries extends TiendaTable
                 {
                     $orders[$i]->ordering = $i+1;
                     
-                    $query = new TiendaQuery();
+                    $query = new DSCQuery();
                     $query->update( $this->_tbl );
                     $query->set( 'ordering = '. (int) $orders[$i]->ordering );
                     $query->where( $k .' = '. $this->_db->Quote($orders[$i]->$k) );

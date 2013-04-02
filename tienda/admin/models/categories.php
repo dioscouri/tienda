@@ -135,7 +135,7 @@ class TiendaModelCategories extends TiendaModelBase
      */
     protected function _buildResultQuery()
     {
-    	$grouped_query = new TiendaQuery();
+    	$grouped_query = new DSCQuery();
 		$grouped_query->select( $this->getState( 'select', 'COUNT(*)' ) );
 
         $this->_buildQueryFrom($grouped_query);
@@ -144,7 +144,7 @@ class TiendaModelCategories extends TiendaModelBase
         $this->_buildQueryGroup($grouped_query);
         $this->_buildQueryHaving($grouped_query);
         
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
 		$query->select( 'COUNT(*)' );
 		$query->from( '(' . $grouped_query . ') as grouped_count' );
         

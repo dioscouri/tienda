@@ -1121,7 +1121,7 @@
             <fileset dir="${cfg.comDir}/plugins/tienda_plugin_subscriptions/languages" />
         </copy>
         <!-- CPANEL REDIRECT -->
-        <copy todir="${destdir}/plugins/system" preservelastmodified="true" overwrite="true">
+        <copy todir="${destdir}/plugins/system/cpanelredirect" preservelastmodified="true" overwrite="true">
             <fileset dir="${cfg.aux}/tienda_plugin_cpanelredirect" />
         </copy>
         <copy todir="${destdir}/administrator/language/en-GB" preservelastmodified="true" overwrite="true">

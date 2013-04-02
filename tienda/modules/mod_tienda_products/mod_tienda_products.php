@@ -22,6 +22,7 @@ require_once( dirname(__FILE__).'/helper.php' );
 
 // include lang files
 $element =  'com_tienda' ;
+
 $lang = JFactory::getLanguage();
 $lang->load( $element, JPATH_BASE );
 $lang->load( $element, JPATH_ADMINISTRATOR );
@@ -31,6 +32,7 @@ $null_text = $params->get( 'null_text', 'No Products Returned' );
 
 // Grab the products
 $helper = new modTiendaProductsHelper( $params ); 
+
 $products = $helper->getProducts();
 $num = count($products);
 

@@ -35,7 +35,8 @@ class TiendaControllerOrders extends TiendaController
 		$this->registerTask( 'resend_email', 'resendEmail' );
 
 		// create the order object
-		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		
+		Tienda::load('TiendaTableOrders', 'tables.orders');
 		$this->_order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$this->initial_order_state = Tienda::getInstance()->get('pending_order_state', '1'); //pending
 	}
@@ -80,13 +81,15 @@ class TiendaControllerOrders extends TiendaController
 		Tienda::load( 'TiendaUrl', 'library.url' );
 
 		$model = $this->getModel( $this->get('suffix') );
-		$order = $model->getTable( 'orders' );
+		Tienda::load('TiendaTableOrders', 'tables.orders');
+		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( $model->getId() );
 		$orderitems = $order->getItems();
 		$row = $model->getItem();
 		
 		// Get the shop country name
 		$row->shop_country_name = "";
+		Tienda::load('TiendaModelCountries', 'models.countries');
 		$countryModel = DSCModel::getInstance('Countries', 'TiendaModel');
 		$countryModel->setId(Tienda::getInstance()->get('shop_country'));
 		$countryItem = $countryModel->getItem();
@@ -97,6 +100,7 @@ class TiendaControllerOrders extends TiendaController
 
 		// Get the shop zone name
 		$row->shop_zone_name = "";
+		Tienda::load('TiendaModelZones', 'models.zones');
 		$zoneModel = DSCModel::getInstance('Zones', 'TiendaModel');
 		$zoneModel->setId(Tienda::getInstance()->get('shop_zone'));
 		$zoneItem = $zoneModel->getItem();
@@ -107,8 +111,9 @@ class TiendaControllerOrders extends TiendaController
 
 		//retrieve user information and make available to page
 		if (!empty($row->user_id))
-		{
+		{	
 			//get the user information from jos_users and jos_tienda_userinfo
+			Tienda::load('TiendaModelUsers', 'models.users');
 			$userModel  = DSCModel::getInstance( 'Users', 'TiendaModel' );
 			$userModel->setId($row->user_id);
 			$userItem = $userModel->getItem();
@@ -161,6 +166,7 @@ class TiendaControllerOrders extends TiendaController
 			{
 				// use the default
 				$view->assign( 'using_default_geozone', true );
+				Tienda::load('TiendaTableGeozones', 'tables.geozones');
 				$table = DSCTable::getInstance('Geozones', 'TiendaTable');
 				$table->load(array('geozone_id'=>$config->get('default_tax_geozone')));
 				$geozones = array( $table );

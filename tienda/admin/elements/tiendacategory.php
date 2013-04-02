@@ -34,7 +34,7 @@ class JFakeElementTiendaCategory extends JFakeElementBase
 	public function getInput() 
 	{
 		
-		$list = Tienda::getClass( 'TiendaSelect', 'library.select' )->category($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, 'Select Category', '', true );
+		$list = Tienda::getClass( 'TiendaSelect', 'library.select' )->category($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, JText::_('COM_TIENDA_SELECT_CATEGORY'), '', true );
 		return $list;
 		
 	
@@ -44,7 +44,7 @@ class JFakeElementTiendaCategory extends JFakeElementBase
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		   $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->category($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Category', '', true );
+		   $list = Tienda::getClass( 'TiendaSelect', 'library.select' )->category($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, JText::_('COM_TIENDA_SELECT_CATEGORY'), '', true );
 		
 	   
 		return $list;

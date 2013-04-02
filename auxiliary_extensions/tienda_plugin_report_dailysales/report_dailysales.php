@@ -85,7 +85,7 @@ class plgTiendaReport_dailysales extends TiendaReportPlugin
             $thisdate = $variables->thisdate;
             $nextdate = $variables->nextdate;
 
-			$query = new TiendaQuery();
+			$query = new DSCQuery();
 			$query->select( 'COUNT(tbl.order_id) AS num, SUM(order_total) AS amount' );
 			$query->from('#__tienda_orders AS tbl');
 

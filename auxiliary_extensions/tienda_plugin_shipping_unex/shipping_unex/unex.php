@@ -281,12 +281,12 @@ class TiendaUnexPrice extends TiendaUnex
             // Tax rate
             $tax_class_id = Tienda::getInstance()->get('shipping_tax_class', '1');
             $geozone_id = $this->geozone_id;
-	        Tienda::load( 'TiendaQuery', 'library.query' );
+	        Tienda::load( 'DSCQuery', 'library.query' );
 	            
 	        $taxrate = "0.00000";
 	        $db = JFactory::getDBO();
 	        
-	        $query = new TiendaQuery();
+	        $query = new DSCQuery();
 	        $query->select( 'tbl.*' );
 	        $query->from('#__tienda_taxrates AS tbl');
 	        $query->where("tbl.tax_class_id = '".$tax_class_id."'");

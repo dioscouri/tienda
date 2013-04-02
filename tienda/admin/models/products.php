@@ -10,6 +10,8 @@
 
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( 'TiendaModelEav', 'models._baseeav' );
 
@@ -352,7 +354,7 @@ class TiendaModelProducts extends TiendaModelEav
      */
     protected function _buildResultQuery( )
     {
-        $grouped_query = new TiendaQuery( );
+        $grouped_query = new DSCQuery( );
         $grouped_query->select( $this->getState( 'select', 'COUNT(tbl.product_id)' ) );
 
         $field = array( );
@@ -415,7 +417,7 @@ class TiendaModelProducts extends TiendaModelEav
         $this->_buildQueryGroup( $grouped_query );
         $this->_buildQueryHaving( $grouped_query );
 
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
         $query->select( 'COUNT(*)' );
         $query->from( '(' . $grouped_query . ') as grouped_count' );
 
@@ -502,13 +504,13 @@ class TiendaModelProducts extends TiendaModelEav
 	public function clearCacheAuxiliary()
 	{
 	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-	
+	       
 	    $model = DSCModel::getInstance('ProductAttributeOptions', 'TiendaModel');
 	    $model->clearCache();
 	     
 	    $model = DSCModel::getInstance('ProductAttributeOptionValues', 'TiendaModel');
 	    $model->clearCache();
-	     
+	    
 	    $model = DSCModel::getInstance('ProductAttributes', 'TiendaModel');
 	    $model->clearCache();
 	     

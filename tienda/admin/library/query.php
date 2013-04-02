@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Database
  * @since		1.6
  */
-class TiendaQueryElement extends DSCQueryElement
+class DSCQueryElement extends DSCQueryElement
 {
 	
 }
@@ -26,7 +26,7 @@ class TiendaQueryElement extends DSCQueryElement
  * @subpackage	Database
  * @since		1.6
  */
-class TiendaQuery extends DSCQuery
+class DSCQuery extends DSCQuery
 {
 	
 }

@@ -101,8 +101,8 @@ class TiendaControllerCoupons extends TiendaController
 		$this->message      = '';
 
 		$model = $this->getModel($this->get('suffix'));
-		$row = $model->getTable();
-
+		Tienda::load('TiendaTableCoupons', 'tables.coupons');
+		$row = DSCTable::getInstance('Coupons', 'TiendaTable'); 
 		$id = JRequest::getInt( 'id', 0 );
 		$cids = JRequest::getVar('cid', array (0), 'request', 'array');
 		$task = JRequest::getVar( 'task' );
@@ -133,8 +133,10 @@ class TiendaControllerCoupons extends TiendaController
 		}
 		
 		$keynames = array();
+		Tienda::load('TiendaTableProductCoupons', 'tables.productcoupons');
 		foreach (@$cids as $cid)
-		{
+		{	
+
 			$table = DSCTable::getInstance('ProductCoupons', 'TiendaTable');
 			$keynames["coupon_id"] = $id;
 			$keynames["product_id"] = $cid;

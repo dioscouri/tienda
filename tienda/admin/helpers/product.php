@@ -70,14 +70,14 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $template = $app->getTemplate( );
         }
-        $folder = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html/com_tienda/products';
+        $folder = JPATH_SITE .  '/templates/' . $template . '/html/com_tienda/products';
 
         if ( JFolder::exists( $folder ) )
         {
             $extensions = array(
                     'php'
             );
-            	
+                
             $files = JFolder::files( $folder );
             foreach ( $files as $file )
             {
@@ -94,14 +94,14 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         // now do the tienda folder
-        $folder = JPATH_SITE . DS . 'components/com_tienda/views/products/tmpl';
+        $folder = JPATH_SITE . '/components/com_tienda/views/products/tmpl';
 
         if ( JFolder::exists( $folder ) )
         {
             $extensions = array(
                     'php'
             );
-            	
+                
             $files = JFolder::files( $folder );
             foreach ( $files as $file )
             {
@@ -125,7 +125,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $extensions = array(
                     'php'
             );
-            	
+                
             $files = JFolder::files( $folder );
             foreach ( $files as $file )
             {
@@ -170,8 +170,8 @@ class TiendaHelperProduct extends TiendaHelperBase
             $template = $app->getTemplate( );
         }
 
-        $templatePath = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html/com_tienda/products/%s' . '.php';
-        $extensionPath = JPATH_SITE . DS . 'components/com_tienda/views/products/tmpl/%s' . '.php';
+        $templatePath = JPATH_SITE . '/templates/' .  $template .  '/html/com_tienda/products/%s' . '.php';
+        $extensionPath = JPATH_SITE .  '/components/com_tienda/views/products/tmpl/%s' . '.php';
         $mediaPath = Tienda::getPath( 'products_templates' ) . DS . '%s' . '.php';
 
         if ( isset( $this ) && is_a( $this, 'TiendaHelperProduct' ) )
@@ -191,7 +191,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                         || JFile::exists( sprintf( $mediaPath, $product->product_layout ) ) ) )
         {
             $new_layout = $dispatcher->trigger('onGetLayoutProduct', array( $product, $product->product_layout ) );
-            	
+                
             if( count( $new_layout ) )
                 return $new_layout[0];
             else
@@ -210,7 +210,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 $helper_category->categories[$category_id]->load( $category_id );
             }
             $category = $helper_category->categories[$category_id];
-            	
+                
             if ( !empty( $category->categoryproducts_layout )
                     && ( JFile::exists( sprintf( $templatePath, $category->categoryproducts_layout ) )
                             || JFile::exists( sprintf( $extensionPath, $category->categoryproducts_layout ) ) ) )
@@ -238,7 +238,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 $helper_category->categories[$category_id]->load( $category_id );
             }
             $category = $helper_category->categories[$category_id];
-            	
+                
             if ( !empty( $category->categoryproducts_layout )
                     && ( JFile::exists( sprintf( $templatePath, $category->categoryproducts_layout ) )
                             || JFile::exists( sprintf( $extensionPath, $category->categoryproducts_layout ) ) ) )
@@ -283,7 +283,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * If an image already exists in the current path with the same name,
      * will either leave the iamge in the old path or delete it if delete_duplicates = true
      *
-     * @param $row	Tienda Product
+     * @param $row  Tienda Product
      * @param $delete_duplicates
      * @return unknown_type
      */
@@ -306,7 +306,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 && ( $dir . DS . $row->product_sku . DS != $path ) )
         {
             $old_dir = $dir . DS . $row->product_sku . DS;
-            	
+                
             $files = JFolder::files( $old_dir );
             foreach ( $files as $file )
             {
@@ -361,10 +361,10 @@ class TiendaHelperProduct extends TiendaHelperBase
                             Tienda::load( 'TiendaHelperImage', 'helpers.image' );
                             $imgHelper = TiendaHelperBase::getInstance( 'Image', 'TiendaHelper' );
                             $imgHelper->resizeImage( $img );
-                            	
+                                
                             // delete old thumb
                             JFile::delete( $old_dir . 'thumbs' . DS . $file );
-                            	
+                                
                             $file_moved = true;
                         }
                     }
@@ -384,7 +384,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         if ( $this->checkDirectory( $dir . DS . $row->product_id, false ) && ( $dir . DS . $row->product_id . DS != $path ) )
         {
             $old_dir = $dir . DS . $row->product_id . DS;
-            	
+                
             $files = JFolder::files( $old_dir );
             foreach ( $files as $file )
             {
@@ -439,7 +439,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                             $imgHelper->resizeImage( $img );
                             // delete old thumb
                             JFile::delete( $old_dir . 'thumbs' . DS . $file );
-                            	
+                                
                             $file_moved = true;
                         }
                     }
@@ -526,7 +526,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $extensions = array(
                     'png', 'gif', 'jpg', 'jpeg'
             );
-            	
+                
             $files = JFolder::files( $folder );
             foreach ( $files as $file )
             {
@@ -579,7 +579,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             if ( empty( $paths[$id] ) )
             {
                 $paths[$id] = '';
-                	
+                    
                 if ( isset( $this ) && is_a( $this, 'TiendaHelperProduct' ) )
                 {
                     $helper = &$this;
@@ -589,13 +589,13 @@ class TiendaHelperProduct extends TiendaHelperBase
                     $helper = new TiendaHelperProduct();
                 }
                 $row = $helper->load( ( int ) $id, true, false );
-                	
+                    
                 if ( empty( $row->product_id ) )
                 {
                     // TODO figure out what to do if the id is invalid
                     return null;
                 }
-                	
+                    
                 $paths[$id] = $row->getImagePath( true );
             }
         }
@@ -623,7 +623,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         if ( empty( $urls[$id] ) )
         {
             $urls[$id] = '';
-            	
+                
             DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
             $row = DSCTable::getInstance( 'Products', 'TiendaTable' );
             $row->load( ( int ) $id, true, false );
@@ -632,7 +632,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 // TODO figure out what to do if the id is invalid
                 return null;
             }
-            	
+                
             $urls[$id] = $row->getImageUrl( );
         }
 
@@ -659,7 +659,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         if ( empty( $paths[$id] ) )
         {
             $paths[$id] = '';
-            	
+                
             DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
             $row = DSCTable::getInstance( 'Products', 'TiendaTable' );
             $row->load( ( int ) $id, true, false );
@@ -668,7 +668,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 // TODO figure out what to do if the id is invalid
                 return null;
             }
-            	
+                
             // if product_images_path is valid and not empty, use it
             if ( !empty( $row->product_files_path ) )
             {
@@ -682,7 +682,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     }
                 }
             }
-            	
+                
             // if no override, use path based on sku if it is valid and not empty
             // TODO clean SKU so valid characters used for folder name?
             if ( empty( $paths[$id] ) && !empty( $row->product_sku ) )
@@ -697,7 +697,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     }
                 }
             }
-            	
+                
             // if still unset, use path based on id number
             if ( empty( $paths[$id] ) )
             {
@@ -770,12 +770,12 @@ class TiendaHelperProduct extends TiendaHelperBase
             // then this is a filename, return the full img tag if file exists, otherwise use a default image
             $src = ( JFile::exists( Tienda::getPath( $path ) . DS . $id ) ) ? Tienda::getUrl( $path ) . $id
             : JURI::root( true ) . '/media/com_tienda/images/noimage.png';
-            	
+                
             // if url is true, just return the url of the file and not the whole img tag
             $tmpl = ( $url ) ? $src
             : "<img " . $dimensions . " src='" . $src . "' alt='" . JText::_( $alt ) . "' title='" . JText::_( $alt )
             . "' align='middle' border='0' " . $style . " />";
-            	
+                
         }
         else
         {
@@ -815,7 +815,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 {
                     // Add a suffix to the thumb to avoid conflicts with user settings
                     $suffix = '';
-                    	
+                        
                     if ( isset( $options['width'] ) && isset( $options['height'] ) )
                     {
                         $suffix = '_' . $options['width'] . 'x' . $options['height'];
@@ -828,11 +828,11 @@ class TiendaHelperProduct extends TiendaHelperBase
                     {
                         $suffix = '_h' . $options['height'];
                     }
-                    	
+                        
                     // Add suffix to file path
                     $dot = strrpos( $file, '.' );
                     $resize = substr( $file, 0, $dot ) . $suffix . substr( $file, $dot );
-                    	
+                        
                     if ( !JFile::exists( $resize ) )
                     {
 
@@ -869,7 +869,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                         }
 
                     }
-                    	
+                        
                     // Add suffix to url path
                     $dot = strrpos( $id, '.' );
                     $id = substr( $id, 0, $dot ) . $suffix . substr( $id, $dot );
@@ -945,11 +945,11 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $product_helper = TiendaHelperBase::getInstance( 'Product' );
             $prices = $product_helper->getPrices( $id );
-            	
+                
             DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
             $model = DSCModel::getInstance( 'ProductPrices', 'TiendaModel' );
             $model->setState( 'filter_id', $id );
-            	
+                
             ( int ) $quantity;
             if ( $quantity <= '0' )
             {
@@ -957,7 +957,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             }
             //where price_quantity_start < $quantity
             $model->setState( 'filter_quantity', $quantity );
-            	
+                
             // does date even matter?
             $nullDate = JFactory::getDBO( )->getNullDate( );
             if ( empty( $date ) || $date == $nullDate )
@@ -967,7 +967,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $model->setState( 'filter_date', $date );
             //where product_price_startdate <= $date
             //where product_price_enddate >= $date OR product_price_enddate == nullDate
-            	
+                
             // does group_id?
             ( int ) $group_id;
             $default_user_group = Tienda::getInstance( )->get( 'default_user_group', '1' ); /* Use a default $group_id */
@@ -984,11 +984,11 @@ class TiendaHelperProduct extends TiendaHelperBase
                 $group_id = $default_user_group;
             }
             $model->setState( 'filter_user_group', $group_id );
-            	
+                
             // set the ordering so the most discounted item is at the top of the list
             $model->setState( 'order', 'price_quantity_start' );
             $model->setState( 'direction', 'DESC' );
-            	
+                
             // TiendaModelProductPrices is a special model that overrides getItem
             $price = $model->getItem( );
             $sets[$id][$quantity][$group_id][$date] = $price;
@@ -1070,18 +1070,18 @@ class TiendaHelperProduct extends TiendaHelperBase
             DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
             $taxrate = DSCTable::getInstance( 'TaxRates', 'TiendaTable' );
             $taxrate->tax_rate = "0.00000";
-            	
-            Tienda::load( 'TiendaQuery', 'library.query' );
-            	
+                
+            Tienda::load( 'DSCQuery', 'library.query' );
+                
             $db = JFactory::getDBO( );
-            	
-            $query = new TiendaQuery( );
+                
+            $query = new DSCQuery( );
             $query->select( 'tbl.*' );
             $query->from( '#__tienda_taxrates AS tbl' );
             $query->join( 'LEFT', '#__tienda_products AS product ON product.tax_class_id = tbl.tax_class_id' );
             $query->where( "product.product_id = '" . $product_id . "'" );
             $query->where( "tbl.geozone_id = '" . $geozone_id . "'" );
-            	
+                
             $db->setQuery( ( string ) $query );
             if ( $data = $db->loadObject( ) )
             {
@@ -1117,11 +1117,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         if ( empty( self::$categoriesxref[$id] ) )
         {
-            Tienda::load( 'TiendaQuery', 'library.query' );
-            DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+            Tienda::load( 'DSCQuery', 'library.query' );
+            Tienda::load('TiendaTableProductCategories','tables.productcategories');
             $table = DSCTable::getInstance( 'ProductCategories', 'TiendaTable' );
-            	
-            $query = new TiendaQuery( );
+                
+            $query = new DSCQuery( );
             $query->select( "tbl.category_id" );
             $query->from( $table->getTableName( ) . " AS tbl" );
             $query->where( "tbl.product_id = " . ( int ) $id );
@@ -1146,7 +1146,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return array( );
         }
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        Tienda::load('TiendaModelProductAttributes','models.productattributes');
         $model = DSCModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState( 'filter_product', $id );
 
@@ -1177,8 +1177,8 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         if ( empty( $sets[$id] ) )
-        {
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        {   
+            Tienda::load('TiendaModelProductAttributes','models.productattributes');
             $model = DSCModel::getInstance( 'ProductAttributes', 'TiendaModel' );
             $model->setState( 'filter_product', $id );
             $model->setState( 'order', 'tbl.ordering' );
@@ -1193,6 +1193,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             foreach ( $items as $item )
             {
                 $key = 'attribute_' . $item->productattribute_id;
+                Tienda::load('TiendaModelProductAttributeOptions','models.productattributeoptions');
                 $model = DSCModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
                 $model->setState( 'filter_attribute', $item->productattribute_id );
                 $model->setState( 'order', 'tbl.ordering' );
@@ -1222,7 +1223,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return array( );
         }
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        Tienda::load('TiendaModelProductFiles','models.productsfiles');
         $model = DSCModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $id );
         $items = $model->getList( );
@@ -1304,7 +1305,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         $app = JFactory::getApplication( );
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        Tienda::load('TiendaModelProducts','models.products');
         $model = DSCModel::getInstance( 'Products', 'TiendaModel' );
         $ns = $app->getName( ) . '::' . 'com.tienda.model.' . $model->getTable( )->get( '_suffix' );
         $state = array( );
@@ -1425,15 +1426,15 @@ class TiendaHelperProduct extends TiendaHelperBase
         $return = array( );
         $traits = array( );
 
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
-
         // get all productattributes
+        Tienda::load('TiendaModelProductAttributes','models.productattributes');
         $model = DSCModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         if ( $attributes = $model->getList( ) )
         {
             foreach ( $attributes as $attribute )
-            {
+            {   
+                Tienda::load('TiendaModelProductAttributeOptions','models.productattributeoptions');
                 $paoModel = DSCModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
                 $paoModel->setState( 'filter_attribute', $attribute->productattribute_id );
                 if ( $paos = $paoModel->getList( ) )
@@ -1626,11 +1627,11 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     public function getProductQuantities( $id )
     {
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
 
         $tableQuantity = DSCTable::getInstance( 'ProductQuantities', 'TiendaTable' );
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
 
         $select[] = "quantities.product_attributes";
         $select[] = "quantities.quantity";
@@ -1662,7 +1663,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function getAvailableQuantity( $id, $attribute )
     {
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
 
         $tableQuantity = DSCTable::getInstance( 'ProductQuantities', 'TiendaTable' );
@@ -1675,7 +1676,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             return $tableProduct;
         }
 
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
 
         $select[] = "product.product_name";
         $select[] = "quantities.quantity";
@@ -1745,11 +1746,11 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return array( );
         }
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
         $table = DSCTable::getInstance( 'productcomments', 'TiendaTable' );
 
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
         $query->select( "tbl.productcomment_id" );
         $query->from( $table->getTableName( ) . " AS tbl" );
         //$query->where( "tbl.product_id = ".(int) $id ." AND tbl.user_id= ".(int)$uid);
@@ -1774,11 +1775,11 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return array( );
         }
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR .'/components/com_tienda/tables' );
         $table = DSCTable::getInstance( 'productcomments', 'TiendaTable' );
 
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
         $query->select( "tbl.user_email" );
         $query->from( $table->getTableName( ) . " AS tbl" );
         $query->where( "tbl.product_id = " . ( int ) $product_id );
@@ -1800,11 +1801,11 @@ class TiendaHelperProduct extends TiendaHelperBase
     public static function isFeedbackAlready( $uid, $cid )
     {
 
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         $table = DSCTable::getInstance( 'productcommentshelpfulness', 'TiendaTable' );
 
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
         $query->select( "tbl.productcommentshelpfulness_id" );
         $query->from( $table->getTableName( ) . " AS tbl" );
         $query->where( "tbl.user_id = " . ( int ) $uid );
@@ -1823,11 +1824,11 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     public function getProductQuantitiesObjects( $id )
     {
-        Tienda::load( 'TiendaQuery', 'library.query' );
+        Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
 
         $tableQuantity = DSCTable::getInstance( 'ProductQuantities', 'TiendaTable' );
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
         $select[] = "quantities.*";
 
         $query->select( $select );
@@ -1963,7 +1964,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $result = $view->loadTemplate( null );
         if (JError::isError($result))
             return '';
-        	
+            
         unset( $view->rating );
 
         return $result;
@@ -2062,7 +2063,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     {
         if ( empty( self::$products[$id][$load_eav] ) )
         {
-            DSCTable::addIncludePath( trim( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' ) );
+            Tienda::load('TiendaTableProducts', 'tables.products');
             $productTable = DSCTable::getInstance( 'Products', 'TiendaTable' );
             $productTable->load( $id, $reset, $load_eav );
             self::$products[$id][$load_eav] = $productTable;
@@ -2084,9 +2085,9 @@ class TiendaHelperProduct extends TiendaHelperBase
             $model = DSCModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
             $model->setState( 'filter_attribute', $attribute->productattribute_id );
             $model->setState( 'order', 'tbl.ordering' );
-            	
+                
             $items = $model->getList( );
-            	
+                
             if ( count( $items ) )
             {
                 $default[$attribute->productattribute_id] = $items[0]->productattributeoption_id;
@@ -2103,8 +2104,8 @@ class TiendaHelperProduct extends TiendaHelperBase
     /**
      * Get the cart button form for a specific product
      *
-     * @param int $product_id 	The id of the product
-     * @return html	The add to cart form
+     * @param int $product_id   The id of the product
+     * @return html The add to cart form
      */
     public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
     {
@@ -2194,7 +2195,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         else
         {
             $product_qty = !empty( $values['product_qty'] ) ? ( int ) $values['product_qty'] : $quantity_min;
-            	
+                
             // TODO only display attributes available based on the first selected attribute?
             foreach ( $values as $key => $value )
             {
@@ -2203,7 +2204,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     $attributes[] = $value;
                 }
             }
-            	
+                
             if( !count( $attributes ) ) { // no attributes are selected -> use default
                 if (!isset($row->default_attributes)) {
                     $attributes = $helper_product->getDefaultAttributes( $product_id );
@@ -2213,23 +2214,23 @@ class TiendaHelperProduct extends TiendaHelperBase
             }
 
             sort( $attributes );
-            	
+                
             // Add 0 to attributes to include all the root attributes
             //$attributes[] = 0;//remove this one. its causing the getAvailableQuantity to not get quantity because of wrong csv
-            	
+                
             // For getting child opts
             $view->selected_opts = json_encode( array_merge( $attributes, array(
                     '0'
             ) ) );
-            	
+                
             $attributes_csv = implode( ',', $attributes );
-            	
+                
             // Integrity checks on quantity being added
             if ( $product_qty < 0 )
             {
                 $product_qty = '1';
             }
-            	
+                
             // using a helper file to determine the product's information related to inventory
             $availableQuantity = $helper_product->getAvailableQuantity( $product_id, $attributes_csv );
             if ( $availableQuantity->product_check_inventory && $product_qty > $availableQuantity->quantity )
@@ -2304,8 +2305,8 @@ class TiendaHelperProduct extends TiendaHelperBase
     /**
      * Get the share buttons for a specific product
      *
-     * @param int $product_id 	The id of the product
-     * @return html	The add to product detail view
+     * @param int $product_id   The id of the product
+     * @return html The add to product detail view
      */
     public static function getProductShareButtons( $view, $product_id, $layout = 'product_share_buttons' )
     {
@@ -2370,7 +2371,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     */
     public static function convertAttributesToArray( $product_id, $values_csv )
     {
-        DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+        Tienda::load('TiendaModelProductAttributes','models.productattributes');
         $model = DSCModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $list = $model->getList();
@@ -2381,7 +2382,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             if( isset( $values[$i]) )
                 $result []= array( $list[$i]->productattribute_id, $values[$i] );
         }
-        	
+            
         return $result;
     }
 
@@ -2403,8 +2404,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $values = JRequest::get( 'post' );
         }
         if( $view === null ) // if nothing is specified, load products view
-            $view = TiendaHelperProduct::getProductViewObject();
-
+        $view = TiendaHelperProduct::getProductViewObject();
         $path = TiendaHelperProduct::getGalleryPath( $product_id );
         $images = TiendaHelperProduct::getGalleryImages( $path, array( 'exclude' => $exclude ) );
         $uri = TiendaHelperProduct::getUriFromPath( $path );
@@ -2450,12 +2450,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 
     public static function calculateProductAttributeProperty( &$product, $attributes, $product_price, $product_weight )
     {
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        $q = new TiendaQuery();
+        Tienda::load( 'DSCQuery', 'library.query' );
+        $q = new DSCQuery();
         $q->select( 'tbl.`productattributeoption_price` , tbl.`productattributeoption_prefix`, tbl.`productattributeoption_id` ' );
         $q->select( 'tbl.`productattributeoption_code`, tbl.`productattributeoption_weight`, tbl.`productattributeoption_prefix_weight`' );
         $q->from( '`#__tienda_productattributeoptions` tbl' );
-        $q->join( 'left','`#__tienda_productattributes` atr ON tbl.	productattribute_id = atr.productattribute_id' );
+        $q->join( 'left','`#__tienda_productattributes` atr ON tbl. productattribute_id = atr.productattribute_id' );
         $q->where( "tbl.productattributeoption_id IN ('".implode( "', '", $attributes )."')" );
         $q->order( 'atr.ordering ASC' );
         $db = JFactory::getDbo();
@@ -2501,19 +2501,21 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return $product_sku;
         }
-
+        Tienda::load('TiendaTableProductAttributeOptions','tables.productattributeoptions');
+        
         foreach($attributes_array as $id)
-        {
+        {   
             $table = DSCTable::getInstance('ProductAttributeOptions', 'TiendaTable');
             $table->load( $id );
-            	
+                
             // Load attribute
             $attr_id = $table->productattribute_id;
-            	
+                
             $attributes[] = $attr_id;
         }
 
         // Load list of attributes
+        Tienda::load('TiendaModelProductAttributes','models.productattributes');
         $model = DSCModel::getInstance('ProductAttributes', 'TiendaModel');
         $model->setState('filter_id', $attributes);
         $model->setState('order', 'ordering');

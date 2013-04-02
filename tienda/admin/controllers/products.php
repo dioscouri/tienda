@@ -70,7 +70,8 @@ class TiendaControllerProducts extends TiendaController
 	 * @return unknown_type
 	 */
 	function edit($cachable=false, $urlparams = false)
-	{
+	{	
+		FB::log('edit');
 		$view   = $this->getView( $this->get('suffix'), 'html' );
 		$model  = $this->getModel( $this->get('suffix') );
 		$view->set( 'hidemenu', false);
@@ -125,7 +126,8 @@ class TiendaControllerProducts extends TiendaController
 		$task = JRequest::getVar('task');
 		$model 	= $this->getModel( $this->get('suffix') );
         $isSaveAs = false;
-		$row = $model->getTable();
+        Tienda::load('TiendaTableProducts', 'tables.products');
+		$row = DSCTable::getInstance( 'Products', 'TiendaTable' );
 		$row->load( $model->getId() );
 		$row->bind( JRequest::get('POST') );
 		$row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -136,7 +138,8 @@ class TiendaControllerProducts extends TiendaController
 		{
 			unset($row);
 			// load WITHOUT EAV! otherwise the save will fail
-			$row = $model->getTable();
+			Tienda::load('TiendaTableProducts', 'tables.products');
+			$row = DSCTable::getInstance( 'Products', 'TiendaTable' );
 			$row->load( $model->getId(), true, false );
 			$row->bind( JRequest::get('POST') );
 			$row->product_description = JRequest::getVar( 'product_description', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -1989,6 +1992,7 @@ class TiendaControllerProducts extends TiendaController
 	    $product_id = JRequest::getInt('product_id');
 	    $model = $this->getModel( $this->get('suffix') );
 	    $model->setId($product_id);
+	    FB::log($model);
 	    if ($item = $model->getItem()) 
 	    {
 	        $view   = $this->getView( $this->get('suffix'), 'html' );
@@ -2013,7 +2017,7 @@ class TiendaControllerProducts extends TiendaController
 	    JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 	    
 	    $product_id = JRequest::getInt( 'product_id', 0 );
-	
+		FB::log( $product_id );
 	    if ( $product_id )
 	    {
 	        Tienda::load( 'TiendaImage', 'library.image' );
@@ -2022,7 +2026,9 @@ class TiendaControllerProducts extends TiendaController
 	        $upload->handleUpload( 'Filedata' );
 	         
 	        // then save image to appropriate folder
+	        Tienda::load('TiendaTableProducts', 'tables.products');
 	        $product = DSCTable::getInstance( 'Products', 'TiendaTable' );
+	        FB::log($product);
 	        $product->load( $product_id );
 	        $path = $product->getImagePath( );
 	         

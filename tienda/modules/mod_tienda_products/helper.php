@@ -37,16 +37,21 @@ class modTiendaProductsHelper extends JObject
 		if ( !class_exists('Tienda') )
 		JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
+		
 		// load the config class
-		Tienda::load( 'Tienda', 'defines' );
+		
 		Tienda::load('TiendaHelperProduct', 'helpers.product');
 
-		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		DSCModel::addIncludePath( JPATH_SITE.'/components/com_tienda/models' );
+		Tienda::load('TiendaModelProducts', 'models.products');
+		Tienda::load('TiendaTableProducts', 'tables.products');
 
+		//for some reason we need extra classes to call this outside of tienda
+		Tienda::load('TiendaTableProductAttributes', 'tables.productattributes');
+		Tienda::load('TiendaTableProductAttributeOptions', 'tables.productattributeoptions'); 
 		// get the model
 		$model = DSCModel::getInstance( 'Products', 'TiendaModel' );
-		 
+		
+
 		// setting the model's state tells it what items to return
 		$model->setState('filter_published', '1');
 		$date = JFactory::getDate();
@@ -112,8 +117,10 @@ class modTiendaProductsHelper extends JObject
 			$overide_price = true;
 			 
 		}
+		$products = $model->getList(true, false );
+		//$products = array();
 		// using the set filters, get a list of products
-		if ($products = $model->getList(true, false ))
+		if ($products)
 		{
 			if( $show_tax )
 			{
@@ -122,10 +129,12 @@ class modTiendaProductsHelper extends JObject
 				if (empty($geozones))
 				{
 					// use the default
+					Tienda::load('TiendaTableGeozones', 'tables.geozones');
 					$table = DSCTable::getInstance('Geozones', 'TiendaTable');
 					$table->load(array('geozone_id'=>Tienda::getInstance()->get('default_tax_geozone')));
 					$geozones = array( $table );
 				}
+
 			}
 			
 			foreach ($products as $product)
@@ -161,7 +170,7 @@ class modTiendaProductsHelper extends JObject
 				else
 				{
 					$product->itemid = $itemid;
-				}
+				} 
 			}
 		}
 		 
@@ -176,8 +185,7 @@ class modTiendaProductsHelper extends JObject
 	{
 		$user = JFactory::getUser();
 		$database = JFactory::getDBO();
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query->select( 'tbl.group_id' );
 		$query->from('#__tienda_usergroupxref AS tbl');
 		$query->join('INNER', '#__tienda_groups AS g ON g.group_id = tbl.group_id');

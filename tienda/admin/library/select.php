@@ -1531,8 +1531,8 @@ class TiendaSelect extends DSCSelect
         $list[] =  self::option( 0, JText::_('COM_TIENDA_ROOT') );
 
         $db = JFactory::getDbo();
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        $q = new TiendaQuery();
+        Tienda::load( 'DSCQuery', 'library.query' );
+        $q = new DSCQuery();
         
         $q->select( array( 'level', 'tax_rate_description' ) );
         $q->from( '#__tienda_taxrates' );

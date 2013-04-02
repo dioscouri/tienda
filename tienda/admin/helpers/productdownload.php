@@ -85,12 +85,12 @@ class TiendaHelperProductDownload extends TiendaHelperBase
      */
     function getProductDownloadInfo( $productfile_id, $user_id )
     {
-    	Tienda::load( 'TiendaQuery', 'library.query' );
+    	Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         
         $tableProductDownload = DSCTable::getInstance( 'ProductDownloads', 'TiendaTable' );
        
-        $query = new TiendaQuery();
+        $query = new DSCQuery();
         
         $select[]="productdl.*";
         

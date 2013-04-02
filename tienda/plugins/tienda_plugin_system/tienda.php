@@ -162,7 +162,6 @@ class plgSystemTienda extends JPlugin
             // Check the registry to see if our Tienda class has been overridden
             if ( !class_exists('Tienda') ) { 
                 JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
-            
             }
         }
         return $success;
@@ -192,7 +191,7 @@ class plgSystemTienda extends JPlugin
         {
             // run it
             jimport( 'joomla.application.component.model' );
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            Tienda::load('TiendaModelCarts', 'models.carts');
             $model = DSCModel::getInstance( 'Carts', 'TiendaModel');
             $model->deleteExpiredSessionCarts();
         } 
@@ -223,7 +222,7 @@ class plgSystemTienda extends JPlugin
         {
             // run it
             jimport( 'joomla.application.component.model' );
-            DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+            Tienda::load('TiendaModelProductCompare', 'models.productcompare');
             $model = DSCModel::getInstance( 'ProductCompare', 'TiendaModel');
             $model->deleteExpiredSessionProductCompared();
         } 

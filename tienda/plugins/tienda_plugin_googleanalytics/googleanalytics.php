@@ -107,11 +107,11 @@ class plgTiendaGoogleAnalytics extends TiendaPluginBase
 	 */
 	function _getCategoryName($id)
 	{
-		Tienda::load( 'TiendaQuery', 'library.query' );
+		Tienda::load( 'DSCQuery', 'library.query' );
         DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $table = DSCTable::getInstance( 'ProductCategories', 'TiendaTable' );
         
-        $query = new TiendaQuery();      
+        $query = new DSCQuery();      
         $query->select( "c.category_name" );
         $query->from( $table->getTableName()." AS tbl" );
         $query->where( "tbl.product_id = ".(int) $id );

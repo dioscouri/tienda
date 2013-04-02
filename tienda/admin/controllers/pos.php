@@ -40,7 +40,7 @@ class TiendaControllerPOS extends TiendaController
 			$step = 'step1';
 		}
 		
-		DSCModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tienda/models');
+		Tienda::load('TiendaModelElementUser', 'models.elementuser');
 		$elementUserModel = DSCModel::getInstance('ElementUser', 'TiendaModel');
 		$session = JFactory::getSession();
 
@@ -134,7 +134,7 @@ class TiendaControllerPOS extends TiendaController
 			}
 
 			// save the real user's info in the userinfo table
-			DSCTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+			Tienda::load('TiendaTableUserInfo', 'tables.userinfo');
 			$userinfo = DSCTable::getInstance('UserInfo', 'TiendaTable');
 			$userinfo->load( array('user_id' => $user->id));
 			$userinfo->user_id = $user->id;
@@ -406,6 +406,7 @@ class TiendaControllerPOS extends TiendaController
 
 		$dispatcher = JDispatcher::getInstance();
 		$html = "";
+		Tienda::load( 'TiendaTableOrders', 'tables.orders' );
 		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->load( array('order_id'=>$order_id) );
 		
@@ -1621,6 +1622,7 @@ class TiendaControllerPOS extends TiendaController
 	function populateOrder()
 	{
 		$session = JFactory::getSession();
+		Tienda::load( 'TiendaTableOrders', 'tables.orders' );
 		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->currency_id = Tienda::getInstance()->get('default_currencyid', '1');
 		// USD is default if no currency selected
@@ -2069,6 +2071,7 @@ class TiendaControllerPOS extends TiendaController
 		$response['error'] = '';
 
 		// get the order object so we can populate it
+		Tienda::load( 'TiendaTableOrders', 'tables.orders' );
 		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 
 		// bind what you can from the post
@@ -2421,7 +2424,7 @@ class TiendaControllerPOS extends TiendaController
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 
 		$error = false;
-		DSCTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+		Tienda::load( 'TiendaTableOrders', 'tables.orders' );
 		$order = DSCTable::getInstance('Orders', 'TiendaTable');
 		$order->bind($values);
 		$order->user_id = $user_id;
@@ -2471,7 +2474,7 @@ class TiendaControllerPOS extends TiendaController
 		$order->calculateTotals();
 		$order->getShippingTotal();
 		$order->getInvoiceNumber();
-
+		
 		$model = DSCModel::getInstance('Orders', 'TiendaModel');
 		if($order->save())
 		{

@@ -41,7 +41,7 @@ class TiendaTableAddresses extends TiendaTable
             if ($this->is_default_shipping == '1' || $this->is_default_billing == '1')
             {
                 // update the defaults
-                $query = new TiendaQuery();
+                $query = new DSCQuery();
                 $query->update( "#__tienda_addresses" );
                 $query->where( "`user_id` = '{$this->user_id}'" );
                 $query->where( "`address_id` != '{$this->address_id}'" );

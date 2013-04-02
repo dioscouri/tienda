@@ -104,8 +104,8 @@ class TiendaControllerProductCompare extends TiendaController
 		if(!$add)
 		{
 			$db = JFactory::getDBO();
-			Tienda::load( 'TiendaQuery', 'library.query' );
-			$query = new TiendaQuery();
+			Tienda::load( 'DSCQuery', 'library.query' );
+			$query = new DSCQuery();
 			$query->delete();
 			$query->from( "#__tienda_productcompare" );
 			$query->where( "`product_id` = '$product_id' " );

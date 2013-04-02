@@ -101,7 +101,7 @@ class TiendaModelWishlists extends DSCModel
 	 */
 	public function setUserForSessionItems( $old_sessionid, $user_id )
 	{
-	    $query = new TiendaQuery();
+	    $query = new DSCQuery();
 	    $query->update( '#__tienda_wishlists' );
 	    $query->set( "user_id = '" . $user_id . "'" );
 	    $query->where( "session_id = '" . $old_sessionid . "'" );

@@ -82,8 +82,8 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		if(!empty($this->_filter_category) && $this->_params->get('filter_category'))
 		{
 			//get categories with parent_id = filter_category or category_id = filter_category
-			Tienda::load( 'TiendaQuery', 'library.query' );
-			$query = new TiendaQuery();
+			Tienda::load( 'DSCQuery', 'library.query' );
+			$query = new DSCQuery();
 			$query->select( 'tbl.*' );
 			$query->where('tbl.parent_id = '.(int) $this->_filter_category.' OR tbl.category_id = '.(int) $this->_filter_category);
 			$query->where('tbl.category_enabled = \'1\'');
@@ -476,14 +476,14 @@ class modTiendaLayeredNavigationFiltersHelper extends JObject
 		//retun if we dont have pids
 		if(empty($this->_pids)) return $finalAttributes;
 		 
-		//check if we TiendaQuery class exist
-		if(!class_exists('TiendaQuery'))
+		//check if we DSCQuery class exist
+		if(!class_exists('DSCQuery'))
 		{
-			Tienda::load( 'TiendaQuery', 'library.query' );
+			Tienda::load( 'DSCQuery', 'library.query' );
 		}
 
 		//get the attributes of the current products
-		$query = new TiendaQuery();
+		$query = new DSCQuery();
 		$query->select( 'tbl.product_id' );
 		$query->select( 'tbl.productattribute_name' );
 		$query->select( 'tbl.productattribute_id' );

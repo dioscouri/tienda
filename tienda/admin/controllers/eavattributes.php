@@ -73,7 +73,8 @@ class TiendaControllerEavAttributes extends TiendaController
 		}
 
 		$id = JRequest::getVar( 'id', JRequest::getVar( 'id', '0', 'post', 'int' ), 'get', 'int' );
-		$row = $model->getTable( 'eavattributes' );
+		Tienda::load('TiendaTableEavAttributes', 'tables.eavattributes');
+		$row = DSCTable::getInstance('EavAttributes', 'TiendaTable');
 		$row->load( $id );
 
 		$view   = $this->getView( 'eavattributes', 'html' );
@@ -134,7 +135,8 @@ class TiendaControllerEavAttributes extends TiendaController
 
 		$keynames = array();
 		foreach (@$cids as $cid)
-		{
+		{	
+			Tienda::load('TiendaTableEavAttributeEntities', 'tables.eavattributeentities');
 			$table = DSCTable::getInstance('EavAttributeEntities', 'TiendaTable');
 			$keynames["eavattribute_id"] = $id;
 			$keynames["eaventity_id"] = $cid;

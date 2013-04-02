@@ -107,11 +107,11 @@ class TiendaHelperCoupon extends TiendaHelperBase
 			$ids = implode(",", $product_ids);
 
 			// Check the product_id
-			Tienda::load( 'TiendaQuery', 'library.query' );
+			Tienda::load( 'DSCQuery', 'library.query' );
 			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$table = DSCTable::getInstance( 'ProductCoupons', 'TiendaTable' );
 			 
-			$query = new TiendaQuery();
+			$query = new DSCQuery();
 			$query->select( "COUNT(*)" );
 			$query->from( $table->getTableName()." AS tbl" );
 			$query->where( "tbl.product_id IN (".$ids.")" );
@@ -135,8 +135,8 @@ class TiendaHelperCoupon extends TiendaHelperBase
 
 	function getCouponProductIds($coupon_id)
 	{
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$query = new DSCQuery();
 		$query->select('product_id');
 		$query->from('#__tienda_productcouponxref');
 		$query->where('coupon_id = '.(int)$coupon_id);

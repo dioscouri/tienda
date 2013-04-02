@@ -11,7 +11,7 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Restricted access');
 
-Tienda::load( 'TiendaQuery', 'library.query' );
+Tienda::load( 'DSCQuery', 'library.query' );
 
 class TiendaModelBase extends DSCModel
 {

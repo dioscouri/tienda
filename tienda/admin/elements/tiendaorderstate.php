@@ -37,7 +37,7 @@ class JFakeElementTiendaOrderState extends JFakeElementBase
 	public function getInput() 
 	{
 		$select = Tienda::getClass( 'TiendaSelect', 'library.select' );
-	    $list = $select->orderstate($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, 'Select Order State', '', true );
+	    $list = $select->orderstate($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, JText::_('COM_TIENDA_SELECT_ORDERSTATE'), '', true );
 		return $list;
 	}
 	
@@ -45,7 +45,7 @@ class JFakeElementTiendaOrderState extends JFakeElementBase
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 	    $select = Tienda::getClass( 'TiendaSelect', 'library.select' );
-	    $list = $select->orderstate($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, 'Select Order State', '', true );
+	    $list = $select->orderstate($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, JText::_('COM_TIENDA_SELECT_ORDERSTATE'), '', true );
 		return $list;
 	}
 	

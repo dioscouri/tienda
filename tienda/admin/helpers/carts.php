@@ -126,8 +126,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	{
 		$db = JFactory::getDBO();
 
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$query = new DSCQuery();
 
 		$query->update( "#__tienda_carts" );
 		$query->set( "`session_id` = '$session_id' " );
@@ -150,8 +150,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	{
 		$db = JFactory::getDBO();
 
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$query = new DSCQuery();
 
 		$query->delete();
 		$query->from( "#__tienda_carts" );
@@ -358,8 +358,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 	{
 		$db = JFactory::getDBO();
 
-		Tienda::load( 'TiendaQuery', 'library.query' );
-		$query = new TiendaQuery();
+		Tienda::load( 'DSCQuery', 'library.query' );
+		$query = new DSCQuery();
 		$query->from( "#__tienda_carts" );
 		if (empty($user_id))
 		{

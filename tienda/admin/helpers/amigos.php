@@ -49,8 +49,8 @@ class TiendaHelperAmigos extends TiendaHelperBase
     {
         $return = false;
         
-        Tienda::load( 'TiendaQuery', 'library.query' );
-        $query = new TiendaQuery();
+        Tienda::load( 'DSCQuery', 'library.query' );
+        $query = new DSCQuery();
         $query->select( 'tbl.*' );
         $query->from( '#__amigos_logs AS tbl' );
         $query->where( "tbl.userid = '".(int) $userid."'" );
@@ -79,8 +79,8 @@ class TiendaHelperAmigos extends TiendaHelperBase
         if (!isset($this->commissions[$order_id]))
         {
             $return = array();
-            Tienda::load( 'TiendaQuery', 'library.query' );
-            $query = new TiendaQuery();
+            Tienda::load( 'DSCQuery', 'library.query' );
+            $query = new DSCQuery();
             $query->select( 'tbl.*' );
             $query->from( '#__amigos_commissions AS tbl' );
             $query->where( "tbl.orderid = '".(int) $order_id."'" );

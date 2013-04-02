@@ -177,14 +177,14 @@ class TiendaTableProductFiles extends TiendaTable
 	
 	    if ($return = parent::delete( $oid ))
 	    {
-	        $query = new TiendaQuery();
+	        $query = new DSCQuery();
 	        $query->delete();
 	        $query->from( '#__tienda_productdownloads' );
 	        $query->where( 'productfile_id = '.$this->$k );
 	        $this->_db->setQuery( (string) $query );
 	        $this->_db->query();
 	        
-	        $query = new TiendaQuery();
+	        $query = new DSCQuery();
 	        $query->delete();
 	        $query->from( '#__tienda_productdownloadlogs' );
 	        $query->where( 'productfile_id = '.$this->$k );

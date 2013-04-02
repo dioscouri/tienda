@@ -1,1 +1,0 @@
-update core_config_data set value = 'http://wisefoodstorage.ammonitenetworks.com/' where config_id = 645;

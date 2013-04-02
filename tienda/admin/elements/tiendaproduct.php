@@ -46,7 +46,8 @@ var	$_name = 'TiendaProduct';
 		$fieldName	= $control_name ? $control_name.'['.$name.']' : $name;
 		$title = JText::_('COM_TIENDA_SELECT_PRODUCTS');
 		if ($value) {
-			DSCTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
+			
+			Tienda::load('TiendaTableProducts', 'models.products');
 			$table = DSCTable::getInstance('Products', 'TiendaTable');
 			$table->load($value);
 			$title = $table->product_name;

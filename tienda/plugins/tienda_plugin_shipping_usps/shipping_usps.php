@@ -281,8 +281,8 @@ class plgTiendaShipping_Usps extends TiendaShippingPlugin
         $taxrate = "0.00000";
         
         $db = JFactory::getDBO();        
-        Tienda::load( 'TiendaQuery', 'library.query' );  
-        $query = new TiendaQuery();
+        Tienda::load( 'DSCQuery', 'library.query' );  
+        $query = new DSCQuery();
         $query->select( 'tbl.tax_rate' );
         $query->from('#__tienda_taxrates AS tbl');       
         $query->where('tbl.tax_class_id = '.$tax_class_id);
