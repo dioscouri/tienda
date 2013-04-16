@@ -36,7 +36,7 @@ class JFakeElementTiendaManufacturer extends JFakeElementBase
 	public function getInput() 
 	{
 		 $select = Tienda::getClass( 'TiendaSelect', 'library.select' );
-	    $list = $select->manufacturer($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, false, false, JText::_('COM_TIENDA_SELECT_MANUFACTURER'), '', true );
+	    $list = $select->manufacturer($this->value, $this->options['control'].$this->name, '', $this->options['control'].$this->name, true, false, JText::_('COM_TIENDA_SELECT_MANUFACTURER'), '', true );
 		return $list;
 	}
 	
@@ -44,7 +44,7 @@ class JFakeElementTiendaManufacturer extends JFakeElementBase
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 	    $select = Tienda::getClass( 'TiendaSelect', 'library.select' );
-	    $list = $select->manufacturer($value, $control_name.'['.$name.']', '', $control_name.$name, false, false, JText::_('COM_TIENDA_SELECT_MANUFACTURER'), '', true );
+	    $list = $select->manufacturer($value, $control_name.'['.$name.']', '', $control_name.$name, true, false, JText::_('COM_TIENDA_SELECT_MANUFACTURER'), '', true );
 		return $list;
 	}
 		

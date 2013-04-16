@@ -56,7 +56,7 @@
 							if (!empty($row->product_full_image) && JFile::exists( Tienda::getPath( 'products_images').DS.$row->product_full_image ))
 							{
 								?>
-								<img src="<?php echo Tienda::getURL( 'products_images').$row->product_full_image; ?>" style="display: block;" />
+								<img  src="<?php echo Tienda::getURL( 'products_images').$row->product_full_image; ?>" style="display: block;" />
 								<?php	
 							}
 							?>

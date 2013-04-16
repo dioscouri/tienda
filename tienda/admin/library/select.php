@@ -219,14 +219,12 @@ class TiendaSelect extends DSCSelect
 			$list[] =  self::option('none', "- ".JText::_('COM_TIENDA_ORPHAN_PRODUCTS')." -", 'category_id', 'category_name' );
 		}
  	 if ($allowNone) {
-			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			Tienda::load('TiendaTableCategories', 'tables.categories');
 			$root = DSCTable::getInstance('Categories', 'TiendaTable')->getRoot();
 			$list[] =  self::option( $root->category_id, "- ".JText::_( $title_none )." -", 'category_id', 'category_name' );
 		}
-
-		DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
-		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		
+		Tienda::load('TiendaTableCategories', 'tables.categories');
+		Tienda::load('TiendaModelCategories', 'models.categories');
 		$model = DSCModel::getInstance( 'Categories', 'TiendaModel' );
 		$model->setState('order', 'tbl.lft');
 		if (intval($enabled) == '1')
@@ -258,6 +256,60 @@ class TiendaSelect extends DSCSelect
 		return self::genericlist($list, $name, $attribs, 'category_id', 'category_name', $selected, $idtag );
  	}
 
+ 	/**
+	 *
+	 * @param $selected
+	 * @param $name
+	 * @param $attribs
+	 * @param $idtag
+	 * @param $allowAny
+	 * @return unknown_type
+	 */
+	public static function categoryfromparent($selected, $parent, $name = 'filter_categoryid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = true, $title = 'Select Category', $title_none = 'COM_TIENDA_NO_PARENT', $enabled = true, $disabled = array() )
+ 	{
+		// Build list
+        $list = array();
+		if ($allowAny) {
+			$list[] =  self::option('', JText::_( $title ), 'category_id', 'category_name' );
+			
+		}
+ 	 	if ($allowNone) {
+			Tienda::load('TiendaTableCategories', 'tables.categories');
+			$root = DSCTable::getInstance('Categories', 'TiendaTable')->getRoot();
+			$list[] =  self::option( '', JText::_( $title_none ), 'category_id', 'category_name' );
+		}
+		Tienda::load('TiendaModelCategories', 'models.categories');
+		$model = DSCModel::getInstance( 'Categories', 'TiendaModel' );
+		$model->setState('order', 'tbl.lft');
+		$model->setState('filter_parentid', $parent);
+			
+			$items = $model->getList();
+		
+
+        foreach (@$items as $item)
+        {	
+        	$level = $item->level;
+        	if($level == 0)
+        	{	
+
+        		
+        		$level = 1;
+        	}
+        	if ($allowAny && $level == 1 ) {
+        			continue;
+        		}
+			$disable = false;
+			if(in_array($item->category_id,$disabled)) {
+			$disable = true;	
+			}
+			
+        	$list[] =  self::option( $item->category_id, str_repeat( '.&nbsp;', $level-1 ).JText::_($item->name), 'category_id', 'category_name', $disable );
+       		
+	    }
+		return self::genericlist($list, $name, $attribs, 'category_id', 'category_name', $selected, $idtag );
+ 	}
+
+
 	/**
 	 *
 	 * @param $selected
@@ -267,19 +319,18 @@ class TiendaSelect extends DSCSelect
 	 * @param $allowAny
 	 * @return unknown_type
 	 */
-	public static function manufacturer($selected, $name = 'filter_manufacturerid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = false, $allowNone = false, $title = 'Select Manufacturer', $title_none = 'No Manufacturer', $enabled = null )
+	public static function manufacturer($selected, $name = 'filter_manufacturerid', $attribs = array('class' => 'inputbox'), $idtag = null, $allowAny = true, $allowNone = false, $title = 'Select Manufacturer', $title_none = 'No Manufacturer', $enabled = null )
  	{
  		// Build list
         $list = array();
 		if($allowAny) {
-			$list[] =  self::option('', "- ".JText::_( $title )." -", 'manufacturer_id', 'manufacturer_name' );
+			$list[] =  self::option('', JText::_( $title ), 'manufacturer_id', 'manufacturer_name' );
 
 		}
  	 	if($allowNone) {
- 	 		$list[] =  self::option('0', "- ".JText::_( $title_none )." -", 'manufacturer_id', 'manufacturer_name' );
+ 	 		$list[] =  self::option('0', JText::_( $title_none ), 'manufacturer_id', 'manufacturer_name' );
 		}
-
-		DSCModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+		Tienda::load('TiendaModelManufacturers', 'models.manufacturers');
 		$model = DSCModel::getInstance( 'Manufacturers', 'TiendaModel' );
 		$model->setState( 'order', 'manufacturer_name' );
 		$model->setState( 'direction', 'ASC' );

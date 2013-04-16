@@ -46,6 +46,9 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_published_date'] = gmdate('Y-m-d H:i:00');
         $state['filter_enabled'] = 1;
         $state['filter_category'] = $app->getUserStateFromRequest( $ns . '.category', 'filter_category', '', 'int' );
+        $state['filter_multicategory'] = array_filter($app->getUserStateFromRequest( $ns . 'multicategory', 'filter_multicategory', '', 'array' ));
+        $state['filter_multicategoryoperator'] = $app->getUserStateFromRequest( $ns . 'multicategoryop', 'filter_multicategoryop', 'AND', 'string' );
+        
         $prev_cat_id = $app->getUserState( $ns . 'prev_cat_id' );
         if( $prev_cat_id && $prev_cat_id != $state['filter_category'] ) // drop all filters
         {
