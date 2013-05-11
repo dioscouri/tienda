@@ -56,14 +56,14 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                     <div class="subcategory">
                     		<?php if( $citem->display_name_subcategory ) : ?>
                         <div class="subcategory_name">
-                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
+                            <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug.$citem->itemid_string ); ?>">
                             <?php echo $citem->category_name; ?>
                             </a>
                         </div>
                         <?php endif; ?>
                         <?php if (!empty($citem->category_full_image) || $config->get('use_default_category_image', '1')) : ?>
                             <div class="subcategory_thumb">
-                                <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug."&Itemid=".$citem->itemid ); ?>">
+                                <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug.$citem->itemid_string ); ?>">
                                 <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
                                 </a>
                             </div>
@@ -126,7 +126,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                 <div class="product_thumb">
                 		<?php if( !empty($item->product_full_image) ): ?>
                     <div class="product_listimage">
-                        <a href="<?php echo JRoute::_( $item->link."&filter_category=".$this->cat->category_id ."&Itemid=".$item->itemid ); ?>">
+                        <a href="<?php echo JRoute::_( $item->link . $item->itemid_string ); ?>">
                             <?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
                         </a>
                     </div>
@@ -152,7 +152,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                 <div class="product_info">
                     <div class="product_name">
                         <span>
-                            <a href="<?php echo JRoute::_($item->link."&filter_category=".$this->cat->category_id."&Itemid=".$item->itemid ); ?>">
+                            <a href="<?php echo JRoute::_($item->link . $item->itemid_string ); ?>">
                             <?php echo htmlspecialchars_decode( $item->product_name ); ?>
                             </a>
                         </span>

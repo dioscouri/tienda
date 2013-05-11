@@ -525,4 +525,72 @@ class TiendaModelProducts extends TiendaModelEav
 	    $model->clearCache();
 	}
 
+	public function getItemid( $id, $fallback=null, $allow_null=false )
+	{
+	    Tienda::load( 'TiendaHelperRoute', 'helpers.route' );
+	
+	    $return = TiendaHelperRoute::findItemid(array('view'=>'products', 'task'=>'view', 'id'=>$id));
+	    if (!$return) {
+	        $return = TiendaHelperRoute::findItemid(array('view'=>'products', 'task'=>'view'));
+	        if (!$return) {
+	            $return = TiendaHelperRoute::findItemid(array('view'=>'products'));
+	            if (!$return) {
+	
+	                if ($fallback) {
+	                    $return = $fallback;
+	                }
+	
+	                if (!$allow_null)
+	                {
+	                    if (!$return)
+	                    {
+	                        $return = JRequest::getInt('Itemid');
+	                    }
+	
+	                    if (!$return) {
+	                        $menu	= JFactory::getApplication()->getMenu();
+	                        if ($default = $menu->getDefault() && !empty($default->id))
+	                        {
+	                            $return = $default->id;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	    return $return;
+	}
+	
+	public function getAlias($id, $refresh=false)
+	{
+	    $cache_key = $id;
+	
+	    $classname = strtolower( get_class($this) );
+	    $cache = JFactory::getCache( $classname . '.alias', '' );
+	    $cache->setCaching($this->cache_enabled);
+	    $cache->setLifeTime($this->cache_lifetime);
+	    $item = $cache->get($cache_key);
+	
+	    if (!$item || $refresh)
+	    {
+	        $item = $this->_getAlias( $id );
+	        $cache->store($item, $cache_key);
+	    }
+	
+	    return $item;
+	}
+	
+	private function _getAlias( $id )
+	{
+	    $db = JFactory::getDbo();
+	    $query = $db->setQuery($db->getQuery(true)
+	            ->select('product_alias')
+	            ->from('#__tienda_products')
+	            ->where('product_id='.(int) $id)
+	    );
+	    $alias = $db->loadResult();
+	
+	    return $alias;
+	}
 }

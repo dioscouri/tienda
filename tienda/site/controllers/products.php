@@ -65,8 +65,7 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_attribute_set'] = $app->getUserStateFromRequest( $ns . 'attribute', 'filter_attribute_set', '', '' );
         $state['filter_manufacturer'] = $app->getUserStateFromRequest( $ns . 'manufacturer', 'filter_manufacturer', '', 'int' );
         $state['filter_manufacturer_set'] = $app->getUserStateFromRequest( $ns . 'manufacturer_set', 'filter_manufacturer_set', '', '' );
-        $state['filter_attributeoptionname'] = $app
-        ->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
+        $state['filter_attributeoptionname'] = $app->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
         $state['filter_rating'] = $app->getUserStateFromRequest( $ns . 'rating', 'filter_rating', '', '' );
 
         $state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
@@ -200,8 +199,11 @@ class TiendaControllerProducts extends TiendaController
         {
             foreach ( $citems as $item )
             {
-                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $item->category_id, true );
-                $item->itemid = ( !empty( $itemid ) ) ? $itemid : JRequest::getInt( 'Itemid', $itemid );
+                $item->itemid_string = null;
+                $item->itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $item->category_id, true );
+                if (!empty($item->itemid)) {
+                    $item->itemid_string = "&Itemid=".$item->itemid;
+                }
             }
         }
 
@@ -213,8 +215,11 @@ class TiendaControllerProducts extends TiendaController
             $this->display_cartbutton = Tienda::getInstance( )->get( 'display_category_cartbuttons', '1' );
             foreach ( $items as $item )
             {
-                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
-                $item->itemid = JRequest::getInt( 'Itemid', $itemid );
+                $item->itemid_string = null;
+                $item->itemid = (int) Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, null, true );
+                if (!empty($item->itemid)) {
+                    $item->itemid_string = "&Itemid=".$item->itemid;
+                }
             }
         }
 
