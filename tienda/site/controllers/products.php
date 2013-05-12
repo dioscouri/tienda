@@ -1162,6 +1162,61 @@ class TiendaControllerProducts extends TiendaController
         // get the 'success' redirect url
         switch ( Tienda::getInstance( )->get( 'addtocartaction', 'redirect' ) )
         {
+            case "checkout":
+                // if a base64_encoded url is present as return, use that as the return url
+                // otherwise return == the product view page
+                $returnUrl = base64_encode( $redirect );
+                if ( $return_url = JRequest::getVar( 'return', '', 'method', 'base64' ) )
+                {
+                    $return_url = base64_decode( $return_url );
+                    if ( JURI::isInternal( $return_url ) )
+                    {
+                        $returnUrl = base64_encode( $return_url );
+                    }
+                }
+                // if a base64_encoded url is present as redirect, redirect there,
+                // otherwise redirect to the checkout
+                $itemid_checkout = $router->findItemid( array(
+                        'view' => 'checkout'
+                ) );
+                
+                $itemid_opc = $router->findItemid( array(
+                        'view' => 'opc'
+                ) );
+            
+                $checkout_view = "checkout";
+                $itemid = null;
+                if ($itemid_opc) {
+                    $itemid = $itemid_opc;
+                    $checkout_view = "opc";
+                } elseif ($itemid_checkout) {
+                    $itemid = $itemid_checkout;
+                }
+                
+                if( !$itemid ) {
+                    $itemid = JRequest::getInt( 'Itemid', 0 );
+                }
+                
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=" . $checkout_view . "&Itemid=" . $itemid, false );
+                if ( $redirect_url = JRequest::getVar( 'redirect', '', 'method', 'base64' ) )
+                {
+                    $redirect_url = base64_decode( $redirect_url );
+                    if ( JURI::isInternal( $redirect_url ) )
+                    {
+                        $redirect = $redirect_url;
+                    }
+                }
+
+                if ( strpos( $redirect, '?' ) === false )
+                {
+                    $redirect .= "?return=" . $returnUrl;
+                }
+                else
+                {
+                    $redirect .= "&return=" . $returnUrl;
+                }
+            
+                break;            
             case "0":
             case "none":
                 // redirects back to product page
@@ -1198,7 +1253,7 @@ class TiendaControllerProducts extends TiendaController
                 // if a base64_encoded url is present as redirect, redirect there,
                 // otherwise redirect to the cart
                 $itemid = $router->findItemid( array(
-                        'view' => 'checkout'
+                        'view' => 'carts'
                 ) );
 
                 if( !$itemid )

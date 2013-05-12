@@ -983,6 +983,7 @@ class TiendaSelect extends DSCSelect
         $list[] = JHTML::_('select.option',  '0', JText::_('COM_TIENDA_REDIRECT_TO_PRODUCT_PAGE') );
         // $list[] = JHTML::_('select.option',  'lightbox', JText::_('COM_TIENDA_DISPLAY_MINICART_IN_LIGHTBOX') );
         $list[] = JHTML::_('select.option',  'redirect', JText::_('COM_TIENDA_REDIRECT_TO_CART') );
+        $list[] = JHTML::_('select.option',  'checkout', JText::_('COM_TIENDA_REDIRECT_TO_CHECKOUT') );
         $list[] = JHTML::_('select.option',  'samepage', JText::_('COM_TIENDA_RETURN_ON_THE_SAME_PAGE') );
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );

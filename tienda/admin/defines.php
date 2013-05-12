@@ -247,6 +247,9 @@ class Tienda extends DSC
 	
 	public $calc_tax_shipping = '0';
 	
+	public $default_category_layout = '';
+	public $default_product_layout = '';
+	
 
 	public static function getGuestIdStart()
 	{

@@ -133,7 +133,7 @@ class TiendaHelperCategory extends TiendaHelperBase
     function getLayout( $category_id )
     {
         static $template;
-				$dispatcher = JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         
         $layout = 'default';
         
@@ -160,6 +160,17 @@ class TiendaHelperCategory extends TiendaHelperBase
         }
         $templatePath = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/products/%s'.'.php';
         $mediaPath = Tienda::getPath( 'categories_templates' ) . DS . '%s'.'.php';
+        
+        $defines = Tienda::getInstance();
+        $default_category_layout = $defines->get('default_category_layout'); 
+        if ($default_category_layout) {
+            // set default = the selected default if it still exists
+            if (JFile::exists(sprintf($templatePath, $default_category_layout)) ||
+                JFile::exists( sprintf($mediaPath, $default_category_layout) )
+            ) {
+                $layout = $default_category_layout;
+            }
+        }
 
         if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
         {
