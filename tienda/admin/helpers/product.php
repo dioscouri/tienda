@@ -770,7 +770,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             // then this is a filename, return the full img tag if file exists, otherwise use a default image
             $src = ( JFile::exists( Tienda::getPath( $path ) . DS . $id ) ) ? Tienda::getUrl( $path ) . $id
-            : JURI::root( true ) . '/media/com_tienda/images/noimage.png';
+            : JURI::root( true ) . '/media/com_tienda/images/placeholder_239.gif';
             	
             // if url is true, just return the url of the file and not the whole img tag
             $tmpl = ( $url ) ? $src

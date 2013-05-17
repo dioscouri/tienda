@@ -10,6 +10,14 @@ $multiupload_script = $this->defines->get( 'multiupload_script', 0 );
     <table class="table">
         <tr>
             <th class="dsc-key">
+                <?php echo JText::_('COM_TIENDA_PRIMARY_IMAGE'); ?>:
+            </th>
+            <td class="dsc-value">
+                <input name="product_full_image" value="<?php echo @$row->product_full_image; ?>" type="text" maxlength="250" />
+            </td>
+        </tr>    
+        <tr>
+            <th class="dsc-key">
                 <?php echo JText::_('COM_TIENDA_UPLOAD_NEW_IMAGES'); ?>
             </th>
             <td>
