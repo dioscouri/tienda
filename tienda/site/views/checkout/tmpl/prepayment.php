@@ -1,6 +1,5 @@
 <?php 
 	defined('_JEXEC') or die('Restricted access'); 
-	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); 
  	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); 
  	JHTML::_('script', 'tienda_checkout.js', 'media/com_tienda/js/'); 
 	$order = @$this->order;

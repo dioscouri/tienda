@@ -1,7 +1,6 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
-JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 $steps = @$this->steps;
 $current_step = @$this->current_step;
 ?>

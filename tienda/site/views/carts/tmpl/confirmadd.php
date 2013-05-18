@@ -1,6 +1,5 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 Tienda::load( 'TiendaGrid', 'library.grid' );
 $items = @$this->cartobj->items;
 $subtotal = @$this->cartobj->subtotal;

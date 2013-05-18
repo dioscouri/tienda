@@ -20,6 +20,7 @@ class Tienda extends DSC
 	static $_guestIdStart = -10;
 	
 	// View Options
+	public $include_site_css                   = '1';
 	public $use_bootstrap	= 		'1';		
 	public $show_linkback						= '1';
 	public $amigosid                           = '';

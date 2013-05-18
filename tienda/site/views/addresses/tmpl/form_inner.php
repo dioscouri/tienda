@@ -1,6 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $row = @$this->row; ?>
 <?php $config = Tienda::getInstance(); ?>
 

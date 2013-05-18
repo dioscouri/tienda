@@ -47,6 +47,11 @@ class TiendaViewBase extends DSCViewSite
 	    }
 	    
 	    JHTML::_('stylesheet', 'common.css', 'media/dioscouri/css/');
+	    
+	    if ($this->defines->get('include_site_css', '0'))
+	    {
+	        JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	    }
 	
 		parent::display($tpl);
 	}

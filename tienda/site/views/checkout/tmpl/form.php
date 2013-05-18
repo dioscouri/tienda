@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');?>
 <?php $url = JRoute::_( "index.php?option=com_tienda&view=checkout", false ); ?>
 
 <table style="width: 100%;">

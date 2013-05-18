@@ -4,6 +4,17 @@
 <table class="table table-striped table-bordered">
     <tbody>
         <tr>
+            <th class="dsc-key">
+                <?php echo JText::_( 'COM_TIENDA_INCLUDE_SITE_CSS' ); ?>
+            </th>
+            <td class="dsc-value">
+                <?php echo TiendaSelect::btbooleanlist( 'include_site_css', 'class="inputbox"', $this->row->get('include_site_css', '1') ); ?>
+            </td>
+            <td>
+                
+            </td>
+        </tr>    
+        <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_USE_BOOTSTRAP'); ?>
             </th>
             <td><?php  echo TiendaSelect::btbooleanlist('use_bootstrap', 'class="inputbox"', $this -> row -> get('use_bootstrap', '1')); ?>

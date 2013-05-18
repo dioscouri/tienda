@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $form = @$this->form; ?>
 <?php $row = @$this->row; ?>
 <?php $shop_info = @$this->shop_info; ?>

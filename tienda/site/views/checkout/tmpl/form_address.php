@@ -1,7 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access');
 
 	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
-	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 	Tienda::load( 'TiendaGrid', 'library.grid' );
 	Tienda::load( 'TiendaHelperAddresses', 'helpers.addresses' );
 	$config = Tienda::getInstance();
