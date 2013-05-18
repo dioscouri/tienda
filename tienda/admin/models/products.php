@@ -511,6 +511,9 @@ class TiendaModelProducts extends TiendaModelEav
 	{
 	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
 	
+	    $model = DSCModel::getInstance('ProductCategories', 'TiendaModel');
+	    $model->clearCache();
+	    
 	    $model = DSCModel::getInstance('ProductAttributeOptions', 'TiendaModel');
 	    $model->clearCache();
 	     
