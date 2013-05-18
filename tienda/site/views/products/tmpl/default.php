@@ -212,8 +212,8 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         </div>
         
         <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">        
-        <div id="products_footer">
-            <div id="results_counter" class="pagination"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+        <div id="products_footer" class="pagination">
+            <div id="results_counter"><?php echo @$this->pagination->getResultsCounter(); ?></div>
             <?php echo @$this->pagination->getListFooter(); ?>
         </div>
         <?php echo $this->form['validate']; ?>

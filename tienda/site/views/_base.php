@@ -80,27 +80,12 @@ class TiendaViewBase extends DSCViewSite
 	{
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
-		$model = $this->getModel();
 
-		// set the model state
-		$state = $model->getState();
-		JFilterOutput::objectHTMLSafe( $state );
-		$this->assign( 'state', $state );
-
-		// page-navigation
-		$this->assign( 'pagination', $model->getPagination() );
-
-		// list of items
-		if( !$onlyPagination )
-			$this->assign('items', $model->getList());
-
-		// form
-		$validate = JUtility::getToken();
-		$form = array();
-		$view = strtolower( JRequest::getVar('view') );
-		$form['action'] = "index.php?option=com_tienda&controller={$view}&view={$view}";
-		$form['validate'] = "<input type='hidden' name='{$validate}' value='1' />";
-		$this->assign( 'form', $form );
+		if ($onlyPagination) {
+		    $this->no_items = true;
+		}
+		
+		parent::_default($tpl);
 	}
 
 	/**
@@ -153,12 +138,10 @@ class TiendaViewBase extends DSCViewSite
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
 
-		// form
-		$validate = JUtility::getToken();
-		$form = array();
-		$view = strtolower( JRequest::getVar('view') );
-		$form['action'] = "index.php?option=com_tienda&controller={$view}&view={$view}";
-		$form['validate'] = "<input type='hidden' name='{$validate}' value='1' />";
-		$this->assign( 'form', $form );
+		$this->no_items = true;
+		$this->no_state = true;
+		$this->no_pagination = true;
+		
+		parent::_default($tpl);
 	}
 }

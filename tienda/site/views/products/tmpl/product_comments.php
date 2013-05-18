@@ -130,7 +130,7 @@ if (($review_enable==1)&&($result == 1 || $count > 0 ) ) {
     </div>
     <?php endforeach; ?>
     <?php endif;?>     
-    <div id="products_footer">
+    <div id="products_footer" class="pagination">
         <?php echo @$this->pagination->getPagesLinks(); ?>
     </div>
 </div>

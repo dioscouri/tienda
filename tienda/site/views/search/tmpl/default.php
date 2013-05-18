@@ -223,8 +223,8 @@
             <?php endif; ?>
         </div>
        
-        <div id="searchresults_footer">
-            <div id="results_counter" class="pagination"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+        <div id="searchresults_footer" class="pagination">
+            <div id="results_counter"><?php echo @$this->pagination->getResultsCounter(); ?></div>
             <?php echo @$this->pagination->getListFooter(); ?>
         </div>
     </div>
