@@ -703,6 +703,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_products` (
   `product_listprice_enabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Display the product_listprice field?',
   `product_rating` decimal(15,5) NOT NULL DEFAULT '0.00000' COMMENT 'The overall rating for the product. Is x out of 5',
   `product_comments` int(11) NOT NULL DEFAULT '0' COMMENT 'The number of enabled comments the product has',
+  `product_class_suffix` varchar(255) NOT NULL,
   PRIMARY KEY (`product_id`) ,
   INDEX `idx_product_vendor_id` (`vendor_id` ASC) ,
   INDEX `idx_product_name` (`product_name` ASC) ,

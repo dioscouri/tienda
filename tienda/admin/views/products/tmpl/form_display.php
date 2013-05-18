@@ -28,6 +28,14 @@ $helper_product = new TiendaHelperProduct();
         </legend>
         <table class="table table-striped table-bordered" style="width: 100%;">
             <tr>
+                <th class="dsc-key">
+                    <?php echo JText::_('COM_TIENDA_PROUCT_CLASS_SUFFIX'); ?>:
+                </th>
+                <td class="dsc-value">
+                    <input name="product_class_suffix" id="product_class_suffix" value="<?php echo @$row->product_class_suffix; ?>" type="text" class="input-xlarge" />
+                </td>
+            </tr>        
+            <tr>
                 <td style="vertical-align: top; width: 100px; text-align: right;" class="dsc-key"><?php echo JText::_('COM_TIENDA_FEATURE_COMPARISON'); ?>:</td>
                 <td><?php  echo TiendaSelect::btbooleanlist( 'param_show_product_compare', 'class="inputbox"', @$row->product_parameters->get('show_product_compare', '1') ); ?>
                 </td>

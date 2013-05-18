@@ -5,9 +5,9 @@ $gallery_data = $this->gallery_data;
 if ( $gallery_data->show_gallery )
 {
 	?>
-<div class="reset"></div>
-<div class="product_gallery" id="product_gallery">
-	<div id="product_gallery_header" class="tienda_header">
+
+<div class="dsc-wrap product_gallery" id="product_gallery">
+	<div id="product_gallery_header" class="tienda_header dsc-wrap">
 		<span><?php echo JText::_('COM_TIENDA_IMAGES'); ?> </span>
 	</div>
 	<?php
@@ -19,7 +19,7 @@ if ( $gallery_data->show_gallery )
 	        $src = $gallery_data->uri . "thumbs/" . $image;
 	    }
 		?>
-    	<div class="product_gallery_thumb" id="product_gallery_thumb_<?php echo $i;?>">
+    	<div class="dsc-wrap product_gallery_thumb" id="product_gallery_thumb_<?php echo $i;?>">
     	<?php 
     		echo TiendaUrl::popup( $gallery_data->uri . $image, '<img src="' . $src . '" alt="' . $gallery_data->product_name . '" />', array( 'update' => false, 'img' => true ) ); ?>
     	</div>
@@ -27,7 +27,6 @@ if ( $gallery_data->show_gallery )
     	$i++;
 	}
 	?>
-	<div class="reset"></div>
 </div>
 	<?php
 }

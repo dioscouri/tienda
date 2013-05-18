@@ -473,9 +473,17 @@ class TiendaModelProducts extends TiendaModelEav
         $item->slug = $item->product_alias ? ":$item->product_alias" : "";
         $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
         $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
-
+        $item->product_categories = $this->getCategories( $item->product_id );
         $item->default_attributes = $helper_product->getDefaultAttributes( $item->product_id );
-        
+        $item->product_classes = null;
+        foreach ($item->product_categories as $cat) {
+            $item->product_classes .= " " . $cat->category_alias;
+        }
+        if (!empty($item->product_class_suffix)) {
+            $item->product_classes .= " " . $item->product_class_suffix;
+        }
+        $item->product_classes = trim($item->product_classes);
+                
         parent::prepareItem( $item, $key, $refresh );
     }
     
@@ -581,7 +589,7 @@ class TiendaModelProducts extends TiendaModelEav
 	    return $item;
 	}
 	
-	private function _getAlias( $id )
+	protected function _getAlias( $id )
 	{
 	    $db = JFactory::getDbo();
 	    $query = $db->setQuery($db->getQuery(true)
@@ -592,5 +600,14 @@ class TiendaModelProducts extends TiendaModelEav
 	    $alias = $db->loadResult();
 	
 	    return $alias;
+	}
+	
+	public function getCategories($id, $refresh=false)
+	{
+	    $model = Tienda::getClass('TiendaModelProductCategories', 'models.productcategories');
+	    $model->setState('filter_product_id', $id);
+	    $result = $model->getList($refresh);
+	
+	    return $result;
 	}
 }

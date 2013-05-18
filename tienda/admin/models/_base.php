@@ -26,6 +26,10 @@ class TiendaModelBase extends DSCModel
         parent::__construct($config);
     
         $this->defines = Tienda::getInstance();
+        
+        if (JDEBUG) {
+            $this->cache_enabled = false;
+        }
     }
     
     /**

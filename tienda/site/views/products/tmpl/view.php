@@ -9,7 +9,7 @@ $product_image = TiendaHelperProduct::getImage($item->product_id, '', '', 'full'
 $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $item->product_name, 'thumb', false, false, array(), true );
 ?>  
 
-<div id="tienda" class="products view">
+<div id="tienda" class="dsc-wrap products view <?php echo $item->product_classes; ?>">
     
     <?php if ( Tienda::getInstance( )->get( 'display_tienda_pathway' ) ) : ?>
         <div id='tienda_breadcrumb'>
@@ -17,7 +17,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
         </div>
     <?php endif; ?>
     
-    <div id="tienda_product">
+    <div id="tienda_product" class="dsc-wrap">
 
         <?php if ( !empty( $this->onBeforeDisplayProduct ) ) : ?>
             <div id='onBeforeDisplayProduct_wrapper'>
@@ -25,7 +25,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             </div>
         <?php endif; ?>
                   
-        <div id='tienda_product_header'>
+        <div id='tienda_product_header' class="dsc-wrap">
 					<?php echo TiendaHelperProduct::getProductShareButtons( $this, $item->product_id ); ?>
         
             <span class="product_name">
@@ -33,7 +33,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             </span>
             <?php if ( Tienda::getInstance( )->get( 'product_review_enable', '0' ) )
 			{ ?>
-            <div class="product_rating">
+            <div class="dsc-wrap product_rating">
                 <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating, $this ); ?>
                 <?php if ( !empty( $item->product_comments ) ) : ?>
                 <span class="product_comments_count">(<?php echo $item->product_comments; ?>)</span>
@@ -42,7 +42,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             <?php } ?>
             
             <?php if ( !empty( $item->product_model ) || !empty( $item->product_sku ) ) : ?>
-            <div class="product_numbers">
+            <div class="dsc-wrap product_numbers">
                 <?php if ( !empty( $item->product_model ) ) : ?>
                     <span class="model">
                         <span class="title"><?php echo JText::_('COM_TIENDA_MODEL'); ?>:</span> 
@@ -58,13 +58,10 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
                 <?php endif; ?>
             </div>
             <?php endif; ?>
-            
-            <div class="reset"></div>                        
+
         </div>
-        
-        <div class="reset"></div>
-        
-        <div class="product_image">
+                
+        <div class="dsc-wrap product_image">
             <?php echo TiendaUrl::popup( $product_image, $product_image_thumb, array( 'update' => false, 'img' => true ) ); ?>
             <div>
 	            <?php
@@ -80,14 +77,13 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
         </div>
         
         <?php if ( Tienda::getInstance( )->get( 'shop_enabled', '1' ) ) : ?>
-            <div class="product_buy" id="product_buy_<?php echo $item->product_id; ?>">
+            <div class="dsc-wrap product_buy" id="product_buy_<?php echo $item->product_id; ?>">
                 <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
             </div>              
         <?php endif; ?>
         
         <?php if ( Tienda::getInstance( )->get( 'ask_question_enable', '1' ) ) : ?>
-        <div class="reset"></div>
-        <div id="product_questions">
+        <div id="product_questions" class="dsc-wrap dsc-clear">
             <?php
 				$uri = JFactory::getURI( );
 				$return_link = base64_encode( $uri->toString( ) );
@@ -116,11 +112,9 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
         <?php echo $this->product_children; ?>
                 
         <?php if ( $this->product_description ) : ?>
-            <div class="reset"></div>
-            
-            <div id="product_description">
+            <div id="product_description" class="dsc-wrap">
                 <?php if ( Tienda::getInstance( )->get( 'display_product_description_header', '1' ) ) : ?>
-                    <div id="product_description_header" class="tienda_header">
+                    <div id="product_description_header" class="tienda_header dsc-wrap">
                         <span><?php echo JText::_('COM_TIENDA_DESCRIPTION'); ?></span>
                     </div>
                 <?php endif; ?>
@@ -128,8 +122,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             </div>
         <?php endif; ?>
 
-		<?php echo TiendaHelperProduct::getGalleryLayout( $this, $item->product_id, $item->product_name, $item->product_full_image );?>            
-        <div class="reset"></div>
+		<?php echo TiendaHelperProduct::getGalleryLayout( $this, $item->product_id, $item->product_name, $item->product_full_image ); ?>            
 
         <?php // display the files associated with this product ?>
         <?php echo $this->files; ?>
@@ -143,12 +136,12 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 				<?php endif; ?>
 
         <?php if ( !empty( $this->onAfterDisplayProduct ) ) : ?>
-            <div id='onAfterDisplayProduct_wrapper'>
+            <div id='onAfterDisplayProduct_wrapper' class="dsc-wrap">
             <?php echo $this->onAfterDisplayProduct; ?>
             </div>
         <?php endif; ?>
         
-        <div class="product_review" id="product_review">
+        <div class="product_review dsc-wrap" id="product_review">
             <?php if ( !empty( $this->product_comments ) )
 			{
 				echo $this->product_comments;
