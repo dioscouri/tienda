@@ -1307,7 +1307,7 @@ class TiendaSelect extends DSCSelect
     {
         $list = array();
         if($allowAny) {
-            $list[] =  self::option('', JText::_('COM_TIENDA_ORDERING') );
+            $list[] =  self::option('', JText::_('COM_TIENDA_DEFAULT') );
         }
 
       	$products = JTable::getInstance( 'Products', 'TiendaTable' ); 
