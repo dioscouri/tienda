@@ -274,6 +274,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     public static function getUriFromPath( $path )
     {
         $path = str_replace( JPATH_SITE . DS, JURI::root( ), $path );
+        $path = str_replace( JPATH_SITE . "/", JURI::root( ), $path );
         $path = str_replace( DS, '/', $path );
         return $path;
     }

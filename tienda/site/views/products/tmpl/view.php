@@ -128,7 +128,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
             </div>
         <?php endif; ?>
 
-				<?php echo TiendaHelperProduct::getGalleryLayout( $this, $item->product_id, $item->product_name, $item->product_full_image );?>            
+		<?php echo TiendaHelperProduct::getGalleryLayout( $this, $item->product_id, $item->product_name, $item->product_full_image );?>            
         <div class="reset"></div>
 
         <?php // display the files associated with this product ?>

@@ -18,6 +18,18 @@ Tienda::load( 'TiendaUrl', 'library.url' );
 
 class TiendaViewProducts extends TiendaViewBase
 {
+    function __construct( $config=array() )
+    {
+        parent::__construct( $config );
+    
+        if (empty($this->helpers)) {
+            $this->helpers = array();
+        }
+    
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+        $this->helpers['product'] = new TiendaHelperProduct();
+    }
+    
 	/**
 	 *
 	 * @param $tpl

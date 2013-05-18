@@ -14,13 +14,17 @@ if ( $gallery_data->show_gallery )
 	$i = 1;
 	foreach ( $gallery_data->images as $image )
 	{
+	    $src = $gallery_data->uri . $image;
+	    if (JFile::exists( Tienda::getPath( 'products_thumbs' ) . "/" . $image )) {
+	        $src = $gallery_data->uri . "thumbs/" . $image;
+	    }
 		?>
-	<div class="product_gallery_thumb" id="product_gallery_thumb_<?php echo $i;?>">
-	<?php 
-		echo TiendaUrl::popup( $gallery_data->uri . $image, '<img src="' . $gallery_data->uri . "thumbs/" . $image . '" alt="' . $gallery_data->product_name . '" />', array( 'update' => false, 'img' => true ) ); ?>
-	</div>
-	<?php
-	$i++;
+    	<div class="product_gallery_thumb" id="product_gallery_thumb_<?php echo $i;?>">
+    	<?php 
+    		echo TiendaUrl::popup( $gallery_data->uri . $image, '<img src="' . $src . '" alt="' . $gallery_data->product_name . '" />', array( 'update' => false, 'img' => true ) ); ?>
+    	</div>
+    	<?php
+    	$i++;
 	}
 	?>
 	<div class="reset"></div>

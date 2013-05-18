@@ -21,7 +21,7 @@ $images = $helper_product->getGalleryImages($gallery_path);
             <img src="<?php echo $gallery_url; ?>thumbs/<?php echo $image; ?>" class="img-polaroid" />
             <div class="dsc-clear">
     			<a class="delete-gallery-image" data-product_id="<?php echo $row->product_id; ?>" href="javascript:void(0);" data-href="index.php?option=com_tienda&view=products&format=raw&tmpl=component&task=deleteImage&product_id=<?php echo $row->product_id; ?>&image=<?php echo $image; ?>"><?php echo JText::_('COM_TIENDA_DELETE'); ?></a><br />
-    			<a class="set-default-gallery-image" data-product_id="<?php echo $row->product_id; ?>" href="javascript:void(0);" data-href="index.php?option=com_tienda&view=products&format=raw&tmpl=component&task=setDefaultImage&product_id=<?php echo $row->product_id; ?>&image=<?php echo $image; ?>"><?php echo JText::_('COM_TIENDA_MAKE_DEFAULT'); ?></a>
+    			<a class="set-default-gallery-image" data-image="<?php echo $image; ?>" data-product_id="<?php echo $row->product_id; ?>" href="javascript:void(0);" data-href="index.php?option=com_tienda&view=products&format=raw&tmpl=component&task=setDefaultImage&product_id=<?php echo $row->product_id; ?>&image=<?php echo $image; ?>"><?php echo JText::_('COM_TIENDA_MAKE_DEFAULT'); ?></a>
 			</div>            
         </li>
         <?php
