@@ -30,8 +30,8 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         </div>
     <?php endif; ?>
 
-    <div id="tienda_categories">    
-        <div id='tienda_category_header'>
+    <div id="tienda_categories" class="dsc-wrap">    
+        <div id='tienda_category_header' class="dsc-wrap">
             <?php if (isset($state->category_name)) : ?>
                 <?php if (!empty($this->cat->category_full_image) || $config->get('use_default_category_image', '1')) : ?>
                     <img src="<?php echo TiendaHelperCategory::getImage($this->cat->category_id, '', '', '', true); ?>" alt="" class="category image" />
@@ -42,18 +42,18 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                 <h2><?php echo @$this->title; ?></h2>
             <?php endif; ?>
             
-            <div class='category_description'><?php echo $this->cat->category_description; ?></div>
+            <div class='category_description dsc-wrap'><?php echo $this->cat->category_description; ?></div>
         </div>
         
         <?php if (!empty($citems)) : ?>
-            <div id="tienda_subcategories">
+            <div id="tienda_subcategories" class="dsc-wrap">
                 <?php if ($this->level > 1) { echo '<h3>'.JText::_('COM_TIENDA_SUBCATEGORIES').'</h3>'; } ?>
                 <?php
                 $i = 0;
                 $subcategories_per_line = $config->get('subcategories_per_line', '5'); 
                 foreach ($citems as $citem) : 
                 ?>
-                    <div class="subcategory">
+                    <div class="dsc-wrap subcategory category-<?php echo $citem->category_id; ?>">
                         <?php if( $citem->display_name_subcategory ) : ?>
                         <h3 class="subcategory_name">
                             <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug.$citem->itemid_string ); ?>">
@@ -62,7 +62,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                         </h3>
                         <?php endif; ?>
                         <?php if (!empty($citem->category_full_image) || $config->get('use_default_category_image', '1')) : ?>
-                            <div class="subcategory_thumb">
+                            <div class="dsc-wrap subcategory_thumb">
                                 <a href="<?php echo JRoute::_( "index.php?option=com_tienda&view=products&filter_category=".$citem->category_id.$citem->slug.$citem->itemid_string ); ?>">
                                 <?php echo TiendaHelperCategory::getImage($citem->category_id); ?>
                                 </a>
@@ -82,38 +82,37 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                     }
                 endforeach; 
                 ?>
-                <div class="reset"></div>
             </div>
-        <?php endif; ?>
-    
+        <?php endif; ?>    
     </div>
+    
     <?php if (!empty($items)) : ?>
     
      <?php if($config->get('display_sort_by', '1')) :?>
       <form action="<?php echo JRoute::_("&limitstart=".@$state->limitstart )?>" method="post" name="adminForm_sort" enctype="multipart/form-data">        
-     	<div class="tienda_sortby" style="margin: 20px 0; text-align:right;">
-    	<?php Tienda::load('TiendaSelect', 'libray.select');?>
-    	<span class="sort_by_label" style="font-size: 1.15em;">
-    	<?php echo JText::_('COM_TIENDA_SORT_BY');?>
-    	</span>
-    	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('COM_TIENDA_DEFAULT_ORDER'));?>
-    	<span>
-    		<?php 
-    			if(strtolower($state->filter_dir) == 'asc')
-    			{
-    				$dir = 'desc';
-    				$img_dir = 'arrow_down.png';
-    			}
-    			else
-    			{
-    				$dir = 'asc';
-    				$img_dir = 'arrow_up.png';
-    			}
-    		?>    		
-    		<a href="<?php echo JRoute::_("&limitstart=".$state->limitstart."&filter_sortby=".$state->filter_sortby."&filter_dir=".$dir);?>">
-    			<img src="<?php echo Tienda::getURL('images').$img_dir?>" alt="filter_direction"/>
-    		</a>
-    	</span>
+     	<div class="tienda_sortby">
+        	<?php Tienda::load('TiendaSelect', 'libray.select');?>
+        	<span class="sort_by_label">
+        	<?php echo JText::_('COM_TIENDA_SORT_BY');?>
+        	</span>
+        	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('COM_TIENDA_DEFAULT_ORDER'));?>
+        	<span class="sort_by_direction">
+        		<?php 
+        			if(strtolower($state->filter_dir) == 'asc')
+        			{
+        				$dir = 'desc';
+        				$img_dir = 'arrow_down.png';
+        			}
+        			else
+        			{
+        				$dir = 'asc';
+        				$img_dir = 'arrow_up.png';
+        			}
+        		?>    		
+        		<a href="<?php echo JRoute::_("&limitstart=".$state->limitstart."&filter_sortby=".$state->filter_sortby."&filter_dir=".$dir);?>">
+        			<img src="<?php echo Tienda::getURL('images').$img_dir?>" alt="filter_direction"/>
+        		</a>
+        	</span>
     	</div>
         <?php echo $this->form['validate']; ?>
     </form>   
@@ -121,7 +120,7 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
       
         <div id="tienda_products" class="dsc-wrap">
             <?php foreach ($items as $item) : ?>
-            <div class="dsc-wrap product_item <?php echo $item->product_classes; ?>">
+            <div id="product-<?php echo $item->product_id; ?>" class="dsc-wrap product_item product-<?php echo $item->product_id; ?> <?php echo $item->product_classes; ?>">
                 <?php if (!empty($item->product_full_image) || ($product_compare && $item->product_parameters->get('show_product_compare', '1') ) ) : ?>
                 <div class="product_thumb dsc-wrap">
                 		
@@ -143,10 +142,6 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                 	<?php endif;?>
                 </div>
                 <?php endif; ?>
-
-                <div id="product_buy_<?php echo $item->product_id; ?>" class="dsc-wrap product_buy">
-                    <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
-                </div>
                
                 <div class="dsc-wrap product_info">
                     <div class="dsc-wrap product_name">
@@ -207,6 +202,11 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                     ?>
                     </div>
                 </div>
+                
+                <div id="product_buy_<?php echo $item->product_id; ?>" class="dsc-wrap product_buy">
+                    <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
+                </div>
+                
             </div>
             <?php endforeach; ?>
         </div>

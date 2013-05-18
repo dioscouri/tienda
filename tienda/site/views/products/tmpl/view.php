@@ -8,7 +8,7 @@ $product_image = TiendaHelperProduct::getImage($item->product_id, '', '', 'full'
 $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $item->product_name, 'thumb', false, false, array(), true );
 ?>  
 
-<div id="tienda" class="dsc-wrap products view <?php echo $item->product_classes; ?>">
+<div id="tienda" class="dsc-wrap products view product-<?php echo $item->product_id; ?> <?php echo $item->product_classes; ?>">
     
     <?php if ( Tienda::getInstance( )->get( 'display_tienda_pathway' ) ) : ?>
         <div id='tienda_breadcrumb'>
@@ -25,13 +25,13 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
         <?php endif; ?>
                   
         <div id='tienda_product_header' class="dsc-wrap">
-					<?php echo TiendaHelperProduct::getProductShareButtons( $this, $item->product_id ); ?>
-        
-            <span class="product_name">
+            <h2 class="product_name">
                 <?php echo htmlspecialchars_decode( $item->product_name ); ?>
-            </span>
-            <?php if ( Tienda::getInstance( )->get( 'product_review_enable', '0' ) )
-			{ ?>
+            </h2>
+            
+            <?php echo TiendaHelperProduct::getProductShareButtons( $this, $item->product_id ); ?>
+                        
+            <?php if ( Tienda::getInstance( )->get( 'product_review_enable', '0' ) ) { ?>
             <div class="dsc-wrap product_rating">
                 <?php echo TiendaHelperProduct::getRatingImage( $item->product_rating, $this ); ?>
                 <?php if ( !empty( $item->product_comments ) ) : ?>
@@ -60,7 +60,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 
         </div>
                 
-        <div class="dsc-wrap product_image">
+        <div id="product_image" class="dsc-wrap product_image">
             <?php echo TiendaUrl::popup( $product_image, $product_image_thumb, array( 'update' => false, 'img' => true ) ); ?>
             <div>
 	            <?php
