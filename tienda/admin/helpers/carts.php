@@ -643,6 +643,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 					}
 				}
 
+				$dispatcher = JDispatcher::getInstance();
+        		$dispatcher->trigger( "onAddOrderitemFromCart", array( $orderItem , $cartitem) );
+
 				// TODO When do attributes for selected item get set during admin-side order creation?
 				array_push($productitems, $orderItem);
 			}
