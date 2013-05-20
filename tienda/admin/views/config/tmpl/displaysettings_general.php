@@ -4,6 +4,17 @@
 <table class="table table-striped table-bordered">
     <tbody>
         <tr>
+            <th class="dsc-key">
+                <?php echo JText::_( 'COM_TIENDA_INCLUDE_SITE_CSS' ); ?>
+            </th>
+            <td class="dsc-value">
+                <?php echo TiendaSelect::btbooleanlist( 'include_site_css', 'class="inputbox"', $this->row->get('include_site_css', '1') ); ?>
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
             <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_USE_BOOTSTRAP'); ?>
             </th>
             <td><?php  echo TiendaSelect::btbooleanlist('use_bootstrap', 'class="inputbox"', $this -> row -> get('use_bootstrap', '1')); ?>
@@ -132,6 +143,17 @@
             <td><?php echo TiendaSelect::cartbutton($this -> row -> get('cartbutton', 'button'), 'cartbutton'); ?>
             </td>
             <td></td>
+        </tr>
+        <tr>
+            <th class="dsc-key">
+                <?php echo JText::_( 'COM_TIENDA_ENABLE_NAV_ON_DETAIL_PAGES' ); ?>
+            </th>
+            <td class="dsc-value">
+                <?php echo TiendaSelect::btbooleanlist( 'enable_product_detail_nav', 'class="inputbox"', $this->row->get('enable_product_detail_nav', '0') ); ?>
+            </td>
+            <td>
+                <p class="dsc-tip"><?php echo JText::_( 'COM_TIENDA_ENABLE_NAV_ON_DETAIL_PAGES_DESC' ); ?></p>
+            </td>
         </tr>
     </tbody>
 </table>

@@ -74,7 +74,7 @@ $page = $this->get('Pagination');
 			<?php
 				if (!empty($row->product_full_image) )
 				{
-					echo TiendaHelperProduct::getImage($row->product_id, '', $row->product_name, 'thumb', false, false, array('width' => 120 ));
+					echo TiendaHelperProduct::getImage($row->product_id, '', $row->product_name, 'thumb', false, false, array('width' => 60 ));
 				}
 			?>	
 			</td>				

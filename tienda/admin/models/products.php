@@ -534,14 +534,21 @@ class TiendaModelProducts extends TiendaModelEav
         $item->slug = $item->product_alias ? ":$item->product_alias" : "";
         $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
         $item->link_edit = 'index.php?option=com_tienda&view=products&task=edit&id=' . $item->product_id;
-
+        $item->product_categories = $this->getCategories( $item->product_id );
         $item->default_attributes = $helper_product->getDefaultAttributes( $item->product_id );
-        
+
+        $item->product_classes = null;
+        foreach ($item->product_categories as $cat) {
+            $item->product_classes .= " " . $cat->category_alias;
+        }
+        if (!empty($item->product_class_suffix)) {
+            $item->product_classes .= " " . $item->product_class_suffix;
+        }
+        $item->product_classes = trim($item->product_classes);
+                
         parent::prepareItem( $item, $key, $refresh );
     }
-    
 
-    
     
 	/**
 	 * Clean the cache
@@ -566,7 +573,14 @@ class TiendaModelProducts extends TiendaModelEav
 	public function clearCacheAuxiliary()
 	{
 	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+<<<<<<< HEAD
 	       
+=======
+	
+	    $model = DSCModel::getInstance('ProductCategories', 'TiendaModel');
+	    $model->clearCache();
+	    
+>>>>>>> 052b4637475091334c0dcee7030894c7ce2edbb6
 	    $model = DSCModel::getInstance('ProductAttributeOptions', 'TiendaModel');
 	    $model->clearCache();
 	     
@@ -589,4 +603,213 @@ class TiendaModelProducts extends TiendaModelEav
 	    $model->clearCache();
 	}
 
+	public function getItemid( $id, $fallback=null, $allow_null=false )
+	{
+	    Tienda::load( 'TiendaHelperRoute', 'helpers.route' );
+	
+	    $return = TiendaHelperRoute::findItemid(array('view'=>'products', 'task'=>'view', 'id'=>$id));
+	    if (!$return) {
+	        $return = TiendaHelperRoute::findItemid(array('view'=>'products', 'task'=>'view'));
+	        if (!$return) {
+	            $return = TiendaHelperRoute::findItemid(array('view'=>'products'));
+	            if (!$return) {
+	
+	                if ($fallback) {
+	                    $return = $fallback;
+	                }
+	
+	                if (!$allow_null)
+	                {
+	                    if ($categories = $this->getCategories( $id ))
+	                    {
+	                        $cat_model = Tienda::getClass('TiendaModelCategories', 'models.categories');
+	                        for ($i=0; !$return; $i++)
+	                        {
+	                            $category = $categories[$i];
+	                            if ($cat_itemid = $cat_model->getItemid( $category->category_id, null, true )) {
+	                                $return = $cat_itemid;
+	                            }
+	                        }
+	                    }
+	                        
+	                    if (!$return)
+	                    {
+	                        $return = JRequest::getInt('Itemid');
+	                    }
+	
+	                    if (!$return) {
+	                        $menu	= JFactory::getApplication()->getMenu();
+	                        if ($default = $menu->getDefault() && !empty($default->id))
+	                        {
+	                            $return = $default->id;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	
+	    return $return;
+	}
+	
+	public function getAlias($id, $refresh=false)
+	{
+	    $cache_key = $id;
+	
+	    $classname = strtolower( get_class($this) );
+	    $cache = JFactory::getCache( $classname . '.alias', '' );
+	    $cache->setCaching($this->cache_enabled);
+	    $cache->setLifeTime($this->cache_lifetime);
+	    $item = $cache->get($cache_key);
+	
+	    if (!$item || $refresh)
+	    {
+	        $item = $this->_getAlias( $id );
+	        $cache->store($item, $cache_key);
+	    }
+	
+	    return $item;
+	}
+	
+	protected function _getAlias( $id )
+	{
+	    $db = JFactory::getDbo();
+	    $query = $db->setQuery($db->getQuery(true)
+	            ->select('product_alias')
+	            ->from('#__tienda_products')
+	            ->where('product_id='.(int) $id)
+	    );
+	    $alias = $db->loadResult();
+	
+	    return $alias;
+	}
+	
+	public function getCategories($id, $refresh=false)
+	{
+	    $model = Tienda::getClass('TiendaModelProductCategories', 'models.productcategories');
+	    $model->setState('filter_product_id', $id);
+	    $result = $model->getList($refresh);
+	
+	    return $result;
+	}
+	
+	/**
+	 * Gets the prev and next items in a list of products, based on the user's selected filters
+	 * Useful when adding prev/next links to a product detail page
+	 * 
+	 * @see DSCModel::getSurrounding()
+	 */
+	public function getSurrounding( $id, $refresh=false )
+	{
+	    $return = array();
+	    $return["prev"] = '';
+	    $return["next"] = '';
+
+	    if (empty($id))
+	    {
+	        return $return;
+	    }
+
+	    $refresh = true;
+	    $this->setState('limit', null);
+	    $this->setState('limitstart', null);
+	    $this->setState( 'id', $id );
+
+	    $cache_key = base64_encode(serialize($this->getState())) . '.surrounding';
+	    $classname = strtolower( get_class($this) );
+	    $cache = JFactory::getCache( $classname . '.surrounding', '' );
+	    $cache->setCaching($this->cache_enabled);
+	    $cache->setLifeTime($this->cache_lifetime);
+	    $list = $cache->get($cache_key);
+
+	    if (empty($list) || $refresh)
+	    {
+	        $surrounding = $this->_getSurrounding($id);
+	        if (!empty($surrounding["prev"]) || !empty($surrounding["next"]))
+	        {
+	            $cache->store($surrounding, $cache_key);
+	            $return = $surrounding;
+	        }
+	    }
+
+	    return $return;
+	}
+
+	protected function _getSurrounding( $id )
+	{
+	    $return = array();
+	    $return["prev"] = '';
+	    $return["next"] = '';
+
+	    if (empty($id))
+	    {
+	        return $return;
+	    }
+
+	    $prev = $this->getState('prev');
+	    $next = $this->getState('next');
+	    if (strlen($prev) || strlen($next))
+	    {
+	        $return["prev"] = $prev;
+	        $return["next"] = $next;
+	        return $return;
+	    }
+
+	    $db = $this->getDBO();
+	    $key = $this->getTable()->getKeyName();
+
+	    $query = $this->getQuery( true );
+	    $rowset_query = (string) $query;
+
+	    $rownum_query = "SELECT orig.product_id, @rownum:=@rownum+1 AS rownum, orig.product_name
+	    FROM (
+	    $rowset_query
+	    ) AS orig,
+	    (SELECT @rownum:=0) r";
+
+	    $q2 = "
+	    SELECT x.rownum INTO @midpoint FROM (
+	    $rownum_query
+	    ) x WHERE x.$key = '$id';
+	    ";
+	    $db->setQuery( $q2 );
+	    $db->query();
+
+	    $q3 = "
+	    SELECT x.* FROM (
+	    $rownum_query
+	    ) AS x
+	    WHERE x.rownum BETWEEN @midpoint - 1 AND @midpoint + 1;
+	    ";
+	    $db->setQuery( $q3 );
+	    $rowset = $db->loadObjectList();
+	    $count = count($rowset);
+
+	    $found = false;
+	    $prev_id = '';
+	    $next_id = '';
+
+	    JArrayHelper::sortObjects( $rowset, 'rownum', 1 );
+
+	    for ($i=0; $i < $count && empty($found); $i++)
+	    {
+	        $row = $rowset[$i];
+	        if ($row->$key == $id)
+	        {
+	            $found = true;
+	            $prev_num = $i - 1;
+	            $next_num = $i + 1;
+	            if (!empty($rowset[$prev_num]->$key)) {
+	                $prev_id = $rowset[$prev_num]->$key;
+	            }
+	            if (!empty($rowset[$next_num]->$key)) {
+	                $next_id = $rowset[$next_num]->$key;
+	            }
+	        }
+	    }
+
+	    $return["prev"] = $prev_id;
+	    $return["next"] = $next_id;
+	    return $return;
+	}
 }

@@ -1,7 +1,6 @@
 <?php 
 	defined('_JEXEC') or die('Restricted access');
 	JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
-	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 	$user = JFactory::getUser();
 	Tienda::load( "TiendaHelperBase", 'helpers._base' );
 	$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );

@@ -18,6 +18,18 @@ Tienda::load( 'TiendaUrl', 'library.url' );
 
 class TiendaViewProducts extends TiendaViewBase
 {
+    function __construct( $config=array() )
+    {
+        parent::__construct( $config );
+    
+        if (empty($this->helpers)) {
+            $this->helpers = array();
+        }
+    
+        Tienda::load( "TiendaHelperProduct", 'helpers.product' );
+        $this->helpers['product'] = new TiendaHelperProduct();
+    }
+    
 	/**
 	 *
 	 * @param $tpl
@@ -43,32 +55,5 @@ class TiendaViewProducts extends TiendaViewBase
 				break;
 		}
 		parent::display($tpl, false );
-	}
-
-	/**
-	 * Basic methods for a form
-	 * @param $tpl
-	 * @return unknown_type
-	 */
-	function _form($tpl='')
-	{
-		Tienda::load( 'TiendaSelect', 'library.select' );
-		$model = $this->getModel();
-
-		// get the data
-		$row = $model->getItem( true, false );
-		JFilterOutput::objectHTMLSafe( $row );
-		$this->assign('row', $row );
-
-		// form
-		$form = array();
-		$controller = strtolower( $this->get( '_controller', JRequest::getVar('controller', JRequest::getVar('view') ) ) );
-		$view = strtolower( $this->get( '_view', JRequest::getVar('view') ) );
-		$task = strtolower( $this->get( '_task', 'edit' ) );
-		$form['action'] = $this->get( '_action', "index.php?option=com_tienda&controller={$controller}&view={$view}&task={$task}&id=".$model->getId() );
-		$form['validation'] = $this->get( '_validation', "index.php?option=com_tienda&controller={$controller}&view={$view}&task=validate&format=raw" );
-		$form['validate'] = "<input type='hidden' name='".JUtility::getToken()."' value='1' />";
-		$form['id'] = $model->getId();
-		$this->assign( 'form', $form );
 	}
 }

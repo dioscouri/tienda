@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');?>
 
 <div style="padding: 20px;">	

@@ -274,6 +274,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     public static function getUriFromPath( $path )
     {
         $path = str_replace( JPATH_SITE . DS, JURI::root( ), $path );
+        $path = str_replace( JPATH_SITE . "/", JURI::root( ), $path );
         $path = str_replace( DS, '/', $path );
         return $path;
     }
@@ -765,12 +766,14 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         $tmpl = "";
+        
         if ( strpos( $id, '.' ) )
         {
             // then this is a filename, return the full img tag if file exists, otherwise use a default image
             $src = ( JFile::exists( Tienda::getPath( $path ) . DS . $id ) ) ? Tienda::getUrl( $path ) . $id
-            : JURI::root( true ) . '/media/com_tienda/images/noimage.png';
-                
+
+            : JURI::root( true ) . '/media/com_tienda/images/placeholder_239.gif';
+            	
             // if url is true, just return the url of the file and not the whole img tag
             $tmpl = ( $url ) ? $src
             : "<img " . $dimensions . " src='" . $src . "' alt='" . JText::_( $alt ) . "' title='" . JText::_( $alt )
@@ -789,8 +792,25 @@ class TiendaHelperProduct extends TiendaHelperBase
                 {
                     $helper = TiendaHelperBase::getInstance( 'Product' );
                 }
+                
+                
+                $model = Tienda::getClass('TiendaModelProducts', 'models.products');
+                $item = $model->getItem((int)$id);
+                $full_image = !empty($item->product_full_image) ? $item->product_full_image : null;
+                
+                if (filter_var($full_image, FILTER_VALIDATE_URL) !== false) {
+                    // $full_image contains a valid URL
+                    $src = $full_image;
+                    if ($url) {
+                        return $src;
+                    } elseif (!empty($src)) {
+                        $tmpl = "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' />";
+                        return $tmpl;
+                    }
+                }
+                
                 $row = $helper->load( ( int ) $id, true, false );
-                $full_image = $row->product_full_image; // in case it'll be changed by an event
+                
                 // load the item, get the filename, create tmpl
                 $urli = $row->getImageUrl( );
                 $dir = $row->getImagePath( );
@@ -875,7 +895,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     $id = substr( $id, 0, $dot ) . $suffix . substr( $id, $dot );
                 }
 
-                $src = ( JFile::exists( $file ) ) ? $id : JURI::root( true ) . '/media/com_tienda/images/noimage.png';
+                $src = ( JFile::exists( $file ) ) ? $id : JURI::root(true).'/media/com_tienda/images/placeholder_239.gif';
 
                 $tmpl = ( $url ) ? $src
                 : "<img " . $dimensions . " src='" . $src . "' alt='" . JText::_( $alt ) . "' title='" . JText::_( $alt )

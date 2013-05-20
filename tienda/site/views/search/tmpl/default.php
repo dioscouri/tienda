@@ -1,6 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
 <?php $state = @$this->state; ?>
 <?php $form = @$this->form; ?>
 <?php $items = @$this->items; ?>
@@ -224,8 +223,8 @@
             <?php endif; ?>
         </div>
        
-        <div id="searchresults_footer">
-            <div id="results_counter" class="pagination"><?php echo @$this->pagination->getResultsCounter(); ?></div>
+        <div id="searchresults_footer" class="pagination">
+            <div id="results_counter"><?php echo @$this->pagination->getResultsCounter(); ?></div>
             <?php echo @$this->pagination->getListFooter(); ?>
         </div>
     </div>

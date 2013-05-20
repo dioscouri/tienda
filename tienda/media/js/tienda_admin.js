@@ -83,6 +83,7 @@ Tienda.bindProductGalleryLinks = function() {
     tiendaJQ('.set-default-gallery-image').each(function(){
         el = tiendaJQ(this);
         var url = el.attr('data-href');
+        var image = el.attr('data-image');
         if (url) {
             el.off('click.pg').on('click.pg', function(event){
                 event.preventDefault();
@@ -94,6 +95,7 @@ Tienda.bindProductGalleryLinks = function() {
                     if (response.html) {
                         tiendaJQ('#default_image').html(response.html);
                     }
+                    tiendaJQ('#product_full_image').val(image);
                 }).fail(function(data){
 
                 }).always(function(data){

@@ -153,9 +153,14 @@ class TiendaControllerProducts extends TiendaController
         JRequest::setVar( 'search', false );
         $view = $this->getView( $this->get( 'suffix' ), JFactory::getDocument( )->getType( ) );
         $model = $this->getModel( $this->get( 'suffix' ) );
-        $this->_setModelState( );
+        $state = $this->_setModelState();
+        
+        $session = JFactory::getSession();
+        $app = JFactory::getApplication();
+        $ns = $app->getName().'::'.'com.tienda.products.state';
+        $session->set( $ns, $state );
 
-        if ( !Tienda::getInstance( )->get( 'display_out_of_stock' ) )
+        if ( !$this->defines->get( 'display_out_of_stock' ) )
         {
             $model->setState( 'filter_quantity_from', '1' );
         }
@@ -201,8 +206,11 @@ class TiendaControllerProducts extends TiendaController
         {
             foreach ( $citems as $item )
             {
-                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $item->category_id, true );
-                $item->itemid = ( !empty( $itemid ) ) ? $itemid : JRequest::getInt( 'Itemid', $itemid );
+                $item->itemid_string = null;
+                $item->itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $item->category_id, true );
+                if (!empty($item->itemid)) {
+                    $item->itemid_string = "&Itemid=".$item->itemid;
+                }
             }
         }
 
@@ -214,8 +222,11 @@ class TiendaControllerProducts extends TiendaController
             $this->display_cartbutton = Tienda::getInstance( )->get( 'display_category_cartbuttons', '1' );
             foreach ( $items as $item )
             {
-                $itemid = Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, $filter_category, true );
-                $item->itemid = JRequest::getInt( 'Itemid', $itemid );
+                $item->itemid_string = null;
+                $item->itemid = (int) Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, null, true );
+                if (!empty($item->itemid)) {
+                    $item->itemid_string = "&Itemid=".$item->itemid;
+                }
             }
         }
 
@@ -316,10 +327,30 @@ class TiendaControllerProducts extends TiendaController
         $cat = $cmodel->getTable( );
         $cat->load( $filter_category );
 
+        // if product browsing enabled on detail pages, get surrounding items based on browsing state
+        $session = JFactory::getSession();
+        $app = JFactory::getApplication();
+        $ns = $app->getName().'::'.'com.tienda.products.state';
+        $session_state = $session->get( $ns );
+        
+        $surrounding = array();
+        // Only do this if product browsing is enabled on product detail pages
+        if ($this->defines->get('enable_product_detail_nav')) 
+        {
+            $products_model = $this->getModel( $this->get( 'suffix' ) );
+            $products_model->emptyState();
+            foreach ($session_state as $key => $value )
+            {
+                $products_model->setState( $key, $value );
+            }
+            $surrounding = $products_model->getSurrounding( $model->getId() );
+        }
+        
         $view = $this->getView( $this->get( 'suffix' ), JFactory::getDocument( )->getType( ) );
         $view->set( '_doTask', true );
         $view->assign( 'row', $row );
-
+        $view->assign( 'surrounding', $surrounding );
+        
         // breadcrumb support
         $app = JFactory::getApplication( );
         $pathway = $app->getPathway( );
@@ -1153,6 +1184,61 @@ class TiendaControllerProducts extends TiendaController
         // get the 'success' redirect url
         switch ( Tienda::getInstance( )->get( 'addtocartaction', 'redirect' ) )
         {
+            case "checkout":
+                // if a base64_encoded url is present as return, use that as the return url
+                // otherwise return == the product view page
+                $returnUrl = base64_encode( $redirect );
+                if ( $return_url = JRequest::getVar( 'return', '', 'method', 'base64' ) )
+                {
+                    $return_url = base64_decode( $return_url );
+                    if ( JURI::isInternal( $return_url ) )
+                    {
+                        $returnUrl = base64_encode( $return_url );
+                    }
+                }
+                // if a base64_encoded url is present as redirect, redirect there,
+                // otherwise redirect to the checkout
+                $itemid_checkout = $router->findItemid( array(
+                        'view' => 'checkout'
+                ) );
+                
+                $itemid_opc = $router->findItemid( array(
+                        'view' => 'opc'
+                ) );
+            
+                $checkout_view = "checkout";
+                $itemid = null;
+                if ($itemid_opc) {
+                    $itemid = $itemid_opc;
+                    $checkout_view = "opc";
+                } elseif ($itemid_checkout) {
+                    $itemid = $itemid_checkout;
+                }
+                
+                if( !$itemid ) {
+                    $itemid = JRequest::getInt( 'Itemid', 0 );
+                }
+                
+                $redirect = JRoute::_( "index.php?option=com_tienda&view=" . $checkout_view . "&Itemid=" . $itemid, false );
+                if ( $redirect_url = JRequest::getVar( 'redirect', '', 'method', 'base64' ) )
+                {
+                    $redirect_url = base64_decode( $redirect_url );
+                    if ( JURI::isInternal( $redirect_url ) )
+                    {
+                        $redirect = $redirect_url;
+                    }
+                }
+
+                if ( strpos( $redirect, '?' ) === false )
+                {
+                    $redirect .= "?return=" . $returnUrl;
+                }
+                else
+                {
+                    $redirect .= "&return=" . $returnUrl;
+                }
+            
+                break;            
             case "0":
             case "none":
                 // redirects back to product page
@@ -1189,7 +1275,7 @@ class TiendaControllerProducts extends TiendaController
                 // if a base64_encoded url is present as redirect, redirect there,
                 // otherwise redirect to the cart
                 $itemid = $router->findItemid( array(
-                        'view' => 'checkout'
+                        'view' => 'carts'
                 ) );
 
                 if( !$itemid )

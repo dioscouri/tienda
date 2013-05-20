@@ -20,6 +20,7 @@ class Tienda extends DSC
 	static $_guestIdStart = -10;
 	
 	// View Options
+	public $include_site_css                   = '1';
 	public $use_bootstrap	= 		'1';		
 	public $show_linkback						= '1';
 	public $amigosid                           = '';
@@ -246,6 +247,10 @@ class Tienda extends DSC
 	public $date_format_act = 'D, d M Y, h:iA';
 	
 	public $calc_tax_shipping = '0';
+	
+	public $default_category_layout = '';
+	public $default_product_layout = '';
+	public $enable_product_detail_nav = '';
 	
 
 	public static function getGuestIdStart()

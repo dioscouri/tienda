@@ -66,22 +66,22 @@ class TiendaModelElementProductMultiple extends DSCModel
 		$search				= JString::strtolower($search);
 
 		if (!$filter_order) {
-			$filter_order = 'c.product_id';
+			$filter_order = 'tbl.product_id';
 		}
 		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir;
 		$all = 1;
 
 		// Keyword filter
 		if ($search) {
-			$where[] = 'LOWER( c.product_id ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-			$where[] = 'LOWER( c.product_name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER( tbl.product_id ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER( tbl.product_name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		// Build the where clause of the query
 		$where = (count($where) ? ' WHERE '.implode(' OR ', $where) : '');
 
 		// Get the total number of records
-		$query = 'SELECT COUNT(c.product_id)' .
-				' FROM #__tienda_products AS c' .
+		$query = 'SELECT COUNT(tbl.product_id)' .
+				' FROM #__tienda_products AS tbl' .
 				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
@@ -91,9 +91,9 @@ class TiendaModelElementProductMultiple extends DSCModel
 		$this->_page = new JPagination($total, $limitstart, $limit);
 
 		// Get the products
-		$query = 'SELECT c.*, pp.* ' .
-				' FROM #__tienda_products AS c' .
-				' LEFT JOIN #__tienda_productprices pp ON pp.product_id = c.product_id '.
+		$query = 'SELECT tbl.*, pp.* ' .
+				' FROM #__tienda_products AS tbl' .
+				' LEFT JOIN #__tienda_productprices pp ON pp.product_id = tbl.product_id '.
 				$where .
 				$order;
 		$db->setQuery($query, $this->_page->limitstart, $this->_page->limit);

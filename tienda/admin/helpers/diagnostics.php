@@ -64,6 +64,7 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	    $functions[] = 'checkEAVAttributesFormatDate';
 	    $functions[] = 'checkOrderHistoryID';
 	    //$functions[] = 'createTableEAVValuesTime'; // NO NEW FEATURES YET
+	    $functions[] = 'checkProductClassSuffix';
 	    
 	    foreach ($functions as $function)
 	    {
@@ -489,35 +490,35 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSECRETWORD_FAILED') .' :: '. $this->getError(), 'error' );
 		}
     
-    if( !$this->dropZoneIdOrderInfo() )
-    {
-			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_DROPZONEIDORDERINFO_FAILED') .' :: '. $this->getError(), 'error' );    
-    }
+        if( !$this->dropZoneIdOrderInfo() )
+        {
+    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_DROPZONEIDORDERINFO_FAILED') .' :: '. $this->getError(), 'error' );    
+        }
+        
+        if( !$this->checkOrderHashField() )
+        {
+    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERHASHFIELD_FAILED') .' :: '. $this->getError(), 'error' );    
+        }
     
-    if( !$this->checkOrderHashField() )
-    {
-			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERHASHFIELD_FAILED') .' :: '. $this->getError(), 'error' );    
-    }
-
-    if( !$this->checkSubtotalMax() )
-    {
-			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBTOTALMAX_FAILED') .' :: '. $this->getError(), 'error' );    
-    }
-
-    if( !$this->checkProductAttributesWeight() )
-    {
-			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTATTRIBUTESWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
-    }
-
-    if( !$this->checkOrderItemAttributesWeight() )
-    {
-			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMATTRIBUTESWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
-    }
-
-    if( !$this->checkOrderItemsWeight() )
-    {
-			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
-    }
+        if( !$this->checkSubtotalMax() )
+        {
+    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSUBTOTALMAX_FAILED') .' :: '. $this->getError(), 'error' );    
+        }
+    
+        if( !$this->checkProductAttributesWeight() )
+        {
+    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKPRODUCTATTRIBUTESWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+        }
+    
+        if( !$this->checkOrderItemAttributesWeight() )
+        {
+    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMATTRIBUTESWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+        }
+    
+        if( !$this->checkOrderItemsWeight() )
+        {
+    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+        }
 
 	}
 
@@ -3781,5 +3782,30 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	    return false;
 	}
 	
+	/**
+	 *
+	 * @return boolean
+	 */
+	private function checkProductClassSuffix()
+	{
+	    if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
+	    {
+	        return true;
+	    }
+	
+	    $table = '#__tienda_products';
+	    $definitions = array();
+	    $fields = array();
+	
+	    $fields[] = "product_class_suffix";
+	    $definitions["product_class_suffix"] = "varchar(255) NULL";
+	
+	    if ($this->insertTableFields( $table, $fields, $definitions ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}	
 }
 

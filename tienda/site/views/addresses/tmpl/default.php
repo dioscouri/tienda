@@ -2,7 +2,6 @@
 	defined('_JEXEC') or die('Restricted access');
 	JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 	JHTML::_('stylesheet', 'menu.css', 'media/com_tienda/css/');
-	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
 	$state = @$this->state;
 	$form = @$this->form;
 	$items = @$this->items;

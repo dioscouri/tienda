@@ -133,7 +133,7 @@ class TiendaHelperCategory extends TiendaHelperBase
     function getLayout( $category_id )
     {
         static $template;
-				$dispatcher = JDispatcher::getInstance();
+        $dispatcher = JDispatcher::getInstance();
         
         $layout = 'default';
         
@@ -160,6 +160,17 @@ class TiendaHelperCategory extends TiendaHelperBase
         }
         $templatePath = JPATH_SITE.'/templates/'.$template.'/html/com_tienda/products/%s'.'.php';
         $mediaPath = Tienda::getPath( 'categories_templates' ) . DS . '%s'.'.php';
+        
+        $defines = Tienda::getInstance();
+        $default_category_layout = $defines->get('default_category_layout'); 
+        if ($default_category_layout) {
+            // set default = the selected default if it still exists
+            if (JFile::exists(sprintf($templatePath, $default_category_layout)) ||
+                JFile::exists( sprintf($mediaPath, $default_category_layout) )
+            ) {
+                $layout = $default_category_layout;
+            }
+        }
 
         if (isset($this) && is_a( $this, 'TiendaHelperCategory' )) 
         {
@@ -233,17 +244,47 @@ class TiendaHelperCategory extends TiendaHelperBase
 		}
 		
 		$tmpl = "";
+		
+		if (!empty($id) && is_numeric($id) && strpos($id, '.') === false)
+		{
+		    $model = Tienda::getClass('TiendaModelCategories', 'models.categories');
+		    $item = $model->getItem((int)$id);
+		    $full_image = !empty($item->category_full_image) ? $item->category_full_image : null;
+		
+		    if (filter_var($full_image, FILTER_VALIDATE_URL) !== false) {
+		        // $full_image contains a valid URL
+		        $src = $full_image;
+		    }
+		    elseif (JFile::exists( Tienda::getPath( $path ) . "/" . $full_image))
+		    {
+		        $src = Tienda::getUrl( $path ). $full_image;
+		    }
+		    else
+		    {
+		        $src = JURI::root(true).'/media/com_tienda/images/placeholder_239.gif';
+		    }
+		
+		    if ($url) {
+		        return $src;
+		    } elseif (!empty($src)) {
+		        $tmpl = "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' />";
+		    }
+		
+		    return $tmpl;
+		}
+		
 		if (strpos($id, '.'))
 		{
 			// then this is a filename, return the full img tag if file exists, otherwise use a default image
 			$src = (JFile::exists( Tienda::getPath( $path ).DS.$id))
-				? Tienda::getUrl( $path ).$id : JURI::root(true).'/media/com_tienda/images/noimage.png';
+				? Tienda::getUrl( $path ).$id : JURI::root(true).'/media/com_tienda/images/placeholder_239.gif';
 			
 			// if url is true, just return the url of the file and not the whole img tag
 			$tmpl = ($url)
-				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' />";
+				? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' />";
 
 		}
+
 			else
 		{
 			if (!empty($id))
@@ -262,6 +303,7 @@ class TiendaHelperCategory extends TiendaHelperBase
 					? $src : "<img src='".$src."' alt='".JText::_( $alt )."' title='".JText::_( $alt )."' align='middle' border='0' />";
 			}			
 		}
+
 		return $tmpl;
 	}
 	
