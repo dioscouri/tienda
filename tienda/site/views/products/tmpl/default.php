@@ -95,10 +95,10 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         	<span class="sort_by_label">
         	<?php echo JText::_('COM_TIENDA_SORT_BY');?>
         	</span>
-        	<?php echo TiendaSelect::productsortby($state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('COM_TIENDA_DEFAULT_ORDER'));?>
+        	<?php echo TiendaSelect::productsortby( @$state->filter_sortby, 'filter_sortby', array('onchange' => 'document.adminForm_sort.submit();'), 'filter_sortby', true, JText::_('COM_TIENDA_DEFAULT_ORDER'));?>
         	<span class="sort_by_direction">
         		<?php 
-        			if(strtolower($state->filter_dir) == 'asc')
+        			if(strtolower(@$state->filter_dir) == 'asc')
         			{
         				$dir = 'desc';
         				$img_dir = 'arrow_down.png';
@@ -211,13 +211,15 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
             <?php endforeach; ?>
         </div>
         
+        <?php if (!empty($this->pagination) && method_exists($this->pagination, 'getResultsCounter')) { ?>
         <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">        
         <div id="products_footer" class="pagination">
-            <div id="results_counter"><?php echo @$this->pagination->getResultsCounter(); ?></div>
-            <?php echo @$this->pagination->getListFooter(); ?>
+            <div id="results_counter"><?php echo $this->pagination->getResultsCounter(); ?></div>
+            <?php echo $this->pagination->getListFooter(); ?>
         </div>
         <?php echo $this->form['validate']; ?>
         </form>
+        <?php } ?>
 
     <?php endif; ?>
     

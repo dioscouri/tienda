@@ -553,6 +553,18 @@ class TiendaModelProducts extends TiendaModelEav
 	
 	                if (!$allow_null)
 	                {
+	                    if ($categories = $this->getCategories( $id ))
+	                    {
+	                        $cat_model = Tienda::getClass('TiendaModelCategories', 'models.categories');
+	                        for ($i=0; !$return; $i++)
+	                        {
+	                            $category = $categories[$i];
+	                            if ($cat_itemid = $cat_model->getItemid( $category->category_id, null, true )) {
+	                                $return = $cat_itemid;
+	                            }
+	                        }
+	                    }
+	                        
 	                    if (!$return)
 	                    {
 	                        $return = JRequest::getInt('Itemid');
@@ -612,5 +624,125 @@ class TiendaModelProducts extends TiendaModelEav
 	    $result = $model->getList($refresh);
 	
 	    return $result;
+	}
+	
+	/**
+	 * Gets the prev and next items in a list of products, based on the user's selected filters
+	 * Useful when adding prev/next links to a product detail page
+	 * 
+	 * @see DSCModel::getSurrounding()
+	 */
+	public function getSurrounding( $id, $refresh=false )
+	{
+	    $return = array();
+	    $return["prev"] = '';
+	    $return["next"] = '';
+
+	    if (empty($id))
+	    {
+	        return $return;
+	    }
+
+	    $refresh = true;
+	    $this->setState('limit', null);
+	    $this->setState('limitstart', null);
+	    $this->setState( 'id', $id );
+
+	    $cache_key = base64_encode(serialize($this->getState())) . '.surrounding';
+	    $classname = strtolower( get_class($this) );
+	    $cache = JFactory::getCache( $classname . '.surrounding', '' );
+	    $cache->setCaching($this->cache_enabled);
+	    $cache->setLifeTime($this->cache_lifetime);
+	    $list = $cache->get($cache_key);
+
+	    if (empty($list) || $refresh)
+	    {
+	        $surrounding = $this->_getSurrounding($id);
+	        if (!empty($surrounding["prev"]) || !empty($surrounding["next"]))
+	        {
+	            $cache->store($surrounding, $cache_key);
+	            $return = $surrounding;
+	        }
+	    }
+
+	    return $return;
+	}
+
+	protected function _getSurrounding( $id )
+	{
+	    $return = array();
+	    $return["prev"] = '';
+	    $return["next"] = '';
+
+	    if (empty($id))
+	    {
+	        return $return;
+	    }
+
+	    $prev = $this->getState('prev');
+	    $next = $this->getState('next');
+	    if (strlen($prev) || strlen($next))
+	    {
+	        $return["prev"] = $prev;
+	        $return["next"] = $next;
+	        return $return;
+	    }
+
+	    $db = $this->getDBO();
+	    $key = $this->getTable()->getKeyName();
+
+	    $query = $this->getQuery( true );
+	    $rowset_query = (string) $query;
+
+	    $rownum_query = "SELECT orig.product_id, @rownum:=@rownum+1 AS rownum, orig.product_name
+	    FROM (
+	    $rowset_query
+	    ) AS orig,
+	    (SELECT @rownum:=0) r";
+
+	    $q2 = "
+	    SELECT x.rownum INTO @midpoint FROM (
+	    $rownum_query
+	    ) x WHERE x.$key = '$id';
+	    ";
+	    $db->setQuery( $q2 );
+	    $db->query();
+
+	    $q3 = "
+	    SELECT x.* FROM (
+	    $rownum_query
+	    ) AS x
+	    WHERE x.rownum BETWEEN @midpoint - 1 AND @midpoint + 1;
+	    ";
+	    $db->setQuery( $q3 );
+	    $rowset = $db->loadObjectList();
+	    $count = count($rowset);
+
+	    $found = false;
+	    $prev_id = '';
+	    $next_id = '';
+
+	    JArrayHelper::sortObjects( $rowset, 'rownum', 1 );
+
+	    for ($i=0; $i < $count && empty($found); $i++)
+	    {
+	        $row = $rowset[$i];
+	        if ($row->$key == $id)
+	        {
+	            $found = true;
+	            $prev_num = $i - 1;
+	            $next_num = $i + 1;
+	            if (!empty($rowset[$prev_num]->$key)) {
+	                $prev_id = $rowset[$prev_num]->$key;
+	            }
+	            if (!empty($rowset[$next_num]->$key)) {
+	                $next_id = $rowset[$next_num]->$key;
+	            }
+	        }
+	    }
+
+	    $return["prev"] = $prev_id;
+	    $return["next"] = $next_id;
+	    return $return;
 	}
 }

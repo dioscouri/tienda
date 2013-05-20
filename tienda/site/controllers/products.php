@@ -151,9 +151,14 @@ class TiendaControllerProducts extends TiendaController
         JRequest::setVar( 'search', false );
         $view = $this->getView( $this->get( 'suffix' ), JFactory::getDocument( )->getType( ) );
         $model = $this->getModel( $this->get( 'suffix' ) );
-        $this->_setModelState( );
+        $state = $this->_setModelState();
+        
+        $session = JFactory::getSession();
+        $app = JFactory::getApplication();
+        $ns = $app->getName().'::'.'com.tienda.products.state';
+        $session->set( $ns, $state );
 
-        if ( !Tienda::getInstance( )->get( 'display_out_of_stock' ) )
+        if ( !$this->defines->get( 'display_out_of_stock' ) )
         {
             $model->setState( 'filter_quantity_from', '1' );
         }
@@ -320,10 +325,30 @@ class TiendaControllerProducts extends TiendaController
         $cat = $cmodel->getTable( );
         $cat->load( $filter_category );
 
+        // if product browsing enabled on detail pages, get surrounding items based on browsing state
+        $session = JFactory::getSession();
+        $app = JFactory::getApplication();
+        $ns = $app->getName().'::'.'com.tienda.products.state';
+        $session_state = $session->get( $ns );
+        
+        $surrounding = array();
+        // Only do this if product browsing is enabled on product detail pages
+        if ($this->defines->get('enable_product_detail_nav')) 
+        {
+            $products_model = $this->getModel( $this->get( 'suffix' ) );
+            $products_model->emptyState();
+            foreach ($session_state as $key => $value )
+            {
+                $products_model->setState( $key, $value );
+            }
+            $surrounding = $products_model->getSurrounding( $model->getId() );
+        }
+        
         $view = $this->getView( $this->get( 'suffix' ), JFactory::getDocument( )->getType( ) );
         $view->set( '_doTask', true );
         $view->assign( 'row', $row );
-
+        $view->assign( 'surrounding', $surrounding );
+        
         // breadcrumb support
         $app = JFactory::getApplication( );
         $pathway = $app->getPathway( );
