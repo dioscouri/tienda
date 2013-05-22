@@ -35,16 +35,15 @@ class TiendaViewProducts extends TiendaViewBase
 	 * @param $tpl
 	 * @return unknown_type
 	 */
-	function display($tpl=null, $perform = true )
+	public function getLayoutVars($tpl=null)
 	{
-		$model = $this->getModel();
-		$task = $model->getState( 'task' );
-		switch(strtolower($task))
+		$layout = $this->getLayout();
+		switch(strtolower($layout))
 		{
 			case "view":
 				$this->_form( $tpl );
 				break;
-			case "display":
+			case "default":
 				$this->_default( $tpl );
 				break;
 			case "product_comments":
@@ -54,6 +53,5 @@ class TiendaViewProducts extends TiendaViewBase
 				$this->_default_light( $tpl );
 				break;
 		}
-		parent::display($tpl, false );
 	}
 }
