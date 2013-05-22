@@ -43,14 +43,11 @@ class TiendaViewProducts extends TiendaViewBase
 			case "view":
 				$this->_form( $tpl );
 				break;
-			case "default":
-				$this->_default( $tpl );
-				break;
 			case "product_comments":
 				$this->_default( $tpl, true );
 				break;
 			default:
-				$this->_default_light( $tpl );
+			    $this->_default( $tpl );
 				break;
 		}
 	}
