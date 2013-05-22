@@ -121,27 +121,16 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         <div id="tienda_products" class="dsc-wrap">
             <?php foreach ($items as $item) : ?>
             <div id="product-<?php echo $item->product_id; ?>" class="dsc-wrap product_item product-<?php echo $item->product_id; ?> <?php echo $item->product_classes; ?>">
-                <?php if (!empty($item->product_full_image) || ($product_compare && $item->product_parameters->get('show_product_compare', '1') ) ) : ?>
-                <div class="product_thumb dsc-wrap">
-                		
+                <?php $thumb = TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
+                <?php if ($thumb) { ?>
+                    <div class="product_thumb dsc-wrap">
                         <div class="dsc-wrap product_listimage">
                             <a href="<?php echo JRoute::_( $item->link . $item->itemid_string ); ?>">
-                                <?php echo TiendaHelperProduct::getImage($item->product_id, '', $item->product_name); ?>
+                                <?php echo $thumb; ?>
                             </a>
-                        </div>
-                        <?php 
-                    	
-                    	if( $product_compare && $item->product_parameters->get('show_product_compare', '1')):?>
-                        <div id="tiendaProductCompare" class="dsc-wrap">
-    	                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true);">
-    	               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">
-    	               	 		<?php echo JText::_('COM_TIENDA_COMPARE')?>
-    	               	 		<span class="arrow" >»</span>  
-    	               	 	</a>             	 	              
-                    	</div>
-                	<?php endif;?>
-                </div>
-                <?php endif; ?>
+                        </div>    
+                    </div>                    
+                <?php } ?>
                
                 <div class="dsc-wrap product_info">
                     <div class="dsc-wrap product_name">
@@ -206,6 +195,16 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
                 <div id="product_buy_<?php echo $item->product_id; ?>" class="dsc-wrap product_buy">
                     <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>
                 </div>
+                
+                <?php if( $product_compare && $item->product_parameters->get('show_product_compare', '1')) { ?>
+                <div id="product_compare" class="dsc-wrap">
+                	<input <?php echo in_array($item->product_id,$compareitems) ? 'checked' : '';?> type="checkbox" onclick="tiendaAddProductToCompare(<?php echo $item->product_id;?>, 'tiendaComparedProducts', this, true);">
+               	 	<a href="<?php echo JRoute::_('index.php?option=com_tienda&view=productcompare');?>">
+               	 		<?php echo JText::_('COM_TIENDA_COMPARE')?>
+               	 		<span class="arrow" >»</span>  
+               	 	</a>             	 	              
+            	</div>
+        	    <?php } ?>
                 
             </div>
             <?php endforeach; ?>
