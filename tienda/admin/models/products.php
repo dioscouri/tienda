@@ -10,6 +10,8 @@
 
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+if ( !class_exists('Tienda') ) 
+    JLoader::register( "Tienda", JPATH_ADMINISTRATOR."/components/com_tienda/defines.php" );
 
 Tienda::load( 'TiendaModelEav', 'models._baseeav' );
 
@@ -26,6 +28,8 @@ class TiendaModelProducts extends TiendaModelEav
         $filter_quantity_from = $this->getState( 'filter_quantity_from' );
         $filter_quantity_to = $this->getState( 'filter_quantity_to' );
         $filter_category = $this->getState( 'filter_category' );
+        $filter_multicategory = $this->getState( 'filter_multicategory' );
+        $filter_multicategoryoperator = $this->getState( 'filter_multicategoryoperator' );
         $filter_sku = $this->getState( 'filter_sku', '', 'string' );
         $filter_price_from = $this->getState( 'filter_price_from' );
         $filter_price_to = $this->getState( 'filter_price_to' );
@@ -44,7 +48,10 @@ class TiendaModelProducts extends TiendaModelEav
         $filter_namedescription = $this->getState( 'filter_namedescription' );
         $filter_attribute_set = $this->getState( 'filter_attribute_set' );
         $filter_rating = $this->getState( 'filter_rating' );
-
+        $filter_pao_names = $this->getState( 'filter_pao_names' );
+        $filter_pao_ids = $this->getState( 'filter_pao_ids' );
+        $filter_pao_id_groups = $this->getState( 'filter_pao_id_groups' );
+        
         if ( $filter )
         {
             $key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $filter ) ) ) . '%' );
@@ -159,7 +166,32 @@ class TiendaModelProducts extends TiendaModelEav
         {
             $query->where( 'pa.productattribute_id IN(' . $filter_attribute_set . ')' );
         }
+        if(count($filter_multicategory)) {
+                //AND FILTER
+                    if($filter_multicategoryoperator == 'AND') {
+                        $count = COUNT($filter_multicategory);
+                        $query->where( ' tbl.product_id in (  SELECT DISTINCT(product_id) FROM mytable WHERE cnt = '.  $this->_db->Quote($count ) .')');
+                     }
+                
+                //ALL FILTERS     
+                if($filter_multicategoryoperator == 'OR') {
+                    // Creating the in clause for the case of the multiple category filter
+                $in_category_clause = "";
+                foreach ( ( ( array ) $filter_multicategory ) as $category )
+                {
+                    if ( strlen( $category ) )
+                    {
+                        $in_category_clause = $in_category_clause . $category . ",";
 
+                    }
+                }
+                if ( $in_category_clause != "" )
+                {
+                    $in_category_clause = substr( $in_category_clause, 0, -1 );
+                    $query->where( 'p2c.category_id IN(' . $in_category_clause . ')' );
+                }
+         }
+        } else {
         if ( $filter_category == 'none' )
         {
             $query->where( "NOT EXISTS (SELECT * FROM #__tienda_productcategoryxref AS p2c WHERE tbl.product_id = p2c.product_id)" );
@@ -167,6 +199,7 @@ class TiendaModelProducts extends TiendaModelEav
         elseif ( strlen( $filter_category ) )
         {
             $query->where( 'p2c.category_id = ' . ( int ) $filter_category );
+        }
         }
 
         if ( strlen( $filter_price_from ) )
@@ -233,27 +266,58 @@ class TiendaModelProducts extends TiendaModelEav
                     . "' OR tbl.unpublish_date = '0000-00-00' ) )", 'AND' );
         }
 
-        // Creating the in clause for the case of the multiple category filter
-        $in_category_clause = "";
-        foreach ( ( ( array ) $filter_multicategory ) as $category )
-        {
-            if ( strlen( $category ) )
-            {
-                $in_category_clause = $in_category_clause . $category . ",";
-
-            }
-        }
-        if ( $in_category_clause != "" )
-        {
-            $in_category_clause = substr( $in_category_clause, 0, -1 );
-            $query->where( 'p2c.category_id IN(' . $in_category_clause . ')' );
-        }
+        
         if ( strlen( $filter_description ) )
         {
             $key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $filter_description ) ) ) . '%' );
             $query->where( 'LOWER(tbl.product_description) LIKE ' . $key );
         }
-
+        
+        if (!empty($filter_pao_names) && is_array($filter_pao_names)) 
+        {
+    	    $filter_id_set = implode("', '", $filter_pao_names); 
+            
+            // only return products who have one of the selected pao names
+            $subquery = "SELECT sq_pa.product_id FROM #__tienda_productattributes AS sq_pa WHERE sq_pa.productattribute_id IN (
+                SELECT sq_pao.productattribute_id FROM #__tienda_productattributeoptions AS sq_pao WHERE sq_pao.productattributeoption_name IN ('" . $filter_id_set . "')
+            )";
+            
+            $query->where( 'tbl.product_id IN (' . $subquery . ')' );
+        }
+        
+        if (!empty($filter_pao_ids) && is_array($filter_pao_ids))
+        {
+            $filter_id_set = implode("', '", $filter_pao_ids);
+        
+            // only return products who have one of the selected pao ids
+            $subquery = "SELECT sq_pa.product_id FROM #__tienda_productattributes AS sq_pa WHERE sq_pa.productattribute_id IN (
+            SELECT sq_pao.productattribute_id FROM #__tienda_productattributeoptions AS sq_pao WHERE sq_pao.productattributeoption_id IN ('" . $filter_id_set . "')
+            )";
+        
+            $query->where( 'tbl.product_id IN (' . $subquery . ')' );
+        }
+        
+        if (!empty($filter_pao_id_groups) && is_array($filter_pao_id_groups))
+        {
+            foreach ($filter_pao_id_groups as $filter_pao_id_group) 
+            {
+                if (!empty($filter_pao_id_group) && is_array($filter_pao_id_group)) 
+                {
+                    $filter_id_set = implode("', '", $filter_pao_id_group);
+                    
+                    if (!empty($filter_id_set)) 
+                    {
+                        // only return products who have one of the selected pao ids
+                        $subquery = "SELECT sq_pa.product_id FROM #__tienda_productattributes AS sq_pa WHERE sq_pa.productattribute_id IN (
+                        SELECT sq_pao.productattribute_id FROM #__tienda_productattributeoptions AS sq_pao WHERE sq_pao.productattributeoption_id IN ('" . $filter_id_set . "')
+                        )";
+                        
+                        $query->where( 'tbl.product_id IN (' . $subquery . ')' );                        
+                    }
+                }
+            }
+        }
+        
     }
 
     protected function _buildQueryJoins( &$query )
@@ -275,6 +339,49 @@ class TiendaModelProducts extends TiendaModelEav
             }
         }
     }
+
+    protected function _buildTempTables( ) {
+        $cats = $this->getState( 'filter_multicategory' );
+        $cats = implode(',', $cats);
+        $sql = " CREATE TEMPORARY TABLE mytable AS (SELECT a.product_id, (
+        SELECT COUNT(b.product_id) FROM #__tienda_productcategoryxref as b WHERE b.category_id IN ($cats) AND b.product_id = a.product_id
+        ) as cnt FROM #__tienda_productcategoryxref as a WHERE a.category_id IN ($cats))";
+        $db = JFactory::getDBO();
+        $db->setQuery('DROP TABLE IF EXISTS mytable');
+        $db->query();
+        $db->setQuery($sql);
+        $db->query();
+    }
+
+    /**
+     * Builds a generic SELECT query
+     *
+     * @return  string  SELECT query
+     */
+    protected function _buildQuery( $refresh=false )
+    {   
+        if (!empty($this->_query) && !$refresh)
+        {
+            return $this->_query;
+        }
+        if($this->getState( 'filter_multicategory' )) {
+           $this->_buildTempTables();
+        }
+        $query = new DSCQuery();
+        
+        $this->_buildQueryFields($query);
+        $this->_buildQueryFrom($query);
+        $this->_buildQueryJoins($query);
+        $this->_buildQueryWhere($query);
+        $this->_buildQueryGroup($query);
+        $this->_buildQueryHaving($query);
+        $this->_buildQueryOrder($query);
+       
+        
+        return $query;
+    }
+
+
 
     protected function _buildQueryFields( &$query )
     {
@@ -352,7 +459,7 @@ class TiendaModelProducts extends TiendaModelEav
      */
     protected function _buildResultQuery( )
     {
-        $grouped_query = new TiendaQuery( );
+        $grouped_query = new DSCQuery( );
         $grouped_query->select( $this->getState( 'select', 'COUNT(tbl.product_id)' ) );
 
         $field = array( );
@@ -415,7 +522,7 @@ class TiendaModelProducts extends TiendaModelEav
         $this->_buildQueryGroup( $grouped_query );
         $this->_buildQueryHaving( $grouped_query );
 
-        $query = new TiendaQuery( );
+        $query = new DSCQuery( );
         $query->select( 'COUNT(*)' );
         $query->from( '(' . $grouped_query . ') as grouped_count' );
 
@@ -510,16 +617,16 @@ class TiendaModelProducts extends TiendaModelEav
 	public function clearCacheAuxiliary()
 	{
 	    DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-	
+
 	    $model = DSCModel::getInstance('ProductCategories', 'TiendaModel');
 	    $model->clearCache();
-	    
+
 	    $model = DSCModel::getInstance('ProductAttributeOptions', 'TiendaModel');
 	    $model->clearCache();
 	     
 	    $model = DSCModel::getInstance('ProductAttributeOptionValues', 'TiendaModel');
 	    $model->clearCache();
-	     
+	    
 	    $model = DSCModel::getInstance('ProductAttributes', 'TiendaModel');
 	    $model->clearCache();
 	     
@@ -743,6 +850,104 @@ class TiendaModelProducts extends TiendaModelEav
 
 	    $return["prev"] = $prev_id;
 	    $return["next"] = $next_id;
+	    return $return;
+	}
+	
+	public function getPAOCategories( $category_ids=array() )
+	{
+	    // TODO Cache this
+	    
+	    $filter_published_date = $this->getState( 'filter_published_date' );
+	    $state = $this->getState();
+	    
+	    $query = $this->getDBO()->getQuery(true);
+	    
+	    $query->from( "#__tienda_productattributes AS pa" );
+	    $query->join( "INNER", "#__tienda_productcategoryxref AS xref ON pa.product_id = xref.product_id" );
+	    $query->join( "INNER", "#__tienda_products AS tbl ON pa.product_id = tbl.product_id" );
+	    $query->where( 'tbl.product_enabled = 1' );
+	    $query->where(
+	            "(tbl.publish_date <= '" . $filter_published_date . "' AND (tbl.unpublish_date > '" . $filter_published_date
+	            . "' OR tbl.unpublish_date = '0000-00-00' ) )", 'AND' );
+	    	    
+	    if (!empty($category_ids)) {
+	        $category_ids = (array) $category_ids;
+	        $filter_id_set = implode("', '", $category_ids);
+	        $query->where( "xref.category_id IN ('" . $filter_id_set . "')" );
+	    }
+
+	    $id_query = clone( $query );
+	    
+	    $query->select( "DISTINCT(productattribute_name)" );
+	    $db = $this->getDBO();
+	    $db->setQuery( (string) $query );
+	    if ($result = $db->loadObjectList()) 
+	    {
+	        jimport('joomla.utilities.arrayhelper');
+	        JArrayHelper::sortObjects($result, 'productattribute_name');
+	        	        
+	        foreach ($result as $category) 
+	        {
+	            $this_query = clone( $id_query );
+	            $this_query->select("pa.productattribute_id");
+	            $this_query->where( "pa.productattribute_name = '$category->productattribute_name'" );
+	            $db->setQuery( (string) $this_query );
+                $category->productattribute_ids = $db->loadColumn();
+	            $category->productattribute_options = $this->getPAOCategoryOptions( $category->productattribute_ids );
+	        }
+	    }
+	
+	    return $result;
+	}
+	
+	public function getPAOCategoryOptions( $pa_ids )
+	{
+	    $return = array();
+	    
+	    $query = $this->getDBO()->getQuery(true);
+
+	    $pa_ids = (array) $pa_ids;
+	    $filter_id_set = implode("', '", $pa_ids);
+
+	    
+	    $query->from( "#__tienda_productattributeoptions AS pao" );
+	    $query->where( "pao.productattribute_id IN ('" . $filter_id_set . "')" );
+
+	    $id_query = clone( $query );
+	    
+	    $query->select( "DISTINCT(productattributeoption_name)" );
+	    $db = $this->getDBO();
+	    $db->setQuery( (string) $query );
+	    //$return = $db->loadColumn();
+	    if ($return = $db->loadObjectList())
+	    {
+	        foreach ($return as $pao)
+	        {
+	            $this_query = clone( $id_query );
+	            $this_query->select("pao.productattributeoption_id");
+	            $this_query->where( "pao.productattributeoption_name = '$pao->productattributeoption_name'" );
+	            $db->setQuery( (string) $this_query );
+	            $pao->productattributeoption_ids = $db->loadColumn();
+	        }
+	    }
+
+	    jimport('joomla.utilities.arrayhelper');
+	    JArrayHelper::sortObjects($return, 'productattributeoption_name');
+	    
+	    return $return;
+	}
+	
+	/**
+	 * Get the list of items. If needed, loads the attributes for each item
+	 *
+	 * @param	boolean	$refresh
+	 * @param	boolean	$getEav
+	 * @param	array	$options; keys: include, exclude; includes or excludes eav attributes from loading. Use their alias
+	 */
+	public function getList($refresh = false, $getEav = true, $options = array())
+	{
+	    $return = parent::getList($refresh);
+	    //FB::log($this->getDBO()->getQuery(), 'productsmodel.query');
 	    return $return;
 	}
 }

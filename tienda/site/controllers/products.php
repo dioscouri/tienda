@@ -21,6 +21,21 @@ class TiendaControllerProducts extends TiendaController
         parent::__construct( );
 
         $this->set( 'suffix', 'products' );
+        $this->itemid = JRequest::getInt('Itemid');
+    }
+    
+    /**
+     * Gets the view's namespace for state variables.
+     * Overriding here in order to make namespace specific to Itemid
+     * 
+     * @return string
+     */
+    function getNamespace()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $this->get('suffix') );
+        $ns = $app->getName().'::'.'com.'.$this->get('com').'.model.'.$model->getTable()->get('_suffix').".".$this->itemid;
+        return $ns;
     }
 
     /**
@@ -67,16 +82,31 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_manufacturer_set'] = $app->getUserStateFromRequest( $ns . 'manufacturer_set', 'filter_manufacturer_set', '', '' );
         $state['filter_attributeoptionname'] = $app->getUserStateFromRequest( $ns . 'attributeoptionname', 'filter_attributeoptionname', array( ), 'array' );
         $state['filter_rating'] = $app->getUserStateFromRequest( $ns . 'rating', 'filter_rating', '', '' );
-
         $state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
         $state['filter_dir'] = $app->getUserStateFromRequest( $ns . 'dir', 'filter_dir', 'asc', '' );
-
+        
         // search filters reset
         $state['filter'] = '';
         $state['filter_name'] = '';
         $state['filter_namedescription'] = '';
         $state['filter_sku'] = '';
         $state['filter_model'] = '';
+        $state['filter_pao_names'] = array();
+        $state['filter_pao_ids'] = array();
+        $state['filter_pao_id_groups'] = array();
+        
+        // resettable filter
+        $state['filter_pao_names'] = $app->getUserStateFromRequest( $ns . 'filter_pao_names', 'filter_pao_names', array(), 'array' );
+        $state['filter_pao_ids'] = $app->getUserStateFromRequest( $ns . 'filter_pao_ids', 'filter_pao_ids', array(), 'array' );
+        $state['filter_pao_id_groups'] = $app->getUserStateFromRequest( $ns . 'filter_pao_id_groups', 'filter_pao_id_groups', array(), 'array' );
+        if (JRequest::getInt('reset') == 1) {
+            $state['filter_pao_names'] = array();
+            $app->setUserState( $ns . 'filter_pao_names', '' );
+            $state['filter_pao_ids'] = array();
+            $app->setUserState( $ns . 'filter_pao_ids', '' );
+            $state['filter_pao_id_groups'] = array();
+            $app->setUserState( $ns . 'filter_pao_id_groups', '' );
+        }
         
         if ( strlen( $state['filter_sortby'] ) && Tienda::getInstance( )->get( 'display_sort_by', '1' ) )
         {
@@ -162,7 +192,7 @@ class TiendaControllerProducts extends TiendaController
         
         $session = JFactory::getSession();
         $app = JFactory::getApplication();
-        $ns = $app->getName().'::'.'com.tienda.products.state';
+        $ns = $app->getName().'::'.'com.tienda.products.state.'.$this->itemid;
         $session->set( $ns, $state );
 
         if ( !$this->defines->get( 'display_out_of_stock' ) )
@@ -335,7 +365,7 @@ class TiendaControllerProducts extends TiendaController
         // if product browsing enabled on detail pages, get surrounding items based on browsing state
         $session = JFactory::getSession();
         $app = JFactory::getApplication();
-        $ns = $app->getName().'::'.'com.tienda.products.state';
+        $ns = $app->getName().'::'.'com.tienda.products.state.'.$this->itemid;
         $session_state = $session->get( $ns );
         
         $surrounding = array();

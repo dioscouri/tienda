@@ -184,3 +184,91 @@ a.img_tooltip span.img_tooltip_left{
 	width:200px;font-size:12px;background-color:#FFFFDD;border:1px solid #DDDDBB;border-collapse:collapse;border-spacing:0;margin-bottom:0px;margin-top:0px;padding:10px;text-align:justify; 
 }
 a.img_tooltip:hover span{display:block;}
+
+/*-------------------------------------------
+    Product Filtering
+-------------------------------------------*/
+.tienda-paofilter-options-container,
+.tienda-paofilters-wrapper {
+    position: relative;
+}
+
+.tienda-paofilter-options-wrapper {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: none;
+    border: 1px solid #cccccc;
+    padding: 15px;
+}
+
+.tienda-paofilter-buttons,
+.tienda-paofilters,
+.tienda-paofilter-options {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tienda-paofilters li {
+    float: left;
+    border: 1px solid #cccccc;
+    padding: 5px;
+    margin-right: 1px;
+}
+
+.tienda-paofilters .tienda-reset-filters {
+    border: none;
+}
+
+.tienda-paofilter-options-container {
+    margin-bottom: 10px;
+    margin-top: 1px;
+    padding-right: 20px;
+}
+
+.tienda-paofilter-buttons {
+    float: right;
+}
+
+.tienda-paofilter-buttons li {
+    float: left;
+}
+
+.tienda-paofilter-options {
+    margin-bottom: 10px;
+} 
+
+.tienda-paofilter-options li {
+    float: left;
+}
+
+.tienda-paofilter-option {
+    width: 25%;
+    padding-left: 22px;
+    cursor: pointer;
+}
+
+.show-all a,
+.tienda-paofilter {
+    cursor: pointer;
+}
+
+.tienda-paofilter-option.selected {
+    background-image: url('../images/tick.png');
+    background-repeat: no-repeat;
+}
+
+#paofilters-form {
+    margin: 0px;
+    padding: 0px;
+    height: 0px;
+}
+
+.tienda-paofilter {
+    display: block;
+}
+
+.tienda-paofilter ul {
+    display: inline-block;
+}
