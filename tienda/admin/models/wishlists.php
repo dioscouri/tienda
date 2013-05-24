@@ -350,4 +350,20 @@ class TiendaModelWishlists extends TiendaModelEav
 	    }
 	    
 	}
+	
+	public function getButtonLists($user_id)
+	{
+	    $this->emptyState();
+	    $this->setState('filter_user', $user_id );
+	    $this->setState('order', 'tbl.default' );
+	    $this->setState('direction', 'DESC');
+	
+	    $list = $this->getList();
+	
+	    if (!count($list)) {
+	        $list = array();
+	    }
+	
+	    return $list;
+	}
 }

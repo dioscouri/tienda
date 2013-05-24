@@ -71,6 +71,13 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
         $state['filter_dir'] = $app->getUserStateFromRequest( $ns . 'dir', 'filter_dir', 'asc', '' );
 
+        // search filters reset
+        $state['filter'] = '';
+        $state['filter_name'] = '';
+        $state['filter_namedescription'] = '';
+        $state['filter_sku'] = '';
+        $state['filter_model'] = '';
+        
         if ( strlen( $state['filter_sortby'] ) && Tienda::getInstance( )->get( 'display_sort_by', '1' ) )
         {
             $state['order'] = $state['filter_sortby'];
