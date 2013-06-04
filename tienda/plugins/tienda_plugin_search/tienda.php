@@ -77,20 +77,6 @@ class plgSearchTienda extends JPlugin
 		return $areas;
 	}
 
-	 function onSearchAreas()
-    {
-        if (!$this->_isInstalled())
-        {
-            // TODO Find out if this should return null or array
-            return null;
-        }
-        
-        $areas = 
-            array(
-                'tienda' => $this->params->get('title', "Tienda")
-            );
-        return $areas;
-    }
 	/**
 	* Contacts Search method
 	*
