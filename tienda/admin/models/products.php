@@ -662,8 +662,9 @@ class TiendaModelProducts extends TiendaModelEav
 	                {
 	                    if ($categories = $this->getCategories( $id ))
 	                    {
+	                        $count = count($categories);
 	                        $cat_model = Tienda::getClass('TiendaModelCategories', 'models.categories');
-	                        for ($i=0; !$return; $i++)
+	                        for ($i=0; !$return && $i < $count; $i++)
 	                        {
 	                            $category = $categories[$i];
 	                            if ($cat_itemid = $cat_model->getItemid( $category->category_id, null, true )) {

@@ -374,7 +374,7 @@ class TiendaControllerProducts extends TiendaController
         {
             $products_model = $this->getModel( $this->get( 'suffix' ) );
             $products_model->emptyState();
-            foreach ($session_state as $key => $value )
+            foreach ((array)$session_state as $key => $value )
             {
                 $products_model->setState( $key, $value );
             }
