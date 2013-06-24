@@ -214,7 +214,20 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         <form action="<?php echo JRoute::_( @$form['action']."&limitstart=".@$state->limitstart )?>" method="post" name="adminForm" enctype="multipart/form-data">        
         <div id="products_footer" class="pagination">
             <div id="results_counter"><?php echo $this->pagination->getResultsCounter(); ?></div>
-            <?php echo $this->pagination->getListFooter(); ?>
+            <?php if ($this->defines->get('disable_changing_list_limit')) { ?>
+                <?php 
+
+                    $html = "<div class=\"list-footer\">\n";
+                    $html .= $this->pagination->getPagesLinks();
+                    $html .= "\n<div class=\"counter\">" . $this->pagination->getPagesCounter() . "</div>";
+                    $html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"". $this->pagination->limitstart ."\" />";
+                    $html .= "\n</div>";
+
+                    echo $html;
+                ?>
+            <?php } else { ?>
+                <?php echo $this->pagination->getListFooter(); ?>
+            <?php } ?>
         </div>
         <?php echo $this->form['validate']; ?>
         </form>

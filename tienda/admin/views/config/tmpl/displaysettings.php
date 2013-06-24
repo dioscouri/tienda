@@ -16,6 +16,9 @@
                 <a href="#tab1" data-toggle="tab"><?php echo JText::_('COM_TIENDA_GENERAL_SETTINGS'); ?></a>
             </li>
             <li>
+                <a href="#tab6" data-toggle="tab"><?php echo JText::_('COM_TIENDA_LIST_SETTINGS'); ?></a>
+            </li>
+            <li>
                 <a href="#tab2" data-toggle="tab"><?php echo JText::_('COM_TIENDA_SOCIAL_SETTINGS'); ?></a>
             </li>
             <li>
@@ -49,6 +52,10 @@
             <div class="tab-pane" id="tab4">
                 <?php $this->setLayout( 'displaysettings_advanced' ); echo $this->loadTemplate(); ?>
             </div>
+            
+            <div class="tab-pane" id="tab6">
+                <?php $this->setLayout( 'displaysettings_lists' ); echo $this->loadTemplate(); ?>
+            </div>                        
         </div>
     </div>
     

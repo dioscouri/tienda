@@ -251,7 +251,8 @@ class Tienda extends DSC
 	public $default_category_layout = '';
 	public $default_product_layout = '';
 	public $enable_product_detail_nav = '';
-	
+	public $disable_changing_list_limit = '';
+	public $default_list_limit = '';	
 
 	public static function getGuestIdStart()
 	{

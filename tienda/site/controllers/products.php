@@ -55,6 +55,13 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_group'] = TiendaHelperUser::getUserGroup( $user_id );
 
         $date = JFactory::getDate( );
+        
+        if ($this->defines->get('disable_changing_list_limit')) {
+            $state['limit']  	= $this->defines->get('default_list_limit') ? $this->defines->get('default_list_limit') : $app->getCfg('list_limit');
+        } else {
+            $state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $this->defines->get('default_list_limit', $app->getCfg('list_limit')), 'int');
+        }
+        
         $state['order'] = 'tbl.ordering';
         $state['direction'] = 'ASC';
         $state['filter_published'] = 1;
@@ -432,6 +439,11 @@ class TiendaControllerProducts extends TiendaController
         $view->product_requirements = $this->getRelationshipsHtml( $view, $row->product_id, 'requires' );
         $view->product_description = $product_description;
         $view->setModel( $model, true );
+        
+        // we know the product, set the meta info
+        $doc = JFactory::getDocument();
+        $doc->setTitle( str_replace( array("&apos;", "&amp;"), array("'", "&"), htmlspecialchars_decode( $row->product_name ) ) );
+        $doc->setDescription( htmlspecialchars_decode( $product_description ) );
 
         // add the media/templates folder as a valid path for templates
         $view->addTemplatePath( Tienda::getPath( 'products_templates' ) );
