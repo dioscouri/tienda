@@ -808,6 +808,18 @@ class TiendaHelperProduct extends TiendaHelperBase
                 $model = Tienda::getClass('TiendaModelProducts', 'models.products');
                 $item = $model->getItem((int)$id);
                 $full_image = !empty($item->product_full_image) ? $item->product_full_image : null;
+                $thumb_image = !empty($item->product_thumb_image) ? $item->product_thumb_image : $full_image;
+                
+                switch ( $type )
+                {
+                    case "full":
+                        $image_ref = $full_image;
+                        break;
+                    case "thumb":
+                    default:
+                        $image_ref = $thumb_image;
+                        break;
+                }
                 
                 if (filter_var($full_image, FILTER_VALIDATE_URL) !== false) {
                     // $full_image contains a valid URL
@@ -837,9 +849,20 @@ class TiendaHelperProduct extends TiendaHelperBase
                     $dispatcher = JDispatcher::getInstance();
                     $dispatcher->trigger('onGetProductMainImage', array( $row->product_id, &$full_image, $options ) );
                 }
-                $file = $dir . DS . $full_image;
-
-                $id = $urli . $full_image;
+                
+                $dirname = dirname($image_ref);
+                if (!empty($dirname) && $dirname !== ".")
+                {
+                    $dir = JPath::clean( JPATH_SITE . "/" . dirname($image_ref) );
+                    $urli = JURI::root(true) . '/' . dirname($image_ref) . '/';
+                    $file = JPath::clean( JPATH_SITE . "/" . $image_ref );
+                    $id = JURI::root(true) . '/' . $image_ref;
+                }
+                else
+                {
+                    $file = $dir . DS . $image_ref;
+                    $id = $urli . $image_ref;
+                }
 
                 // Gotta do some resizing first?
                 if ( $resize )

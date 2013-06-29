@@ -15,7 +15,16 @@ $multiupload_script = $this->defines->get( 'multiupload_script', 0 );
             <td class="dsc-value">
                 <input name="product_full_image" id="product_full_image" value="<?php echo @$row->product_full_image; ?>" type="text" class="input-xxlarge" />
             </td>
-        </tr>    
+        </tr>
+        <tr>
+            <th class="dsc-key">
+                <?php echo JText::_('COM_TIENDA_PRIMARY_IMAGE_THUMB'); ?>:
+            </th>
+            <td class="dsc-value">
+                <p class="dsc-clear dsc-tip"><?php echo JText::_('COM_TIENDA_PRIMARY_IMAGE_THUMB_TIP'); ?></p>
+                <?php $media = new DSCElementMedia(array('readonly'=>false, 'class'=>'input-xxlarge')); ?> <?php echo $media->fetchElement( 'product_thumb_image', @$row->product_thumb_image ); ?>
+            </td>
+        </tr>
         <tr>
             <th class="dsc-key">
                 <?php echo JText::_('COM_TIENDA_UPLOAD_NEW_IMAGES'); ?>

@@ -65,6 +65,7 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	    $functions[] = 'checkOrderHistoryID';
 	    //$functions[] = 'createTableEAVValuesTime'; // NO NEW FEATURES YET
 	    $functions[] = 'checkProductClassSuffix';
+	    $functions[] = 'checkProductThumbImage';
 	    
 	    foreach ($functions as $function)
 	    {
@@ -3806,6 +3807,28 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	        return true;
 	    }
 	    return false;
-	}	
+	}
+
+	private function checkProductThumbImage()
+	{
+	    if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
+	    {
+	        return true;
+	    }
+	
+	    $table = '#__tienda_products';
+	    $definitions = array();
+	    $fields = array();
+	
+	    $fields[] = "product_thumb_image";
+	    $definitions["product_thumb_image"] = "varchar(255) NULL";
+	
+	    if ($this->insertTableFields( $table, $fields, $definitions ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}
 }
 
