@@ -183,6 +183,18 @@ class TiendaHelperProduct extends TiendaHelperBase
             $helper = TiendaHelperBase::getInstance( 'Product' );
         }
         $product = $helper->load( ( int ) $product_id );
+        
+        // set the default
+        $defines = Tienda::getInstance();
+        $default_product_layout = $defines->get('default_product_layout');
+        if ($default_product_layout) {
+            // set default = the selected default if it still exists
+            if (JFile::exists(sprintf($templatePath, $default_product_layout)) ||
+                    JFile::exists( sprintf($mediaPath, $default_product_layout) )
+            ) {
+                $layout = $default_product_layout;
+            }
+        }
 
         // if the product->product_layout file exists in the template, use it
         if ( !empty( $product->product_layout )
