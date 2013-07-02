@@ -250,6 +250,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 		$view->setTask(true);
 		$view->assign('orderSummary', $this->getOrderSummary($order));
+		$view->assign('user_type', $session->get( 'user_type', 'anonymous', 'tienda_pos' ));
 		$view->assign('subtask', $subtask);
 
 	}

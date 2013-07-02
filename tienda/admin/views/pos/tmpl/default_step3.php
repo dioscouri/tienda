@@ -103,6 +103,7 @@
 				<h3>
             		<?php echo JText::_('COM_TIENDA_SELECT_SHIPPING_AND_BILLING_ADDRESS') ?>
         		</h3>
+        		<?php if( $this->user_type == 'existing' ) : ?>
         		 <div class='well well-small note'>
 	                <?php $text = JText::_('COM_TIENDA_MANAGE_USERS_STORED_ADDRESSES')."."; ?>
 	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=pos&task=addresses&tmpl=component", $text, array('update' => true) );  ?>
