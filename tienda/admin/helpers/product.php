@@ -70,7 +70,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $template = $app->getTemplate( );
         }
-        $folder = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html/com_tienda/products';
+        $folder = JPATH_SITE . '/templates/' . $template . '/html/com_tienda/products';
 
         if ( JFolder::exists( $folder ) )
         {
@@ -94,7 +94,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         // now do the tienda folder
-        $folder = JPATH_SITE . DS . 'components/com_tienda/views/products/tmpl';
+        $folder = JPATH_SITE . '/components/com_tienda/views/products/tmpl';
 
         if ( JFolder::exists( $folder ) )
         {
@@ -170,9 +170,9 @@ class TiendaHelperProduct extends TiendaHelperBase
             $template = $app->getTemplate( );
         }
 
-        $templatePath = JPATH_SITE . DS . 'templates' . DS . $template . DS . 'html/com_tienda/products/%s' . '.php';
-        $extensionPath = JPATH_SITE . DS . 'components/com_tienda/views/products/tmpl/%s' . '.php';
-        $mediaPath = Tienda::getPath( 'products_templates' ) . DS . '%s' . '.php';
+        $templatePath = JPATH_SITE . '/templates/' . $template . '/html/com_tienda/products/%s' . '.php';
+        $extensionPath = JPATH_SITE . '/components/com_tienda/views/products/tmpl/%s' . '.php';
+        $mediaPath = Tienda::getPath( 'products_templates' ) . '/' . '%s' . '.php';
 
         if ( isset( $this ) && is_a( $this, 'TiendaHelperProduct' ) )
         {
@@ -285,9 +285,9 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     public static function getUriFromPath( $path )
     {
-        $path = str_replace( JPATH_SITE . DS, JURI::root( ), $path );
+        $path = str_replace( JPATH_SITE . '/', JURI::root( ), $path );
         $path = str_replace( JPATH_SITE . "/", JURI::root( ), $path );
-        $path = str_replace( DS, '/', $path );
+        $path = str_replace( '/', '/', $path );
         return $path;
     }
 
@@ -315,10 +315,10 @@ class TiendaHelperProduct extends TiendaHelperBase
         $dir = Tienda::getPath( 'products_images' );
 
         // merge the SKU-based dir if it exists and isn't the current path
-        if ( !empty( $row->product_sku ) && $this->checkDirectory( $dir . DS . $row->product_sku, false )
-                && ( $dir . DS . $row->product_sku . DS != $path ) )
+        if ( !empty( $row->product_sku ) && $this->checkDirectory( $dir . '/' . $row->product_sku, false )
+                && ( $dir . '/' . $row->product_sku . '/' != $path ) )
         {
-            $old_dir = $dir . DS . $row->product_sku . DS;
+            $old_dir = $dir . '/' . $row->product_sku . '/';
             	
             $files = JFolder::files( $old_dir );
             foreach ( $files as $file )
@@ -336,7 +336,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                         $imgHelper->resizeImage( $img );
 
                         // delete old thumb
-                        JFile::delete( $old_dir . 'thumbs' . DS . $file );
+                        JFile::delete( $old_dir . 'thumbs/' . $file );
 
                         $file_moved = true;
                     }
@@ -355,10 +355,10 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $subdirs = TiendaHelperProduct::getSha1Subfolders( $row->product_sku );
             // merge the SKU-based SHA1 dir if it exists and isn't the current path
-            if ( !empty( $row->product_sku ) && $this->checkDirectory( $dir . DS . $subdirs . $row->product_sku, false )
-                    && ( $dir . DS . $subdirs . $row->product_sku . DS != $path ) )
+            if ( !empty( $row->product_sku ) && $this->checkDirectory( $dir . '/' . $subdirs . $row->product_sku, false )
+                    && ( $dir . '/' . $subdirs . $row->product_sku . '/' != $path ) )
             {
-                $old_dir = $dir . DS . $subdirs . $row->product_sku . DS;
+                $old_dir = $dir . '/' . $subdirs . $row->product_sku . '/';
 
                 $files = JFolder::files( $old_dir );
                 foreach ( $files as $file )
@@ -376,7 +376,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                             $imgHelper->resizeImage( $img );
                             	
                             // delete old thumb
-                            JFile::delete( $old_dir . 'thumbs' . DS . $file );
+                            JFile::delete( $old_dir . 'thumbs' . '/' . $file );
                             	
                             $file_moved = true;
                         }
@@ -394,9 +394,9 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         // merge the ID-based dir if it exists and isn't the current path
-        if ( $this->checkDirectory( $dir . DS . $row->product_id, false ) && ( $dir . DS . $row->product_id . DS != $path ) )
+        if ( $this->checkDirectory( $dir . '/' . $row->product_id, false ) && ( $dir . '/' . $row->product_id . '/' != $path ) )
         {
-            $old_dir = $dir . DS . $row->product_id . DS;
+            $old_dir = $dir . '/' . $row->product_id . '/';
             	
             $files = JFolder::files( $old_dir );
             foreach ( $files as $file )
@@ -413,7 +413,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                         $imgHelper = TiendaHelperBase::getInstance( 'Image', 'TiendaHelper' );
                         $imgHelper->resizeImage( $img );
                         // delete old thumb
-                        JFile::delete( $old_dir . 'thumbs' . DS . $file );
+                        JFile::delete( $old_dir . 'thumbs' . '/' . $file );
 
                         $file_moved = true;
                     }
@@ -432,9 +432,9 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $subdirs = TiendaHelperProduct::getSha1Subfolders( $row->product_id );
             // merge the ID-based SHA1 dir if it exists and isn't the current path
-            if ( $this->checkDirectory( $dir . DS . $subdirs . $row->product_id, false ) && ( $dir . DS . $subdirs . $row->product_id . DS != $path ) )
+            if ( $this->checkDirectory( $dir . '/' . $subdirs . $row->product_id, false ) && ( $dir . '/' . $subdirs . $row->product_id . '/' != $path ) )
             {
-                $old_dir = $dir . DS . $subdirs . $row->product_id . DS;
+                $old_dir = $dir . '/' . $subdirs . $row->product_id . '/';
 
                 $files = JFolder::files( $old_dir );
                 foreach ( $files as $file )
@@ -451,7 +451,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                             $imgHelper = TiendaHelperBase::getInstance( 'Image', 'TiendaHelper' );
                             $imgHelper->resizeImage( $img );
                             // delete old thumb
-                            JFile::delete( $old_dir . 'thumbs' . DS . $file );
+                            JFile::delete( $old_dir . 'thumbs/' . $file );
                             	
                             $file_moved = true;
                         }
@@ -637,7 +637,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $urls[$id] = '';
             	
-            JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
             $row = JTable::getInstance( 'Products', 'TiendaTable' );
             $row->load( ( int ) $id, true, false );
             if ( empty( $row->product_id ) )
@@ -673,7 +673,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $paths[$id] = '';
             	
-            JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
             $row = JTable::getInstance( 'Products', 'TiendaTable' );
             $row->load( ( int ) $id, true, false );
             if ( empty( $row->product_id ) )
@@ -700,7 +700,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             // TODO clean SKU so valid characters used for folder name?
             if ( empty( $paths[$id] ) && !empty( $row->product_sku ) )
             {
-                $folder = Tienda::getPath( 'products_files' ) . DS . 'sku' . DS . $row->product_sku;
+                $folder = Tienda::getPath( 'products_files' ) . '/sku/' . $row->product_sku;
                 if ( JFolder::exists( $folder ) )
                 {
                     $files = JFolder::files( $folder );
@@ -714,7 +714,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             // if still unset, use path based on id number
             if ( empty( $paths[$id] ) )
             {
-                $folder = Tienda::getPath( 'products_files' ) . DS . 'id' . DS . $row->product_id;
+                $folder = Tienda::getPath( 'products_files' ) . '/id/' . $row->product_id;
                 if ( !JFolder::exists( $folder ) )
                 {
                     JFolder::create( $folder );
@@ -782,7 +782,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         if ( strpos( $id, '.' ) )
         {
             // then this is a filename, return the full img tag if file exists, otherwise use a default image
-            $src = ( JFile::exists( Tienda::getPath( $path ) . DS . $id ) ) ? Tienda::getUrl( $path ) . $id
+            $src = ( JFile::exists( Tienda::getPath( $path ) . '/' . $id ) ) ? Tienda::getUrl( $path ) . $id
             : JURI::root( true ) . '/media/com_tienda/images/placeholder_239.gif';
             	
             // if url is true, just return the url of the file and not the whole img tag
@@ -860,7 +860,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                 }
                 else
                 {
-                    $file = $dir . DS . $image_ref;
+                    $file = $dir . '/' . $image_ref;
                     $id = $urli . $image_ref;
                 }
 
@@ -961,7 +961,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         if ( empty( $sets[$id] ) )
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
             $model->setState( 'filter_id', $id );
             $sets[$id] = $model->getList( );
@@ -1000,7 +1000,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $product_helper = TiendaHelperBase::getInstance( 'Product' );
             $prices = $product_helper->getPrices( $id );
             	
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
             $model->setState( 'filter_id', $id );
             	
@@ -1065,7 +1065,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             $product_price = $price;
         else
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'Products', 'TiendaModel' );
             Tienda::load( 'TiendaHelperUser', 'helpers.user' );
             $user_id = JFactory::getUser( )->id;
@@ -1121,7 +1121,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         if ( !isset( $sets[$product_id][$geozone_id] ) )
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
             $taxrate = JTable::getInstance( 'TaxRates', 'TiendaTable' );
             $taxrate->tax_rate = "0.00000";
             	
@@ -1172,7 +1172,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         if ( empty( self::$categoriesxref[$id] ) )
         {
             Tienda::load( 'TiendaQuery', 'library.query' );
-            JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
             $table = JTable::getInstance( 'ProductCategories', 'TiendaTable' );
             	
             $query = new TiendaQuery( );
@@ -1200,7 +1200,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return array( );
         }
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
         $model->setState( 'filter_product', $id );
 
@@ -1232,7 +1232,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         if ( empty( $sets[$id] ) )
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
             $model->setState( 'filter_product', $id );
             $model->setState( 'order', 'tbl.ordering' );
@@ -1276,7 +1276,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             return array( );
         }
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $id );
         $items = $model->getList( );
@@ -1358,7 +1358,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         $app = JFactory::getApplication( );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
         $ns = $app->getName( ) . '::' . 'com.tienda.model.' . $model->getTable( )->get( '_suffix' );
         $state = array( );
@@ -1479,7 +1479,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $return = array( );
         $traits = array( );
 
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
 
         // get all productattributes
         $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
@@ -1543,7 +1543,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         $csvs = TiendaHelperProduct::getProductAttributeCSVs( $product_id, $attributeOptionId );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductQuantities', 'TiendaModel' );
         $model->setState( 'filter_productid', $product_id );
         $model->setState( 'filter_vendorid', $vendor_id );
@@ -1581,7 +1581,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         // add new ones
         $existingEntries = TiendaHelperBase::getColumn( $items, 'product_attributes' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         foreach ( $csvs as $csv )
         {
             if ( !in_array( $csv, $existingEntries ) )
@@ -1618,7 +1618,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         if ( empty( $sets[$id] ) )
         {
-            JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
             $table = JTable::getInstance( 'Products', 'TiendaTable' );
             $table->load( ( int ) $id, true, false );
             $sets[$id] = $table;
@@ -1644,7 +1644,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      */
     function relationshipExists( $product_from, $product_to, $relation_type = 'relates' )
     {
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         $table = JTable::getInstance( 'ProductRelations', 'TiendaTable' );
         $keys = array(
                 'product_id_from' => $product_from, 'product_id_to' => $product_to, 'relation_type' => $relation_type,
@@ -1681,7 +1681,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     public function getProductQuantities( $id )
     {
         Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 
         $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
         $query = new TiendaQuery( );
@@ -1717,7 +1717,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     function getAvailableQuantity( $id, $attribute )
     {
         Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 
         $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
         $tableProduct = JTable::getInstance( 'Products', 'TiendaTable' );
@@ -1773,10 +1773,10 @@ class TiendaHelperProduct extends TiendaHelperBase
     {
         //Check the registry to see if our Tienda class has been overridden
         if ( !class_exists( 'Tienda' ) ) JLoader::register( "Tienda",
-                JPATH_ADMINISTRATOR . DS . "components" . DS . "com_tienda" . DS . "defines.php" );
+                JPATH_ADMINISTRATOR . "/components/com_tienda/defines.php" );
         // load the config class
         Tienda::load( 'Tienda', 'defines' );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         // get the model
         $model = JModel::getInstance( 'OrderItems', 'TiendaModel' );
         $user = JFactory::getUser( );
@@ -1800,7 +1800,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             return array( );
         }
         Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         $table = JTable::getInstance( 'productcomments', 'TiendaTable' );
 
         $query = new TiendaQuery( );
@@ -1878,7 +1878,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     public function getProductQuantitiesObjects( $id )
     {
         Tienda::load( 'TiendaQuery', 'library.query' );
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 
         $tableQuantity = JTable::getInstance( 'ProductQuantities', 'TiendaTable' );
         $query = new TiendaQuery( );
@@ -1907,7 +1907,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             return array( );
         }
 
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
         $model->setState( 'filter_attribute', $id );
         $model->setState( 'order', 'tbl.ordering' );
@@ -1926,7 +1926,7 @@ class TiendaHelperProduct extends TiendaHelperBase
     {
         $success = true;
 
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductComments', 'TiendaModel' );
         $model->setState( 'filter_enabled', '1' );
         $model->setState( 'select', 'tbl.product_id' );
@@ -2134,7 +2134,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $default = array( );
         foreach ( @$attributes as $attribute )
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components/com_tienda/models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
             $model->setState( 'filter_attribute', $attribute->productattribute_id );
             $model->setState( 'order', 'tbl.ordering' );
@@ -2192,8 +2192,8 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         }
         // This enable this helper method to be used outside of tienda
-        $view->addTemplatePath( JPATH_SITE . DS . 'components/com_tienda/views/products/tmpl' );
-        $view->addTemplatePath( JPATH_SITE . DS . 'templates' . DS . JFactory::getApplication('site')->getTemplate() . DS . 'html/com_tienda/products' . DS );
+        $view->addTemplatePath( JPATH_SITE . '/components/com_tienda/views/products/tmpl' );
+        $view->addTemplatePath( JPATH_SITE . '/templates/' . JFactory::getApplication('site')->getTemplate() . '/html/com_tienda/products/' );
         // add extra templates
         $view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
         $view->set( '_controller', 'products' );

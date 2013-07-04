@@ -425,8 +425,14 @@ class TiendaHelperOrder extends TiendaHelperBase
 		{
 			// finds the default Site template
 			$db = JFactory::getDBO();
-			$query = "SELECT template FROM #__templates_menu WHERE `client_id` = '0' AND `menuid` = '0';";
-			$db->setQuery( $query );
+            if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                // Joomla! 1.6+ code here
+                $db -> setQuery("SELECT `template` FROM #__template_styles WHERE `home` = '1' AND `client_id` = '0';");
+            } else {
+                // Joomla! 1.5 code here
+                $db -> setQuery("SELECT `template` FROM #__templates_menu WHERE `menuid` = '0' AND `client_id` = '0';");
+            }
+			
 			$template = $db->loadResult();
 
 			jimport('joomla.filesystem.file');

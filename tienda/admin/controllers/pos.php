@@ -29,6 +29,7 @@ class TiendaControllerPOS extends TiendaController
 		$this->registerTask( 'flag_billing', 'flag' );
 		$this->registerTask( 'flag_shipping', 'flag' );
 		$this->registerTask( 'flag_deleted', 'flag' );
+		$this->registerTask( 'deleterequests', 'deleteRequests' );
 	}
 	
 	function display($cachable=false, $urlparams = false)
@@ -367,6 +368,19 @@ class TiendaControllerPOS extends TiendaController
 		$view->assign('shipping_method_name',$shippingMethodName);
 		$view->assign('showShipping', $showShipping );		
 		$view->assign('step1_inactive', $this->step1Inactive());	
+		
+		// create POS request record
+		$pos_tbl = JTable::getInstance( "PosRequests", "TiendaTable" );
+		$pos_tbl->load( array( 'user_id' => $userid, 'order_id' => $order->order_id, 'mode' => 1 ) );
+		$pos_tbl->order_id = $order->order_id;
+		$pos_tbl->user_id = $userid;
+		$pos_tbl->mode = 1; // mode 1 => back-end
+		$pos_tbl->data = base64_encode(@json_encode($values));
+		$pos_tbl->save(); // generate pos_id
+		$pos_tbl->save(); // save the final token (with pos_id -> that's why we need to save it twice)
+		$values['pos_id'] = $pos_tbl->pos_id;
+		$values['pos_token'] = $pos_tbl->token;
+		
 		$view->assign('values', $values);
 		//calculate the order totals as we already have the shipping
 		$order->calculateTotals();
@@ -380,14 +394,25 @@ class TiendaControllerPOS extends TiendaController
 	}
 
 	function doStep5($post)
-	{		
-		$data = JRequest::getVar('data');
-		$data = json_decode(base64_decode($data));		
+	{
+       //do some security check?
+        $pos_id = JRequest::getInt( 'pos_id', 0);
+		$token = JRequest::getCmd( 'pos_token', '' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$tbl_pos = JTable::getInstance( 'PosRequests', 'TiendaTable' );
+		if( !$tbl_pos->load( array( 'pos_id' => $pos_id, 'user_id' => 0, 'order_id' => 0, 'mode' => 2, 'token' => $token ) ) )
+		{
+			// no POS data with this description were found
+			JError::raiseNotice('COM_TIENDA_RESTRICTED_ACCESS', $this->getError());
+			return false;
+		}
+
+		$data = json_decode(base64_decode($tbl_pos->data));
 		if(is_object($data)) $data = get_object_vars($data);
 		$values = JRequest::get('get');
 		$values = array_merge($data, $values);
 		
-		$order_id = JRequest::getInt('order_id');	
+		$order_id = $values['order_id'];
 		$session = JFactory::getSession();
 		$orderpayment_type = JRequest::getVar('orderpayment_type', $session->get('payment_plugin', '', 'tienda_pos'));
 			
@@ -427,7 +452,7 @@ class TiendaControllerPOS extends TiendaController
 			TiendaHelperOrder::setOrderPaymentReceived( $order_id );
 		}
 		else
-		{				
+		{							
 			// get the payment results from the payment plugin
 			$results = $dispatcher->trigger( "onPostPayment", array( $orderpayment_type, $values ) );
 
@@ -468,7 +493,10 @@ class TiendaControllerPOS extends TiendaController
 			        break;
 			}		
 		}	
+		$view->setTask(true);
 		$view->assign( 'articles', $articles );			
+		$view->assign('orderSummary', $this->getOrderSummary($order));
+		$view->assign('step1_inactive', $this->step1Inactive());	
 	}
 
 	function saveStep2()
@@ -3165,4 +3193,23 @@ class TiendaControllerPOS extends TiendaController
 
 		return $articles;
 	}    
+	
+	function deleteRequests()
+	{
+		$hours = Tienda::getInstance()->get('pos_request_clean_hours', 24);
+		Tienda::getClass('TiendaQuery', 'library.query');
+		$q = new TiendaQuery();
+		$q->delete();
+		$q->from( '#__tienda_posrequests' );
+		$q->where( 'created_date < (NOW() - INTERVAL '.$hours.' HOUR)' );
+		$db = JFactory::getDbo();
+		$db->setQuery( $q );
+		if( $db->query() ) {
+			$rec = $db->getAffectedRows();
+			$this->setMessage( JText::sprintf('COM_TIENDA_POS_REQUESTS_DELETED_SUCCESS', $rec) );
+		} else {
+			$this->setMessage( JText::_('COM_TIENDA_POS_REQUESTS_DELETED_FAILED', 'error') );
+		}
+		$this->setRedirect( 'index.php?option=com_tienda&view=config&task=orders' );
+	}
 }

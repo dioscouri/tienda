@@ -34,5 +34,21 @@
             <td><?php echo JText::_('COM_TIENDA_ORDER_NUMBER_PREFIX_DESC'); ?>
             </td>
         </tr>
+        <tr>
+            <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_POS_CLEAN_REQUESTS_HOURS'); ?>
+            </th>
+            <td><input type="text" name="pos_request_clean_hours" value="<?php echo $this -> row -> get('pos_request_clean_hours', 24); ?>" class="inputbox" size="10" />
+            </td>
+            <td><?php echo JText::_('COM_TIENDA_POS_CLEAN_REQUESTS_HOURS_DESC'); ?>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 25%;"><?php echo JText::_('COM_TIENDA_POS_CLEAN_REQUESTS'); ?>
+            </th>
+            <td><a href="<?php echo JRoute::_('index.php?option=com_tienda&view=pos&task=deleterequests'); ?>" class="btn"><?php echo JText::_('COM_TIENDA_POS_CLEAN_REQUESTS_CLICK'); ?></a>
+            </td>
+            <td><?php echo JText::_('COM_TIENDA_POS_CLEAN_REQUESTS_DESC'); ?>
+            </td>
+        </tr>        
     </tbody>
 </table>

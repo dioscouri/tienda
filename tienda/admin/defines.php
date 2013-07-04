@@ -253,6 +253,9 @@ class Tienda extends DSC
 	public $enable_product_detail_nav = '';
 	public $disable_changing_list_limit = '';
 	public $default_list_limit = '';	
+	
+	// since 0.10.2
+	public $pos_request_clean_hours = '24';
 
 	public static function getGuestIdStart()
 	{

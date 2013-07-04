@@ -132,7 +132,8 @@
 				$link .= 'index.php?option=com_tienda&amp;controller=checkout&amp;task=poscheckout';
 				$link .= '&amp;orderid=' . $this->order->order_id;
 				$link .= '&amp;userid='.$this->session->get('user_id', '', 'tienda_pos');			
-				$link .= '&amp;data='.base64_encode(@json_encode($this->values));
+				$link .= '&amp;posid='.$this->values['pos_id'];
+				$link .= '&amp;token='.$this->values['pos_token'];
 				$link .= '&amp;tmpl=component';
 				?>
 				<a id="modalWindowPayment" rel="{handler:'iframe',size:{x: window.innerWidth-400, y: window.innerHeight-200}, onShow:$('sbox-window').setStyles({'padding': 0})}" href="<?php echo $link;?>" class="modal">

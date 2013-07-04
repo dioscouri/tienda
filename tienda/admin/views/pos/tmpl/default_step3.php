@@ -109,6 +109,7 @@
 	                <?php echo TiendaUrl::popup( "index.php?option=com_tienda&view=pos&task=addresses&tmpl=component", $text, array('update' => true) );  ?>
                     <?php echo JText::_('COM_TIENDA_USERS_STORED_ADDRESSES_NOTE'); ?>
                 </div>
+                <?php endif; ?>
 				<div class="reset"></div>
 				<div style="float: left;">
 					<h4 id='billing_address_header' class="address_header">

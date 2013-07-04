@@ -42,6 +42,7 @@ class TiendaControllerCheckout extends TiendaController
         $task = JRequest::getVar('task');
         if (empty($items) && $task != 'confirmPayment' && $task != 'poscheckout' )
         {
+        	
             JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_('COM_TIENDA_YOUR_CART_IS_EMPTY') );
             return;
         }
@@ -54,8 +55,9 @@ class TiendaControllerCheckout extends TiendaController
         $uri = JFactory::getURI();
         $view = JRequest::getVar('view');
         // For now, make this redirect only when the Standard layout is chosen.  Remove this when the new OPC MVC handles all layouts 
-        if ($this->onepage_checkout && $this->one_page_checkout_layout == 'standard' && $view != 'opc') 
-        {
+        // also, do not make this redirect, if POS checkout is in work
+        if ($this->onepage_checkout && $this->one_page_checkout_layout == 'standard' && $view != 'opc' && $task != 'poscheckout') 
+        {	
             $method = JRequest::getMethod();
             if ($method == 'POST')
             {
@@ -2574,18 +2576,32 @@ class TiendaControllerCheckout extends TiendaController
         $order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
 
         $pos_order = $mainframe->getUserState( 'tienda.pos_order' );
+        $order = $this->_order;
+        $order->load( array('order_id'=>$order_id) );
 
         //redirect to the backend since we are doing pos order
         if($pos_order)
         {
+			// create POS request record
+			JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+			$pos_tbl = JTable::getInstance( "PosRequests", "TiendaTable" );
+			$pos_tbl->order_id = 0;
+			$pos_tbl->user_id = 0;
+			$pos_tbl->mode = 2; // mode 2 => front-end
+			$pos_tbl->data = base64_encode(@json_encode($values));
+			$pos_tbl->save(); // generate pos_id and time
+			$pos_tbl->save(); // save the final token (with pos_id -> that's why we need to save it twice)
+        	
             // build URL for POS
             $uri	 = JURI::getInstance();
             $uriA = JRequest::get('get');
             $uriA['view'] = 'pos';
             $uriA['task'] = 'display';
             $uriA['subtask'] = 'confirmPayment';
-            $uriA['data'] = base64_encode(@json_encode($values));
+			$uriA['pos_id'] = $pos_tbl->pos_id;
+			$uriA['pos_token'] = $pos_tbl->token;
             $uriA['order_id'] = $order_id;
+			$uriA['user_id'] = $order->user_id;
             $uriA['nextstep'] = 'step5';
             $uriA['Itemid'] = null;
             $pos_link = $uri->buildQuery(array_filter($uriA));
@@ -2594,8 +2610,6 @@ class TiendaControllerCheckout extends TiendaController
 
         $dispatcher = JDispatcher::getInstance();
         $html = "";
-        $order = $this->_order;
-        $order->load( array('order_id'=>$order_id) );
         if( !empty( $order->order_hash ) )
             $order_link .= '&h='.$order->order_hash;
 
@@ -2629,6 +2643,7 @@ class TiendaControllerCheckout extends TiendaController
             // re-load the order in case the payment plugin updated it
             $order->load( array('order_id'=>$order_id) );
         }
+
 
         // $order_id would be empty on posts back from Paypal, for example
         if (!empty($order_id))
@@ -4034,15 +4049,33 @@ class TiendaControllerCheckout extends TiendaController
             return;
         }
 
+        //do some security check?
+        $pos_id = JRequest::getInt( 'posid', 0);
+        $user_id= JRequest::getInt('userid', 0);
+		$order_id = JRequest::getInt('orderid', 0);
+		$token = JRequest::getCmd( 'token', '' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
+		$tbl_pos = JTable::getInstance( 'PosRequests', 'TiendaTable' );
+		if( !$tbl_pos->load( array( 'pos_id' => $pos_id, 'user_id' => $user_id, 'order_id' => $order_id, 'mode' => 1 ) ) )
+		{
+			// no POS data with this description were found
+            JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_('COM_TIENDA_RESTRICTED_ACCESS') );
+            return;			
+		}
+		// now we check the token
+		if( $token != $tbl_pos->token )
+		{
+			// the tokens do not match
+            JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_('COM_TIENDA_RESTRICTED_ACCESS') );
+            return;					
+		}
+
         //set to session to know that we are doing POS order
         JFactory::getApplication()->setUserState( 'tienda.pos_order', true );
 
-        $values = JRequest::getVar('data');
-        $values = json_decode(base64_decode($values));
+        $values = json_decode(base64_decode($tbl_pos->data));
         if(is_object($values)) $values = get_object_vars($values);
 
-        //TODO: do some security check?
-        $user_id= JRequest::getInt('userid');
         $this->pos_order = new JObject();
         $this->pos_order->user = JFactory::getUser($user_id);
         $this->pos_order->order_id = $values['order_id'];
@@ -4054,7 +4087,6 @@ class TiendaControllerCheckout extends TiendaController
         $view->set( '_doTask', true);
         $view->set( 'hidemenu', true);
 
-        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
         $order = JTable::getInstance('Orders', 'TiendaTable');
         $order->load( array('order_id' => $this->pos_order->order_id));
         $items = $order->getItems();

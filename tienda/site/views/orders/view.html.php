@@ -79,13 +79,28 @@ class TiendaViewOrders extends TiendaViewBase
      * 
      * @return Content of a layout with taxes
      */
-		function displayTaxes( $tpl = null )
-		{
-			$tmpl = 'cart_taxes';
-			if( $tpl !== null )
-				$tmpl = $tpl;
-			$this->setLayout( $tmpl );
-			
-			return $this->loadTemplate( null );
-		}
+	function displayTaxes( $tpl = null )
+	{
+		$tmpl = 'cart_taxes';
+		if( $tpl !== null )
+			$tmpl = $tpl;
+		$this->setLayout( $tmpl );
+		
+		return $this->loadTemplate( null );
+	}
+
+
+	/*
+	 * To hide useless buttons from POS back-end
+	 */
+	function _formToolbar($isNew = null) 
+	{
+	}
+	
+	/*
+	 * To hide useless buttons from POS back-end
+	 */
+	function _defaultToolbar($isNew = null) 
+	{
+	}
 }
