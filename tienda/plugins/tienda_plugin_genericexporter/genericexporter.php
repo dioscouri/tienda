@@ -27,6 +27,9 @@ class plgTiendaGenericExporter extends TiendaPluginBase {
 	}
 
 	function onAfterDisplayAdminComponentTienda() {
+		$view = JRequest::getCmd( 'view' );
+		if( $view == 'pos' )
+			return;
 		$name = 'revert';
 		$url = 'index.php?option=com_tienda&task=doTask&element=genericexporter&elementTask=display';
 
