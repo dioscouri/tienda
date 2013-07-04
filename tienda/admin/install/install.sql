@@ -5829,6 +5829,24 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
+-- -----------------------------------------------------
+-- Table `#__tienda_posrequests`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#__tienda_posrequests` (
+  `pos_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `mode` tinyint(1) NOT NULL,
+  `salt` varchar(12) NOT NULL,
+  `token` varchar(40) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY (`pos_id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -77,6 +77,7 @@ alter table `#__tienda_orderstates` ENGINE=MYISAM;
 alter table `#__tienda_ordertaxclasses` ENGINE=MYISAM;
 alter table `#__tienda_ordertaxrates` ENGINE=MYISAM;
 alter table `#__tienda_ordervendors` ENGINE=MYISAM;
+alter table `#__tienda_posrequests` ENGINE=MYISAM;
 alter table `#__tienda_productattributeoptions` ENGINE=MYISAM;
 alter table `#__tienda_productattributeoptionvalues` ENGINE=MYISAM;
 alter table `#__tienda_productattributes` ENGINE=MYISAM;
