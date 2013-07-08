@@ -106,6 +106,16 @@ Tienda.bindProductGalleryLinks = function() {
     });
 }
 
+Tienda.DisableShippingAddressControls = function(check){
+	var s_table = tiendaJQ("table[data-type='shipping_input'] :input");
+	if( check ) {
+		s_table.attr('disabled', 'true');
+	} else {
+		s_table.removeAttr('disabled');		
+	}
+	
+}
+
 function tiendaUpdateParentDefaultImage(id) {
 	var url = 'index.php?option=com_tienda&view=products&task=updateDefaultImage&protocol=json&product_id=' + id;
 	var form = document.adminForm;

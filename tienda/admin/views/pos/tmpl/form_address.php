@@ -5,11 +5,11 @@
 	
 	switch($this->form_prefix)
 	{
-		case 'shipping_':
+		case 'shipping_input_':
 			$address_type = '2';
 			break;
 		default:
-		case 'billing_':
+		case 'billing_input_':
 			$address_type = '1';
 			break;
 	}
@@ -25,7 +25,7 @@
 ?>
 
 
-	<table class="table table-striped table-bordered" style="clear: both;" data-type="<?php echo $address_type;?>">
+	<table class="table table-striped table-bordered" style="clear: both;" data-type="<?php echo substr( $this->form_prefix, 0, -1);?>">
 		<tbody>
 			<?php if( $elements['address_name'][0] ) :
 				if( $guest ) : ?>

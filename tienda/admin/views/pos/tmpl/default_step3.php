@@ -149,7 +149,7 @@
 					<input type="hidden" id="shipping_input_address_id" name="shipping_input_address_id" value="<?php echo $this->shippingAddress->address_id;?>" />
 					<?php else:?>
 						<?php if($this->showShipping):?>
-							<input type="checkbox" name="sameasbilling" id="sameasbilling">
+							<input type="checkbox" name="sameasbilling" id="sameasbilling" onclick="Tienda.DisableShippingAddressControls(this.checked);">
 							<?php echo JText::_('COM_TIENDA_SAME_AS_BILLING_ADDRESS')?>
 							<?php echo $this->shippingForm;?>
 						<?php endif;?>
