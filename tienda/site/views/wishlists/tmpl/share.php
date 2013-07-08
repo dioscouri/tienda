@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class='componentheading'>
     <span><?php echo JText::_('COM_TIENDA_SHARE_WISHLIST_ITEMS'); ?></span>
