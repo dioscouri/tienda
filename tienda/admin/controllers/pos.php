@@ -2181,7 +2181,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!empty($msg))
 		{		
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);		
+			$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false, false);
 			// encode and echo (need to echo to send back to browser)
 			echo json_encode($response);
 			return;

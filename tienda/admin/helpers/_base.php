@@ -644,12 +644,13 @@ class TiendaHelperBase extends DSCHelper
 	 * @param string message
 	 * @return html message
 	 */
-	function generateMessage($msg, $include_li=true )
+	function generateMessage($msg, $include_li=true, $add_fade = true )
 	{
+		$fade = $add_fade ? ' fade' : '';
 		$html = '
 		<dl id="system-message">
             <dt class="notice">'.JText::_('COM_TIENDA_NOTICE').'</dt>
-            <dd class="notice message fade">
+            <dd class="notice message '.$fade.'">
                 <ul>';
 
 		if ($include_li) {

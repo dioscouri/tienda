@@ -275,6 +275,7 @@ ul#submenu ul.submenu_dropdown li span {
 	color: #0055BB;
 	list-style: none outside none;
 	margin-bottom: 10px;
+	margin-left : 0px;
 	padding: 10px;
 }
 
