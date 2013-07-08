@@ -238,4 +238,14 @@ class TiendaHelperShipping extends TiendaHelperBase
 						
 		return sha1( $hash.$sw );
 	}
+	
+	/*
+	 * Decides, if the field should be validated or not
+	 * The logic behind this is that if we check "sameasbilling" both billing required and shipping required fields
+	 * have to be present in the final address
+	 */
+	public static function shouldBeValidated( $validate_id, $field, $sameasbilling)
+	{
+		return ($field == '3') || ($sameasbilling && $field != '0') || (!$sameasbilling && $field == $validate_id);
+	}
 }

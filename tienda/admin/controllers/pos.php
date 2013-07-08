@@ -812,6 +812,7 @@ class TiendaControllerPOS extends TiendaController
 
 	function validateAddress($values, $type="billing")
 	{
+		Tienda::load('TiendaHelperShipping', 'helpers.shipping');
 		//special case
 		$sameasbilling = !empty($values['_checked']['sameasbilling']) ? true : false;
 		$msg = array();
@@ -819,17 +820,18 @@ class TiendaControllerPOS extends TiendaController
 		switch($type)
 		{
 			case 'shipping':
+				$text = 'Shipping';
 				if($sameasbilling)
 				{
 					$prefix = 'billing_input_';
 					$validate_id = '1';
+					$text = 'Billing';
 				}
 				else
 				{
 					$prefix = 'shipping_input_';
 					$validate_id = '2';
 				}
-				$text = 'Shipping';
 				break;
 			case 'billing':
 			default:
@@ -840,7 +842,7 @@ class TiendaControllerPOS extends TiendaController
 		}		
 		
 		// check if we already have an address id
-		// if found we return a  empty msg
+		// if found we return an empty msg
 		$addressInput = $prefix . 'address_id';
 		if(!empty($values[$addressInput]))
 		{
@@ -861,51 +863,51 @@ class TiendaControllerPOS extends TiendaController
 		$field_zip = $config->get('validate_field_zip');
 		$field_phone = $config->get('validate_field_phone');		
 				
-		if( ($field_title == $validate_id || $field_title == '3')  AND empty($values["{$prefix}title"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_title, $sameasbilling) && empty($values["{$prefix}title"]) )
 		{					
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_TITLE_FIELD_REQUIRED",$text);			
 		}
-		if( ($field_name == $validate_id || $field_name == '3') AND empty($values["{$prefix}first_name"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_name, $sameasbilling) && empty($values["{$prefix}first_name"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_FIRST_NAME_FIELD_REQUIRED", $text);
 		}
-		if( ($field_middle == $validate_id || $field_middle == '3') AND empty($values["{$prefix}middle_name"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_middle, $sameasbilling) && empty($values["{$prefix}middle_name"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_MIDDLE_NAME_FIELD_REQUIRED", $text);
 		}
-		if( ($field_last == $validate_id || $field_last == '3') AND empty($values["{$prefix}last_name"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_last, $sameasbilling) && empty($values["{$prefix}last_name"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_LAST_NAME_FIELD_REQUIRED", $text);
 		}
-		if( ($field_company == $validate_id || $field_company == '3') AND empty($values["{$prefix}company"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_company, $sameasbilling) && empty($values["{$prefix}company"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_COMPANY_FIELD_REQUIRED", $text);
 		}
-		if( ($field_address1 == $validate_id || $field_address1 == '3') AND empty($values["{$prefix}address_1"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_address1, $sameasbilling) && empty($values["{$prefix}address_1"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_ADDRESS_LINE_1_FIELD_REQUIRED", $text);
 		}
-		if( ($field_address2 == $validate_id || $field_address2 == '3') AND empty($values["{$prefix}address_2"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_address2, $sameasbilling) && empty($values["{$prefix}address_2"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_ADDRESS_LINE_2_FIELD_REQUIRED", $text);
 		}
-		if( ($field_city == $validate_id || $field_city == '3') AND empty($values["{$prefix}city"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_city, $sameasbilling) && empty($values["{$prefix}city"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_CITY_FIELD_REQUIRED", $text);
 		}
-		if( ($field_country == $validate_id || $field_country == '3') AND empty($values["{$prefix}country_id"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_country, $sameasbilling) && empty($values["{$prefix}country_id"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_COUNTRY_FIELD_REQUIRED", $text);
 		}
-		if( ($field_zone == $validate_id || $field_zone == '3') AND empty($values["{$prefix}zone_id"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_zone, $sameasbilling) && empty($values["{$prefix}zone_id"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_ZONE_FIELD_REQUIRED", $text);
 		}		
-		if( ($field_zip == $validate_id || $field_zip == '3') AND empty($values["{$prefix}postal_code"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_zip, $sameasbilling) && empty($values["{$prefix}postal_code"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_POSTAL_CODE_FIELD_REQUIRED", $text);
 		}
-		if( ($field_phone == $validate_id || $field_phone == '3') AND empty($values["{$prefix}phone_1"]) )
+		if( TiendaHelperShipping::shouldBeValidated($validate_id, $field_phone, $sameasbilling) && empty($values["{$prefix}phone_1"]) )
 		{			
 			$msg[] = JText::sprintf("COM_TIENDA_ENTRY_PHONE_FIELD_REQUIRED", $text);
 		}
@@ -2161,7 +2163,6 @@ class TiendaControllerPOS extends TiendaController
 
 		// get elements from post
 		$elements = json_decode(preg_replace('/[\n\r]+/', '\n', JRequest::getVar('elements', '', 'post', 'string')));
-		
 
 		// Test if elements are empty
 		// Return proper message to user
@@ -2170,14 +2171,14 @@ class TiendaControllerPOS extends TiendaController
 			// do form validation
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_PARAMETER_VALIDATION_ERROR'));
+			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_PARAMETER_VALIDATION_ERROR'), true, false);
 			echo( json_encode($response));
 			return ;
 		}
 		// convert elements to array that can be binded		
 		$submitted_values = $helper->elementsToArray( $elements );				
 		$msg = $this->validateAddress( $submitted_values, 'shipping');
-		
+
 		if(!empty($msg))
 		{		
 			$response['error'] = '1';
