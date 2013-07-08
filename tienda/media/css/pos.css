@@ -79,3 +79,11 @@ div.product_title {
     width: 20%;
     border-right: 2px solid black;
 }
+
+/* either shipping or billing address table */
+table[data-type] div.dsc-required{
+	display : block;
+	float : right;
+	clear : left;
+	margin-left : 3px;
+}
