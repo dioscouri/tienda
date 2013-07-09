@@ -173,7 +173,7 @@ class TiendaControllerPOS extends TiendaController
 		$view = $this->getView('pos', 'html');
 		$view->assign('step1_inactive', $this->step1Inactive());
 
-		// determin if have item/s that need shippings
+		// determines if have item/s that need shipping
 		Tienda::load("TiendaHelperBase", 'helpers._base');
 		$product_helper = TiendaHelperBase::getInstance('Product');
 
@@ -251,9 +251,10 @@ class TiendaControllerPOS extends TiendaController
 		}
 		$view->setTask(true);
 		$view->assign('orderSummary', $this->getOrderSummary($order));
+		$view->assign('order', $order);
 		$view->assign('user_type', $session->get( 'user_type', 'anonymous', 'tienda_pos' ));
 		$view->assign('subtask', $subtask);
-
+		
 	}
 
 	function doStep4($post = array())
@@ -1685,8 +1686,14 @@ class TiendaControllerPOS extends TiendaController
 	function getOrderSummary(&$order)
 	{
 		$model = $this->getModel('carts');
-		$view = $this->getView('pos', 'html');
-		$view->setModel($model, true);
+		
+		JLoader::register( "TiendaViewPOS", JPATH_ADMINISTRATOR."/components/com_tienda/views/pos/view.html.php" );
+		$view = new TiendaViewPOS();
+		$view->set( '_controller', 'pos' );
+		$view->set( '_view', 'pos' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', false);
+		$view->setModel( $model, true );
 		$view->assign('state', $model->getState());
 
 		$config = Tienda::getInstance();
@@ -1777,7 +1784,12 @@ class TiendaControllerPOS extends TiendaController
 	{
 		$html = '';
 		$model = $this->getModel('Addresses', 'TiendaModel');
-		$view = $this->getView('pos', 'html');
+		JLoader::register( "TiendaViewPOS", JPATH_ADMINISTRATOR."/components/com_tienda/views/pos/view.html.php" );
+		$view = new TiendaViewPOS();
+		$view->set( '_controller', 'pos' );
+		$view->set( '_view', 'pos' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', false);
 		$view->set('form_prefix', $prefix);
 		$view->setModel($model, true);
 		$view->setLayout('form_address');
@@ -2010,8 +2022,13 @@ class TiendaControllerPOS extends TiendaController
 	{
 		$html = '';
 		$model = $this->getModel('Checkout', 'TiendaModel');
-		$view = $this->getView('pos', 'html');
-		$view->setModel($model, true);
+		JLoader::register( "TiendaViewPOS", JPATH_ADMINISTRATOR."/components/com_tienda/views/pos/view.html.php" );
+		$view = new TiendaViewPOS();
+		$view->set( '_controller', 'pos' );
+		$view->set( '_view', 'pos' );
+		$view->set( '_doTask', true);
+		$view->set( 'hidemenu', false);
+		$view->setModel( $model, true );
 		$view->setLayout('shipping');
 
 		$rates = $this->getShippingRates($order);
@@ -2022,7 +2039,6 @@ class TiendaControllerPOS extends TiendaController
 		}
 		$view->assign('rates', $rates);
 		$view->assign('default_rate', $default_rate);
-
 		ob_start();
 		$view->display();
 		$html = ob_get_contents();
@@ -2176,7 +2192,7 @@ class TiendaControllerPOS extends TiendaController
 			return ;
 		}
 		// convert elements to array that can be binded		
-		$submitted_values = $helper->elementsToArray( $elements );				
+		$submitted_values = $helper->elementsToArray( $elements );		
 		$msg = $this->validateAddress( $submitted_values, 'shipping');
 
 		if(!empty($msg))
@@ -2187,9 +2203,7 @@ class TiendaControllerPOS extends TiendaController
 			echo json_encode($response);
 			return;
 		}
-
 		$order = $this->populateOrder();		
-		
 		$this->setAddresses( $order , $submitted_values, false );
 	
 		// set response array
