@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class modTiendaUserAddressHelper
 {
-    function getAddresses()
+    static public function getAddresses()
     {
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
         JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
