@@ -16,21 +16,21 @@
         <tr>
             <td align="left" width="100%">
 			    <?php
-			    echo "<< <a href='".JRoute::_("index.php?option=com_tienda&view=orders")."'>".JText::_('COM_TIENDA_RETURN_TO_LIST')."</a>";
+			    echo "<a class=\"btn\" href='".JRoute::_("index.php?option=com_tienda&view=orders")."'>".JText::_('COM_TIENDA_RETURN_TO_LIST')."</a>";
 			    ?>
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
-                <input type="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=orders&task=editaddresses&id=" . @$row->order_id ); ?>'" value="<?php echo JText::_('COM_TIENDA_EDIT_ADDRESSES'); ?>"/>
+                <input class="btn btn-info" type="button" onclick="window.location='<?php echo JRoute::_( "index.php?option=com_tienda&view=orders&task=editaddresses&id=" . @$row->order_id ); ?>'" value="<?php echo JText::_('COM_TIENDA_EDIT_ADDRESSES'); ?>"/>
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
-                <input value="<?php echo JText::_('COM_TIENDA_RESEND_EMAIL_INVOICE'); ?>" onclick="document.getElementById('task').value='resend_email'; this.form.submit();" style="float: right;" type="button" />
+                <input class="btn btn-success" value="<?php echo JText::_('COM_TIENDA_RESEND_EMAIL_INVOICE'); ?>" onclick="document.getElementById('task').value='resend_email'; this.form.submit();" style="float: right;" type="button" />
             </td>
             <td nowrap="nowrap" style="text-align: right; padding: 0px 5px;">
-                [<?php
+                <?php
                 $url = "index.php?option=com_tienda&view=orders&task=print&tmpl=component&id=".@$row->order_id;
                 $text = JText::_('COM_TIENDA_PRINT_INVOICE');
-                echo TiendaUrl::popup( $url, $text );
-                ?>]
+                echo TiendaUrl::popup( $url, $text, array( 'class' => 'btn btn-warning' ) );
+                ?>
             </td>
 
         </tr>
@@ -576,7 +576,7 @@
     	        <?php echo JText::_('COM_TIENDA_NEW_STATUS'); ?>
     	    </td>
     	    <td>
-    	        <input value="<?php echo JText::_('COM_TIENDA_UPDATE_ORDER'); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button" />
+    	        <input value="<?php echo JText::_('COM_TIENDA_UPDATE_ORDER'); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button"  class="btn btn-danger"/>
     	        <?php 
 			$url = "index.php?option=com_tienda&format=raw&controller=orders&task=updateStatusTextarea&orderstate_selected=";
 			$onchange = 'tiendaPutAjaxLoader( \'update_order\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\'new_orderstate_id\').value, \'update_order\', \'\', \'\', false );';
