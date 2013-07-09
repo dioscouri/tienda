@@ -20,9 +20,9 @@ $config = Tienda::getInstance();
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <?php echo TiendaGrid::pagetooltip( 'users_view' ); ?>
-<table class="table table-striped table-bordered" width="100%" border="0">
+<table width="100%" border="0">
 	<tr>
-		<td>
+		<td colspan="2">
 			<h2 style="padding:0px; margin:0px;"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></h2>
 		</td>
 	</tr>
@@ -31,7 +31,7 @@ $config = Tienda::getInstance();
 			<fieldset>
 				<legend><?php echo JText::_('COM_TIENDA_BASIC_USER_INFO'); ?></legend>
 				<div id="tienda_header">
-					<table style="width: 100%;" border="0">					
+					<table class="table table-striped table-bordered">					
 						<tr>
 							<td  align="right" class="key">
 		                        <label for="name">
@@ -83,7 +83,7 @@ $config = Tienda::getInstance();
 		                        	<?php echo JText::_('COM_TIENDA_LAST_VISITED'); ?>:
 		                        </label>
 		                    </td>
-		                    <td colspan="3">
+		                    <td>
 		                        <div class="lastvisitDate"><?php echo JHTML::_('date', @$row->lastvisitDate, Tienda::getInstance()->get('date_format')); ?></div>           
 		                    </td>
 						</tr>
@@ -101,7 +101,7 @@ $config = Tienda::getInstance();
 		                        	<?php echo JText::_('COM_TIENDA_USER_GROUP'); ?>:
 		                        </label>
 		                    </td>
-		                    <td colspan="3">
+		                    <td>
 		                      	<div class="id"><?php echo @$row->group_name; ?></div>		                      	
 		                    </td>
 						</tr>
@@ -118,8 +118,7 @@ $config = Tienda::getInstance();
 	                    	<td >
 	                    			<button name="submit_number" id="submit_number" onclick="tiendaSubmitForm('change_subnum')"><?php echo JText::_('COM_TIENDA_CHANGE_SUB_NUM'); ?></button>
 		                    </td>
-		                    <td colspan="3">
-		                    </td>
+		                    <td></td>
 						</tr>
 						<?php endif; ?>
 					</table>
@@ -129,38 +128,55 @@ $config = Tienda::getInstance();
 	</tr>
 	<tr>
 		<td width="50%" valign="top">
-				<fieldset>
-					<legend><?php echo JText::_('COM_TIENDA_SUMMARY_DATA'); ?></legend>
-						<table class="table table-striped table-bordered"  width="100%">
-							<tr>
-								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_('COM_TIENDA_NUMBER_OF_COMPLETED_ORDERS'); ?>:
-								</td>
-								<td align="right">
-									<div class="id"><?php echo count($orders); ?></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_('COM_TIENDA_TOTAL_AMOUNT_SPENT'); ?>:
-								</td>
-								<td align="right">
-									<div class="id"><?php echo TiendaHelperBase::currency (@$this->spent); ?></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="key" align="right" style="width:250px;">
-									<?php echo JText::_('COM_TIENDA_TOTAL_USER_REVIEWS'); ?>:
-								</td>
-								<td align="right">
-									<div class="id"><?php echo count($procoms); ?></div>
-								</td>
-							</tr>
-						</table>
-				</fieldset>			
-			<fieldset>
-					<legend><?php echo JText::_('COM_TIENDA_LAST_5_COMPLETED_ORDERS'); ?></legend>
-					<div id="tienda_header">
+			<div class="accordion" id="accordion1">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseSummary">
+					<?php echo JText::_('COM_TIENDA_SUMMARY_DATA'); ?>
+			      </a>
+			    </div>
+			    <div id="collapseSummary" class="accordion-body collapse in">
+			      <div class="accordion-inner">
+					<table class="table table-striped table-bordered"  width="100%">
+						<tr>
+							<td class="key" align="right" style="width:250px;">
+								<?php echo JText::_('COM_TIENDA_NUMBER_OF_COMPLETED_ORDERS'); ?>:
+							</td>
+							<td align="right">
+								<div class="id"><?php echo count($orders); ?></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="key" align="right" style="width:250px;">
+								<?php echo JText::_('COM_TIENDA_TOTAL_AMOUNT_SPENT'); ?>:
+							</td>
+							<td align="right">
+								<div class="id"><?php echo TiendaHelperBase::currency (@$this->spent); ?></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="key" align="right" style="width:250px;">
+								<?php echo JText::_('COM_TIENDA_TOTAL_USER_REVIEWS'); ?>:
+							</td>
+							<td align="right">
+								<div class="id"><?php echo count($procoms); ?></div>
+							</td>
+						</tr>
+					</table>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<div class="accordion" id="accordion2">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseLast5Orders">
+					<?php echo JText::_('COM_TIENDA_LAST_5_COMPLETED_ORDERS'); ?>
+			      </a>
+			    </div>
+			    <div id="collapseLast5Orders" class="accordion-body collapse in">
+			      <div class="accordion-inner">
 					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -181,9 +197,9 @@ $config = Tienda::getInstance();
 							</tr>
 						</tfoot>
 						<tbody>
-							<?php $i=0; $k=0; ?>
+							<?php $i=0; ?>
 							<?php foreach (@$orders as $order) : ?>
-								<tr class='row <?php echo $k; ?>'>
+								<tr>
 									<td align="center">
 										<?php echo $order->order_id; ?>
 									</td>
@@ -197,7 +213,7 @@ $config = Tienda::getInstance();
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>
-							<?php ++$i; $k = (1 - $k); ?>
+							<?php ++$i; ?>
 							<?php endforeach; ?>
 							<?php if (!count(@$order)) : ?>
 								<tr>
@@ -207,12 +223,22 @@ $config = Tienda::getInstance();
 							<?php endif; ?>
 						</tbody>
 					</table>
-					</div>
-				</fieldset>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
 		</td>
 		<td width="50%" valign="top">					
-			<fieldset>
-					<legend><?php echo JText::_('COM_TIENDA_LIST_OF_ACTIVE_SUBSCRIPTIONS'); ?></legend>
+			<div class="accordion" id="accordion3">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseSubs">
+					<?php echo JText::_('COM_TIENDA_LIST_OF_ACTIVE_SUBSCRIPTIONS'); ?>
+			      </a>
+			    </div>
+			    <div id="collapseSubs" class="accordion-body collapse in">
+			      <div class="accordion-inner">
 					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -236,9 +262,9 @@ $config = Tienda::getInstance();
 							</tr>
 						</tfoot>
 						<tbody>
-							<?php $i=0; $k=0; ?>
+							<?php $i=0; ?>
 							<?php foreach (@$subs as $sub) : ?>
-								<tr class='row <?php echo $k; ?>'>
+								<tr>
 									<td align="center">
 										<?php echo $i + 1; ?>
 									</td>
@@ -263,7 +289,7 @@ $config = Tienda::getInstance();
 										</a>
 									</td>				
 								</tr>
-							<?php ++$i; $k = (1 - $k); ?>
+							<?php ++$i; ?>
 							<?php endforeach; ?>
 							<?php if (!count(@$sub)) : ?>
 								<tr>
@@ -273,9 +299,20 @@ $config = Tienda::getInstance();
 							<?php endif; ?>
 						</tbody>
 					</table>
-				</fieldset>
-			<fieldset>
-					<legend><?php echo JText::_('COM_TIENDA_CART'); ?></legend>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+			<div class="accordion" id="accordion4">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapseCart">
+					<?php echo JText::_('COM_TIENDA_CART'); ?>
+			      </a>
+			    </div>
+			    <div id="collapseCart" class="accordion-body collapse in">
+			      <div class="accordion-inner">
 					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -302,9 +339,9 @@ $config = Tienda::getInstance();
 							</tr>
 						</tfoot>
 						<tbody>
-							<?php $i=0; $k=0; ?>
+							<?php $i=0; ?>
 							<?php foreach (@$carts as $cart) : ?>
-								<tr class='row <?php echo $k; ?>'>
+								<tr>
 									<td align="center">
 										<?php echo $i + 1; ?>
 									</td>
@@ -323,11 +360,11 @@ $config = Tienda::getInstance();
 										<?php echo TiendaHelperBase::currency($cart->total_price); ?>									
 									</td>
 								</tr>
-							<?php ++$i; $k = (1 - $k); ?>
+							<?php ++$i; ?>
 							<?php endforeach; ?>
 							<?php if (!count(@$cart)) : ?>
 								<tr>
-									<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
+									<td colspan="5" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 									</td>
 								</tr>
 							<?php endif; ?>
@@ -352,10 +389,21 @@ $config = Tienda::getInstance();
 								</th>
 							</tr>
 						</thead>
-					</table>
-				</fieldset>
-			<fieldset>
-					<legend><?php echo JText::_('COM_TIENDA_LAST_5_REVIEWS_POSTED'); ?></legend>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+				
+			<div class="accordion" id="accordion5">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion5" href="#collapse5Reviews">
+					<?php echo JText::_('COM_TIENDA_LAST_5_REVIEWS_POSTED'); ?>
+			      </a>
+			    </div>
+			    <div id="collapse5Reviews" class="accordion-body collapse in">
+			      <div class="accordion-inner">
 					<table class="table table-striped table-bordered" style="width: 100%;">
 						<thead>
 							<tr>
@@ -376,9 +424,9 @@ $config = Tienda::getInstance();
 							</tr>
 						</tfoot>
 						<tbody>
-							<?php $i=0; $k=0; ?>
+							<?php $i=0; ?>
 							<?php foreach (@$procoms as $procom) : ?>
-								<tr class='row <?php echo $k; ?>'>
+								<tr>
 									<td align="center">
 										<?php echo $i + 1; ?>
 									</td>
@@ -392,17 +440,20 @@ $config = Tienda::getInstance();
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>
-							<?php ++$i; $k = (1 - $k); ?>
+							<?php ++$i; ?>
 							<?php endforeach; ?>
 							<?php if (!count(@$procom)) : ?>
 								<tr>
-									<td colspan="10" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
+									<td colspan="3" align="center"><?php echo JText::_('COM_TIENDA_NO_ITEMS_FOUND'); ?>
 									</td>
 								</tr>
 							<?php endif; ?>
 						</tbody>	
 					</table>
-				</fieldset>
+				</div>
+			</div>
+			</div>
+			</div>
 		</td>
 	</tr>
 </table>
