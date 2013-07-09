@@ -579,8 +579,8 @@
     	        <input value="<?php echo JText::_('COM_TIENDA_UPDATE_ORDER'); ?>" onclick="document.getElementById('task').value='update_status'; this.form.submit();" style="float: right;" type="button"  class="btn btn-danger"/>
     	        <?php 
 			$url = "index.php?option=com_tienda&format=raw&controller=orders&task=updateStatusTextarea&orderstate_selected=";
-			$onchange = 'tiendaPutAjaxLoader( \'update_order\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\'new_orderstate_id\').value, \'update_order\', \'\', \'\', false );';
-			$attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>$onchange);
+			$onchange = 'tiendaPutAjaxLoader( \'update_order\' );tiendaDoTask( \''.$url.'\'+document.getElementById(\'new_orderstate_id\').options[document.getElementById(\'new_orderstate_id\').selectedIndex].value, \'update_order\', \'\', \'\', false );';
+			$attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>$onchange, 'id' => 'new_orderstate_id');
 			echo TiendaSelect::orderstate( $row->order_state_id, 'new_orderstate_id',$attribs );
 		?> 
     	    </td>
