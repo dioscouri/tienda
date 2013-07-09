@@ -600,6 +600,7 @@ class TiendaControllerPOS extends TiendaController
 
 		// convert elements to array that can be binded
 		$values = $helper->elementsToArray($elements);
+       	$values['sameasbilling'] = isset($values['_checked']['sameasbilling']) && !empty( $values['_checked']['sameasbilling']);
 
 		// validate it based on the step
 		switch ( $values['step'] )
@@ -772,7 +773,7 @@ class TiendaControllerPOS extends TiendaController
 				//check if we have billing address id				
 				if(empty($values['shipping_input_address_id']))
 				{
-					if(empty($values['_checked']['sameasbilling']))
+					if(empty($values['sameasbilling']))
 					{
 						$responseShipping = $this->validateAddress($values, 'shipping');
 						if(count($responseShipping))
@@ -815,7 +816,7 @@ class TiendaControllerPOS extends TiendaController
 	{
 		Tienda::load('TiendaHelperShipping', 'helpers.shipping');
 		//special case
-		$sameasbilling = !empty($values['_checked']['sameasbilling']) ? true : false;
+		$sameasbilling = !empty($values['sameasbilling']) ? true : false;
 		$msg = array();
 		
 		switch($type)
@@ -930,7 +931,8 @@ class TiendaControllerPOS extends TiendaController
 		Tienda::load('TiendaHelperBase', 'helpers._base');
 		$helper = TiendaHelperBase::getInstance();
 		$values = $helper->elementsToArray($elements);
-
+       	$values['sameasbilling'] = isset($values['_checked']['sameasbilling']) && !empty( $values['_checked']['sameasbilling']);
+		
 		$coupon_code = JRequest::getVar('coupon_code', '');
 
 		$response = array();
@@ -990,7 +992,8 @@ class TiendaControllerPOS extends TiendaController
         Tienda::load( 'TiendaHelperBase', 'helpers._base' );
         $helper = TiendaHelperBase::getInstance();
         $values = $helper->elementsToArray( $elements );
-        
+       	$values['sameasbilling'] = isset($values['_checked']['sameasbilling']) && !empty( $values['_checked']['sameasbilling']);
+	    
         $session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
         $apply_credit_amount = (float) JRequest::getVar( 'apply_credit_amount', '');
@@ -1037,6 +1040,7 @@ class TiendaControllerPOS extends TiendaController
         $order->shipping->shipping_tax        = @$values['shipping_tax'];
 
         // set the addresses
+        
         $this->setAddresses( $order, $values );
 
         // get the items and add them to the order
@@ -1966,7 +1970,7 @@ class TiendaControllerPOS extends TiendaController
 	 * @para boolean - save the addresses
 	 * @return unknown_type
 	 */
-	function setAddresses(&$order, $values, $saved =false)
+	function setAddresses(&$order, $values, $saved = false)
 	{
 		// Get the currency from the configuration
 		$currency_id = Tienda::getInstance()->get('default_currencyid', '1');
@@ -2110,6 +2114,7 @@ class TiendaControllerPOS extends TiendaController
 		Tienda::load('TiendaHelperBase', 'helpers._base');
 		$helper = TiendaHelperBase::getInstance();
 		$values = $helper->elementsToArray($elements);
+       	$values['sameasbilling'] = isset($values['_checked']['sameasbilling']) && !empty( $values['_checked']['sameasbilling']);
 
 		$response = array();
 		$response['msg'] = '';
@@ -2193,6 +2198,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 		// convert elements to array that can be binded		
 		$submitted_values = $helper->elementsToArray( $elements );		
+       	$submitted_values['sameasbilling'] = isset($submitted_values['_checked']['sameasbilling']) && !empty( $submitted_values['_checked']['sameasbilling']);
 		$msg = $this->validateAddress( $submitted_values, 'shipping');
 
 		if(!empty($msg))
