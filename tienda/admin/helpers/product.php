@@ -2254,7 +2254,9 @@ class TiendaHelperProduct extends TiendaHelperBase
             {
                 if ( substr( $key, 0, 10 ) == 'attribute_' )
                 {
-                    $attributes[] = $value;
+                	if( !empty( $value ) ){
+	                    $attributes[] = $value;
+					}
                 }
             }
             	
