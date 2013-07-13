@@ -14,8 +14,13 @@ Tienda::load( 'TiendaHelperUser', 'helpers.user' );
 $helper_user = TiendaHelperBase::getInstance( 'user' );
 $helper_product = TiendaHelperBase::getInstance( 'product' );
 
-
-$config = Tienda::getInstance();
+$name = @$row->first_name.' '.@$row->last_name;
+if( $name == ' ' ) {
+	$address = $helper_user->getPrimaryAddress( $row->id, 'billing' );
+	if( is_object( $address ) ) {
+		$name = $address->first_name. ' '.$address->last_name;
+	}
+}
 ?>
 
 <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -23,7 +28,7 @@ $config = Tienda::getInstance();
 <table width="100%" border="0">
 	<tr>
 		<td colspan="2">
-			<h2 style="padding:0px; margin:0px;"><?php echo @$row->first_name; ?>&nbsp;<?php echo @$row->last_name?></h2>
+			<h2 style="padding:0px; margin:0px;"><?php echo @$name; ?></h2>
 		</td>
 	</tr>
 	<tr>
@@ -47,7 +52,7 @@ $config = Tienda::getInstance();
 		                        </label>
 		                    </td>
 		                    <td>
-		                        <div class="registerDate"><?php echo JHTML::_('date', @$row->registerDate, Tienda::getInstance()->get('date_format')); ?></div>         
+		                        <div class="registerDate"><?php echo JHTML::_('date', @$row->registerDate, $this->defines->get('date_format')); ?></div>         
 		                    </td>
 		                    <td rowspan="3" align="center" valign="top">
 		                    	<div style="padding:0px; margin-bottom:5px;width:auto;">
@@ -56,10 +61,10 @@ $config = Tienda::getInstance();
 		                      <?php
 										if(version_compare(JVERSION,'1.6.0','ge')) {
 										// Joomla! 1.6+ code here
-										$url = $config->get( "user_edit_url", "index.php?option=com_users&task=user.edit&id=");
+										$url = $this->defines->get( "user_edit_url", "index.php?option=com_users&task=user.edit&id=");
 										} else {
 										// Joomla! 1.5 code here
-										$url = $config->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
+										$url = $this->defines->get( "user_edit_url", "index.php?option=com_users&view=user&task=edit&cid[]=");
 										}
 										//
 
@@ -84,7 +89,7 @@ $config = Tienda::getInstance();
 		                        </label>
 		                    </td>
 		                    <td>
-		                        <div class="lastvisitDate"><?php echo JHTML::_('date', @$row->lastvisitDate, Tienda::getInstance()->get('date_format')); ?></div>           
+		                        <div class="lastvisitDate"><?php echo JHTML::_('date', @$row->lastvisitDate, $this->defines->get('date_format')); ?></div>           
 		                    </td>
 						</tr>
 						<tr>
@@ -105,7 +110,7 @@ $config = Tienda::getInstance();
 		                      	<div class="id"><?php echo @$row->group_name; ?></div>		                      	
 		                    </td>
 						</tr>
-						<?php if( $config->get( 'display_subnum', 0 ) ) :?>
+						<?php if( $this->defines->get( 'display_subnum', 0 ) ) :?>
 						<tr>
 							<td  align="right" class="key" style="width:85px;">
 		                        <label for="sub_number">
@@ -285,7 +290,7 @@ $config = Tienda::getInstance();
 													 echo JText::_('COM_TIENDA_LIFETIME'); 
 												}
 											?>											
-											<?php echo JHTML::_('date', $sub->expires_datetime, Tienda::getInstance()->get('date_format')); ?>
+											<?php echo JHTML::_('date', $sub->expires_datetime, $this->defines->get('date_format')); ?>
 										</a>
 									</td>				
 								</tr>
@@ -432,11 +437,10 @@ $config = Tienda::getInstance();
 									</td>
 									<td style="text-align:left;">
 										<a href="index.php?option=com_tienda&view=productcomments&task=edit&id=<?php echo $procom->product_id; ?>" >
-											<?php echo $procom->p_name; ?></a><br/><?php echo $procom->trimcom; ?>							
+											<?php echo $procom->p_name; ?></a><br/><?php echo $procom->trimcom; ?>
 									</td>
 									<td style="text-align:center;">
-									
-										<?php  echo $helper_product->getRatingImage( $procom->productcomment_rating ); ?>						
+										<?php  echo $helper_product->getRatingImage( $procom->productcomment_rating ); ?>
 									</td>
 								</tr>
 								<?php if ($i==4) break;?>

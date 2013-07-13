@@ -23,7 +23,7 @@ class TiendaControllerUsers extends TiendaController
 		$this->set('suffix', 'users');
 		$this->registerTask( 'change_subnum', 'change_subnum' );
 	}
-
+	
 	/**
 	 * Sets the model's state
 	 *
