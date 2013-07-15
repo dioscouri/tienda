@@ -2226,6 +2226,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         $invalidQuantity = '0';
         $attributes = array( );
+		$attr_orig = array();
         if ( empty( $values ) )
         {
             $product_qty = $quantity_min;
@@ -2243,7 +2244,7 @@ class TiendaHelperProduct extends TiendaHelperBase
             {
                 $invalidQuantity = '1';
             }
-            $attributes = $default_attributes;
+            $attr_orig = $attributes = $default_attributes;
         }
         else
         {
@@ -2254,8 +2255,10 @@ class TiendaHelperProduct extends TiendaHelperBase
             {
                 if ( substr( $key, 0, 10 ) == 'attribute_' )
                 {
-                	if( !empty( $value ) ){
-	                    $attributes[] = $value;
+                	if( empty( $value ) ){
+                		$attributes[$key] = 0;
+					} else {
+	                    $attributes[$key] = $value;
 					}
                 }
             }
@@ -2267,6 +2270,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                     $attributes = $row->default_attributes;
                 }
             }
+			$attr_orig = $attributes;
 
             sort( $attributes );
             	
@@ -2295,7 +2299,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
 
         // adjust the displayed price based on the selected or default attributes
-        TiendaHelperProduct::calculateProductAttributeProperty( $row, $attributes, 'price', 'product_weight' );
+        TiendaHelperProduct::calculateProductAttributeProperty( $row, $attr_orig, 'price', 'product_weight' );
         $show_tax = $config->get( 'display_prices_with_tax' );
         $show_product = $config->get( 'display_category_cartbuttons' );
         $view->show_tax = $show_tax;
@@ -2506,13 +2510,26 @@ class TiendaHelperProduct extends TiendaHelperBase
 
     public static function calculateProductAttributeProperty( &$product, $attributes, $product_price, $product_weight )
     {
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+        $helper_product = TiendaHelperBase::getInstance( 'Product' );
+		
+    	// first we get rid off phantom attributes (the ones that should be hidden because their parent attribute was just unselected)
+    	$attr_base = TiendaHelperProduct::getAttributes( $product->product_id, array_merge( $attributes, array( '0' ) ) );
+    	$attr_final = TiendaHelperProduct::getDefaultAttributeOptions($attr_base);
+    	
+		foreach( $attr_final as $key => $value ) {
+			if( isset( $attributes['attribute_'.$key] ) ) {
+				$attr_final[$key] = $attributes['attribute_'.$key];
+			}
+		}
+		
         Tienda::load( 'TiendaQuery', 'library.query' );
         $q = new TiendaQuery();
         $q->select( 'tbl.`productattributeoption_price` , tbl.`productattributeoption_prefix`, tbl.`productattributeoption_id` ' );
         $q->select( 'tbl.`productattributeoption_code`, tbl.`productattributeoption_weight`, tbl.`productattributeoption_prefix_weight`' );
         $q->from( '`#__tienda_productattributeoptions` tbl' );
         $q->join( 'left','`#__tienda_productattributes` atr ON tbl.	productattribute_id = atr.productattribute_id' );
-        $q->where( "tbl.productattributeoption_id IN ('".implode( "', '", $attributes )."')" );
+        $q->where( "tbl.productattributeoption_id IN ('".implode( "', '", $attr_final )."')" );
         $q->order( 'atr.ordering ASC' );
         $db = JFactory::getDbo();
         $db->setQuery( $q );
