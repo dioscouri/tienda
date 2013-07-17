@@ -156,7 +156,7 @@ class TiendaControllerProducts extends TiendaController
 
         if ( $state['filter_category'] )
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
             $cmodel->setId( $state['filter_category'] );
             if ( $item = $cmodel->getItem( ) )
@@ -209,7 +209,7 @@ class TiendaControllerProducts extends TiendaController
 
         // get the category we're looking at
         $filter_category = $model->getState( 'filter_category', JRequest::getVar( 'filter_category' ) );
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
         $cat = $cmodel->getTable( );
         $cat->load( $filter_category );
@@ -302,7 +302,7 @@ class TiendaControllerProducts extends TiendaController
         // add the media/templates folder as a valid path for templates
         $view->addTemplatePath( Tienda::getPath( 'categories_templates' ) );
         // but add back the template overrides folder to give it priority
-        $template_overrides = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate( ) . DS . 'html' . DS . 'com_tienda' . DS . $view->getName( );
+        $template_overrides = JPATH_BASE . '/templates/' . $app->getTemplate( ) . '/html/com_tienda/' . $view->getName( );
         $view->addTemplatePath( $template_overrides );
 
         // using a helper file, we determine the category's layout
@@ -364,7 +364,7 @@ class TiendaControllerProducts extends TiendaController
         Tienda::load( 'TiendaArticle', 'library.article' );
         $product_description = TiendaArticle::fromString( $row->product_description );
 
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
         $cat = $cmodel->getTable( );
         $cat->load( $filter_category );
@@ -448,7 +448,7 @@ class TiendaControllerProducts extends TiendaController
         // add the media/templates folder as a valid path for templates
         $view->addTemplatePath( Tienda::getPath( 'products_templates' ) );
         // but add back the template overrides folder to give it priority
-        $template_overrides = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate( ) . DS . 'html' . DS . 'com_tienda' . DS . $view->getName( );
+        $template_overrides = JPATH_BASE . '/templates/' . $app->getTemplate( ) . '/html/com_tienda/' . $view->getName( );
         $view->addTemplatePath( $template_overrides );
 
         // using a helper file, we determine the product's layout
@@ -564,7 +564,7 @@ class TiendaControllerProducts extends TiendaController
         $html = '';
 
         // get the product's files
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductFiles', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $model->setState( 'filter_enabled', 1 );
@@ -760,7 +760,7 @@ class TiendaControllerProducts extends TiendaController
             $this->setRedirect( $link, $this->message, $this->messagetype );
             return false;
         }
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         $productfile = JTable::getInstance( 'ProductFiles', 'TiendaTable' );
         $productfile->load( $productfile_id );
         if ( empty( $productfile->productfile_id ) )
@@ -1515,7 +1515,7 @@ class TiendaControllerProducts extends TiendaController
         // TODO get the children
         // loop thru each child,
         // get the list
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $model->setState( 'filter_relation', 'parent' );
@@ -1750,7 +1750,7 @@ class TiendaControllerProducts extends TiendaController
         // TODO get the children
         // loop thru each child,
         // get the list
-        JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductRelations', 'TiendaModel' );
         $model->setState( 'filter_product', $product_id );
         $model->setState( 'filter_relation', 'parent' );
@@ -2164,7 +2164,7 @@ class TiendaControllerProducts extends TiendaController
             $help['helpful'] = $helpfulness;
             $help['user_id'] = $user_id;
             $help['reported'] = $report;
-            JTable::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'tables' );
+            JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
             $reviewhelpfulness = JTable::getInstance( 'ProductCommentsHelpfulness', 'TiendaTable' );
             $reviewhelpfulness->load( array(
                     'user_id' => $user_id, 'productcomment_id' => $productcomment_id
@@ -2306,7 +2306,7 @@ class TiendaControllerProducts extends TiendaController
             $sendObject->body = $post['sender_message'];
             	
             //get product info
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_tienda' . DS . 'models' );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'Products', 'TiendaModel' );
             $model->setId( $post['product_id'] );
             $sendObject->item = $model->getItem( );
