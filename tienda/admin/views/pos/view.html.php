@@ -52,8 +52,6 @@ class TiendaViewPOS extends TiendaViewBase
         }
     }
 	
-
-    
     /**
      * Basic methods for displaying an item from a list
      * @param $tpl
@@ -92,5 +90,4 @@ class TiendaViewPOS extends TiendaViewBase
 	{
 		JToolBarHelper::cancel('close', JText::_('COM_TIENDA_CLOSE'));
 	}
-	
 }

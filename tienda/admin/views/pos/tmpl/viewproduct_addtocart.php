@@ -1,15 +1,31 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('stylesheet', 'pos.css', 'media/com_tienda/css/'); ?>
-<?php $row = @$this->product; ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+	JHTML::_('stylesheet', 'pos.css', 'media/com_tienda/css/');
+	JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+	
+	$row = @$this->product;
+	$values = @$this->values;
 
-<div id="product_buy">
-    <?php
     Tienda::load( 'TiendaHelperBase', 'helpers._base' );
     $helper_product = TiendaHelperBase::getInstance( 'Product' );
-    $attributes = $helper_product->getAttributes( $row->product_id, 0 );
+    // Selected attribute options (for child attributes)
+    $selected_opts = (!empty($this->selected_opts)) ? json_decode($this->selected_opts) : 0; 
+    
+    if(!count($selected_opts))
+    {
+    	$selected_opts = 0;
+    }
 	
-    $default = $helper_product->getDefaultAttributeOptions($attributes);
-    $selected_opts = array();
+    $attributes = TiendaHelperProduct::getAttributes( $row->product_id, $selected_opts );    
+    $default = TiendaHelperProduct::getDefaultAttributeOptions($attributes);
+    
+    // First view of the page: select the first value in the list
+    if(!$selected_opts)
+    {
+    	$selected_opts = $default;
+    	$selected_opts[] = 0;
+    }
+
     foreach ($attributes as $attribute)
     {
         ?>
@@ -19,8 +35,7 @@
             
             $key = 'attribute_'.$attribute->productattribute_id;
             $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
-            $attribs = array();
-            //$attribs = array('class' => 'inputbox', 'size' => '1', 'onchange'=>"tiendaUpdateAddToCart(  'product', 'product_buy', document.adminForm );");
+            $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange'=>"Tienda.UpdateAddToCart(  'pos', 'product_buy', document.adminForm, true );");
             echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );
             ?>
         </div>
@@ -43,4 +58,3 @@
     <input type="submit" name="add_to_cart" value="<?php echo JText::_('COM_TIENDA_ADD_TO_ORDER'); ?>" class="btn btn-success" />
     <input type="hidden" name="task" id="task" value="addtocart" />
     <input type="hidden" name="product_id" value="<?php echo $row->product_id; ?>" />
-</div>

@@ -10,7 +10,7 @@
     	<tr><td><?php echo TiendaHelperProduct::getImage($row -> product_id, 'id', $row -> product_name, 'full', false, false, array('width' => 150));?></td><td><h3><?php echo $row->product_name; ?></h3>                    
                     <p>
                         <?php echo $row->product_description_short; ?>
-                    </p></td><td><?php echo $this->loadTemplate( 'addtocart' ); ?></td></tr>
+                    </p></td><td><div id="product_buy"><?php echo $this->loadTemplate( 'addtocart' ); ?></div></td></tr>
     	<tr ><td colspan="3"><div style="text-align: left;">
     	<a href="index.php?option=com_tienda&view=pos&task=addproducts&tmpl=component">
         	<?php echo JText::_('COM_TIENDA_RETURN_TO_SEARCH_RESULTS'); ?>

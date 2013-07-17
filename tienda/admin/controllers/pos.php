@@ -1168,23 +1168,22 @@ class TiendaControllerPOS extends TiendaController
 		$model = DSCModel::getInstance('Products', 'TiendaModel');
 		$model->setId($product_id);
 
-		Tienda::load('TiendaHelperUser', 'helpers.user');
 		$session = JFactory::getSession();
 		$user_id = $session->get('user_id', '', 'tienda_pos');
 		$filter_group = TiendaHelperUser::getUserGroup($user_id, $product_id);
-		$model->setState('filter_group', $filter_group);
-
-		$row = $model->getItem(false);
 
 		$view = $this->getView('pos', 'html');
 		$view->setModel($model, true);
-		$view->assign('product', $row);
+		$model->setState('filter_group', $filter_group);
+		$row = $model->getItem(false);
+
+		$view->assign('product', $row );
 		$view->setLayout('viewproduct');
 
 		$dispatcher = JDispatcher::getInstance();
 
 		ob_start();
-		$dispatcher->trigger('onDisplayProductAttributeOptions', array($row->product_id));
+		$dispatcher->trigger('onDisplayProductAttributeOptions', array($product_id));
 		$view->assign('onDisplayProductAttributeOptions', ob_get_contents());
 		ob_end_clean();
 
@@ -3233,4 +3232,47 @@ class TiendaControllerPOS extends TiendaController
 		}
 		$this->setRedirect( 'index.php?option=com_tienda&view=config&task=orders' );
 	}
+	
+    /**
+     * Used whenever an attribute selection is changed,
+     * to update the price and/or attribute selectlists
+     *
+     * @return unknown_type
+     */
+    function updateAddToCart( )
+    {
+        $response = array( );
+        $response['msg'] = '';
+        $response['error'] = '';
+
+        // get elements from post
+        $elements = json_decode( preg_replace( '/[\n\r]+/', '\n', JRequest::getVar( 'elements', '', 'post', 'string' ) ) );
+
+        // convert elements to array that can be binded
+        Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+		$helper = TiendaHelperBase::getInstance();
+        $values = $helper->elementsToArray( $elements );
+
+        // merge current elements with post
+        $request_arr = JRequest::get();
+        unset( $request_arr['elements'] );
+        JRequest::setVar( 'elements', null );
+        $values = array_merge( $values, $request_arr );
+        JRequest::set( $values, 'POST' );
+
+        if ( empty( $values['product_id'] ) )
+        {
+            $values['product_id'] = JRequest::getInt( 'product_id', 0 );
+        }
+
+        // now get the summary
+        $this->display_cartbutton = true;
+        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+		$html = TiendaHelperProduct::getCartButton( $values['product_id'], 'viewproduct_addtocart', $values );
+
+        $response['msg'] = $html;
+        // encode and echo (need to echo to send back to browser)
+        echo json_encode( $response );
+        return;
+    }
 }

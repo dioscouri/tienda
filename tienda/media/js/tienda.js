@@ -2,6 +2,29 @@ if (typeof(Tienda) === 'undefined') {
     var Tienda = {};
 }
 
+Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
+	var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page=' + page;
+	if( page == 'pos' ) {
+		url = 'index.php?option=com_tienda&format=raw&view=pos&task=updateAddToCart&page=' + page;
+	}
+	// loop through form elements and prepare an array of objects for passing to server
+	var str = tiendaGetFormInputData(form);
+	// execute Ajax request to server
+	if (working)
+		tiendaGrayOutAjaxDiv(container, Joomla.JText._('COM_TIENDA_UPDATING_ATTRIBUTES'), '');
+		
+    tiendaJQ.post( url, { "elements" : JSON.encode(str) }, function(response){
+		var resp = JSON.decode(response, false);
+		if (document.getElementById(container)) {
+			document.getElementById(container).set('html', resp.msg);
+		}
+		document.getElementById(container).setStyle('color', '');
+		if ( typeof callback === 'function')
+			callback();
+		return true;
+    });
+}
+
 /**
  * Simple function to refresh a page.
  */
@@ -231,33 +254,6 @@ function tiendaAddToCart(url, container, form, msg) {
 				tiendaDoTask(cartUrl, cartContainer, '', '', false);
 				return true;
 			}
-		}
-	}).send();
-}
-
-function tiendaUpdateAddToCart(page, container, form, working, callback) {
-	var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page=' + page;
-
-	// loop through form elements and prepare an array of objects for passing to server
-	var str = tiendaGetFormInputData(form);
-	// execute Ajax request to server
-	if (working)
-		tiendaGrayOutAjaxDiv(container, Joomla.JText._('COM_TIENDA_UPDATING_ATTRIBUTES'), '');
-	var a = new Request({
-		url : url,
-		method : "post",
-		data : {
-			"elements" : JSON.encode(str)
-		},
-		onSuccess : function(response) {
-			var resp = JSON.decode(response, false);
-			if (document.getElementById(container)) {
-				document.getElementById(container).set('html', resp.msg);
-			}
-			document.getElementById(container).setStyle('color', '');
-			if ( typeof callback === 'function')
-				callback();
-			return true;
 		}
 	}).send();
 }

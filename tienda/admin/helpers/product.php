@@ -2169,10 +2169,15 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         $html = '';
         $page = JRequest::getVar( 'page', 'product' );
+		$isPOS = $page == 'pos';
 
-        JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );
-
-        $view = new TiendaViewProducts( );
+		if( $isPOS ) {
+	        JLoader::register( "TiendaViewPOS", JPATH_ADMINISTRATOR."/components/com_tienda/views/pos/view.html.php" );	
+	        $view = new TiendaViewPOS( );
+		} else {
+	        JLoader::register( "TiendaViewProducts", JPATH_SITE."/components/com_tienda/views/products/view.html.php" );	
+	        $view = new TiendaViewProducts( );
+		}
         $model = JModel::getInstance( 'Products', 'TiendaModel' );
         $model->setId( $product_id );
         $model->setState( 'task', 'product_buy' );
@@ -2182,6 +2187,10 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         Tienda::load( 'TiendaHelperUser', 'helpers.user' );
         $user_id = JFactory::getUser( )->id;
+		if( $isPOS ) {
+			$user_id = JRequest::getInt( 'user_id', $user_id );
+		}
+		
         $filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
         $model->setState( 'filter_group', $filter_group );
 
@@ -2192,12 +2201,17 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         }
         // This enable this helper method to be used outside of tienda
-        $view->addTemplatePath( JPATH_SITE . '/components/com_tienda/views/products/tmpl' );
-        $view->addTemplatePath( JPATH_SITE . '/templates/' . JFactory::getApplication('site')->getTemplate() . '/html/com_tienda/products/' );
-        // add extra templates
-        $view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
-        $view->set( '_controller', 'products' );
-        $view->set( '_view', 'products' );
+        if( $isPOS ) {
+        	$view->set( '_controller', 'pos' );
+	        $view->set( '_view', 'pos' );
+        } else {
+	        $view->addTemplatePath( JPATH_SITE . '/components/com_tienda/views/products/tmpl' );
+	        $view->addTemplatePath( JPATH_SITE . '/templates/' . JFactory::getApplication('site')->getTemplate() . '/html/com_tienda/products/' );
+	        // add extra templates
+	        $view->addTemplatePath( Tienda::getPath( 'product_buy_templates' ) );
+	        $view->set( '_controller', 'products' );
+	        $view->set( '_view', 'products' );
+		}
         $view->set( '_doTask', true );
         $view->set( 'hidemenu', true );
         $view->setModel( $model, true );
@@ -2206,7 +2220,12 @@ class TiendaHelperProduct extends TiendaHelperBase
         $view->values = $values;
         $filter_category = $model->getState( 'filter_category', JRequest::getInt( 'filter_category', ( int ) @$values['filter_category'] ) );
         $view->filter_category = $filter_category;
-        $view->validation = "index.php?option=com_tienda&view=products&task=validate&format=raw";
+		
+		if( $isPOS ) {
+    	    $view->validation = "index.php?option=com_tienda&view=pos&task=validate&format=raw";	
+		} else {
+	        $view->validation = "index.php?option=com_tienda&view=products&task=validate&format=raw";
+		}
 
         $config = Tienda::getInstance( );
         // TODO What about this??
@@ -2273,7 +2292,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 			$attr_orig = $attributes;
 
             sort( $attributes );
-            	
             // Add 0 to attributes to include all the root attributes
             //$attributes[] = 0;//remove this one. its causing the getAvailableQuantity to not get quantity because of wrong csv
             	
@@ -2283,7 +2301,6 @@ class TiendaHelperProduct extends TiendaHelperBase
             ) ) );
             	
             $attributes_csv = implode( ',', $attributes );
-            	
             // Integrity checks on quantity being added
             if ( $product_qty < 0 )
             {
@@ -2332,7 +2349,7 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         $row->_product_quantity = $product_qty;
 
-        if ($page == 'product') {
+        if ($page == 'product' || $isPOS ) {
             $display_cartbutton = Tienda::getInstance( )->get( 'display_product_cartbuttons', '1' );
         }
         else {
@@ -2344,7 +2361,11 @@ class TiendaHelperProduct extends TiendaHelperBase
         $view->display_cartbutton = $display_cartbutton;
         $view->availableQuantity = $availableQuantity;
         $view->invalidQuantity = $invalidQuantity;
-        $view->item = $row;
+		if( $isPOS ) {
+			$view->product = $row;
+		} else {
+	        $view->item = $row;
+		}
 
         $dispatcher = JDispatcher::getInstance( );
 
@@ -2357,7 +2378,6 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         $html = $view->loadTemplate();
         
-    
         return $html;
     }
 

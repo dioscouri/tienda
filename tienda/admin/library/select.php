@@ -732,8 +732,9 @@ class TiendaSelect extends DSCSelect
 	 * @param unknown_type $idtag
 	 * @return unknown_type
 	 */
-    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox'), $idtag = null, $opt_selected = array())
+    public static function productattributeoptions( $productattribute_id, $selected, $name = 'filter_pao', $attribs = array('class' => 'inputbox'), $idtag = null, $opt_selected = array(),$user_id = 0 )
     {
+		$uid = $user_id == 0 ? JFactory::getUser( )->id : $user_id;
         $list = array();
         JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
@@ -756,7 +757,7 @@ class TiendaSelect extends DSCSelect
         	{
 		        Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
         		Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-						$geozones = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
+						$geozones = TiendaHelperUser::getGeoZones( $uid );
 						if ( empty( $geozones ) )
 						{
 							// use the default

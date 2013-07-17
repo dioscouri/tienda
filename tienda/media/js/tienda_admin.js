@@ -35,7 +35,7 @@ Tienda.postConfigFormAndRedirect = function(el) {
         
         tiendaJQ.post( url, data, function(response){
             window.location = el.attr('href');
-        });            
+        });
     });    
 }
 

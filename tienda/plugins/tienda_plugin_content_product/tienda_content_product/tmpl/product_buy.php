@@ -43,7 +43,7 @@ $return = base64_encode( JUri::getInstance()->toString() );
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
         Tienda::load('TiendaSelect', 'library.select');
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"tiendaUpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_('COM_TIENDA_UPDATING_ATTRIBUTES')."' );");
+        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"Tienda.UpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_('COM_TIENDA_UPDATING_ATTRIBUTES')."' );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
     
         ?>
