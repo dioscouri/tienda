@@ -1968,7 +1968,7 @@ class TiendaControllerProducts extends TiendaController
             }
         }
 
-        if ( count( $errors ) ) // there were erros => stop here
+        if ( count( $errors ) ) // there were errors => stop here
         {
             $response['error'] = 1;
             $response['msg'] = $helper->generateMessage( implode( "\n", $errors ), false );

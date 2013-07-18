@@ -1142,6 +1142,7 @@ class TiendaControllerPOS extends TiendaController
 	 */
 	function viewProduct()
 	{
+		JRequest::setVar( 'page', 'pos' );
 		$model = $this->getModel('Products');
 		$model->setId($model->getId());
 		$row = $model->getItem();

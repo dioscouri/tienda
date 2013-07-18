@@ -7,6 +7,8 @@
 	$values = @$this->values;
 
     Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+	$js_strings = array( 'COM_TIENDA_UPDATING_ATTRIBUTES' );
+	TiendaHelperBase::addJsTranslationStrings( $js_strings );
     $helper_product = TiendaHelperBase::getInstance( 'Product' );
     // Selected attribute options (for child attributes)
     $selected_opts = (!empty($this->selected_opts)) ? json_decode($this->selected_opts) : 0; 
@@ -15,7 +17,6 @@
     {
     	$selected_opts = 0;
     }
-	
     $attributes = TiendaHelperProduct::getAttributes( $row->product_id, $selected_opts );    
     $default = TiendaHelperProduct::getDefaultAttributeOptions($attributes);
     
