@@ -65,27 +65,5 @@ class TiendaModelProductAttributeOptions extends TiendaModelBase
        	$fields[] = "tbl.*";
        	$fields[] = "p.product_id, p.product_ships";
         $query->select( $fields );
-    }
-
-    public function getNames( $ids )
-    {
-        $return = array();
-         
-        $query = $this->getDBO()->getQuery(true);
-    
-        $ids = (array) $ids;
-        $filter_id_set = implode("', '", $ids);
-    
-        $query->select( "DISTINCT(pao.productattributeoption_name)" );
-        $query->from( "#__tienda_productattributeoptions AS pao" );
-        $query->where( "pao.productattributeoption_id IN ('" . $filter_id_set . "')" );
-    
-        $db = $this->getDBO();
-        $db->setQuery((string) $query);
-    
-        $return = $db->loadColumn();
-        sort($return);
-         
-        return $return;
-    }
+    }    
 }

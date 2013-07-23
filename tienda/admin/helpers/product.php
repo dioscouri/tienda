@@ -821,9 +821,9 @@ class TiendaHelperProduct extends TiendaHelperBase
                         break;
                 }
                 
-                if (filter_var($full_image, FILTER_VALIDATE_URL) !== false) {
+                if (filter_var($image_ref, FILTER_VALIDATE_URL) !== false) {
                     // $full_image contains a valid URL
-                    $src = $full_image;
+                    $src = $image_ref;
                     if ($url) {
                         return $src;
                     } elseif (!empty($src)) {
