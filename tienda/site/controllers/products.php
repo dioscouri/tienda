@@ -201,6 +201,10 @@ class TiendaControllerProducts extends TiendaController
         $app = JFactory::getApplication();
         $ns = $app->getName().'::'.'com.tienda.products.state.'.$this->itemid;
         $session->set( $ns, $state );
+        
+        $app = JFactory::getApplication();
+        $ns_general = $app->getName().'::'.'com.tienda.products.state';
+        $session->set( $ns_general, $state );
 
         if ( !$this->defines->get( 'display_out_of_stock' ) )
         {
@@ -372,12 +376,12 @@ class TiendaControllerProducts extends TiendaController
         // if product browsing enabled on detail pages, get surrounding items based on browsing state
         $session = JFactory::getSession();
         $app = JFactory::getApplication();
-        $ns = $app->getName().'::'.'com.tienda.products.state.'.$this->itemid;
+        $ns = $app->getName().'::'.'com.tienda.products.state';
         $session_state = $session->get( $ns );
         
         $surrounding = array();
         // Only do this if product browsing is enabled on product detail pages
-        if ($this->defines->get('enable_product_detail_nav')) 
+        if ($this->defines->get('enable_product_detail_nav') && $session_state)
         {
             $products_model = $this->getModel( $this->get( 'suffix' ) );
             $products_model->emptyState();
