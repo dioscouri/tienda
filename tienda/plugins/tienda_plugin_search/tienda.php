@@ -40,6 +40,7 @@ class plgSearchTienda extends JPlugin
             }
             
             $this->defines = Tienda::getInstance();
+            Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
         }
         return $success;
     }
@@ -165,11 +166,13 @@ class plgSearchTienda extends JPlugin
 	        }
 	        $item->href = $item->link . $item->itemid_string;
 	    
-	        $item->title        = JText::_( $item->product_name );
+	        $item->title        = $item->product_name;
 	        $item->created      = $item->created_date;
-	        $item->section      = JText::_( $this->params->get('title', "Tienda") );
-	        $item->text         = substr( $item->product_description, 0, 250);
+	        $item->section      = $this->params->get('title', "Tienda");
+	        $item->text         = $item->product_description;
 	        $item->browsernav   = $this->params->get('link_behaviour', "1");
+	        
+	        $item->thumb = TiendaHelperProduct::getImage($item->product_id, '', $item->product_name, 'thumb', true);
 	    }
 	    
 	    return $items;
