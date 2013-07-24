@@ -945,10 +945,11 @@ class TiendaModelProducts extends TiendaModelEav
 	 * @param	boolean	$getEav
 	 * @param	array	$options; keys: include, exclude; includes or excludes eav attributes from loading. Use their alias
 	 */
-	public function getList($refresh = false, $getEav = true, $options = array())
+	public function getListRaw($refresh = false, $getEav = true, $options = array())
 	{
-	    $return = parent::getList($refresh);
-	    //FB::log($this->getDBO()->getQuery(), 'productsmodel.query');
-	    return $return;
+		$query = $this->getQuery($refresh);
+		$list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
+		
+		return $list;
 	}
 }
