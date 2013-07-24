@@ -16,8 +16,8 @@ jimport('joomla.plugin.plugin');
 
 class plgSearchTienda extends JPlugin 
 {
-    public $cache_enabled = true;
-    public $cache_lifetime = '900';
+    public $cache_enabled = true; // TODO Make this a param and/or make it depend on global setting
+    public $cache_lifetime = '900';  // TODO Make this a param and/or make it depend on global setting
         
     public function __construct(& $subject, $config)
 	{
@@ -117,19 +117,18 @@ class plgSearchTienda extends JPlugin
 	        $model->setState( 'filter_enabled', 1 );
 	        $model->setState( 'filter_published_date', JFactory::getDate()->toMySQL() );
 	        $match = strtolower($match);
+
 	        switch ($match)
 	        {
-	            case 'exact':
-	                $model->setState('filter', $match);
-	            case 'all':
 	            case 'any':
+	                $model->setState('filter_any', $keyword);
+	                break;
+	            case 'all':
+	                $model->setState('filter_all', $keyword);
+	                break;
+	            case 'exact':
 	            default:
-	                $words = explode( ' ', $keyword );
-	                $wheres = array();
-	                foreach ($words as $word)
-	                {
-	                    $model->setState('filter', $word);
-	                }
+	                $model->setState('filter', $keyword);
 	                break;
 	        }
 	         

@@ -51,6 +51,8 @@ class TiendaModelProducts extends TiendaModelEav
         $filter_pao_names = $this->getState( 'filter_pao_names' );
         $filter_pao_ids = $this->getState( 'filter_pao_ids' );
         $filter_pao_id_groups = $this->getState( 'filter_pao_id_groups' );
+        $filter_all = $this->getState('filter_all');
+        $filter_any = $this->getState('filter_any');
         
         if ( $filter )
         {
@@ -78,6 +80,53 @@ class TiendaModelProducts extends TiendaModelEav
             $where[] = 'LOWER(tbl.product_description_short) LIKE ' . $key;
             $query->where( '(' . implode( ' OR ', $where ) . ')' );
         }
+        
+        if ( $filter_all )
+        {
+            $words = explode( ' ', $filter_all );
+            foreach ($words as $word)
+            {
+                $key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $word ) ) ) . '%' );
+                $where = array( );
+                $where[] = 'LOWER(tbl.product_id) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_name) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_description) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_description_short) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_sku) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_model) LIKE ' . $key;
+                $where[] = 'LOWER(m.manufacturer_name) LIKE ' . $key;
+                $where[] = 'LOWER(c.category_name) LIKE ' . $key;
+                 
+                $query->where( '(' . implode( ' OR ', $where ) . ')' );                 
+            }
+        }
+        
+        if ( $filter_any )
+        {
+            $words = explode( ' ', $filter_any );
+            $wheres = array( );
+            foreach ($words as $word)
+            {
+                $key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $word ) ) ) . '%' );
+                $where = array( );
+                $where[] = 'LOWER(tbl.product_id) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_name) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_description) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_description_short) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_sku) LIKE ' . $key;
+                $where[] = 'LOWER(tbl.product_model) LIKE ' . $key;
+                $where[] = 'LOWER(m.manufacturer_name) LIKE ' . $key;
+                $where[] = 'LOWER(c.category_name) LIKE ' . $key;
+                
+                $wheres[] = '(' . implode( ' OR ', $where ) . ')';
+            }
+
+            if (!empty($wheres)) 
+            {
+                $stmt = '(' . implode( ' OR ', $wheres ) . ')';
+                $query->where($stmt);
+            }
+        }        
 
         if ( strlen( $filter_enabled ) )
         {
