@@ -43,7 +43,7 @@ tiendaJQ(document).ready(function(){
                     <?php foreach ($item->productattribute_options as $option) { 
                         $data_group = "option-" . JFilterOutput::stringURLSafe($item->productattribute_name);
                         ?>
-                        <li class="<?php if (array_intersect($filter_pao_id_groups[$data_group], $option->productattributeoption_ids)) { echo "selected"; } ?> tienda-paofilter-option option-<?php echo JFilterOutput::stringURLSafe($option->productattributeoption_name); ?> dsc-wrap" data-ids='<?php echo json_encode($option->productattributeoption_ids); ?>' data-group="option-<?php echo JFilterOutput::stringURLSafe($item->productattribute_name); ?>">
+                        <li class="<?php if (!empty($filter_pao_id_groups[$data_group]) && array_intersect($filter_pao_id_groups[$data_group], $option->productattributeoption_ids)) { echo "selected"; } ?> tienda-paofilter-option option-<?php echo JFilterOutput::stringURLSafe($option->productattributeoption_name); ?> dsc-wrap" data-ids='<?php echo json_encode($option->productattributeoption_ids); ?>' data-group="option-<?php echo JFilterOutput::stringURLSafe($item->productattribute_name); ?>">
                             <div>
                                 <?php echo $option->productattributeoption_name; ?>
                             </div>
