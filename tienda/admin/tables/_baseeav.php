@@ -305,10 +305,18 @@ class TiendaTableEav extends TiendaTable
 		$view = JRequest::getCmd( 'view', '' );
 
 		if( $app->isAdmin() && $view == 'pos' ) { // use "user" editable in POS checkout
+			$session = JFactory::getSession();
 			$user_id = JRequest::getInt( 'user_id', 0 );
-			$user_id = JFactory::getSession()->get('user_id', $user_id, 'tienda_pos');
-			if( $user_id ) {
+			$user_type = JRequest::getWord( 'user_type', '' );
+			$user_type = $session->get('user_type', $user_type, 'tienda_pos');
+			
+			if(	$user_type == 'anonymous' ) {
 				$editable_by = 2;
+			} else {
+				$user_id = $session->get('user_id', $user_id, 'tienda_pos');
+				if( $user_id ) {
+					$editable_by = 2;
+				}
 			}
 		}
 

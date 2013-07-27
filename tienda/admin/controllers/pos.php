@@ -714,7 +714,7 @@ class TiendaControllerPOS extends TiendaController
 				break;
 		}
 
-		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);
+		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false, false);
 		return $response;
 	}
 

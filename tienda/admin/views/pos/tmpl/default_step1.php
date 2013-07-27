@@ -13,9 +13,9 @@
   <div class="bar" style="width: 10%;"></div>
 </div>
 
-            <h2><?php echo JText::_('COM_TIENDA_SELECT_USER_OR_CREATE_ONE'); ?></h2>
-          <div class="clearfix">  
-            <div id="validation_message"></div>
+<h2><?php echo JText::_('COM_TIENDA_SELECT_USER_OR_CREATE_ONE'); ?></h2>
+<div class="clearfix">  
+	<div id="validation_message"></div>
 
 
 
@@ -74,18 +74,11 @@
     </div>
   </div>
 </div>
-
-           
-            
-            
-            
-            
-            
-            <div class="continue">
-                <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep1', document.adminForm, true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?> 
-                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP1'); ?>" type="button" class="button btn btn-success" />
-            </div>
-        </div>
+	<div class="continue">
+		<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep1', document.adminForm, true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?> 
+		<input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP1'); ?>" type="button" class="button btn btn-success" />
+	</div>
+</div>
  
 <script>
 //this is just for testing, could probably be better when moved to remote JS
@@ -103,12 +96,6 @@ jQuery(document).ready(function() {
     }) 
 
 });
-
-
-
-
-
-
 </script>
 
 
