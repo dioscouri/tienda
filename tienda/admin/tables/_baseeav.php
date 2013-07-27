@@ -303,11 +303,15 @@ class TiendaTableEav extends TiendaTable
 		$app = JFactory::getApplication();
 		$editable_by = $app->isAdmin() ? 1 : 2;
 		$view = JRequest::getCmd( 'view', '' );
-		$user_id = JFactory::getSession()->get('user_id', 0, 'tienda_pos');
-		
-		if( $app->isAdmin() && $view == 'pos' && $user_id ) { // use "user" editable in POS checkout
-			$editable_by = 2;
+
+		if( $app->isAdmin() && $view == 'pos' ) { // use "user" editable in POS checkout
+			$user_id = JRequest::getInt( 'user_id', 0 );
+			$user_id = JFactory::getSession()->get('user_id', $user_id, 'tienda_pos');
+			if( $user_id ) {
+				$editable_by = 2;
+			}
 		}
+
 		if (!is_array($oid))
 		{
 			// load by primary key if not array
