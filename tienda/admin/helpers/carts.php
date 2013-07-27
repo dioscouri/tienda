@@ -818,7 +818,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $id_type
 	 * @return unknown_type
 	 */
-	function checkIntegrity( $cart_id, $id_type='user_id' )
+	static function checkIntegrity( $cart_id, $id_type='user_id' )
 	{
 		$user_id = 0;
 		$session_id = '';
@@ -870,7 +870,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $index
 	 * @return unknown_type
 	 */
-	function getAdditionalKeyValues( $item, $posted_values, $index = null )
+	static function getAdditionalKeyValues( $item, $posted_values, $index = null )
 	{
 		$keynames = array();
 		$dispatcher = JDispatcher::getInstance();
