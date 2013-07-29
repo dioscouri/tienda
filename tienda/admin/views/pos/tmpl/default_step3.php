@@ -1,5 +1,19 @@
-<?php defined('_JEXEC') or die('Restricted access');?>
-<?php $display_credits = Tienda::getInstance()->get( 'display_credits', '0' ); ?>
+<?php
+	defined('_JEXEC') or die('Restricted access');
+
+	$display_credits = Tienda::getInstance()->get( 'display_credits', '0' );
+	$guest_checkout_enabled = $this->defines->get('guest_checkout_enabled');
+	
+	$doc = JFactory::getDocument();
+	$js = 'tiendaJQ(document).ready(function(){
+	    Pos = new TiendaPos("#pos-form-step3-shipping", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
+	$js .= 'Pos.setupSection("billing");';
+	$js .= '});';
+	$doc->addScriptDeclaration($js);	
+	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
+	$js_strings = array( 'COM_TIENDA_VALIDATING' );
+	TiendaHelperBase::addJsTranslationStrings( $js_strings );
+?>
 
 <ul class="nav nav-tabs" id="myTab">
   <li ><a href="index.php?option=com_tienda&view=pos"><?php echo JText::_('COM_TIENDA_POS_STEP1_SELECT_USER'); ?></a></li>
@@ -172,12 +186,11 @@
 				<?php endif;?>
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
-					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
-					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" />
-				<?php else:?>
-					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
-                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
-                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" />
+					<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" data-task="saveAddress"/>
+				<?php else:
+					$subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';
+                ?>
+                	<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="btn btn-success" data-task="<?php echo $subtask; ?>"/>
 				<?php endif;?>				
             </div>
 		</div>

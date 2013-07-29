@@ -593,7 +593,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_COULD_NOT_PROCESS_FORM'));
+			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_COULD_NOT_PROCESS_FORM'), true, false);
 			echo( json_encode($response));
 			return ;
 		}
@@ -736,7 +736,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!isset($values['cid']))
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_NO_ITEMS_IN_CART'), false);
+			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_NO_ITEMS_IN_CART'), false, false);
 		}
 
 		return $response;
@@ -806,8 +806,7 @@ class TiendaControllerPOS extends TiendaController
 				break;
 		}
 
-
-		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);		
+		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false, false);
 		return $response;
 	}
 
