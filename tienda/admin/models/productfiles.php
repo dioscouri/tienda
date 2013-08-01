@@ -20,50 +20,55 @@ class TiendaModelProductFiles extends TiendaModelBase
 		$filter          = $this->getState('filter');
 		$filter_id	     = $this->getState('filter_id');
 		$filter_enabled  = $this->getState('filter_enabled');
-    $filter_product  = $this->getState('filter_product');
-    $filter_product_name  = $this->getState('filter_product_name');
-    $filter_file_name  = $this->getState('filter_file_name');
-    $filter_date_from = $this->getState('filter_date_from');
-    $filter_date_to = $this->getState('filter_date_to');
-    $filter_purchaserequired  = $this->getState('filter_purchaserequired');
-
-    if ($filter) 
-    {
-    	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
-    	$where = array();
-    	$where[] = 'LOWER(tbl.productfile_id) LIKE '.$key;
-    	$where[] = 'LOWER(tbl.productfile_name) LIKE '.$key;
-    	$where[] = 'LOWER(tbl.product_id) LIKE '.$key;
-    	$where[] = 'LOWER(tbl_products.product_name) LIKE '.$key;
-    	$query->where('('.implode(' OR ', $where).')');
-    }
-
-    if (strlen($filter_id))
-    {
-    	$query->where('tbl.productfile_id = '.(int) $filter_id);
-    }
-    if (strlen($filter_product))
-    {
-    	$query->where('tbl.product_id = '.(int) $filter_product);
-    }
-    if (strlen($filter_product_name))
-    {
-    	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_product_name ) ) ).'%');
-    	$query->where('tbl_products.product_name LIKE '.$key );
-    }
-    if (strlen($filter_file_name))
-    {
-    	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_file_name ) ) ).'%');
-    	$query->where('tbl.productfile_name LIKE '.$key );
-    }
-    if (strlen($filter_enabled))
-    {
-    	$query->where('tbl.productfile_enabled = '.(int) $filter_enabled);
-    }
-    if (strlen($filter_purchaserequired))
-    {
-    	$query->where('tbl.purchase_required = '.(int) $filter_purchaserequired);
-    }
+        $filter_product  = $this->getState('filter_product');
+        $filter_product_name  = $this->getState('filter_product_name');
+        $filter_file_name  = $this->getState('filter_file_name');
+        $filter_date_from = $this->getState('filter_date_from');
+        $filter_date_to = $this->getState('filter_date_to');
+        $filter_purchaserequired  = $this->getState('filter_purchaserequired');
+    
+        $filter_productid  		= $this->getState('filter_productid');
+        if (strlen($filter_productid)) {
+            $filter_product = $filter_productid;
+        }        
+        
+        if ($filter) 
+        {
+        	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');
+        	$where = array();
+        	$where[] = 'LOWER(tbl.productfile_id) LIKE '.$key;
+        	$where[] = 'LOWER(tbl.productfile_name) LIKE '.$key;
+        	$where[] = 'LOWER(tbl.product_id) LIKE '.$key;
+        	$where[] = 'LOWER(tbl_products.product_name) LIKE '.$key;
+        	$query->where('('.implode(' OR ', $where).')');
+        }
+    
+        if (strlen($filter_id))
+        {
+        	$query->where('tbl.productfile_id = '.(int) $filter_id);
+        }
+        if (strlen($filter_product))
+        {
+        	$query->where('tbl.product_id = '.(int) $filter_product);
+        }
+        if (strlen($filter_product_name))
+        {
+        	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_product_name ) ) ).'%');
+        	$query->where('tbl_products.product_name LIKE '.$key );
+        }
+        if (strlen($filter_file_name))
+        {
+        	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter_file_name ) ) ).'%');
+        	$query->where('tbl.productfile_name LIKE '.$key );
+        }
+        if (strlen($filter_enabled))
+        {
+        	$query->where('tbl.productfile_enabled = '.(int) $filter_enabled);
+        }
+        if (strlen($filter_purchaserequired))
+        {
+        	$query->where('tbl.purchase_required = '.(int) $filter_purchaserequired);
+        }
     
 		if ( strlen( $filter_date_from ) )
 		{

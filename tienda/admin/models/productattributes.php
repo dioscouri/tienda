@@ -22,6 +22,11 @@ class TiendaModelProductAttributes extends TiendaModelBase
         $filter_product  		= $this->getState('filter_product');
         $filter_parent_option	= $this->getState('filter_parent_option');
 
+        $filter_productid  		= $this->getState('filter_productid');
+        if (strlen($filter_productid)) {
+            $filter_product = $filter_productid;
+        }
+                
         if ($filter) 
         {
             $key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');

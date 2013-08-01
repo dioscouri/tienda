@@ -577,18 +577,18 @@ class TiendaTableProducts extends TiendaTableEav
 	    
 	    $delete = array();
 	    
-	    $delete['attributes'] = $this->deleteItemsWithoutReconciliation( 'attributes', $oid );
-	    $delete['categories'] = $this->deleteItemsXref( 'category', $oid );
-	    $delete['comments'] = $this->deleteItemsWithoutReconciliation( 'comments', $oid );
-	    $delete['compare'] = $this->deleteItems( 'compare', $oid );
-	    $delete['coupons'] = $this->deleteItemsXref( 'coupon', $oid );
-	    $delete['files'] = $this->deleteItems( 'files', $oid );
-	    $delete['issues'] = $this->deleteItems( 'issues', $oid );
-	    $delete['prices'] = $this->deleteItems( 'prices', $oid );
-	    $delete['quantities'] = $this->deleteItems( 'quantities', $oid );
-	    $delete['relations'] = $this->deleteItems( 'relations', $oid );
+	    $delete['attributes'] = $this->deleteItemsWithoutReconciliation( 'attributes', $this->$k );
+	    $delete['categories'] = $this->deleteItemsXref( 'category', $this->$k );
+	    $delete['comments'] = $this->deleteItemsWithoutReconciliation( 'comments', $this->$k );
+	    $delete['compare'] = $this->deleteItems( 'compare', $this->$k );
+	    $delete['coupons'] = $this->deleteItemsXref( 'coupon', $this->$k );
+	    $delete['files'] = $this->deleteItems( 'files', $this->$k );
+	    $delete['issues'] = $this->deleteItems( 'issues', $this->$k );
+	    $delete['prices'] = $this->deleteItems( 'prices', $this->$k );
+	    $delete['quantities'] = $this->deleteItems( 'quantities', $this->$k );
+	    $delete['relations'] = $this->deleteItems( 'relations', $this->$k );
 	    
-	    $delete['product'] = parent::delete( $oid );
+	    $delete['product'] = parent::delete( $this->$k );
 	    
 	    $this->deleteResults = $delete;
 	    
