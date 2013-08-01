@@ -87,6 +87,7 @@ class TiendaControllerOrders extends TiendaController
 		
 		// Get the shop country name
 		$row->shop_country_name = "";
+		Tienda::load('TiendaModelCountries', 'models.countries');
 		$countryModel = JModel::getInstance('Countries', 'TiendaModel');
 		$countryModel->setId(Tienda::getInstance()->get('shop_country'));
 		$countryItem = $countryModel->getItem();
@@ -97,6 +98,7 @@ class TiendaControllerOrders extends TiendaController
 
 		// Get the shop zone name
 		$row->shop_zone_name = "";
+		Tienda::load('TiendaModelZones', 'models.zones');
 		$zoneModel = JModel::getInstance('Zones', 'TiendaModel');
 		$zoneModel->setId(Tienda::getInstance()->get('shop_zone'));
 		$zoneItem = $zoneModel->getItem();
@@ -109,6 +111,7 @@ class TiendaControllerOrders extends TiendaController
 		if (!empty($row->user_id))
 		{
 			//get the user information from jos_users and jos_tienda_userinfo
+			Tienda::load('TiendaModelUsers', 'models.users');
 			$userModel  = JModel::getInstance( 'Users', 'TiendaModel' );
 			$userModel->setId($row->user_id);
 			$userItem = $userModel->getItem();
