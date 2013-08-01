@@ -5,29 +5,25 @@
 <?php $items = @$this->items; ?>
 <?php $row = @$this->row; ?>
 
-<h1 style="margin-left: 2%; margin-top: 2%;"><?php echo JText::_('COM_TIENDA_SELECT_PRODUCTS_FOR'); ?>: <?php echo $row->category_name; ?></h1>
+<div class="lightbox-select">
+    <form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminFormSearch" enctype="multipart/form-data" class="dsc-wrap">
+        <h1 class="pull-left"><?php echo JText::_('COM_TIENDA_SELECT_PRODUCTS_FOR'); ?>: <?php echo $row->category_name; ?></h1>
+        
+        <?php echo TiendaGrid::searchform(@$state->filter,JText::_('COM_TIENDA_SEARCH'), JText::_('COM_TIENDA_RESET') ) ?>
+        <input type="hidden" name="task" value="selectproducts" />
+    </form>
+</div>
 
-<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data">
-<div class="note_green" style="width: 96%; text-align: center; margin-left: auto; margin-right: auto;">
-    <?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
-    <button class="btn btn-success" onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button>
+<form action="<?php echo JRoute::_( @$form['action'] )?>" method="post" name="adminForm" enctype="multipart/form-data" class="dsc-wrap dsc-clear">
 
- 
-     <table>
-        <tr>
-            <td align="left" width="100%">
-            	 <input type="text" name="filter" value="<?php echo @$state->filter; ?>" />
-                <button class="btn btn-primary" onclick="this.form.submit();"><?php echo JText::_('COM_TIENDA_SEARCH'); ?></button>
-                <button class="btn btn-danger"onclick="tiendaFormReset(this.form);"><?php echo JText::_('COM_TIENDA_RESET'); ?></button>
-            </td>
-            <td nowrap="nowrap">
-                <?php $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange' => 'document.adminForm.submit();'); ?>
-                <?php //echo TiendaSelect::category( @$state->filter_parentid, 'filter_parentid', $attribs, 'parentid', true, true ); ?>
-            </td>
-        </tr>
-    </table>
+<div class="note_green lightbox-select">
+    
+    <p class="dsc-wrap">
+        <?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
+        <button class="btn btn-success" onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button>
+    </p>
 
-	<table class="table table-striped table-bordered" style="clear: both;">
+	<table class="table table-striped table-bordered dsc-clear">
 		<thead>
             <tr>
                 <th style="width: 5px;">
@@ -98,6 +94,7 @@
 	<input type="hidden" name="boxchecked" value="" />
 	<input type="hidden" name="filter_order" value="<?php echo @$state->order; ?>" />
 	<input type="hidden" name="filter_direction" value="<?php echo @$state->direction; ?>" />
+	<input type="hidden" name="filter" value="<?php echo @$state->filter; ?>" />
 	
 	<?php echo $this->form['validate']; ?>
 </div>

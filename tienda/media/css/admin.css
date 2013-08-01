@@ -314,3 +314,10 @@ div.tienda_custom_fields div.tienda_custom_fields_line div.tienda_custom_fields_
 	width : auto;
 	padding : 5px 10px;
 }
+
+.lightbox-select {
+    width: 95%; 
+    text-align: center; 
+    margin-left: auto; 
+    margin-right: auto;
+}

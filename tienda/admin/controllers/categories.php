@@ -169,10 +169,14 @@ class TiendaControllerCategories extends TiendaController
 	function selectproducts()
 	{
 		$this->set('suffix', 'products');
-		$state = parent::_setModelState();
+		
 		$app = JFactory::getApplication();
 		$model = $this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
+				
+		$state['order']     = $app->getUserStateFromRequest($ns.'.selectproducts.filter_order', 'filter_order', 'tbl.product_name', 'cmd');
+		$state['direction'] = $app->getUserStateFromRequest($ns.'.selectproducts.filter_direction', 'filter_direction', 'ASC', 'word');		
+		$state['filter']    = $app->getUserStateFromRequest($ns.'.selectproducts.filter', 'filter', '', 'string');
 
 		foreach (@$state as $key=>$value)
 		{
