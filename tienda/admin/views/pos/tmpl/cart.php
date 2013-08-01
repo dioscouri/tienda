@@ -45,6 +45,11 @@
 	                	<br/>
 	                <?php endif; ?>
 	                    <input name="product_attributes[<?php echo $item->cart_id; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />   
+				    <?php if (!empty($this->onDisplayCartItem) && (!empty($this->onDisplayCartItem[$i]))) : ?>
+				        <div class='onDisplayCartItem_wrapper_<?php echo $i?>'>
+				        <?php echo $this->onDisplayCartItem[$i]; ?>
+				        </div>
+				    <?php endif; ?>                        
 				</td>
 				<td style="border-bottom: 1px solid #E5E5E5; width: 50px; text-align: center;">
 				<?php $type = 'text';
@@ -64,8 +69,8 @@
 				<?php echo TiendaHelperBase::currency($product_total);?>
 				</td>
 			</tr>
-			<?php $subtotal = $subtotal + $product_total;?>
-			<?php endforeach;?>			
+			<?php $subtotal = $subtotal + $product_total; $i++; ?>
+			<?php endforeach;?>
 			<tr>
 				<td colspan="3" style="border-bottom: 1px solid #E5E5E5; text-align: left;">
 				<input type="submit" class="btn btn-danger" value="<?php echo JText::_('COM_TIENDA_REMOVE_SELECTED');?>" onclick="tiendaSubmitForm('removeItems')" name="remove" />
