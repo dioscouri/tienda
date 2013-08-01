@@ -21,7 +21,12 @@ class TiendaUrl extends DSCUrl
 	    
 		$html = "";
 		
-		JHTML::_('behavior.modal', 'a.tienda-modal');
+		JHTML::_('stylesheet', 'colorbox.css', 'media/com_tienda/colorbox/');
+		JHTML::_( 'script', 'colorbox.js', 'media/com_tienda/colorbox/' );
+		
+		$document = JFactory::getDocument();
+		$js = "tiendaJQ(document).ready(function() { tiendaJQ('.tienda-modal').colorbox({current: '', iframe: true, opacity: '0.6', width: '80%', height: '80%'}); });";
+		$document->addScriptDeclaration( $js );
 		
 		if (!empty($options['update']))
 		{
