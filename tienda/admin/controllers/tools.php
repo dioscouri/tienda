@@ -56,19 +56,33 @@ class TiendaControllerTools extends TiendaController
         $model->getId();
         $row = $model->getItem();
 
-        if (empty($row->published))
-        {
-            $table = $model->getTable();
-            $table->load( $row->id );
-            $table->published = 1;
-            if ($table->save())
-            {
-                $redirect = "index.php?option=com_tienda&view=".$this->get('suffix')."&task=view&id=".$model->getId();
-                $redirect = JRoute::_( $redirect, false );
-                $this->setRedirect( $redirect );
-                return;
-            }
-        }
+    	if (version_compare(JVERSION, '1.6.0', 'ge')) {
+			// Joomla! 1.6+ code here
+			if (empty($row -> enabled)) {
+				$table = $model -> getTable();
+				$table -> load($row -> id);
+				$table -> enabled = 1;
+				if ($table -> save()) {
+					$redirect = "index.php?option=com_tienda&view=" . $this -> get('suffix') . "&task=view&id=" . $model -> getId();
+					$redirect = JRoute::_($redirect, false);
+					$this -> setRedirect($redirect);
+					return;
+				}
+			}
+		} else {
+			// Joomla! 1.5 code here
+			if (empty($row -> published)) {
+				$table = $model -> getTable();
+				$table -> load($row -> id);
+				$table -> published = 1;
+				if ($table -> save()) {
+					$redirect = "index.php?option=com_tienda&view=" . $this -> get('suffix') . "&task=view&id=" . $model -> getId();
+					$redirect = JRoute::_($redirect, false);
+					$this -> setRedirect($redirect);
+					return;
+				}
+			}
+		}
         
         parent::view($cachable, $urlparams);
     }
