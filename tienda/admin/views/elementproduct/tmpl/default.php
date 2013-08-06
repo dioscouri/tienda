@@ -20,30 +20,22 @@ $page = $this->get('Pagination');
 ?>
 <form action="<?php echo JRoute::_( @$form['action'] .'&tmpl=component&object='.$this->object )?>" method="post" name="adminForm">
 
-<table>
-	<tr>
-		<td width="100%" ><?php echo JText::_('COM_TIENDA_FILTER'); ?>:
-			<input name="filter" value="<?php echo @$state->filter; ?>" />
-			<button onclick="this.form.submit();"><?php echo JText::_('Search'); ?></button>
-			<button onclick="Dsc.formReset(this.form);"><?php echo JText::_('Reset'); ?></button>
-		</td>
-	</tr>
-</table>
+<?php echo TiendaGrid::searchform(@$state->filter,JText::_('COM_TIENDA_SEARCH'), JText::_('COM_TIENDA_RESET') ) ?>
 
-<table class="adminlist" cellspacing="1">
+<table class="dsc-clear table table-striped">
 	<thead>
 		<tr>
 			<th width="2%" class="title">
-				<?php echo DSCGrid::sort( 'ID', 'c.product_id', @$state->direction , @$state->order ); ?>
+				<?php echo DSCGrid::sort( 'ID', 'tbl.product_id', @$state->direction , @$state->order ); ?>
 			</th>
 			<th style="width:50px;">
 				<?php echo JText::_('COM_TIENDA_IMAGE'); ?>
 			</th>
 			<th class="title">
-				<?php echo DSCGrid::sort( 'Name', 'c.product_name', @$state->direction, @$state->order ); ?>
+				<?php echo DSCGrid::sort( 'Name', 'tbl.product_name', @$state->direction, @$state->order ); ?>
 			</th>
 			<th class="title">
-				<?php echo DSCGrid::sort( 'Description', 'c.product_description', @$state->direction, @$state->order ); ?>
+				<?php echo DSCGrid::sort( 'Description', 'tbl.product_description', @$state->direction, @$state->order ); ?>
 			</th>
 		</tr>
 	</thead>

@@ -94,6 +94,10 @@ class TiendaTableProductAttributes extends TiendaTable
             }            
         }
         
+        $db = $this->getDBO();
+        $db->setQuery('SET foreign_key_checks = 0;');
+        $db->query();
+        
         if ($return = parent::delete( $oid ))
         {
             DSCModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
@@ -117,6 +121,9 @@ class TiendaTableProductAttributes extends TiendaTable
                 TiendaHelperProduct::doProductQuantitiesReconciliation( $product_id );
             }
         }
+        
+        $db->setQuery('SET foreign_key_checks = 1;');
+        $db->query();        
         
         return parent::check();
     }

@@ -778,7 +778,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orders` (
   CONSTRAINT `fk_OrderState_Order`
     FOREIGN KEY (`order_state_id` )
     REFERENCES `#__tienda_orderstates` (`order_state_id` )
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_currencies_orders`
     FOREIGN KEY (`currency_id` )
@@ -891,7 +891,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_productattributeoptionvalues` (
   CONSTRAINT `fk_paov_pao`
     FOREIGN KEY (`productattributeoption_id` )
     REFERENCES `#__tienda_productattributeoptions` (`productattributeoption_id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) 
 ENGINE = InnoDB
@@ -1135,7 +1135,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_orderpayments` (
   CONSTRAINT `fk_Orders_OrderPayment`
     FOREIGN KEY (`order_id` )
     REFERENCES `#__tienda_orders` (`order_id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8

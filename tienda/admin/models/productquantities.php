@@ -26,7 +26,11 @@ class TiendaModelProductQuantities extends TiendaModelBase
         $filter_quantity_from   = $this->getState('filter_quantity_from');
         $filter_quantity_to = $this->getState('filter_quantity_to');
         
-        
+        $filter_productid  		= $this->getState('filter_productid');
+        if (strlen($filter_productid)) {
+            $filter_product = $filter_productid;
+        }
+                
 		if (strlen($filter_id))
         {
             $query->where('tbl.productquantity_id = '.(int) $filter_id);

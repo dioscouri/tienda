@@ -63,9 +63,15 @@ class TiendaModelElementproduct extends DSCModelElement
 		$search				= $mainframe->getUserStateFromRequest('userelement.filter',				'filter',			'',	'string');
 		$search				= JString::strtolower($search);
 
-		if (!$filter_order) {
-			$filter_order = 'tbl.product_id';
+		$valid_ordering_options = array(
+		        'tbl.product_id', 'tbl.product_name', 'tbl.product_description'
+        );
+		if (!$filter_order || !in_array($filter_order, $valid_ordering_options)) {
+			$filter_order = 'tbl.product_name';
+			$mainframe->setUserState('userelement.filter_order', $filter_order);
 		}
+		$this->setState('order', $filter_order);
+		
 		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir;
 		$all = 1;
 

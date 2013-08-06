@@ -4,6 +4,7 @@ JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
 ?>
 
 <div id="<?php echo $this->name; ?>" class="leftmenu-navigation">
+
     <ul class="nav nav-pills nav-stacked">
     <?php 
     foreach ($this->items as $item) {
@@ -37,8 +38,7 @@ JHTML::_('stylesheet', 'leftmenu_admin.css', 'media/com_tienda/css/');
 		?>
 		</li>
 		<?php
-        
     }
     ?>
-    </div>
+    </ul>
 </div>
