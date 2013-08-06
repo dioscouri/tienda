@@ -23,32 +23,55 @@ TiendaPos = TiendaClass.extend({
     {
         switch (section) 
         {
-            case "billing":
-                this.setupAddressForm();
+            case "shipping":
+           	{
+                this.setupShippingForm();
                 break;
+            }
+            case "payment":
+            {
+                this.setupPaymentForm();
+                break;
+            }
         }
     },
     
-    setupAddressForm: function() {
+    setupShippingForm: function() {
         this.validations.setAddress = new TiendaValidation('#pos-form-step3-shipping');
         var self = this;
         
         if( this.element.size() ) {
         	if( !tiendaJQ('#billing_input_address_id').size() ) {
-		        tiendaJQ('#pos_continue').on('click', function(event){
-		            event.preventDefault();
-		            self.setAddress( this );		            
+		        tiendaJQ('#pos_continue').on('click', function(e){
+		            e.preventDefault();
+		            self.setAddress( this, false ); 
+		        });
+        	}
+        }
+    },
+
+    setupPaymentForm: function() {
+        this.validations.setAddress = new TiendaValidation('#pos-form-step3-payment');
+        var self = this;
+        
+        if( this.element.size() ) {
+        	if( !tiendaJQ('#billing_input_address_id').size() ) {
+		        tiendaJQ('#pos_continue').on('click', function(e){
+		            e.preventDefault();
+		            self.setAddress( this, true );
 		        });
         	}
         }
     },
     
-	setAddress: function( el ) {
-		if( tiendaJQ('#sameasbilling').attr('checked') != '' ) {
-			this.syncWithBilling();
+	setAddress: function( el, onlyBilling ) {
+		if( onlyBilling ) {
+			if( tiendaJQ('#sameasbilling').attr('checked') == 'checked' ) {
+				this.syncWithBilling();
+			}
 		}
-		var subtask = tiendaJQ(el).data( "task" );
 
+		var subtask = tiendaJQ(el).data( "task" );
 		if( this.validations.setAddress.validateForm() ) {
 			tiendaValidation( this.urls.validate_address,
 								'validation_message', 
