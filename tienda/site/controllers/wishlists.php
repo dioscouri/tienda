@@ -23,6 +23,20 @@ class TiendaControllerWishlists extends TiendaController
 	{
 		parent::__construct();
         $this->set('suffix', 'wishlists');
+        
+        $user = JFactory::getUser();
+        if (empty($user->id))
+        {
+            // redirect to login
+            Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+            $router = new TiendaHelperRoute();
+            $url = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+            Tienda::load( "TiendaHelperUser", 'helpers.user' );
+            $redirect = JRoute::_( TiendaHelperUser::getUserLoginUrl( $url ), false );
+            JFactory::getApplication()->redirect( $redirect );
+            return;
+        }
+        
 	}
 	
     /**
@@ -38,25 +52,16 @@ class TiendaControllerWishlists extends TiendaController
         $ns = $this->getNamespace();
 
         $session = JFactory::getSession();
-        $user = JFactory::getUser();
         
+        $user = JFactory::getUser();
         $state['filter_user'] = $user->id;
-        if (empty($user->id))
-        {
-             // redirect to login
-            Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-            $router = new TiendaHelperRoute(); 
-            $url = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
-            Tienda::load( "TiendaHelperUser", 'helpers.user' );
-            $redirect = JRoute::_( TiendaHelperUser::getUserLoginUrl( $url ), false );
-            JFactory::getApplication()->redirect( $redirect );
-            return; 
-        }
+        $state['filter_wishlist'] = $app->getUserStateFromRequest( $ns . 'filter_wishlist', 'filter_wishlist', '', '' );
         
         foreach (@$state as $key=>$value)
         {
             $model->setState( $key, $value );   
         }
+        
         return $state;
     }  
 
@@ -67,19 +72,31 @@ class TiendaControllerWishlists extends TiendaController
     function display( $cachable = false, $urlparams = '')
     {
         $model  = $this->getModel( $this->get('suffix') );
-        $model->clearSessionIds();
-        $user = JFactory::getUser();        
-        $model->mergeUserItems( $user->id );
+        $items_model = $this->getModel( 'wishlistitems' );
+        $products_model = $this->getModel( 'products' );
         
-        $this->_setModelState();
-        if ($items = $model->getList())
+        // clear unecessary session ids
+        $items_model->clearSessionIds();
+        
+        $user = JFactory::getUser();        
+        $items_model->mergeUserItems( $user->id );
+        
+        $state = $this->_setModelState();
+        
+        $wishlists = $model->getAll();
+        
+        foreach (@$state as $key=>$value)
         {
-            foreach ($items as $item)
-            {
-                $row = $model->getTable();
-                $row->bind( $item );
-                $item->available = $row->isAvailable(); 
-            }
+            $items_model->setState( $key, $value );
+        }
+        $items_model->setState('limit', '10');
+        $items_model->setState('order', 'p.product_name');
+        $items_model->setState('direction', 'ASC');
+
+        $pagination = null;
+        if ($items = $items_model->getList(true))
+        {
+            $pagination = $items_model->getPagination();
         }
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
@@ -101,15 +118,87 @@ class TiendaControllerWishlists extends TiendaController
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
         $view->assign( 'return', $redirect );
         $view->assign( 'checkout_itemid', $checkout_itemid );
-      	$view->assign( 'items', $items );      
+        $view->assign( 'wishlists', $wishlists );
+      	$view->assign( 'items', $items );
+      	$view->assign( 'pagination', $pagination );
+      	$view->set('no_items', true);
+      	$view->set('no_pagination', true);
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
+        $view->setModel( $items_model );
+        $view->setModel( $products_model );
         $view->setLayout('default');
-        $view->display();        
-        $this->footer();
+
+        JRequest::setVar('layout', 'default');
+        
+        parent::display( $cachable, $urlparams );
         return;
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see TiendaController::display()
+     */
+    function view( $cachable = false, $urlparams = '')
+    {
+        $model  = $this->getModel( $this->get('suffix') );
+        $items_model = $this->getModel( 'wishlistitems' );
+        $products_model = $this->getModel( 'products' );
+    
+        // clear unecessary session ids
+        $items_model->clearSessionIds();
+    
+        $user = JFactory::getUser();
+        $items_model->mergeUserItems( $user->id );
+    
+        $this->_setModelState();
+        
+        $wishlist_id = JRequest::getInt('id');
+        $item = $model->getItem( $wishlist_id );
+        // TODO Is this a public or the user's wishlist?  if no, fail.
+        
+        $items_model->setState('filter_wishlist', $wishlist_id);
+        if ($items = $items_model->getList(true))
+        {
+    
+        }
+        
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = TiendaHelperBase::getInstance( 'Route' );
+        $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
+        if (empty($checkout_itemid)) {
+            $checkout_itemid = JRequest::getInt('Itemid');
+        }
+    
+        if ($return = JRequest::getVar('return', '', 'method', 'base64'))
+        {
+            $return = base64_decode($return);
+            if (!JURI::isInternal($return))
+            {
+                $return = '';
+            }
+        }
+         
+        $redirect = $return ? $return : JRoute::_( "index.php?option=com_tienda&view=products" );
+    
+        $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+        $view->assign( 'return', $redirect );
+        $view->assign( 'checkout_itemid', $checkout_itemid );
+        $view->assign( 'row', $item );
+        $view->assign( 'items', $items );
+        $view->set('no_items', true);
+        $view->set('hidemenu', true);
+        $view->set('_doTask', true);
+        $view->setModel( $model, true );
+        $view->setModel( $items_model );
+        $view->setModel( $products_model );
+        $view->setLayout('view');
+
+        JRequest::setVar('layout', 'view');
+        
+        parent::display( $cachable, $urlparams );
+    }    
     
     /**
      * 
@@ -124,21 +213,22 @@ class TiendaControllerWishlists extends TiendaController
 		    $this->share();
 		    return;
 		}
-
-		JRequest::checkToken( ) or jexit( 'Invalid Token' );
 		
 		$dispatcher = JDispatcher::getInstance();
 		$model  = $this->getModel( $this->get('suffix') );
+		$items_model = $this->getModel( 'wishlistitems' );
+		
         $user = JFactory::getUser();
         $cids = JRequest::getVar('cid', array(0), '', 'array');        
         
-        foreach ($cids as $key=>$wishlist_id)
+        foreach ($cids as $key=>$wishlistitem_id)
         {
-            $row = $model->getTable();
+            $row = $items_model->getTable();
 
-            $ids = array('user_id'=>$user->id, 'wishlist_id'=>$wishlist_id);
+            // TO edit wishlists, visitors must first login
+            $ids = array('user_id'=>$user->id, 'wishlistitem_id'=>$wishlistitem_id);
 	        $row->load( $ids );
-	        if (!empty($row->wishlist_id))
+	        if (!empty($row->wishlistitem_id))
 	        {
 	            $remove = JRequest::getVar('remove');
 	            if ($remove)
@@ -168,7 +258,7 @@ class TiendaControllerWishlists extends TiendaController
 	            	$product_attributes = $row->product_attributes;
     	            $product_id = $row->product_id;
     	            
-    	            if ($cartitem = $row->addtocart())
+    	            if ($cartitem = $row->addToCart())
                     {
                         $row->delete();
                         
@@ -176,7 +266,8 @@ class TiendaControllerWishlists extends TiendaController
                         $item->product_id = $product_id;
                         $item->product_attributes = $product_attributes;
                         $item->vendor_id = '0';
-                        $item->wishlist_id = $wishlist_id;
+                        $item->wishlistitem_id = $wishlistitem_id;
+                        $item->cartitem = $cartitem;
         
                         $dispatcher->trigger( 'onAddToCartFromWishlist', array( $item ) );
                     }
@@ -189,6 +280,7 @@ class TiendaControllerWishlists extends TiendaController
         }
         
         $model->clearCache();
+        $items_model->clearCache();
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute(); 
@@ -386,112 +478,200 @@ class TiendaControllerWishlists extends TiendaController
         
         return $success;
     }
-
-    public function addToWishlist()
+    
+    public function addWishlistItemToWishlist()
     {
-        // verify form submitted by user
-        JRequest::checkToken( ) or jexit( 'Invalid Token' );
-
-        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-        $router = new TiendaHelperRoute();
-
-        $product_id = JRequest::getInt( 'product_id' );
-        $filter_category = JRequest::getInt( 'filter_category' );
-        if ( !$itemid = $router->product( $product_id, $filter_category, true ) )
-        {
-            $itemid = $router->category( 1, true );
-            if( !$itemid )
-                $itemid = JRequest::getInt( 'Itemid', 0 );
-        }
-
-        // set the default redirect URL
-        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category&Itemid=" . $itemid;
-        $redirect = JRoute::_( $redirect, false );
-
-        JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
-        $product = JTable::getInstance( 'Products', 'TiendaTable' );
-        $product->load( $product_id, true, false );
-
-        if (empty($product->product_id))
-        {
-            // not a valid product, so return to product detail page with invalid-product message
-            $this->messagetype = 'notice';
-            $this->message = JText::_('COM_TIENDA_INVALID_PRODUCT');
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;
-        }
-
-        $values = JRequest::get('post');
-
-        $attributes = array( );
-        foreach ( $values as $key => $value )
-        {
-            if ( substr( $key, 0, 10 ) == 'attribute_' )
-            {
-                $attributes[] = $value;
-            }
-        }
-        sort( $attributes );
-        $attributes_csv = implode( ',', $attributes );
-
-        $user_id = JFactory::getUser()->id;
-        if (empty($user_id))
-        {
-            // if not logged in, add item to session wishlist, then redirect to login/registration page, and upon login (in user plugin) add item from session to wishlist
-            $session = JFactory::getSession();
-            $session_id = $session->getId();
-            $session->set( 'old_sessionid', $session_id );
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
                 
-            $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
-            $wishlist->load(array('session_id'=>$session_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv));
-            $wishlist->session_id = $session_id;
-            $wishlist->product_id = $product->product_id;
-            $wishlist->product_attributes = $attributes_csv;
-            $wishlist->last_updated = JFactory::getDate()->toMySQL();
-            $wishlist->store();
-
-            JFactory::getApplication()->enqueueMessage( JText::_('COM_TIENDA_LOGIN_TO_ADD_ITEM_TO_WISHLIST') );
-
-            Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-            $router = new TiendaHelperRoute();
-            $url = $redirect; // set above
-            $option_users_component = 'com_users';
-            if(!version_compare(JVERSION,'1.6.0','ge')) {
-                // Joomla! 1.5 code here
-                $option_users_component = 'com_user';
-            }
-            $redirect = "index.php?option=".$option_users_component."&view=login&return=".base64_encode( $url );
-            $redirect = JRoute::_( $redirect, false );
-            JFactory::getApplication()->redirect( $redirect );
-            return;
-        }
-
-
-        // add to wishlist
-        $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
-        // load from db in case the item is in the wishlist already and should be updated
-        $wishlist->load( array( 'user_id'=>$user_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv ) );
-        // set the values
-        $wishlist->user_id = $user_id;
-        $wishlist->product_id = $product->product_id;
-        $wishlist->product_attributes = $attributes_csv;
-        $wishlist->last_updated = JFactory::getDate()->toMySQL();
-
-        if (!$wishlist->save())
+        $user = JFactory::getUser();
+        $wishlist_model = $this->getModel( 'wishlists' );
+        $items_model = $this->getModel( 'wishlistitems' );
+        
+        $wishlist = $wishlist_model->getTable();
+        $row = $items_model->getTable();
+        
+        $wishlistitem_id = JRequest::getInt('wishlistitem_id');
+        $wishlist_id = JRequest::getInt('wishlist_id');
+        
+        $ids = array('user_id'=>$user->id, 'wishlistitem_id'=>$wishlistitem_id);
+        $row->load( $ids );
+        
+        $wishlist_ids = array('user_id'=>$user->id, 'wishlist_id'=>$wishlist_id);
+        $wishlist->load( $wishlist_ids );
+        
+        if (!empty($row->wishlistitem_id) && !empty($wishlist->wishlist_id)) 
         {
-            $this->messagetype = 'notice';
-            $this->message = JText::_('COM_TIENDA_COULD_NOT_ADD_TO_WISHLIST');
+            $row->wishlist_id = $wishlist_id;
+            $row->save();
+            $response->html = JText::_('COM_TIENDA_WISHLISTITEM_ADDED_TO_WISHLIST');
+        } else {
+            $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+            $response->error = true;
         }
-        else
-        {
-            $url = "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') );
-            $this->messagetype = 'message';
-            $this->message = JText::sprintf( JText::_('COM_TIENDA_ADDED_TO_WISHLIST'), $url );
-        }
-
-        // redirect back to product detail page, with message saying "item added, click here to view wishlist"
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+        
+        echo json_encode($response);
         return;
     }
     
+    public function createWishlist()
+    {
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
+        
+        $user = JFactory::getUser();
+        $wishlist_model = $this->getModel( 'wishlists' );
+        $wishlist_name = JRequest::getVar('wishlist_name');
+        
+        $wishlist = $wishlist_model->getTable();
+        $wishlist->wishlist_name = $wishlist_name;
+        $wishlist->user_id = $user->id;
+        
+        if ($wishlist->save()) {
+            $wishlist_model->clearCache();
+            $response->html = JText::_('COM_TIENDA_WISHLIST_CREATED');
+            $response->wishlist_id = $wishlist->wishlist_id;
+        } else {
+            $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+            $response->error = true;
+        }
+
+        echo json_encode($response);
+        return;        
+    }
+    
+    public function deleteWishlist()
+    {
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
+    
+        $user = JFactory::getUser();
+        $wishlist_model = $this->getModel( 'wishlists' );
+    
+        $wishlist = $wishlist_model->getTable();
+        $wishlist_id = JRequest::getInt('wishlist_id');
+        $wishlist_ids = array('user_id'=>$user->id, 'wishlist_id'=>$wishlist_id);
+        $wishlist->load( $wishlist_ids );
+    
+        if (!empty($wishlist->wishlist_id))
+        {
+            if ($wishlist->delete()) {
+                $response->html = JText::_('COM_TIENDA_WISHLIST_DELETED');
+            } else {
+                $response->html = JText::_('COM_TIENDA_DELETE_FAILED');
+                $response->error = true;                
+            }
+            
+        } else {
+            $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+            $response->error = true;
+        }
+    
+        echo json_encode($response);
+        return;
+    }
+
+    public function renameWishlist()
+    {
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
+    
+        $user = JFactory::getUser();
+        $wishlist_model = $this->getModel( 'wishlists' );
+        $wishlist_name = JRequest::getVar('wishlist_name');
+    
+        $wishlist = $wishlist_model->getTable();
+        $wishlist_id = JRequest::getInt('wishlist_id');
+        $wishlist_ids = array('user_id'=>$user->id, 'wishlist_id'=>$wishlist_id);
+        $wishlist->load( $wishlist_ids );
+        
+        if (!empty($wishlist->wishlist_id))
+        {
+            $wishlist->wishlist_name = $wishlist_name;
+            if ($wishlist->save()) {
+                $response->html = JText::_('COM_TIENDA_WISHLIST_UPDATED');
+                $response->wishlist_name = $wishlist_name;
+            } else {
+                $response->html = JText::_('COM_TIENDA_UPDATE_FAILED');
+                $response->error = true;
+            }
+        
+        } else {
+            $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+            $response->error = true;
+        }        
+    
+        echo json_encode($response);
+        return;
+    }
+
+    public function deleteWishlistItem()
+    {
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
+    
+        $user = JFactory::getUser();
+        $model = $this->getModel( 'wishlistitems' );
+    
+        $table = $model->getTable();
+        $id = JRequest::getInt('wishlistitem_id');
+        $keys = array('user_id'=>$user->id, 'wishlistitem_id'=>$id);
+        $table->load( $keys );
+    
+        if (!empty($table->wishlistitem_id))
+        {
+            if ($table->delete()) {
+                $response->html = JText::_('COM_TIENDA_WISHLISTITEM_DELETED');
+            } else {
+                $response->html = JText::_('COM_TIENDA_DELETE_FAILED');
+                $response->error = true;
+            }
+    
+        } else {
+            $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+            $response->error = true;
+        }
+    
+        echo json_encode($response);
+        return;
+    }
+
+    public function privatizeWishlist()
+    {
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
+    
+        $user = JFactory::getUser();
+        $wishlist_model = $this->getModel( 'wishlists' );
+        $privacy = JRequest::getInt('privacy');
+    
+        $wishlist = $wishlist_model->getTable();
+        $wishlist_id = JRequest::getInt('wishlist_id');
+        $wishlist_ids = array('user_id'=>$user->id, 'wishlist_id'=>$wishlist_id);
+        $wishlist->load( $wishlist_ids );
+    
+        if (!empty($wishlist->wishlist_id))
+        {
+            $wishlist->privacy = $privacy;
+            if ($wishlist->save()) {
+                $response->html = JText::_('COM_TIENDA_WISHLIST_UPDATED');
+            } else {
+                $response->html = JText::_('COM_TIENDA_UPDATE_FAILED');
+                $response->error = true;
+            }
+    
+        } else {
+            $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+            $response->error = true;
+        }
+    
+        echo json_encode($response);
+        return;
+    }    
 }

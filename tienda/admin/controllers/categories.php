@@ -173,7 +173,9 @@ class TiendaControllerCategories extends TiendaController
 		$app = JFactory::getApplication();
 		$model = $this->getModel( $this->get('suffix') );
 		$ns = $this->getNamespace();
-				
+		
+		$state['limit']  	= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$state['limitstart'] = $app->getUserStateFromRequest($ns.'limitstart', 'limitstart', 0, 'int');				
 		$state['order']     = $app->getUserStateFromRequest($ns.'.selectproducts.filter_order', 'filter_order', 'tbl.product_name', 'cmd');
 		$state['direction'] = $app->getUserStateFromRequest($ns.'.selectproducts.filter_direction', 'filter_direction', 'ASC', 'word');		
 		$state['filter']    = $app->getUserStateFromRequest($ns.'.selectproducts.filter', 'filter', '', 'string');

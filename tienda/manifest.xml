@@ -84,6 +84,7 @@
         <module module="modules/mod_tienda_manufacturers" client="site" position="left" />
         <module module="modules/mod_tienda_my_orderitems" client="site" position="left" />
         <module module="modules/mod_tienda_my_orders" client="site" position="left" />
+        <module module="modules/mod_tienda_my_wishlists" client="site" position="left" />
         <module module="modules/mod_tienda_popular_products" client="site" position="left" />
         <module module="modules/mod_tienda_pricefilters" client="site" position="left" />
         <module module="modules/mod_tienda_products" client="site" position="left" />

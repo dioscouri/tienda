@@ -381,7 +381,7 @@ class TiendaControllerProducts extends TiendaController
         
         $surrounding = array();
         // Only do this if product browsing is enabled on product detail pages
-        if ($this->defines->get('enable_product_detail_nav') && $session_state)
+        if ($this->defines->get('enable_product_detail_nav') && $session_state) 
         {
             $products_model = $this->getModel( $this->get( 'suffix' ) );
             $products_model->emptyState();
@@ -2350,24 +2350,14 @@ class TiendaControllerProducts extends TiendaController
 
     public function addToWishlist()
     {
+        $response = new stdClass();
+        $response->html = '';
+        $response->error = false;
+        
         // verify form submitted by user
         JRequest::checkToken( ) or jexit( 'Invalid Token' );
 
-        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-        $router = new TiendaHelperRoute();
-
         $product_id = JRequest::getInt( 'product_id' );
-        $filter_category = JRequest::getInt( 'filter_category' );
-        if ( !$itemid = $router->product( $product_id, $filter_category, true ) )
-        {
-            $itemid = $router->category( 1, true );
-            if( !$itemid )
-                $itemid = JRequest::getInt( 'Itemid', 0 );
-        }
-
-        // set the default redirect URL
-        $redirect = "index.php?option=com_tienda&view=products&task=view&id=$product_id&filter_category=$filter_category&Itemid=" . $itemid;
-        $redirect = JRoute::_( $redirect, false );
 
         JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
@@ -2375,10 +2365,9 @@ class TiendaControllerProducts extends TiendaController
 
         if (empty($product->product_id))
         {
-            // not a valid product, so return to product detail page with invalid-product message
-            $this->messagetype = 'notice';
-            $this->message = JText::_('COM_TIENDA_INVALID_PRODUCT');
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+            $response->html = JText::_('COM_TIENDA_INVALID_PRODUCT');
+            $response->error = true;
+            echo json_encode($response);
             return;
         }
 
@@ -2394,15 +2383,34 @@ class TiendaControllerProducts extends TiendaController
         }
         sort( $attributes );
         $attributes_csv = implode( ',', $attributes );
-
+        $values['product_attributes'] = $attributes_csv;
+        
+        // use the wishlist model to add the item to the wishlist, let the model handle all logic
+        $session = JFactory::getSession();
+        $session_id = $session->getId();
+        $session->set( 'old_sessionid', $session_id );
+        
         $user_id = JFactory::getUser()->id;
+        $values['user_id'] = $user_id;
+        $values['session_id'] = $session_id;
+        
+        $model = $this->getModel('wishlists');
+        
+        if (!$model->addItem($values)) {
+            $response->html = JText::_('COM_TIENDA_COULD_NOT_ADD_TO_WISHLIST');
+        } else {
+            $url = "index.php?option=com_tienda&view=wishlists&Itemid=" . $this->router->findItemid( array('view'=>'wishlists') );
+            $response->html = JText::sprintf( JText::_('COM_TIENDA_ADDED_TO_WISHLIST'), JRoute::_( $url ) );            
+        }
+        
+        echo json_encode($response);
+        return;        
+        
+        /*
         if (empty($user_id))
         {
-            // if not logged in, add item to session wishlist, then redirect to login/registration page, and upon login (in user plugin) add item from session to wishlist
-            $session = JFactory::getSession();
-            $session_id = $session->getId();
-            $session->set( 'old_sessionid', $session_id );
-            	
+            // if not logged in, add item to session wishlist for the visitor, 
+            // and upon login (in user plugin) add items from session wishlist to user's wishlist
             $wishlist = JTable::getInstance( 'Wishlists', 'TiendaTable' );
             $wishlist->load(array('session_id'=>$session_id, 'product_id'=>$product->product_id, 'product_attributes'=>$attributes_csv));
             $wishlist->session_id = $session_id;
@@ -2450,9 +2458,8 @@ class TiendaControllerProducts extends TiendaController
             $this->message = JText::sprintf( JText::_('COM_TIENDA_ADDED_TO_WISHLIST'), $url );
         }
 
-        // redirect back to product detail page, with message saying "item added, click here to view wishlist"
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
         return;
+        */
     }
 }
 
