@@ -2684,6 +2684,16 @@ class TiendaControllerCheckout extends TiendaController
                 case "5":
                 case "17":
                     $articles = array_merge( $articles, $this->getOrderArticles( $order_id ) );
+                    
+                    // Inject <head> code
+                    if ($orders_confirmation_header_code = $this->defines->get('orders_confirmation_header_code')) {
+                        Tienda::load( 'TiendaHelperHead', 'helpers.head' );
+                        $head_helper = new TiendaHelperHead();
+                        if ($string_to_inject = $head_helper->processStringForOrder( $order_id, $orders_confirmation_header_code )) {
+                            $head_helper->injectIntoHead( $string_to_inject );
+                        }                                                
+                    }
+                    
                     break;
                 case "7":
                 case "8":
