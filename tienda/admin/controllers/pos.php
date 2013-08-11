@@ -1859,7 +1859,6 @@ class TiendaControllerPOS extends TiendaController
 				}
 			}
 		}
-		print_r( $address_input );
 		return $address_input;
 	}
 	

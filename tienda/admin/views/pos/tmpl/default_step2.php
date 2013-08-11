@@ -58,12 +58,4 @@
   </div>
 </div>
 
-
-           
-
-                
-  
-      
-  
-
 <input type="hidden" name="nextstep" id="nextstep" value="step3" />
