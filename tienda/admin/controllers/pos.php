@@ -810,7 +810,6 @@ class TiendaControllerPOS extends TiendaController
 		return $response;
 	}
 
-
 	function validateAddress($values, $type="billing")
 	{
 		Tienda::load('TiendaHelperShipping', 'helpers.shipping');
@@ -1540,9 +1539,6 @@ class TiendaControllerPOS extends TiendaController
 			}
 	$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step2");		
 }
-		
-		
-
 
 	/**
 	 * Adjusts cart quantities based on availability
@@ -1863,6 +1859,7 @@ class TiendaControllerPOS extends TiendaController
 				}
 			}
 		}
+		print_r( $address_input );
 		return $address_input;
 	}
 	
@@ -1876,18 +1873,15 @@ class TiendaControllerPOS extends TiendaController
 		$billing_input_prefix = 'billing_input_';
 		$shipping_input_prefix = 'shipping_input_';
 
-		$session = JFactory::getSession();
-		$user_id = $session->get('user_id', '', 'tienda_pos');
-
-		$billing_zone_id = 0;	
-		$billingaddressArray = $this->filterArrayUsingPrefix($post, $billing_input_prefix, '', false );		// set the zone name
+		$billing_zone_id = 0;
+		$billingAddressArray = $this->filterArrayUsingPrefix($post, $billing_input_prefix, '', false );		// set the zone name
 		$bzone = JTable::getInstance('Zones', 'TiendaTable');
-		$bzone->load( @$billingaddressArray['zone_id'] );
-		$billingaddressArray['zone_name'] = $bzone->zone_name;		
+		$bzone->load( @$billingAddressArray['zone_id'] );
+		$billingAddressArray['zone_name'] = $bzone->zone_name;		
 		// set the country name
 		$billingcountry = JTable::getInstance('Countries', 'TiendaTable');
 		$billingcountry->load( @$billingaddressArray['country_id'] );
-		$billingaddressArray['country_name'] = $billingcountry->country_name;
+		$billingAddressArray['country_name'] = $billingcountry->country_name;
 		if(array_key_exists('zone_id', $billingAddressArray))
 			$billing_zone_id = $billingAddressArray['zone_id'];		
 		
@@ -1901,15 +1895,15 @@ class TiendaControllerPOS extends TiendaController
 		}
 		else
 		{			
-			$shippingaddressArray = $this->filterArrayUsingPrefix($post, $shipping_input_prefix, '', false );
+			$shippingAddressArray = $this->filterArrayUsingPrefix($post, $shipping_input_prefix, '', false );
 			// set the zone name
 			$szone = JTable::getInstance('Zones', 'TiendaTable');
-			$szone->load( @$shippingaddressArray['zone_id'] );
+			$szone->load( @$shippingAddressArray['zone_id'] );
 			$addressArray['zone_name'] = $szone->zone_name;
 			// set the country name
 			$shippingcountry = JTable::getInstance('Countries', 'TiendaTable');
-			$shippingcountry->load( @$shippingaddressArray['country_id'] );
-			$shippingaddressArray['country_name'] = $shippingcountry->country_name;
+			$shippingcountry->load( @$shippingAddressArray['country_id'] );
+			$shippingAddressArray['country_name'] = $shippingcountry->country_name;
 		}
 
 		if(array_key_exists('zone_id', $shippingAddressArray))
@@ -1921,16 +1915,17 @@ class TiendaControllerPOS extends TiendaController
 		$shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
 		// set the order billing address
-		$billingAddress->bind($billingaddressArray);
+		$billingAddress->bind($billingAddressArray);
 		$billingAddress->user_id = $user_id;
 		$billingAddress->save();
 			
 		// set the order billing address
-		$shippingAddress->bind($shippingaddressArray);
+		$shippingAddress->bind($shippingAddressArray);
 		$shippingAddress->user_id = $user_id;		
-		$shippingAddress->save();				
-				
-		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3");
+		$res = $shippingAddress->save();
+		
+		$session->set('subtask', 'payment');
+		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3&subtask=payment");
 	}
 		
 	/**
@@ -1962,7 +1957,6 @@ class TiendaControllerPOS extends TiendaController
 		return $addressArray;
 	}
 	
-
 	/**
 	 *
 	 * @param $values

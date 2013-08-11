@@ -10,7 +10,7 @@ TiendaPos = TiendaClass.extend({
         
         this.validations = {};
         this.urls = {};
-        this.urls.validate_address = 'index.php?option=com_tienda&view=pos&task=validate&format=raw';
+        this.urls.validate_address = 'index.php?option=com_tienda&view=pos&task=validate&format=raw&step=step3';
     },
 
     init: function (element, options) {
@@ -23,49 +23,29 @@ TiendaPos = TiendaClass.extend({
     {
         switch (section) 
         {
+            case "payment":
             case "shipping":
            	{
-                this.setupShippingForm();
-                break;
-            }
-            case "payment":
-            {
-                this.setupPaymentForm();
+                this.setupAddressForm(section);
                 break;
             }
         }
     },
     
-    setupShippingForm: function() {
-        this.validations.setAddress = new TiendaValidation('#pos-form-step3-shipping');
+    setupAddressForm: function(section) {
+        this.validations.setAddress = new TiendaValidation('#pos-form-step3-'+section);
         var self = this;
         
         if( this.element.size() ) {
-        	if( !tiendaJQ('#billing_input_address_id').size() ) {
-		        tiendaJQ('#pos_continue').on('click', function(e){
-		            e.preventDefault();
-		            self.setAddress( this, false ); 
-		        });
-        	}
+	        tiendaJQ('#pos_continue').on('click', function(e){
+	            e.preventDefault();
+	            self.setAddress( this, section == "payment" ); 
+	        });
         }
     },
 
-    setupPaymentForm: function() {
-        this.validations.setAddress = new TiendaValidation('#pos-form-step3-payment');
-        var self = this;
-        
-        if( this.element.size() ) {
-        	if( !tiendaJQ('#billing_input_address_id').size() ) {
-		        tiendaJQ('#pos_continue').on('click', function(e){
-		            e.preventDefault();
-		            self.setAddress( this, true );
-		        });
-        	}
-        }
-    },
-    
 	setAddress: function( el, onlyBilling ) {
-		if( onlyBilling ) {
+		if( !onlyBilling ) {
 			if( tiendaJQ('#sameasbilling').attr('checked') == 'checked' ) {
 				this.syncWithBilling();
 			}
@@ -109,53 +89,6 @@ TiendaPos = TiendaClass.extend({
 				ship_id.val( bill_id.val() );
 			}
 		}		
-   	},
-        
-    /**
-     * Handles the response from a successful ajax request,
-     * "successful" only in that the request didn't get a 404 or 500 error, so
-     * this also handles responses for failed validations... 
-     */
-    handleSuccess: function(response) {
-        if (response.summary) {
-            tiendaJQ('#'+response.summary.id).html(response.summary.html);
-        }
-        
-        if (response.summaries) {
-            tiendaJQ.each(response.summaries, function(key, summary){
-                tiendaJQ('#'+summary.id).html(summary.html);
-            });
-        }
-        
-        if (response.allow_sections) {
-            tiendaJQ.each(response.allow_sections, function(key, section){
-                tiendaJQ('#'+section).addClass('allow');
-            });
-        }
-
-        if (response.duplicateBillingInfo)
-        {
-            this.shipping.setSameAsBilling(true);
-            this.setShipping();
-        }
-
-        if (response.goto_section) {
-            this.gotoSection(response.goto_section);
-            return true;
-        }
-        
-        if (response.redirect) {
-            window.location = response.redirect;
-            return true;
-        }
-        return false;
-    },
-    
-    /**
-     * Handles a failed ajax request
-     */
-    handleFailure: function() {
-        window.location = this.urls.failure;
-    }
+   	}
 });
     

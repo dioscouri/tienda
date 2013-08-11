@@ -211,13 +211,13 @@
 			</label>
 		</td>
 		<td>
-				<?php
+			<?php
 				$url = "index.php?option=com_tienda&format=raw&controller=pos&task=getzones&prefix={$this->form_prefix}&country_id=";
 				$attribs = array('class' => $elements['country'][1] ? 'required' : '',
 				'size' => '1',
 				'onchange' => 'tiendaDoTask( \'' . $url . '\'+document.getElementById(\'' . $this->form_prefix . 'country_id\').value, \'' . $this->form_prefix . 'zones_wrapper\', \'\');');
 				echo TiendaSelect::country($this->default_country_id, $this->form_prefix . 'country_id', $attribs, $this->form_prefix . 'country_id', false, true);
-				?>
+			?>
 		</td>
 	</tr>
 	<?php

@@ -10,7 +10,7 @@
 	    Pos = new TiendaPos("#pos-form-step3-'.$this->subtask.'", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
 	$js .= 'Pos.setupSection("'.$section.'");';
 	$js .= '});';
-	$doc->addScriptDeclaration($js);	
+	$doc->addScriptDeclaration($js);
 	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 	$js_strings = array( 'COM_TIENDA_VALIDATING' );
 	TiendaHelperBase::addJsTranslationStrings( $js_strings );
@@ -28,7 +28,7 @@
   <div class="bar" style="width: <?php echo $percent; ?>%;"></div>
 </div>
 
-  <div id="validation_message"></div>
+<div id="validation_message"></div>
 <div class="accordion" id="accordion2">
   <div class="accordion-group">
     <div class="accordion-heading">
@@ -190,11 +190,11 @@
 				<?php endif;?>
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
-					<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" data-task="saveAddress"/>
+					<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" style="margin-bottom : 15px;" data-task="saveAddress"/>
 				<?php else:
 					$subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';
                 ?>
-                	<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="btn btn-success" data-task="<?php echo $subtask; ?>"/>
+                	<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="btn btn-success" style="margin-bottom : 15px;" data-task="<?php echo $subtask; ?>"/>
 				<?php endif;?>				
             </div>
 		</div>
@@ -203,8 +203,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 <input type="hidden" id="order_total" name="order_total" value="<?php echo $this->order->order_total;?>" />
