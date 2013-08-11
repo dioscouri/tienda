@@ -25,6 +25,9 @@
                 <a href="#tab4" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADDRESS_FIELDS_MANAGEMENT'); ?></a>
             </li>
             <li>
+                <a href="#tab6" data-toggle="tab"><?php echo JText::_('COM_TIENDA_CONFIRMATION_PAGE'); ?></a>
+            </li>            
+            <li>
                 <a href="#tab5" data-toggle="tab"><?php echo JText::_('COM_TIENDA_ADVANCED_SETTINGS'); ?></a>
             </li>
         </ul>
@@ -49,6 +52,10 @@
             <div class="tab-pane" id="tab5">
                 <?php $this->setLayout( 'orders_advanced' ); echo $this->loadTemplate(); ?>
             </div>
+            
+            <div class="tab-pane" id="tab6">
+                <?php $this->setLayout( 'orders_confirmation' ); echo $this->loadTemplate(); ?>
+            </div>            
         </div>
     </div>
     

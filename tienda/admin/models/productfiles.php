@@ -26,12 +26,12 @@ class TiendaModelProductFiles extends TiendaModelBase
         $filter_date_from = $this->getState('filter_date_from');
         $filter_date_to = $this->getState('filter_date_to');
         $filter_purchaserequired  = $this->getState('filter_purchaserequired');
-    
+
         $filter_productid  		= $this->getState('filter_productid');
         if (strlen($filter_productid)) {
             $filter_product = $filter_productid;
-        }        
-        
+        }
+                
         if ($filter) 
         {
         	$key    = $this->_db->Quote('%'.$this->_db->getEscaped( trim( strtolower( $filter ) ) ).'%');

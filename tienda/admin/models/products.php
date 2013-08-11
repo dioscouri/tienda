@@ -1001,4 +1001,37 @@ class TiendaModelProducts extends TiendaModelEav
 		
 		return $list;
 	}
+	
+	/**
+	 * Determines if a product is in a visitor's wishlist,
+	 * whether they are logged in or not
+	 * 
+	 * xref_type = 'user' and xref_id = user_id OR
+	 * xref_type = 'session' anx xref_id = session_id
+	 * 
+	 * @param unknown_type $product_id
+	 * @param unknown_type $xref_id
+	 * @param unknown_type $xref_type
+	 */
+	public function isInWishlist( $product_id, $xref_id, $xref_type='user' )
+	{
+	    $query = new TiendaQuery();
+	    $query->select( "tbl.wishlistitem_id" );
+	    $query->from( '#__tienda_wishlistitems AS tbl' );
+	    $query->where( "tbl.product_id = " . (int) $product_id );
+	    if (strtolower($xref_type) == 'session') {
+	        $query->where( "tbl.session_id = ".$this->_db->Quote($xref_id));
+	    } else {
+	        $query->where( "tbl.user_id = " . (int) $xref_id );
+	    }
+	    
+	    $db = $this->getDBO();
+	    $db->setQuery( (string) $query );
+	    if ($result = $db->loadResult())
+	    {
+	        return $result;
+	    }
+	    
+	    return false;
+	}
 }

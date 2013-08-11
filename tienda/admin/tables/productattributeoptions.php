@@ -101,7 +101,6 @@ class TiendaTableProductAttributeOptions extends TiendaTable
             }
             $product_id = $pa->product_id;
         }
-
         
         if ($return = parent::delete( $oid ))
         {

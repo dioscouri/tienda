@@ -56,11 +56,11 @@ class TiendaModelElementproduct extends DSCModelElement
 		$filter	= null;
 
 		// Get some variables from the request
-		$filter_order		= $mainframe->getUserStateFromRequest('userelement.filter_order',		'filter_order',		'',	'cmd');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest('userelement.filter_direction',	'filter_direction',	'',	'word');
+		$filter_order		= $mainframe->getUserStateFromRequest('productelement.filter_order',		'filter_order',		'',	'cmd');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest('productelement.filter_direction',	'filter_direction',	'',	'word');
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart			= $mainframe->getUserStateFromRequest('userelement.limitstart',			'limitstart',		0,	'int');
-		$search				= $mainframe->getUserStateFromRequest('userelement.filter',				'filter',			'',	'string');
+		$limitstart			= $mainframe->getUserStateFromRequest('productelement.limitstart',			'limitstart',		0,	'int');
+		$search				= $mainframe->getUserStateFromRequest('productelement.filter',				'filter',			'',	'string');
 		$search				= JString::strtolower($search);
 
 		$valid_ordering_options = array(

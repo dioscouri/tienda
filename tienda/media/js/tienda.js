@@ -2,6 +2,219 @@ if (typeof(Tienda) === 'undefined') {
     var Tienda = {};
 }
 
+Tienda.deleteWishlistItem = function(wishlistitem_id, prompt_text, callback_function) {
+
+    if (!prompt_text) { prompt_text = "Are you sure you want to delete this item?"; }
+    var r = confirm(prompt_text);
+    
+    if (r == true && wishlistitem_id) {
+        var url = 'index.php?option=com_tienda&view=wishlists&task=deleteWishlistItem&format=raw&wishlistitem_id=' + wishlistitem_id;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.addToWishlist = function( form_id, container_id, callback_function ) {
+    var url = 'index.php?option=com_tienda&format=raw&view=products';
+    
+    var form_data = tiendaJQ('#'+form_id).serializeArray();
+    tiendaJQ.each(form_data, function(index, value) {
+        if (value.name == 'task') {
+            form_data[index].value = 'addToWishlist';
+        }
+    });
+    
+    var request = jQuery.ajax({
+        type: 'post', 
+        url: url,
+        data: form_data
+    }).done(function(data){
+        var response = JSON.decode(data, false);
+        if (response.html) {
+            tiendaJQ('#'+container_id).html(response.html);
+        }        
+        if ( typeof callback_function === 'function') {
+            callback_function( response );
+        }                    
+    }).fail(function(data){
+        
+    }).always(function(data){
+
+    });
+}
+
+Tienda.privatizeWishlist = function(wishlist_id, privacy, callback_function) {
+
+    if (wishlist_id && privacy) {
+        var url = 'index.php?option=com_tienda&view=wishlists&task=privatizeWishlist&format=raw&wishlist_id='+wishlist_id+'&privacy='+privacy;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.deleteWishlist = function(wishlist_id, prompt_text, callback_function) {
+
+    if (!prompt_text) { prompt_text = "Are you sure you want to delete this Wishlist?"; }
+    var r = confirm(prompt_text);
+    
+    if (r == true && wishlist_id) {
+        var url = 'index.php?option=com_tienda&view=wishlists&task=deleteWishlist&format=raw&wishlist_id=' + wishlist_id;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.createWishlist = function(wishlist_name, prompt_text, callback_function) {
+
+    if (!wishlist_name) {
+        if (!prompt_text) { prompt_text = "Please provide a name for this Wishlist:"; }
+        var wishlist_name = prompt(prompt_text);
+    };
+    
+    var post_data = {
+            wishlist_name: wishlist_name
+    }; 
+    var url = 'index.php?option=com_tienda&view=wishlists&task=createWishlist&format=raw';
+    
+    if (wishlist_name) {
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url,
+            data: post_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.renameWishlist = function(wishlist_id, prompt_text, callback_function) {
+
+    if (!wishlist_name) {
+        if (!prompt_text) { prompt_text = "Please provide a name for this Wishlist:"; }
+        var wishlist_name = prompt(prompt_text);
+    };
+    
+    var post_data = {
+            wishlist_name: wishlist_name
+    }; 
+    var url = 'index.php?option=com_tienda&view=wishlists&task=renameWishlist&format=raw&wishlist_id=' + wishlist_id;
+    
+    if (wishlist_name) {
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url,
+            data: post_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.addWishlistItemToWishlist = function( wishlistitem_id, wishlist_id, callback_function ) {
+    var url = 'index.php?option=com_tienda&format=raw&view=wishlists&task=addWishlistItemToWishlist&wishlistitem_id='+wishlistitem_id+'&wishlist_id='+wishlist_id;
+        
+    var request = jQuery.ajax({
+        type: 'post', 
+        url: url
+    }).done(function(data){
+        var response = JSON.decode(data, false);
+        if ( typeof callback_function === 'function') {
+            callback_function( response );
+        }                    
+    }).fail(function(data){
+        
+    }).always(function(data){
+
+    });
+}
+
 Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
 	var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page=' + page;
 	if( page == 'pos' ) {
