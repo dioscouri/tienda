@@ -15,6 +15,12 @@ $display_wishlist = Tienda::getInstance()->get( 'display_wishlist', 0);
 Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 $js_strings = array( 'COM_TIENDA_UPDATING_ATTRIBUTES' );
 TiendaHelperBase::addJsTranslationStrings( $js_strings );
+
+$changed_attr = isset( $values['changed_attr'] ) ? $values['changed_attr'] : -1;
+$changed_pao = -1;
+if( $changed_attr > -1 ) {
+  $changed_pao = $values['attribute_'.$changed_attr];
+}
 ?>
 
 <div>
@@ -72,8 +78,14 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         
         $key = 'attribute_'.$attribute->productattribute_id;
         $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
+        $attribs = array('class' => 'inputbox',
+                'size' => '1',
+                'onchange'=>"Tienda.UpdateChangedAttribute( document.".$formName.", ".$attribute->productattribute_id.");Tienda.UpdateAddToCart( '".$this->page."','product_buy_".$item->product_id."', document.".$formName.", ".$working_image." );",
+                'changed_attr' => $changed_attr,
+                'changed_pao' => $changed_pao,
+                'pid'  => $item->product_id
+            );
         
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"Tienda.UpdateAddToCart( '".$this->page."','product_buy_".$item->product_id."', document.".$formName.", ".$working_image." );");
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );
     
         ?>
@@ -81,9 +93,14 @@ TiendaHelperBase::addJsTranslationStrings( $js_strings );
         </div>
         <?php
     }
-    ?>
+	if( count( $attributes ) ) : ?>
+	
+    <input type="hidden" name="changed_attr" value="" />  
     
-    <?php if (!empty($this->onDisplayProductAttributeOptions)) : ?>
+  	<?php
+  	endif;
+
+	 if (!empty($this->onDisplayProductAttributeOptions)) : ?>
         <div class='onDisplayProductAttributeOptions_wrapper'>
         <?php echo $this->onDisplayProductAttributeOptions; ?>
         </div>

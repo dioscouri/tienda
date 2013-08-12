@@ -334,7 +334,9 @@ class TiendaControllerProducts extends TiendaController
         $user_id = JFactory::getUser( )->id;
         $filter_group = TiendaHelperUser::getUserGroup( $user_id, $model->getId( ) );
         $model->setState( 'filter_group', $filter_group );
-        $row = $model->getItem( false, false ); // use the state
+	    $model->setState( 'product.qty', 1);
+    	$model->setState( 'user.id', $user_id );
+        $row = $model->getItem( false, false, false ); // use the state
 
         $filter_category = $model->getState( 'filter_category', JRequest::getVar( 'filter_category' ) );
         if ( empty( $filter_category ) )
@@ -502,7 +504,13 @@ class TiendaControllerProducts extends TiendaController
         JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance('Products', 'TiendaModel');
         $model->setId( $product_id );
-        $row = $model->getItem( false );
+		$user_id = JFactory::getUser( )->id;
+ 		$filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
+    	$qty = JRequest::getInt( 'product_qty', 1 );
+	    $model->setState( 'filter_group', $filter_group );
+	    $model->setState( 'product.qty', $qty );
+	   	$model->setState( 'user.id', $user_id );
+        $row = $model->getItem( false, false, false );
         $buy_layout_override = $row->product_parameters->get('product_buy_layout_override');
         if (!empty($buy_layout_override))
         {

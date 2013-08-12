@@ -25,6 +25,14 @@ Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
     });
 }
 
+/*
+ * Changes ID of currently changed attribute on form
+ */
+Tienda.UpdateChangedAttribute= function( form, attr_id ) {
+  var f = tiendaJQ( form );
+  tiendaJQ( 'input[name="changed_attr"]', f ).val( attr_id );
+}
+
 /**
  * Simple function to refresh a page.
  */

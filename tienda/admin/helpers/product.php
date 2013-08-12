@@ -965,6 +965,9 @@ class TiendaHelperProduct extends TiendaHelperBase
             $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
             $model->setState( 'filter_id', $id );
             $sets[$id] = $model->getList( );
+	    	$model->setState('order', 'g.ordering');
+	   	   	$model->setState( 'direction', 'ASC' );
+            $sets[$id] = $model->getList( );
         }
 
         return $sets[$id];
@@ -979,7 +982,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param unknown_type $date
      * @return unknown_type
      */
-    function getPrice( $id, $quantity = '1', $group_id = '', $date = '' )
+    static public function getPrice( $id, $quantity = '1', $group_id = '', $date = '' )
     {
         // $sets[$id][$quantity][$group_id][$date]
         static $sets;
@@ -1195,7 +1198,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @return unknown_type
      */
     public static function getAttributes( $id, $parent_option = "-1" )
-    {
+    {	
         if ( empty( $id ) )
         {
             return array( );
@@ -1208,13 +1211,255 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             $model->setState( 'filter_parent_option', $parent_option );
         }
-
         $model->setState( 'order', 'tbl.ordering' );
         $model->setState( 'direction', 'ASC' );
         $items = $model->getList( );
         return $items;
     }
+	
+	/*
+	 * Gets product attributes quantity map that is used to select
+	 * only combinations of product attribute which are available in stock
+	 * 
+	 * @param	$id				product_id
+	 * @param	$parent_options	Parent options
+	 * @param	$refresh		Refreshed pre-cached data
+	 * 
+	 */
+	public static function getAttributeQuantityMap( $id, $parent_options = "-1", $refresh = false )
+	{
+		static $map = null;
+		if( $map == null ) {
+			$map = array();
+		}
+		$po = $parent_options;
+		if( is_array( $parent_options ) ) {
+			$po = implode(',', $po );
+		}
+		if( isset( $map[$id][$po] ) && !$refresh ) {
+			return $map[$id][$po];
+		}
 
+		$pao = array();
+		$pq_list = array();
+		$pa_list = array();
+		$orders = array();
+		$a_count = 0;
+		
+		$pao_count = 0;\
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		// first, we check, if we set up quantities
+		$m_quantity = JModel::getInstance( 'ProductQuantities', 'TiendaModel' );
+		$m_quantity->setState( 'filter_productid', $id );
+		$m_quantity->setState( 'filter_quantity_from', 1);
+        $m_quantity->setState( 'order', 'tbl.product_attributes' );
+        $m_quantity->setState( 'direction', 'ASC' );
+		$res = $m_quantity->getList();
+		
+		if( count( $res ) ) { 
+			$pa = TiendaHelperProduct::getAttributes($id, $parent_options);
+
+			// get product attribute options of every attribute
+			foreach( $pa as $a ) {
+				$orders[ $a->productattribute_id ] = $a_count++; // save order of attributes
+				$m_pao = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+				$m_pao->setState( 'filter_attribute', $a->productattribute_id );
+		        $m_pao->setState( 'order', 'tbl.ordering' );
+		        $m_pao->setState( 'direction', 'ASC' );
+				$tmp = $m_pao->getList();
+				
+				for( $i = 0, $c = count( $tmp ); $i < $c; $i++ ) {
+					$item = $tmp[$i];
+					$pao[$item->productattributeoption_id] = $item;
+				}
+				$pa_list[ $a->productattribute_id ] = $tmp;
+			}
+			// now, create map from product quantities
+			foreach ( $res as $item ) {
+				// Information about product quantity for a certain combination of options needs to be polished.
+				// Order of options in CSV format does usually not  match order of product attributes (which is important to keep)
+				
+				// first, I get list of option ids (unordered)
+				$q_pao = explode( ',', $item->product_attributes );
+				// then i need to transform it into list of attribute ids having those optiobs
+				$tmp_q = array();
+				for( $i = 0, $c = count( $q_pao ); $i < $c; $i++ ) {
+					$a_id = $pao[$q_pao[$i]]->productattribute_id;
+					$tmp_q[$orders[$a_id]] = $q_pao[$i];
+				}
+				$pq_list []= $tmp_q;
+			}
+		} else {
+			// no quantities so we do it the old way
+			return false;
+		}
+		// q => list of available combinations
+		// pao => list of list of all product attribute options (index is PAO ID)
+		// ap => list of all product attributes with their corresponding options (index is product attribute ID)
+		// ord => order of attributes in list of available ombinations
+		$map[$id][$po] = array( 'q' => $pq_list, 'pao' => $pao, 'pa' => $pa_list, 'ord' => $orders );
+		
+		return $map[$id][$po];
+	}
+
+	/*
+	 * Gets list of available options for the selected product and product attrbute when specified options were selected
+	 * 
+	 * @param $product_id		Product
+	 * @param $aid				Attribute id
+	 * @param $parent_options	Selected options
+	 * @param $refresh			Refresh pre-cached data from database
+	 * 
+	 * @return	Array with product attribute option objects
+	 */
+	public static function getAvailableAttributeOptions( $product_id, $aid, $fixed_aid, $fixed_pao, $parent_options = "-1", $refresh = false )
+	{
+		$map = TiendaHelperProduct::getAttributeQuantityMap( $product_id, $parent_options, $refresh );
+		if( is_array( $map ) ) { // product quantities are set up
+			$pos = $map['ord'][$aid]; // which position we are going to examine
+			$pos_fixed = -1; // none is fixed
+			if( $fixed_aid > -1 ) {
+				$pos_fixed = $map['ord'][$fixed_aid]; // which position is fixed (was recently changed)
+			}
+			$pa_list = $map['pa'][$aid]; // list of available options at the moment
+			$q = $map['q']; // quantities
+			$cq = count( $q );
+			
+			$final_list = array(); // final list of options that are available
+			$identical = $pos == $pos_fixed; // options for recently changed attribute
+			for( $i = 0, $c = count( $pa_list ); $i < $c; $i++ ) {
+				$pao_id = $pa_list[$i]->productattributeoption_id;
+				$found = false;
+				if( $identical || $pos_fixed == -1) {
+					// identical means that we need to make sure that for the examined option exists a combination that is available in the stock
+					for( $j = 0; !$found && $j < $cq; $j++ ) {
+						if( $q[$j][$pos] == $pao_id )  {
+							$found = true;
+						}
+					}
+				} else {
+					// otherwise we need to find a combination which contains both this option and the recently changed option
+					for( $j = 0; !$found && $j < $cq; $j++ ) {
+						if( $q[$j][$pos] == $pao_id && $q[$j][$pos_fixed] == $fixed_pao)  {
+							$found = true;
+						}
+					}
+				}
+				
+				if( $found ) {
+					$final_list []= $pa_list[$i];
+				}
+			}
+			
+			return $final_list;			
+		} else if( $map == false ) {
+			// no product quantities
+	        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
+	        $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+	        $model->setState( 'filter_attribute', $aid );
+	        $model->setState('order', 'tbl.ordering');
+	                
+	        // Parent options
+	        if(count($parent_options))
+	        {
+	        	$model->setState('filter_parent', $parent_options);
+	        }
+	        
+	        return $model->getList();			
+		}
+	}
+	
+	/*
+	 * Gets default options for specified attributes
+	 * 
+	 * @param $attributes	Array with attributes
+	 * 
+	 * @return	Array with options
+	 */
+	public static function getDefaultAttributeOptions( $attributes )
+	{
+		if( is_array( $attributes ) == false || empty( $attributes ) ) {
+			return array();
+		}
+		
+		$pid = $attributes[0]->product_id;
+		$map = TiendaHelperProduct::getAttributeQuantityMap($pid);
+		
+        $default = array( );
+        foreach ( @$attributes as $attribute ) {
+        	$default[ $attribute->productattribute_id ] = 0;
+        }
+		
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		if( is_array( $map ) ) {
+			// we figure out what should be the default attribute options combination by recursively searching the product quantity map
+			$answer = array(); // array with final combination
+			$not_finished = true;
+			$act_pos = -1; // actual attribute
+			$attr_order = array(); // order of attribute IDs
+			$cq = count( $map['q']);
+			$prev = array();
+			foreach( $map['pa'] as $key => $value ) {
+				$attr_order[$map['ord'][$key]] = $key;
+			}
+			$c_answers = count( $attr_order ); // number of elements that should be in the result
+			
+			
+			do
+			{
+				$ca = count( $answer ); // order of attribution combination 
+				$attr_id = $attr_order[ $ca ];
+				$attribs = $map['pa'][$attr_id];
+				$c_attribs = count( $attribs );
+				$pos = $map['ord'][$attr_id];
+				$found = false; // found option for this attribute
+				for($i = 0; !$found && $i < $c_attribs; $i++) {
+					// first we find combination with this 
+					$pao_id = $attribs[$i]->productattributeoption_id;
+					for( $j = 0; !$found && $j < $cq; $j++ ) {
+						if( $map['q'][$j][$pos] == $pao_id ) {
+							// found a combination with this option -> now we check it
+							$wrong = false;
+							for( $k = 0; !$wrong && $k < $ca; $k++ ) {
+								$ord_a = $map['ord'][$attr_order[$k]];
+								$wrong = $map['q'][$j][$ord_a] == $answer[$attr_order[$k]];
+							}
+							if( !$wrong ) {
+								$found = true;
+								$answer [$attr_id] = $pao_id;
+							}
+						}
+					}
+				}
+				
+				if( $i == $c_attribs || $c_answers == count($answer) ) {
+					$not_finished = false;
+				}
+			}
+			while( $not_finished );
+			foreach( $answer as $key => $val ) {
+				$default[$key] = $val;
+			}
+			return $default;
+		} else { // no product quantities -> use the old way
+	        foreach ( @$attributes as $attribute )
+	        {
+	            $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+	            $model->setState( 'filter_attribute', $attribute->productattribute_id );
+	            $model->setState( 'order', 'tbl.ordering' );
+	            	
+	            $items = $model->getList( );
+	            	
+	            if ( count( $items ) )
+	            {
+	                $default[$attribute->productattribute_id] = $items[0]->productattributeoption_id;
+	            }
+	        }
+		}
+		
+		return $default;
+	}
+	
     /**
      * Returns a default list of a product's attributes
      *
@@ -1232,32 +1477,54 @@ class TiendaHelperProduct extends TiendaHelperBase
 
         if ( empty( $sets[$id] ) )
         {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-            $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
-            $model->setState( 'filter_product', $id );
-            $model->setState( 'order', 'tbl.ordering' );
-            $model->setState( 'direction', 'ASC' );
-            $items = $model->getList( );
-            if ( empty( $items ) )
-            {
-                $sets[$id] = array( );
-                return $sets[$id];
-            }
             $list = array( );
-            foreach ( $items as $item )
-            {
-                $key = 'attribute_' . $item->productattribute_id;
-                $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
-                $model->setState( 'filter_attribute', $item->productattribute_id );
-                $model->setState( 'order', 'tbl.ordering' );
-                $model->setState( 'direction', 'ASC' );
-                $options = $model->getList( );
-                if ( !empty( $options ) )
-                {
-                    $option = $options[0];
-                    $list[$key] = $option->productattributeoption_id;
-                }
-            }
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+			// first, we check, if we set up quantities
+			$m_quantity = JModel::getInstance( 'ProductQuantities', 'TiendaModel' );
+			$m_quantity->setState( 'filter_productid', $id );
+			$m_quantity->setState( 'filter_quantity_from', 1);
+            $m_quantity->setState( 'order', 'tbl.product_attributes' );
+            $m_quantity->setState( 'direction', 'ASC' );
+			$res = $m_quantity->getList();
+			if( count( $res ) && strlen( $res[0]->product_attributes ) ) {
+				// combination of product attributes with quantity in stock being higher than 0 exists
+				$opts = explode( ',', $res[0]->product_attributes );
+				for( $i = 0, $c = count( $opts ); $i < $c; $i++ ) {
+	                $m_pao = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+	                $m_pao->setId( $opts[$i] );
+	                $attr = $m_pao->getItem();
+					
+					if( $attr ) {
+		                $key = 'attribute_' . $attr->productattribute_id;
+						$list[$key] = $opts[$i];
+					}
+				}
+			} else { // no quantities were set so we need to dig up options manually
+	            $model = JModel::getInstance( 'ProductAttributes', 'TiendaModel' );
+	            $model->setState( 'filter_product', $id );
+	            $model->setState( 'order', 'tbl.ordering' );
+	            $model->setState( 'direction', 'ASC' );
+	            $items = $model->getList( );
+	            if ( empty( $items ) )
+	            {
+	                $sets[$id] = array( );
+	                return $sets[$id];
+	            }
+	            foreach ( $items as $item )
+	            {
+	                $key = 'attribute_' . $item->productattribute_id;
+	                $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+	                $model->setState( 'filter_attribute', $item->productattribute_id );
+	                $model->setState( 'order', 'tbl.ordering' );
+	                $model->setState( 'direction', 'ASC' );
+	                $options = $model->getList( );
+	                if ( !empty( $options ) )
+	                {
+	                    $option = $options[0];
+	                    $list[$key] = $option->productattributeoption_id;
+	                }
+	            }
+			}
             $sets[$id] = $list;
         }
 
@@ -2112,7 +2379,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param boolean $load_eav
      * @return unknown_type
      */
-    function load( $id, $reset = true, $load_eav = true )
+    public static function load( $id, $reset = true, $load_eav = true )
     {
         if ( empty( self::$products[$id][$load_eav] ) )
         {
@@ -2122,36 +2389,6 @@ class TiendaHelperProduct extends TiendaHelperBase
             self::$products[$id][$load_eav] = $productTable;
         }
         return self::$products[$id][$load_eav];
-    }
-
-    /**
-     * Guesses the default options (first in the list)
-     * Enter description here ...
-     * @param unknown_type $attributes
-     */
-    public static function getDefaultAttributeOptions( $attributes )
-    {
-        $default = array( );
-        foreach ( @$attributes as $attribute )
-        {
-            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-            $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
-            $model->setState( 'filter_attribute', $attribute->productattribute_id );
-            $model->setState( 'order', 'tbl.ordering' );
-            	
-            $items = $model->getList( );
-            	
-            if ( count( $items ) )
-            {
-                $default[$attribute->productattribute_id] = $items[0]->productattributeoption_id;
-            }
-            else
-            {
-                $default[$attribute->productattribute_id] = 0;
-            }
-        }
-
-        return $default;
     }
 
     /**
@@ -2192,9 +2429,12 @@ class TiendaHelperProduct extends TiendaHelperBase
 		}
 		
         $filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
+		$qty = ( isset( $values['product_qty'] ) && !empty( $values['product_qty'] ) ) ? $values['product_qty'] : 1;
         $model->setState( 'filter_group', $filter_group );
+		$model->setState( 'product.qty', $qty );
+    	$model->setState( 'user.id', $user_id );
+        $row = $model->getItem( false, false, false );
 
-        $row = $model->getItem( false, false );
         if ( $row->product_notforsale || Tienda::getInstance( )->get( 'shop_enabled' ) == '0' )
         {
             return $html;
@@ -2327,7 +2567,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         {
             // finish TiendaHelperUser::getGeoZone -- that's why this isn't working
             Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-            $geozones_user = TiendaHelperUser::getGeoZones( JFactory::getUser( )->id );
+            $geozones_user = TiendaHelperUser::getGeoZones( $user_id );
             if ( empty( $geozones_user ) )
             {
                 $geozones = array( Tienda::getInstance( )->get( 'default_tax_geozone' ) );

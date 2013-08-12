@@ -58,6 +58,7 @@ class TiendaModelProductPrices extends TiendaModelBase
     protected function _buildQueryJoins(&$query)
     {
         $query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');   
+        $query->join('LEFT', '#__tienda_groups AS g ON g.group_id = tbl.group_id');
     }
     
     protected function _buildQueryFields(&$query)

@@ -736,18 +736,8 @@ class TiendaSelect extends DSCSelect
     {
 		$uid = $user_id == 0 ? JFactory::getUser( )->id : $user_id;
         $list = array();
-        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-        $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
-        $model->setState( 'filter_attribute', $productattribute_id );
-        $model->setState('order', 'tbl.ordering');
-                
-        // Parent options
-        if(count($opt_selected))
-        {
-        	$model->setState('filter_parent', $opt_selected);
-        }
-        
-        $items = $model->getList();
+		$items = TiendaHelperProduct::getAvailableAttributeOptions($attribs['pid'], $productattribute_id, $attribs['changed_attr'], $attribs['changed_pao'], $opt_selected );
+
         $geozones = array();
         $shipping = false;
         if( count( $items ) )
