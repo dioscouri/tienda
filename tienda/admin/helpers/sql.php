@@ -23,22 +23,25 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $order_id
      * @return unknown_type
      */
-    function processOrder( $order_id ) 
+    public function processOrder( $order_id ) 
     {
         // get the order
         $model = JModel::getInstance( 'Orders', 'TiendaModel' );
         $model->setId( $order_id );
         $order = $model->getItem();
+        $this->_orderFromModel = $order;
         
         $orderTable = $model->getTable();
         $orderTable->load( $order_id );
-        
         $this->_order = $orderTable;
-				if( $order->user_id < Tienda::getGuestIdStart() )
-					$this->_user = $order->user_id;
-				else
-	        $this->_user = JFactory::getUser( $order->user_id );
+        
         $this->_date = JFactory::getDate();
+        
+		if ( $order->user_id < Tienda::getGuestIdStart() ) {
+			$this->_user = $order->user_id;
+		} else {
+	        $this->_user = JFactory::getUser( $order->user_id );
+		}
         
         // find the products in the order that are integrated 
         foreach ($order->orderitems as $orderitem)
@@ -64,7 +67,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $sql
      * @return unknown_type
      */
-    function processSQL( $sql )
+    public function processSQL( $sql )
     {
         $regex = "#{orderitem.(.*?)}#s";
         $sql = preg_replace_callback( $regex, array($this, 'orderitem'), $sql );
@@ -102,7 +105,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $match
      * @return unknown_type
      */
-    function order( $match )
+    protected function order( $match )
     {
         // regex returns this array:
         // $match[0] = {order.order_id}
@@ -128,7 +131,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $match
      * @return unknown_type
      */
-    function user( $match )
+    protected function user( $match )
     {
         // regex returns this array:
         // $match[0] = {user.id}
@@ -154,7 +157,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $match
      * @return unknown_type
      */
-    function product( $match )
+    protected function product( $match )
     {
         $key = $match[1];
 
@@ -176,7 +179,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $match
      * @return unknown_type
      */
-    function orderitem( $match )
+    protected function orderitem( $match )
     {
         $key = $match[1];
 
@@ -198,7 +201,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $match
      * @return unknown_type
      */
-    function date( $match )
+    protected function date( $match )
     {
         $key = $match[1];
 
@@ -225,7 +228,7 @@ class TiendaHelperSQL extends TiendaHelperBase
      * @param $match
      * @return unknown_type
      */
-    function request( $match )
+    protected function request( $match )
     {
         $key = $match[1];
 

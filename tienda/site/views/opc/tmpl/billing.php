@@ -1,5 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php
+<?php defined('_JEXEC') or die('Restricted access');
 $this->form_prefix = 'billing_input_';
 
 $config = Tienda::getInstance();

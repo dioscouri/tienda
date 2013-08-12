@@ -24,6 +24,9 @@ class TiendaViewBase extends DSCViewSite
     
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $this->router = new TiendaHelperRoute();
+        
+        $this->user = JFactory::getUser();
+        $this->session = JFactory::getSession();
     }
     
 	/**
@@ -81,7 +84,7 @@ class TiendaViewBase extends DSCViewSite
 		Tienda::load( 'TiendaSelect', 'library.select' );
 		Tienda::load( 'TiendaGrid', 'library.grid' );
 
-		if ($onlyPagination) {
+		if ($onlyPagination || !empty($this->items)) {
 		    $this->no_items = true;
 		}
 		

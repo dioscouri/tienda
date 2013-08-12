@@ -22,7 +22,7 @@
         <?php echo JText::_('COM_TIENDA_FOR_CHECKED_ITEMS'); ?>:
         <button class="btn btn-success" onclick="document.getElementById('task').value='selected_switch'; document.adminForm.submit();"> <?php echo JText::_('COM_TIENDA_CHANGE_STATUS'); ?></button>
     </p>
-
+ 
 	<table class="table table-striped table-bordered dsc-clear">
 		<thead>
             <tr>

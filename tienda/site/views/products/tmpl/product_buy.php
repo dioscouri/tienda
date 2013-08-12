@@ -191,11 +191,23 @@ if( $changed_attr > -1 ) {
         </div>
     <?php endif; ?>
 
-		<?php if( $display_wishlist ): ?>
-    <div id='add_to_wishlist_<?php echo $item->product_id; ?>' class="add_to_wishlist">
-        <?php $onclick = "document.$formName.task.value='addtowishlist'; document.$formName.submit();"; ?>
-        <a href="javascript:void(0);" onclick="<?php echo $onclick; ?>"><?php echo JText::_('COM_TIENDA_ADD_TO_WISHLIST'); ?></a>
-    </div>
-		<?php endif; ?>            
+	<?php if( $display_wishlist ): ?>
+        <div id='add_to_wishlist_<?php echo $item->product_id; ?>' class="add_to_wishlist">
+            <?php
+            $xref_id = $this->user->id;
+            $xref_type = 'user';
+            if (empty($this->user->id)) {
+                $xref_id = $this->session->getId();
+                $xref_type = 'session';
+            }
+            ?>
+            <?php if (!$this->getModel()->isInWishlist($item->product_id, $xref_id, $xref_type)) { ?>
+            <?php $onclick = "document.$formName.task.value='addtowishlist'; document.$formName.submit();"; ?>
+            <a href="javascript:void(0);" onclick="<?php echo $onclick; ?>"><?php echo JText::_('COM_TIENDA_ADD_TO_WISHLIST'); ?></a>
+            <?php } else { ?>
+                <?php echo JText::_('COM_TIENDA_ITEM_ALREADY_IN_WISHLIST'); ?>
+            <?php } ?>
+        </div>
+	<?php endif; ?>            
     </form>
 </div>

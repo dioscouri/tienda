@@ -2,6 +2,219 @@ if (typeof(Tienda) === 'undefined') {
     var Tienda = {};
 }
 
+Tienda.deleteWishlistItem = function(wishlistitem_id, prompt_text, callback_function) {
+
+    if (!prompt_text) { prompt_text = "Are you sure you want to delete this item?"; }
+    var r = confirm(prompt_text);
+    
+    if (r == true && wishlistitem_id) {
+        var url = 'index.php?option=com_tienda&view=wishlists&task=deleteWishlistItem&format=raw&wishlistitem_id=' + wishlistitem_id;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.addToWishlist = function( form_id, container_id, callback_function ) {
+    var url = 'index.php?option=com_tienda&format=raw&view=products';
+    
+    var form_data = tiendaJQ('#'+form_id).serializeArray();
+    tiendaJQ.each(form_data, function(index, value) {
+        if (value.name == 'task') {
+            form_data[index].value = 'addToWishlist';
+        }
+    });
+    
+    var request = jQuery.ajax({
+        type: 'post', 
+        url: url,
+        data: form_data
+    }).done(function(data){
+        var response = JSON.decode(data, false);
+        if (response.html) {
+            tiendaJQ('#'+container_id).html(response.html);
+        }        
+        if ( typeof callback_function === 'function') {
+            callback_function( response );
+        }                    
+    }).fail(function(data){
+        
+    }).always(function(data){
+
+    });
+}
+
+Tienda.privatizeWishlist = function(wishlist_id, privacy, callback_function) {
+
+    if (wishlist_id && privacy) {
+        var url = 'index.php?option=com_tienda&view=wishlists&task=privatizeWishlist&format=raw&wishlist_id='+wishlist_id+'&privacy='+privacy;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.deleteWishlist = function(wishlist_id, prompt_text, callback_function) {
+
+    if (!prompt_text) { prompt_text = "Are you sure you want to delete this Wishlist?"; }
+    var r = confirm(prompt_text);
+    
+    if (r == true && wishlist_id) {
+        var url = 'index.php?option=com_tienda&view=wishlists&task=deleteWishlist&format=raw&wishlist_id=' + wishlist_id;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.createWishlist = function(wishlist_name, prompt_text, callback_function) {
+
+    if (!wishlist_name) {
+        if (!prompt_text) { prompt_text = "Please provide a name for this Wishlist:"; }
+        var wishlist_name = prompt(prompt_text);
+    };
+    
+    var post_data = {
+            wishlist_name: wishlist_name
+    }; 
+    var url = 'index.php?option=com_tienda&view=wishlists&task=createWishlist&format=raw';
+    
+    if (wishlist_name) {
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url,
+            data: post_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.renameWishlist = function(wishlist_id, prompt_text, callback_function) {
+
+    if (!wishlist_name) {
+        if (!prompt_text) { prompt_text = "Please provide a name for this Wishlist:"; }
+        var wishlist_name = prompt(prompt_text);
+    };
+    
+    var post_data = {
+            wishlist_name: wishlist_name
+    }; 
+    var url = 'index.php?option=com_tienda&view=wishlists&task=renameWishlist&format=raw&wishlist_id=' + wishlist_id;
+    
+    if (wishlist_name) {
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url,
+            data: post_data
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
+Tienda.addWishlistItemToWishlist = function( wishlistitem_id, wishlist_id, callback_function ) {
+    var url = 'index.php?option=com_tienda&format=raw&view=wishlists&task=addWishlistItemToWishlist&wishlistitem_id='+wishlistitem_id+'&wishlist_id='+wishlist_id;
+        
+    var request = jQuery.ajax({
+        type: 'post', 
+        url: url
+    }).done(function(data){
+        var response = JSON.decode(data, false);
+        if ( typeof callback_function === 'function') {
+            callback_function( response );
+        }                    
+    }).fail(function(data){
+        
+    }).always(function(data){
+
+    });
+}
+
 Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
 	var url = 'index.php?option=com_tienda&format=raw&view=products&task=updateAddToCart&page=' + page;
 	if( page == 'pos' ) {
@@ -352,7 +565,7 @@ function tiendaValidation(url, container, task, form, doModal, msg) {
 					document.getElementById(container).set('html', resp.msg);
 				}
 			}
-			if (doModal != false) { (function() { document.body.removeChild($('dscModal')); }).delay(500); }
+			if (doModal != false) { (function() { tiendaJQ('#dscModal').remove(); }).delay(500); }
 			if (resp.error != '1') {
 				form.task.value = task;
 				form.submit();
@@ -387,10 +600,9 @@ function tiendaAddProductToCompare(id, container, obj, doModal) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 
-			if (doModal != false) { (function() { document.body.removeChild($('dscModal')); }).delay(500); }
 			if (resp.error == '1') {
-				if ($('validationmessage')) {
-					$('validationmessage').set('html', resp.msg);
+				if (tiendaJQ('validationmessage')) {
+					tiendaJQ('validationmessage').set('html', resp.msg);
 				}
 			} else {
 				if (document.getElementById(container)) {
@@ -429,8 +641,8 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 
 				// Push the code into the form
-				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				if ($('coupon_codes').set('html', cc_html)) {
+				var cc_html = tiendaJQ('coupon_codes').innerHTML + resp.msg;
+				if (tiendaJQ('coupon_codes').set('html', cc_html)) {
 				    tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form, '' );
 				}
 
@@ -452,7 +664,7 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 			}
 
-			el = $$('#coupon_code_area .tiendaAjaxGrayDiv');
+			el = tiendaJQ('#coupon_code_area .tiendaAjaxGrayDiv');
 			if (el != '')
 				el.destroy();
 			tiendaSetColorInContainer('coupon_code_area', '');
@@ -487,8 +699,8 @@ function tiendaAddCartCoupon(form, mult_enabled) {
 				}
 
 				// Push the code into the form
-				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				$('coupon_codes').set('html', cc_html);
+				var cc_html = tiendaJQ('coupon_codes').innerHTML + resp.msg;
+				tiendaJQ('coupon_codes').set('html', cc_html);
 
 				// Clear the field
 				document.getElementById('new_coupon_code').value = '';
@@ -579,7 +791,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 
 function tiendaSetColorInContainer(container, color) {
 	if (document.getElementById(container)) { document.getElementById(container).setStyle('color', color); }
-	$$('#' + container + ' *' ).each(function(el) {
+	tiendaJQ('#' + container + ' *' ).each(function(el) {
 		el.setStyle('color', color);
 	});
 }
@@ -615,8 +827,8 @@ function tiendaRestoreFormInputs(form, values) {
 	for ( i = 0; i < form.elements.length; i++) {
 		if (form.elements[i].getAttribute('type') == 'checkbox')
 			form.elements[i].checked = values[form.elements[i].name].checked;
-		else if ($(form.elements[i].id))
-			$(form.elements[i].id).set('value', values[form.elements[i].name].value);
+		else if (tiendaJQ(form.elements[i].id))
+			tiendaJQ(form.elements[i].id).set('value', values[form.elements[i].name].value);
 	}
 }
 
@@ -642,7 +854,7 @@ function tiendaGetFormInputData(form) {
 }
 
 function tiendaDeleteGrayDivs() {
-    $$('.tiendaAjaxGrayDiv').each(function(el) {
+    tiendaJQ('.tiendaAjaxGrayDiv').each(function(el) {
         el.destroy();
     });
 }

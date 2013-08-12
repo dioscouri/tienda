@@ -50,20 +50,12 @@
             	<!--<input type="checkbox" value="1" name="skippayment" id="skippayment"> <?php echo JText::_('COM_TIENDA_SKIP_PAYMENT');?>--> 
             	<!--<a class="modal" href="" />[?]</a>-->
                 <?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveStep2', document.adminForm, true, '".JText::_('COM_TIENDA_VALIDATING')."' );"; ?> 
-                <input onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP2'); ?>" type="button" class="button btn btn-success" />
+                <input style="margin-bottom : 15px;" onclick="<?php echo $onclick; ?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP2'); ?>" type="button" class="button btn btn-success" />
             </div>    
             
       </div>
     </div>
   </div>
 </div>
-
-
-           
-
-                
-  
-      
-  
 
 <input type="hidden" name="nextstep" id="nextstep" value="step3" />

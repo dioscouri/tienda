@@ -56,7 +56,7 @@ class TiendaControllerTools extends TiendaController
         $model->getId();
         $row = $model->getItem();
 
-    	if (version_compare(JVERSION, '1.6.0', 'ge')) {
+        if (version_compare(JVERSION, '1.6.0', 'ge')) {
 			// Joomla! 1.6+ code here
 			if (empty($row -> enabled)) {
 				$table = $model -> getTable();

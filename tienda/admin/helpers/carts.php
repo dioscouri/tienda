@@ -532,6 +532,9 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 */
 	public static function getProductsInfo()
 	{
+	    Tienda::load( "TiendaHelperCarts", 'helpers.carts' );
+	    $carthelper = new TiendaHelperCarts();
+	    
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 	  
@@ -595,11 +598,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 					{
 						if (empty($cartitem->user_id))
 						{
-							TiendaHelperCarts::removeCartItem( $session_id, $cartitem->user_id, $cartitem->product_id );
+							$carthelper->removeCartItem( $session_id, $cartitem->user_id, $cartitem->product_id );
 						}
 						else
 						{
-							TiendaHelperCarts::removeCartItem( $cartitem->session_id, $cartitem->user_id, $cartitem->product_id );
+							$carthelper->removeCartItem( $cartitem->session_id, $cartitem->user_id, $cartitem->product_id );
 						}
 						JFactory::getApplication()->enqueueMessage( JText::sprintf("COM_TIENDA_NOT_AVAILABLE") . " " .$productItem->product_name );
 						continue;
@@ -616,8 +619,8 @@ class TiendaHelperCarts extends TiendaHelperBase
 				$orderItem->orderitem_attributes            = $cartitem->product_attributes;
 				$orderItem->orderitem_attribute_names       = $cartitem->attributes_names;
 				$orderItem->orderitem_attributes_price      = $cartitem->orderitem_attributes_price;
-        $orderItem->orderitem_attributes_weight     = $cartitem->orderitem_attributes_weight;
-        $orderItem->orderitem_weight                = $cartitem->product_weight;
+                $orderItem->orderitem_attributes_weight     = $cartitem->orderitem_attributes_weight;
+                $orderItem->orderitem_weight                = $cartitem->product_weight;
 				$orderItem->orderitem_final_price           = ($orderItem->orderitem_price + $orderItem->orderitem_attributes_price) * $orderItem->orderitem_quantity;
 				$orderItem->orderitem_recurs                = $productItem->product_recurs;
 				if( $productItem->product_recurs )
@@ -843,7 +846,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				break;
 		}
 
-		$carthelper = new TiendaHelperCarts();
+		$carthelper = new TiendaHelperCarts(); 
 
 		// get the cart items
 		$cart_items = $model->getList( false, false);

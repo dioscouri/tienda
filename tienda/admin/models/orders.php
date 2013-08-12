@@ -613,6 +613,7 @@ class TiendaModelOrders extends TiendaModelBase
 	            // fail if payment required and billing address fails validation
                 if (!$billingAddress->check()) {
                     $this->setError( JText::_('COM_TIENDA_BILLING_ADDRESS_ERROR') );
+                    $this->setError( $billingAddress->getError() );
                 }
 	        }
 
@@ -632,6 +633,7 @@ class TiendaModelOrders extends TiendaModelBase
 	            // fail if shipping required and shipping address fails validation
 	            if (!$shippingAddress->check()) {
 	                $this->setError( JText::_('COM_TIENDA_SHIPPING_ADDRESS_ERROR') );
+	                $this->setError( $shippingAddress->getError() );
 	            }
 	        }
 
