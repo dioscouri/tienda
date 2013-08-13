@@ -1462,6 +1462,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingrates` (
   `shipping_rate_handling` decimal(12,5) NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',
+  `group_id` INT NOT NULL DEFAULT `1`,
   PRIMARY KEY (`shipping_rate_id`) ,
   KEY `fk_geozone_shippingrates` (`geozone_id` ASC) ,
   CONSTRAINT `fk_geozone_shippingrates`
@@ -5817,6 +5818,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_wishlists` (
   `wishlist_name` varchar(255) NOT NULL,
   `privacy` int(11) NOT NULL DEFAULT '1' COMMENT 'public = 1, linkonly = 2, private  = 3',
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `wishlist_name` VARCHAR(255) NOT NULL ,
   `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`wishlist_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
