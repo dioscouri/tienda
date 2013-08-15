@@ -402,15 +402,21 @@ class TiendaControllerProducts extends TiendaController
         // breadcrumb support
         $app = JFactory::getApplication( );
         $pathway = $app->getPathway( );
+        
+        // does this item have its own itemid?  if so, let joomla handle the breadcrumb,
+        // otherwise, help it out a little bit
         $category_itemid = JRequest::getInt( 'Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
-        $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
-        if ( !empty( $items ) )
+        if (!$product_itemid = $this->router->findItemid(array('view'=>'products', 'task'=>'view', 'id'=>$row->product_id))) 
         {
-            // add the categories to the pathway
-            Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+            $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
+            if ( !empty( $items ) )
+            {
+                // add the categories to the pathway
+                Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+            }
+            // add the item being viewed to the pathway
+            $pathway->addItem( $row->product_name );
         }
-        // add the item being viewed to the pathway
-        $pathway->addItem( $row->product_name );
         $cat->itemid = $category_itemid;
         $view->assign( 'cat', $cat );
 
