@@ -1,11 +1,14 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('script', 'tienda.js', 'media/com_tienda/js/'); ?>
-<?php JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/'); ?>
-<?php $form = @$this->form2; ?>
-<?php $row = @$this->row; ?>
-<?php $items = @$this->items; ?>
-<?php $baseLink = $this->baseLink; ?>
-
+<?php 
+  defined('_JEXEC') or die('Restricted access');
+   JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
+   JHTML::_('stylesheet', 'tienda.css', 'media/com_tienda/css/');
+   $form = @$this->form2;
+   $row = @$this->row;
+   $items = @$this->items;
+   $baseLink = $this->baseLink; 
+  
+  $default_group = Tienda::getInstance()->get( 'default_user_group', 1 );
+?>
 <h3><?php echo JText::_('COM_TIENDA_SET_RATES_FOR'); ?>: <?php echo $row->shipping_method_name; ?></h3>
 
 <div class="note" style="width: 95%; text-align: center; margin-left: auto; margin-right: auto;">
@@ -27,6 +30,7 @@
             	<tr>
             		<th></th>
                     <th><?php echo JText::_('COM_TIENDA_GEOZONE'); ?></th>
+                    <th><?php echo JText::_('COM_TIENDA_USER_GROUP'); ?></th>
             		<th><?php echo JText::_('COM_TIENDA_WEIGHT_RANGE'); ?></th>
             		<th><?php echo JText::_('COM_TIENDA_PRICE'); ?></th>
             		<th><?php echo JText::_('COM_TIENDA_HANDLING_FEE'); ?></th>
@@ -41,6 +45,9 @@
             		<td>
                 		<?php echo TiendaSelect::geozone("", "geozone_id", 2); ?>
                 		<input type="hidden" name="shipping_method_id" value="<?php echo $row->shipping_method_id; ?>" />
+            		</td>
+            		<td>
+            			<?php echo TiendaSelect::groups($default_group); ?>
             		</td>
             		<td>
             			<input id="shipping_rate_weight_start" name="shipping_rate_weight_start" value="" size="5" />
@@ -72,6 +79,9 @@
                 <th style="text-align: center;">
                     <?php echo TiendaGrid::sort( 'COM_TIENDA_GEO_ZONE', "tbl.geozone_id", @$state->direction, @$state->order ); ?>
                 </th>
+				<th>
+                  <?php echo TiendaGrid::sort( 'COM_TIENDA_USER_GROUP', "g.ordering", @$state->direction, @$state->order ); ?>
+                </th>                
                 <th style="text-align: center;">
                 	<?php echo TiendaGrid::sort( 'COM_TIENDA_PRICE', "tbl.shipping_rate_price", @$state->direction, @$state->order ); ?>
                 </th>
@@ -95,6 +105,9 @@
                 <td style="text-align: center;">
                     <?php echo TiendaSelect::geozone($item->geozone_id, "geozone[{$item->shipping_rate_id}]", 2); ?>
                 </td>				
+                <td style="text-align: center;">
+                   <?php echo TiendaSelect::groups($item->group_id, "groups[{$item->shipping_rate_id}]" ); ?>
+                </td>
 				<td style="text-align: center;">
 					<input type="text" name="price[<?php echo $item->shipping_rate_id; ?>]" value="<?php echo $item->shipping_rate_price; ?>" />
 				</td>

@@ -247,6 +247,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 
 		$cids = JRequest::getVar('cid', array(0), 'request', 'array');
 		$geozones = JRequest::getVar('geozone', array(0), 'request', 'array');
+		$groups = JRequest::getVar('groups', array(0), 'request', 'array');
 		$prices = JRequest::getVar('price', array(0), 'request', 'array');
 		$weight_starts = JRequest::getVar('weight_start', array(0), 'request', 'array');
 		$weight_ends = JRequest::getVar('weight_end', array(0), 'request', 'array');
@@ -260,6 +261,7 @@ class TiendaControllerShippingStandard extends TiendaControllerShippingPlugin
 			$row->shipping_rate_weight_start = $weight_starts[$cid];
 			$row->shipping_rate_weight_end = $weight_ends[$cid];
 			$row->shipping_rate_handling = $handlings[$cid];
+			$row->group_id = $groups[$cid];
 
 			if (!$row->save())
 			{

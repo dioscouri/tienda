@@ -430,12 +430,22 @@ class plgTiendaShipping_Standard extends TiendaShippingPlugin
      */
     public function getRate( $shipping_method_id, $geozone_id, $product_id='', $use_weight='0', $weight='0' )
     {
+		$session = JFactory::getSession();
+ 	    $isPOS = $session->get( 'user_type', '', 'tienda_pos' ) == '';
+        $user_id = JFactory::getUser( )->id;
+    	if( $isPOS ) {
+      		$user_id = $session->get('user_id', JFactory::getUser()->id, 'tienda_pos');
+    	}
+        Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+        $filter_group = TiendaHelperUser::getUserGroup( $user_id, $product_id );
+    	
         // TODO Give this better error reporting capabilities
         JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
         $model = JModel::getInstance('ShippingRates', 'TiendaModel');
         $model->setState('filter_shippingmethod', $shipping_method_id);
         $model->setState('filter_geozone', $geozone_id);
-        
+        $model->setState('filter_user_group', $filter_group );
+		 
         JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables');
         $product = JTable::getInstance( 'Products', 'TiendaTable' );
               

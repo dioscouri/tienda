@@ -142,19 +142,19 @@ function tiendaUpdateParentDefaultImage(id) {
 		},
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
-			$('default_image').set('html', resp.default_image);
-			$('default_image_name').set('html', resp.default_image_name);
+ 			tiendaJQ('default_image').html ( resp.default_image );
+	      	tiendaJQ('default_image_name').html( resp.default_image_name);
 			return true;
 		}
 	}).send();
 }
 
 function tiendaSetShippingRate(name, price, tax, extra, code) {
-	$('shipping_name').value = name;
-	$('shipping_code').value = code;
-	$('shipping_price').value = price;
-	$('shipping_tax').value = tax;
-	$('shipping_extra').value = extra;
+	tiendaJQ('shipping_name').val( name );
+	tiendaJQ('shipping_code').val( code );
+	tiendaJQ('shipping_price').val( price );
+	tiendaJQ('shipping_tax').val( tax );
+	tiendaJQ('shipping_extra').val( extra );
 	tiendaGetCheckoutTotals();
 }
 
@@ -175,7 +175,7 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 	if (doModal != false) {
 		Dsc.newModal(msg)
 	}
-	$('validation_message').set('html', '');
+	tiendaJQ('#validation_message').html( '' );
 
 	// loop through form elements and prepare an array of objects for passing to server
 	var str = new Array();
@@ -199,10 +199,10 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 			var resp = JSON.decode(response, false);
 
 			if (resp.error != '1') {
-				$(container).set('html', resp.msg);
+				tiendaJQ("#"+container).html( resp.msg );
 				tiendaGetCheckoutTotals();
 			} else {
-				$('validation_message').set('html', resp.msg);
+				tiendaJQ('#validation_message').set('html', resp.msg);
 			}
 
 			if (doModal != false) {
