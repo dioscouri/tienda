@@ -1244,6 +1244,7 @@ CREATE TABLE IF NOT EXISTS `#__tienda_shippingrates` (
   `shipping_rate_handling` decimal(12,5) NOT NULL,
   `created_date` datetime NOT NULL COMMENT 'GMT Only',
   `modified_date` datetime NOT NULL COMMENT 'GMT Only',
+  `group_id` INT NOT NULL,
   PRIMARY KEY (`shipping_rate_id`) ,
   KEY `fk_geozone_shippingrates` (`geozone_id` ASC) ,
   CONSTRAINT `fk_geozone_shippingrates`
@@ -5807,6 +5808,7 @@ CREATE  TABLE IF NOT EXISTS `#__tienda_wishlists` (
   `vendor_id` INT(11) NOT NULL ,
   `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order' ,
   `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `wishlist_name` VARCHAR(255) NOT NULL ,
   `wishlistitem_params` text COMMENT 'Params for the wishlist item',
   INDEX `idx_user_product` (`user_id` ASC, `product_id` ASC) ,
   CONSTRAINT `fk_wishlists_products`

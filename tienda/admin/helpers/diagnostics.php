@@ -66,7 +66,6 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	    //$functions[] = 'createTableEAVValuesTime'; // NO NEW FEATURES YET
 	    $functions[] = 'checkProductClassSuffix';
 	    $functions[] = 'checkProductThumbImage';
-	    $functions[] = 'checkWishlists';
 	    
 	    foreach ($functions as $function)
 	    {
@@ -519,9 +518,13 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
     
         if( !$this->checkOrderItemsWeight() )
         {
-    			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
+   			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKORDERITEMSWEIGHT_FAILED') .' :: '. $this->getError(), 'error' );    
         }
 
+		if( !$this->checkShippingUserGroupRates() )
+		{
+  			return $this->redirect( JText::_('COM_TIENDA_DIAGNOSTIC_CHECKSHIPPINGUSERGROUPRATES_FAILED') .' :: '. $this->getError(), 'error' );			
+		}
 	}
 
 	/**
@@ -3832,68 +3835,27 @@ class TiendaHelperDiagnostics extends DSCHelperDiagnostics
 	    return false;
 	}
 	
-	private function checkWishlists()
+	private function checkShippingUserGroupRates()
 	{
 	    if (Tienda::getInstance()->get( __FUNCTION__, '0' ))
 	    {
 	        return true;
 	    }
-	    
-	    
-	    $db = JFactory::getDBO();
-	    $query = "SHOW COLUMNS FROM #__tienda_wishlists LIKE 'session_id'";
-	    $db->setQuery( $query );
-	    if ($rows = $db->loadObjectList()) 
-	    {
-	        // this has the old wishlists table, do migration
-	        $query = "TRUNCATE `#__tienda_wishlistitems`";
-	        $db->setQuery( $query );
-	        if (!$db->query())
-	        {
-	        
-	        }	        
-	        
-	        // move all columns
-	        $query = "INSERT INTO #__tienda_wishlistitems ( 
-	            wishlist_id, user_id, session_id, product_id, vendor_id, product_attributes, last_updated, wishlistitem_params 
-	        ) SELECT 
-	            wishlist_id, user_id, session_id, product_id, vendor_id, product_attributes, last_updated, wishlistitem_params 
-	            FROM #__tienda_wishlists 
-	        ";
-	        
-	        $db->setQuery( $query );
-	        if (!$db->query())
-	        {
-	            
-	        }
-	        	        
-            $query = "DROP TABLE `#__tienda_wishlists`";
-            $db->setQuery( $query );
-            if (!$db->query())
-            {
-                
-            }
-            
-            $query = "
-            CREATE TABLE IF NOT EXISTS `#__tienda_wishlists` (
-              `wishlist_id` int(11) NOT NULL AUTO_INCREMENT,
-              `user_id` int(11) NOT NULL,
-              `wishlist_name` varchar(255) NOT NULL,
-              `privacy` int(11) NOT NULL DEFAULT '1' COMMENT 'public = 1, linkonly = 2, private  = 3',
-              `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-              `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-              PRIMARY KEY (`wishlist_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;            
-            ";
-            $db->setQuery( $query );
-            if (!$db->query())
-            {
-            
-            }            
-	    }
 	
-        $this->setCompleted( __FUNCTION__ );
-        return true;
-	}	
+	    $table = '#__tienda_shippingrates';
+	    $definitions = array();
+	    $fields = array();
+	
+	    $fields[] = "group_id";
+	    $definitions["group_id"] = "int NOT NULL";
+	
+	    if ($this->insertTableFields( $table, $fields, $definitions ))
+	    {
+	        $this->setCompleted( __FUNCTION__ );
+	        return true;
+	    }
+	    return false;
+	}
 }
 
+	

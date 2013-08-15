@@ -714,7 +714,7 @@ class TiendaControllerPOS extends TiendaController
 				break;
 		}
 
-		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false, false);
+		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);
 		return $response;
 	}
 
@@ -2328,15 +2328,8 @@ class TiendaControllerPOS extends TiendaController
 	}
 
 	// TODO: transfer it to the helper?
-	/**
-	 * Couldn't this use the TiendaHelperCarts->getProductsInfo() ?
-	 * @return multitype:
-	 */
 	function getProductsInfo()
 	{
-	    Tienda::load( "TiendaHelperCarts", 'helpers.carts' );
-	    $carthelper = new TiendaHelperCarts();
-	    	    
 		Tienda::load("TiendaHelperProduct", 'helpers.product');
 		$product_helper = TiendaHelperBase::getInstance('Product');
 
@@ -2398,11 +2391,11 @@ class TiendaControllerPOS extends TiendaController
 					{
 						if(empty($cartitem->user_id))
 						{
-							$carthelper->removeCartItem($session_id, $cartitem->user_id, $cartitem->product_id);
+							TiendaHelperCarts::removeCartItem($session_id, $cartitem->user_id, $cartitem->product_id);
 						}
 						else
 						{
-							$carthelper->removeCartItem($cartitem->session_id, $cartitem->user_id, $cartitem->product_id);
+							TiendaHelperCarts::removeCartItem($cartitem->session_id, $cartitem->user_id, $cartitem->product_id);
 						}
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_TIENDA_NOT_AVAILABLE') . " " . $productItem->product_name);
 						continue ;

@@ -624,7 +624,15 @@ class TiendaModelProducts extends TiendaModelEav
                 }
             }
         }
-         
+
+		$user_id = $this->getState( 'user.id', 0 );
+		$qty = $this->getState( 'product.qty', -1 );
+		if( $qty > -1 ) {
+	        $user_group = TiendaHelperUser::getUserGroup( $user_id, $item->product_id );
+			$price = TiendaHelperProduct::getPrice($item->product_id, $qty, $user_group );
+			$item->price = $price->product_price;
+		}
+		 
         $item->product_parameters = new DSCParameter( $item->product_params );
         $item->slug = $item->product_alias ? ":$item->product_alias" : "";
         $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;

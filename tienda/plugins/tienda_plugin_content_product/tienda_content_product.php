@@ -27,7 +27,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     	 */
         var $_element    = 'tienda_content_product';
         
-    	function __construct(& $subject, $config) 
+    	public function __construct(& $subject, $config) 
     	{    		 
     		parent::__construct($subject, $config);
     		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
@@ -39,7 +39,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
          * 
          * @return boolean
          */
-        function isInstalled()
+        private function isInstalled()
         {
             $success = false;
             
@@ -53,6 +53,33 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
             }
             return $success;
         }
+        
+        /**
+         * Joomla < 1.6 prepare content function
+         *
+         * Enter description here ...
+         * @param unknown_type $row
+         * @param unknown_type $params
+         * @param unknown_type $page
+         */
+        public function onPrepareContent( &$row, &$params, $page=0 )
+        {
+            $context = 'com_content.article';
+            return $this->doContentPrepare($context, $row, $params, $page);
+        }
+        
+        /**
+         * Joomla 1.6+ prepare content function
+         *
+         * @param unknown_type $context
+         * @param unknown_type $article
+         * @param unknown_type $params
+         * @param unknown_type $page
+         */
+        public function onContentPrepare($context, &$article, &$params, $page = 0)
+        {
+            return $this->doContentPrepare($context, $article, $params, $page);
+        }        
     	
     	/**
          * Search for the tag and replace it with the product view {tiendaproduct}
@@ -61,7 +88,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
          * @param $params
          * @param $limitstart
          */
-       	function onPrepareContent( &$row, &$params, $page=0 )
+       	private function doContentPrepare( $context, &$row, &$params, $page=0 )
        	{
        		if( !$this->isInstalled() )
        			return true;
@@ -92,15 +119,19 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     	 	$count = count( $matches[0] );
     	
     	 	// plugin only processes if there are any instances of the plugin in the text
-    	 	if ( $count ) {
-					$doc = JFactory::getDocument();
-					$uri = JURI::getInstance();
-					$js = "var com_tienda = {};\n";
-					$js.= "com_tienda.jbase = '".$uri->root()."';\n";
-					$doc->addScriptDeclaration($js);
+    	 	if ( $count ) 
+    	 	{
+    	 	    DSC::loadJQuery('latest', true, 'tiendaJQ');
+    	 	    
+				$doc = JFactory::getDocument();
+				$uri = JURI::getInstance();
+				$js = "var com_tienda = {};\n";
+				$js.= "com_tienda.jbase = '".$uri->root()."';\n";
+				$doc->addScriptDeclaration($js);
 
-    	 		foreach($matches as $match)
+    	 		foreach($matches as $match) {
     	 			$this->showProducts( $row, $matches, $count, $regex );
+    	 		}
     		}
        	}
        	
@@ -112,7 +143,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
        	 * @param $regex
        	 * @return unknown_type
        	 */
-       	function showProducts( &$row, &$matches, $count, $regex )
+       	private function showProducts( &$row, &$matches, $count, $regex )
        	{
        	    Tienda::load( 'TiendaSelect', 'library.select' );
        	    
@@ -138,7 +169,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     	 * @param $load
     	 * @return unknown_type
     	 */
-    	function showProduct( $load )
+    	private function showProduct( $load )
     	{
     		$inline_params = explode(" ", $load);
     		$params = $this->get('params');
@@ -189,7 +220,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     		$product_description = TiendaArticle::fromString( $row->product_description );
     
     		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-    		$cmodel = JModel::getInstance( 'Categories', 'TiendaModel' );
+    		$cmodel = Tienda::getClass( 'TiendaModelCategories', 'models.categories' );
     		$cat = $cmodel->getTable();
     		$cat->load( $filter_category );
     
@@ -267,7 +298,8 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
 	            }
     		}
             ob_start();
-    		include( 'tienda_content_product/tmpl/view.php' );
+    		$layout_file = $this->_getLayoutPath($this->_element, 'content', 'view');
+    		include( $layout_file );
     		$return = ob_get_contents();
     		ob_end_clean();
     		
@@ -301,7 +333,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
          * @param int $address_id
          * @return string html
          */
-        function getRelationshipsHtml( $product_id, $relation_type='relates' )
+        private function getRelationshipsHtml( $product_id, $relation_type='relates' )
         {
             $html = '';
             $validation = "";
@@ -432,7 +464,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
     	 * @param int $address_id
     	 * @return string html
     	 */
-    	function getFiles( $product_id )
+    	private function getFiles( $product_id )
     	{
     		$html = '';
     
@@ -483,7 +515,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
          * @param int $address_id
          * @return string html
          */
-        function getAddToCart( $product_id, $values=array(), $params = array() )
+        private function getAddToCart( $product_id, $values=array(), $params = array() )
         {
             $html = '';
     
@@ -609,7 +641,7 @@ if (JFile::exists(JPATH_ADMINISTRATOR.'/components/com_tienda/defines.php'))
         }
     	
         
-        function _getLayout($layout, $vars = false, $plugin = '', $group = 'content')
+        public function _getLayout($layout, $vars = false, $plugin = '', $group = 'content')
         {
         	return parent::_getLayout($layout, $vars, $plugin, $group);
         }

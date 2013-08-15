@@ -534,7 +534,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	{
 	    Tienda::load( "TiendaHelperCarts", 'helpers.carts' );
 	    $carthelper = new TiendaHelperCarts();
-	    
+	    	    
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 	  
@@ -821,7 +821,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $id_type
 	 * @return unknown_type
 	 */
-	static function checkIntegrity( $cart_id, $id_type='user_id' )
+	function checkIntegrity( $cart_id, $id_type='user_id' )
 	{
 		$user_id = 0;
 		$session_id = '';
@@ -846,7 +846,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				break;
 		}
 
-		$carthelper = new TiendaHelperCarts(); 
+		$carthelper = new TiendaHelperCarts();
 
 		// get the cart items
 		$cart_items = $model->getList( false, false);
@@ -873,7 +873,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $index
 	 * @return unknown_type
 	 */
-	static function getAdditionalKeyValues( $item, $posted_values, $index = null )
+	function getAdditionalKeyValues( $item, $posted_values, $index = null )
 	{
 		$keynames = array();
 		$dispatcher = JDispatcher::getInstance();

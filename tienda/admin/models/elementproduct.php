@@ -31,8 +31,11 @@ class TiendaModelElementproduct extends DSCModelElement
 	var $select_title_constant = 'COM_TIENDA_SELECT_PRODUCT';
 	public $select_constant = 'COM_TIENDA_SELECT_PRODUCT';
 	public $clear_constant = 'COM_TIENDA_CLEAR_SELECTION';
+
+	public $title_key = "product_name";
 	
 	function getTable($name = '', $prefix = null, $options = array()) {
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
 		$table = JTable::getInstance('Products', 'TiendaTable');
 		return $table;
 	}

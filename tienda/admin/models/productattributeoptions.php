@@ -53,11 +53,13 @@ class TiendaModelProductAttributeOptions extends TiendaModelBase
         }
     }
 
-		protected function _buildQueryJoins(&$query)
-		{
-			$query->join('LEFT', '#__tienda_productattributes AS pa ON pa.productattribute_id = tbl.productattribute_id');
-			$query->join('LEFT', '#__tienda_products AS p ON pa.product_id = p.product_id');
-		}	
+	protected function _buildQueryJoins(&$query)
+	{
+		$filter_no_quantity = $this->getState('filter_no_quantity', 0);
+
+		$query->join('LEFT', '#__tienda_productattributes AS pa ON pa.productattribute_id = tbl.productattribute_id');
+		$query->join('LEFT', '#__tienda_products AS p ON pa.product_id = p.product_id');
+	}	
     
     protected function _buildQueryFields( &$query )
     {

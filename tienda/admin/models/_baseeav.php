@@ -192,7 +192,7 @@ class TiendaModelEav extends TiendaModelBase
 	    $this->_getEav = $getEav;
 	    $this->_getEavOptions = array();
 	    
-		return parent::getItem( $refresh );
+		return parent::getItem( null, $refresh, $emptyState );
 	}
 
 	/**

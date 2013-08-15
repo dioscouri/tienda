@@ -55,10 +55,13 @@ class TiendaModelProductAttributes extends TiendaModelBase
         {
             $query->where('tbl.product_id = '.(int) $filter_product);
         }
+        
     	if (is_array($filter_parent_option))
         {
        		$filter_parent_option = implode(',', $filter_parent_option);
-       		$query->where('tbl.parent_productattributeoption_id IN ('. $filter_parent_option.')');
+       		if ($filter_parent_option) {
+       		    $query->where('tbl.parent_productattributeoption_id IN ('. $filter_parent_option.')');
+       		}       		
        	}
        	else
        	{
