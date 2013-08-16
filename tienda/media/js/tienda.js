@@ -232,18 +232,50 @@ Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
 			document.getElementById(container).set('html', resp.msg);
 		}
 		document.getElementById(container).setStyle('color', '');
+		
+		Tienda.updateProductDetail(resp, page, container, form);
+		
 		if ( typeof callback === 'function')
-			callback();
+			callback(resp);
 		return true;
     });
+}
+
+/**
+ * Updates a product detail page with new PAOVs
+ * [Experimental]
+ */
+Tienda.updateProductDetail = function(resp, page, container, form) {
+    var f = tiendaJQ( form );
+    var changed_attr = tiendaJQ( 'input[name="changed_attr"]', f ).val();
+    
+    if (!resp.paov_items || !changed_attr) {
+        return;
+    }
+    
+    new_image = null;
+    paov_items = resp.paov_items;
+    product_id = resp.product_id;
+    tiendaJQ.each(paov_items, function(index, paov){
+        if (paov.productattributeoptionvalue_field == 'product_full_image' && paov.productattributeoptionvalue_operator == 'replace' && paov.productattributeoptionvalue_value) {
+            new_image = paov.productattributeoptionvalue_value;
+        }
+    });
+    
+    if (new_image) {
+        jqzoom = jQuery('.product-' + product_id + ' #product_image a.zoom').data('jqzoom');
+        if (jqzoom) {
+            jqzoom.changeimage(new_image);
+        }        
+    }
 }
 
 /*
  * Changes ID of currently changed attribute on form
  */
 Tienda.UpdateChangedAttribute= function( form, attr_id ) {
-  var f = tiendaJQ( form );
-  tiendaJQ( 'input[name="changed_attr"]', f ).val( attr_id );
+	var f = tiendaJQ( form );
+	tiendaJQ( 'input[name="changed_attr"]', f ).val( attr_id );
 }
 
 /**
@@ -565,7 +597,7 @@ function tiendaValidation(url, container, task, form, doModal, msg) {
 					document.getElementById(container).set('html', resp.msg);
 				}
 			}
-			if (doModal != false) { (function() { tiendaJQ('#dscModal').remove(); }).delay(500); }
+			if (doModal != false) { (function() { document.body.removeChild(tiendaJQ('dscModal')); }).delay(500); }
 			if (resp.error != '1') {
 				form.task.value = task;
 				form.submit();
@@ -600,9 +632,10 @@ function tiendaAddProductToCompare(id, container, obj, doModal) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 
+			if (doModal != false) { (function() { document.body.removeChild($('dscModal')); }).delay(500); }
 			if (resp.error == '1') {
-				if (tiendaJQ('validationmessage')) {
-					tiendaJQ('validationmessage').set('html', resp.msg);
+				if ($('validationmessage')) {
+					$('validationmessage').set('html', resp.msg);
 				}
 			} else {
 				if (document.getElementById(container)) {
@@ -641,8 +674,8 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 
 				// Push the code into the form
-				var cc_html = tiendaJQ('coupon_codes').innerHTML + resp.msg;
-				if (tiendaJQ('coupon_codes').set('html', cc_html)) {
+				var cc_html = $('coupon_codes').innerHTML + resp.msg;
+				if ($('coupon_codes').set('html', cc_html)) {
 				    tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form, '' );
 				}
 
@@ -664,7 +697,7 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 			}
 
-			el = tiendaJQ('#coupon_code_area .tiendaAjaxGrayDiv');
+			el = $$('#coupon_code_area .tiendaAjaxGrayDiv');
 			if (el != '')
 				el.destroy();
 			tiendaSetColorInContainer('coupon_code_area', '');
@@ -699,8 +732,8 @@ function tiendaAddCartCoupon(form, mult_enabled) {
 				}
 
 				// Push the code into the form
-				var cc_html = tiendaJQ('coupon_codes').innerHTML + resp.msg;
-				tiendaJQ('coupon_codes').set('html', cc_html);
+				var cc_html = $('coupon_codes').innerHTML + resp.msg;
+				$('coupon_codes').set('html', cc_html);
 
 				// Clear the field
 				document.getElementById('new_coupon_code').value = '';
@@ -791,7 +824,7 @@ function tiendaGrayOutAjaxDiv(container, text, suffix) {
 
 function tiendaSetColorInContainer(container, color) {
 	if (document.getElementById(container)) { document.getElementById(container).setStyle('color', color); }
-	tiendaJQ('#' + container + ' *' ).each(function(el) {
+	$$('#' + container + ' *' ).each(function(el) {
 		el.setStyle('color', color);
 	});
 }
@@ -827,8 +860,8 @@ function tiendaRestoreFormInputs(form, values) {
 	for ( i = 0; i < form.elements.length; i++) {
 		if (form.elements[i].getAttribute('type') == 'checkbox')
 			form.elements[i].checked = values[form.elements[i].name].checked;
-		else if (tiendaJQ(form.elements[i].id))
-			tiendaJQ(form.elements[i].id).set('value', values[form.elements[i].name].value);
+		else if ($(form.elements[i].id))
+			$(form.elements[i].id).set('value', values[form.elements[i].name].value);
 	}
 }
 
@@ -854,7 +887,7 @@ function tiendaGetFormInputData(form) {
 }
 
 function tiendaDeleteGrayDivs() {
-    tiendaJQ('.tiendaAjaxGrayDiv').each(function(el) {
+    $$('.tiendaAjaxGrayDiv').each(function(el) {
         el.destroy();
     });
 }

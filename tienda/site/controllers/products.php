@@ -91,6 +91,11 @@ class TiendaControllerProducts extends TiendaController
         $state['filter_rating'] = $app->getUserStateFromRequest( $ns . 'rating', 'filter_rating', '', '' );
         $state['filter_sortby'] = $app->getUserStateFromRequest( $ns . 'sortby', 'filter_sortby', '', '' );
         $state['filter_dir'] = $app->getUserStateFromRequest( $ns . 'dir', 'filter_dir', 'asc', '' );
+
+        if ( !$this->defines->get( 'display_out_of_stock' ) )
+        {
+            $state['filter_quantity_from'] = 1;
+        }
         
         // search filters reset
         $state['filter'] = '';
@@ -206,11 +211,6 @@ class TiendaControllerProducts extends TiendaController
         $ns_general = $app->getName().'::'.'com.tienda.products.state';
         $session->set( $ns_general, $state );
 
-        if ( !$this->defines->get( 'display_out_of_stock' ) )
-        {
-            $model->setState( 'filter_quantity_from', '1' );
-        }
-
         // get the category we're looking at
         $filter_category = $model->getState( 'filter_category', JRequest::getVar( 'filter_category' ) );
         JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
@@ -225,21 +225,28 @@ class TiendaControllerProducts extends TiendaController
         // breadcrumb support
         $app = JFactory::getApplication( );
         $pathway = $app->getPathway( );
-        $category_itemid = JRequest::getInt( 'Itemid', Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->category( $filter_category, true ) );
-        $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
-        if ( !empty( $items ) )
+        
+        // does this item have its own itemid?  if so, let joomla handle the breadcrumb,
+        // otherwise, help it out a little bit
+        $category_itemid = $this->router->category( $filter_category, true );
+        if (!$category_itemid) 
         {
-            // add the categories to the pathway
-            Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
-        }
-        // add the item being viewed to the pathway
-        $pathway_values = $pathway->getPathway( );
-        $pathway_names = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'name' );
-        $pathway_links = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'link' );
-        $cat_url = "index.php?Itemid=$category_itemid";
-        if ( !in_array( $cat->category_name, $pathway_names ) )
-        {
-            $pathway->addItem( $title );
+            $category_itemid = JRequest::getInt( 'Itemid', $category_itemid_specific );
+            $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
+            if ( !empty( $items ) )
+            {
+                // add the categories to the pathway
+                Tienda::getClass( "TiendaHelperPathway", 'helpers.pathway' )->insertCategories( $items, $category_itemid );
+            }
+            // add the item being viewed to the pathway
+            $pathway_values = $pathway->getPathway( );
+            $pathway_names = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'name' );
+            $pathway_links = Tienda::getClass( "TiendaHelperBase", 'helpers._base' )->getColumn( $pathway_values, 'link' );
+            $cat_url = "index.php?Itemid=$category_itemid";
+            if ( !in_array( $cat->category_name, $pathway_names ) )
+            {
+                $pathway->addItem( $title );
+            }
         }
         $cat->itemid = $category_itemid;
 
@@ -567,6 +574,19 @@ class TiendaControllerProducts extends TiendaController
         $html = $this->getAddToCart( $values['product_id'], $values );
 
         $response['msg'] = $html;
+        
+        $paov_items = array();
+        $paov_model = Tienda::getClass('TiendaModelProductAttributeOptionValues', 'models.productattributeoptionvalues');
+        $paov_model->setState('filter_product', (int) $values['product_id'] );
+        if (!empty($values['changed_attr'])) {
+            $key = 'attribute_' . (int) $values['changed_attr'];
+            $paov_model->setState('filter_option', (int) $values[$key] );
+        }
+        $paov_items = $paov_model->getList();
+                
+        $response['paov_items'] = $paov_items;
+        $response['product_id'] = (int) $values['product_id'];
+        
         // encode and echo (need to echo to send back to browser)
         echo json_encode( $response );
         return;

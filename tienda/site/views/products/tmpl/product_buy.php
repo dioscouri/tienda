@@ -78,7 +78,7 @@ if( $changed_attr > -1 ) {
         $key = 'attribute_'.$attribute->productattribute_id;
         $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
         
-        $attribs = array('class' => 'inputbox',
+        $attribs = array('class' => 'inputbox productattribute',
         				'size' => '1',
 	        			'onchange'=>"Tienda.UpdateChangedAttribute( document.".$formName.", ".$attribute->productattribute_id.");
                         Tienda.UpdateAddToCart( '".$this->page."','product_buy_".$item->product_id."', document.".$formName.", ".$working_image." );",

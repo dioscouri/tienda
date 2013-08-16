@@ -20,6 +20,8 @@ class TiendaModelProductAttributeOptionValues extends TiendaModelBase
         $filter          	= $this->getState('filter');
         $filter_id      	= $this->getState('filter_id');
         $filter_option   = $this->getState('filter_option');
+        $filter_product  		= $this->getState('filter_product');
+        $filter_field = $this->getState('filter_field');
 
         if ($filter) 
         {
@@ -38,5 +40,26 @@ class TiendaModelProductAttributeOptionValues extends TiendaModelBase
         {
             $query->where('tbl.productattributeoption_id = '.(int) $filter_option);
         }
+        
+        if (strlen($filter_product))
+        {
+            $query->where('p.product_id = '.(int) $filter_product);
+        }
+        
+        if (strlen($filter_field))
+        {
+            $query->where('tbl.productattributeoptionvalue_field = '. $this->getDBO()->Quote($filter_field) );
+        }        
     }
+    
+    protected function _buildQueryJoins(&$query)
+    {
+        $filter_product = $this->getState('filter_product');
+        if (strlen($filter_product))
+        {
+            $query->join('INNER', '#__tienda_productattributeoptions AS pao ON pao.productattributeoption_id = tbl.productattributeoption_id');
+            $query->join('INNER', '#__tienda_productattributes AS pa ON pa.productattribute_id = pao.productattribute_id');
+            $query->join('INNER', '#__tienda_products AS p ON pa.product_id = p.product_id');
+        }
+    }    
 }
