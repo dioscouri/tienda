@@ -81,9 +81,9 @@ class plgUserTienda extends JPlugin
         {
             $helper->mergeSessionCartWithUserCart( $old_sessionid, $user['id'] );
             
-        //    JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
-		//    $wishlist_model = JModel::getInstance( 'Wishlists', 'TiendaModel' );
-        //    $wishlist_model->setUserForSessionItems( $old_sessionid, $user['id'] );
+            JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		    $wishlist_model = JModel::getInstance( 'WishlistItems', 'TiendaModel' );
+            $wishlist_model->setUserForSessionItems( $old_sessionid, $user['id'] );
         }
             else
         {
