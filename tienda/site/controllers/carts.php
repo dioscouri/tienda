@@ -975,4 +975,91 @@ private function addCouponCodes($values)
 
 		return true;
 	}
+	
+	public function addToWishlist()
+	{
+	    $values = array();
+	    $response = new stdClass();
+	    $response->html = '';
+	    $response->error = false;
+	    Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+	    $router = new TiendaHelperRoute();
+	
+	    // verify form submitted by user
+	    JRequest::checkToken( 'get' ) or jexit( 'Invalid Token' );
+	
+	    $values['product_id'] = JRequest::getInt( 'pid' );
+	
+	    JTable::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/tables' );
+	    $product = JTable::getInstance( 'Products', 'TiendaTable' );
+	    $product->load( $values['product_id'], true, false );
+	
+	    if (empty($product->product_id))
+	    {
+	        $msg = JText::_('COM_TIENDA_INVALID_PRODUCT');
+	        $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$router->findItemid( array('view'=>'carts') ), false );
+	        $this->setRedirect( $redirect, $msg, 'error');
+	        return;
+	    }
+	
+	    $values['product_attributes'] = JRequest::getVar( 'pa', '' );
+	
+	    // use the wishlist model to add the item to the wishlist, let the model handle all logic
+	    $session = JFactory::getSession();
+	    $session_id = $session->getId();
+	    $session->set( 'old_sessionid', $session_id );
+	
+	    $user_id = JFactory::getUser()->id;
+	    $values['user_id'] = $user_id;
+	    $values['session_id'] = $session_id;
+	
+	    $model = $this->getModel('wishlists');
+	
+	    $msg = '';
+	    $redirect = JRoute::_( "index.php?option=com_tienda&view=carts&Itemid=".$router->findItemid( array('view'=>'carts') ), false );
+	    $type = 'message';
+	
+	    if (!$model->addItem($values)) {
+	        $type = 'error';
+	        $msg = JText::_('COM_TIENDA_COULD_NOT_ADD_TO_WISHLIST');
+	    } else {
+	        $url = "index.php?option=com_tienda&view=wishlists&Itemid=" . $router->findItemid( array('view'=>'wishlists') );
+	        $msg = JText::sprintf( 'COM_TIENDA_ADDED_TO_WISHLIST', JRoute::_( $url ) );
+	    }
+	
+	    $this->setRedirect( $redirect, $msg, $type);
+	    return;
+	}
+	
+	public function deleteCartItem()
+	{
+	    $response = new stdClass();
+	    $response->html = '';
+	    $response->error = false;
+	
+	    $user = JFactory::getUser();
+	    $model = $this->getModel( 'carts' );
+	
+	    $table = $model->getTable();
+	    $id = JRequest::getInt('cartitem_id');
+	    $keys = array('user_id'=>$user->id, 'cart_id'=>$id);
+	    $table->load( $keys );
+	
+	    if (!empty($table->cart_id))
+	    {
+	        if ($table->delete()) {
+	            $response->html = JText::_('COM_TIENDA_CARTITEM_DELETED');
+	        } else {
+	            $response->html = JText::_('COM_TIENDA_DELETE_FAILED');
+	            $response->error = true;
+	        }
+	
+	    } else {
+	        $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
+	        $response->error = true;
+	    }
+	
+	    echo json_encode($response);
+	    return;
+	}
 }

@@ -231,7 +231,7 @@ class TiendaControllerProducts extends TiendaController
         $category_itemid = $this->router->category( $filter_category, true );
         if (!$category_itemid) 
         {
-            $category_itemid = JRequest::getInt( 'Itemid', $category_itemid_specific );
+            $category_itemid = JRequest::getInt( 'Itemid' );
             $items = Tienda::getClass( "TiendaHelperCategory", 'helpers.category' )->getPathName( $filter_category, 'array' );
             if ( !empty( $items ) )
             {

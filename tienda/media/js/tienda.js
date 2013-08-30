@@ -2,6 +2,37 @@ if (typeof(Tienda) === 'undefined') {
     var Tienda = {};
 }
 
+Tienda.deleteCartItem = function(cartitem_id, prompt_text, callback_function) {
+
+    if (!prompt_text) { prompt_text = "Are you sure you want to delete this item?"; }
+    var r = confirm(prompt_text);
+    
+    if (r == true && cartitem_id) {
+        var url = 'index.php?option=com_tienda&view=carts&task=deleteCartItem&format=raw&cartitem_id=' + cartitem_id;
+        var request = jQuery.ajax({
+            type: 'post', 
+            url: url
+        }).done(function(data){
+            var response = JSON.decode(data, false);
+
+            if (response.error) {
+                alert(response.html);
+            } else {
+                if ( typeof callback_function === 'function') {
+                    callback_function( response );
+                }                                    
+            } 
+
+        }).fail(function(data){
+            
+        }).always(function(data){
+
+        });        
+    }
+    
+    return false;
+}
+
 Tienda.deleteWishlistItem = function(wishlistitem_id, prompt_text, callback_function) {
 
     if (!prompt_text) { prompt_text = "Are you sure you want to delete this item?"; }
