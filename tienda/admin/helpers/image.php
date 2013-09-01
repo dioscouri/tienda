@@ -128,7 +128,7 @@ class TiendaHelperImage extends TiendaHelperBase
 				
 			$this->checkDirectory($dest_dir);
 	
-			if($width >= $height)
+			if($img->getWidth() >= $img->getHeight())
 				$img->resizeToWidth( $width );
 			else
 				$img->resizeToHeight( $height );
