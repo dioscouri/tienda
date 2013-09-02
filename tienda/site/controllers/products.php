@@ -1208,7 +1208,7 @@ class TiendaControllerProducts extends TiendaController
         // if ther is another product_url, put it into the cartitem_params, to allow custom redirect
         if ( array_key_exists( 'product_url', $values ) )
         {
-            $params = new DSCParameter( '');
+            $params = new DSCParameter(trim(@$item->cartitem_params));
             $params->set( 'product_url', $values['product_url'] );
             $item->cartitem_params = trim( $params->toString( ) );
         }
