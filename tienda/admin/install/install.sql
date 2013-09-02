@@ -5831,6 +5831,38 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
+
+
+CREATE  TABLE IF NOT EXISTS `#__tienda_wishlists` (
+  `wishlist_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `wishlist_name` varchar(255) NOT NULL,
+  `privacy` int(11) NOT NULL DEFAULT '1' COMMENT 'public = 1, linkonly = 2, private  = 3',
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`wishlist_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+
+CREATE  TABLE IF NOT EXISTS `#__tienda_wishlistitems` (
+  `wishlistitem_id` int(11) NOT NULL AUTO_INCREMENT,
+  `wishlist_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `session_id` varchar(255) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `product_attributes` text NOT NULL COMMENT 'A CSV of productattributeoption_id values, always in numerical order',
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `wishlistitem_params` text COMMENT 'Params for the wishlist item',
+  PRIMARY KEY (`wishlistitem_id`),
+  KEY `idx_user_product` (`user_id`,`product_id`),
+  KEY `fk_wishlists_products` (`product_id`),
+  CONSTRAINT `fk_wishlists_products` FOREIGN KEY (`product_id`) REFERENCES `#__tienda_products` (`product_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 -- -----------------------------------------------------
 -- Table `#__tienda_posrequests`
 -- -----------------------------------------------------
