@@ -645,7 +645,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 						$orderItem->set($key,$value);
 					}
 				}
+				//adding plugin event, this is useful for editing the item before it is added for checkout from the cart. makes support for variable pricing
+				 $dispatcher = JDispatcher::getInstance();
 
+	          	 $dispatcher->trigger( "onAddOrderitemFromCart", array( $orderItem , $cartitem) );
+			
 				// TODO When do attributes for selected item get set during admin-side order creation?
 				array_push($productitems, $orderItem);
 			}
