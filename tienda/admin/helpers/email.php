@@ -222,6 +222,16 @@ class TiendaHelperEmail extends TiendaHelperBase
         $mainframe = JFactory::getApplication();
         $type = strtolower($type);  
 
+         $controller = new DSCControllerSite();
+         $view = $controller->getView( 'emails', 'html' , 'TiendaView');
+         $view->set('_doTask', true);
+         
+         $model =  Tienda::getClass('TiendaModelEmails', 'models.emails');
+         $view->setModel($model, 'emails');
+        
+         
+
+
         $lang = JFactory::getLanguage();
         $lang->load('com_tienda', JPATH_ADMINISTRATOR);
         
@@ -326,7 +336,12 @@ class TiendaHelperEmail extends TiendaHelperBase
             case "new_order":
             case "order":
             default:
-								$user_name = JText::_('COM_TIENDA_GUEST');
+				
+                 $view->setLayout('order');
+
+
+
+                $user_name = JText::_('COM_TIENDA_GUEST');
             		if( $data->user_id > 0 )
             		{
 	                $user = JUser::getInstance($data->user_id);
@@ -361,6 +376,9 @@ class TiendaHelperEmail extends TiendaHelperBase
                 }
                     else
                 {
+
+
+
                     // Status Change
                     $return->subject = JText::_('COM_TIENDA_EMAIL_ORDER_STATUS_CHANGE');
                     $last_history = count($data->orderhistory) - 1;
@@ -379,9 +397,15 @@ class TiendaHelperEmail extends TiendaHelperBase
                         $text = nl2br( $text );
                     }
                 }
-                
-                $return->body = $text;
-                
+                 $view->set('user_name', $user_name );    
+                 $view->set('link', $link );   
+                 $view->set('text', $text ); 
+                 $view->set('last_history', $last_history ); 
+                 ob_start();
+               $view->display();
+                $return->body = ob_get_contents();
+                ob_clean();
+
                 $placeholders['user.name'] = $user_name;
               break;
         }        
@@ -389,6 +413,8 @@ class TiendaHelperEmail extends TiendaHelperBase
         $return->subject = $this->replacePlaceholders($return->subject, $placeholders);
         $return->body = $this->replacePlaceholders($return->body, $placeholders);
         
+
+
         return $return;
 
     }
