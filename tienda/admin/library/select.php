@@ -187,7 +187,7 @@ class TiendaSelect extends DSCSelect
 		 $db = JFactory::getDbo();
         $q = new DSCQuery();
         
-        $q->select( 'SELECT DISTINCT orderpayment_type as type' );
+        $q->select( 'DISTINCT orderpayment_type as type' );
         $q->from( '#__tienda_orderpayments' );
         
 	      $db->setQuery( $q );
