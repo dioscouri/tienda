@@ -134,6 +134,20 @@ class TiendaPaymentPlugin extends TiendaPluginBase
         return $object;
     }
     
+    /**
+     * Generates a dropdown list of valid payment methods for this payment plugin 
+     * 
+     * @param $fieldname
+     * @param $default
+     * @param $options
+     * @return unknown_type
+     */
+    public function _paymentMethods( $field='payment_method', $default='', $options=array() )
+    {
+        $return = array();
+        return $return;
+    }
+    
     /************************************
      * Note to 3pd: 
      * 
