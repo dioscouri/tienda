@@ -258,6 +258,42 @@ class TiendaModelCarts extends TiendaModelEav
 							$item->orderitem_attributes_weight = "0.00000";
 						}
 
+						// update product values based on the selected option
+						$m_values = DSCModel::getInstance('ProductAttributeOptionValues', 'TiendaModel');
+						$m_values->setState( 'filter_option', $attrib_id );
+						$list_values = $m_values->getList();
+						if( count( $list_values ) ) {
+							foreach( $list_values as $val ) {
+								switch( $val->productattributeoptionvalue_field )
+								{
+									case 'product_model' :
+									case 'product_sku' :
+									{
+										$field = $val->productattributeoptionvalue_field;
+										switch( $val-> productattributeoptionvalue_operator )
+										{
+											case 'prepend' :
+											{
+												$item->$field = $val->productattributeoptionvalue_value . $item->$field;
+												break;
+											}
+											case 'append' :
+											{
+												$item->$field = $item->$field . $val->productattributeoptionvalue_value;
+												break;
+											}
+											case 'replace' :
+											{
+												$item->$field = $val->productattributeoptionvalue_value;
+												break;
+											}
+										}
+										break;
+									}
+								}
+							}
+						}
+
 							
 						$item->orderitem_attributes_price = number_format($item->orderitem_attributes_price, '5', '.', '');
 						$item->orderitem_attributes_weight = number_format($item->orderitem_attributes_weight, '5', '.', '');
