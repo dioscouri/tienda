@@ -95,7 +95,7 @@ $product_image_thumb = TiendaHelperProduct::getImage($item->product_id, '', $ite
 				?>
             </div>
         </div>
-        
+
         <?php if ( $this->defines->get( 'shop_enabled', '1' ) ) : ?>
             <div class="dsc-wrap product_buy" id="product_buy_<?php echo $item->product_id; ?>">
                 <?php echo TiendaHelperProduct::getCartButton( $item->product_id ); ?>

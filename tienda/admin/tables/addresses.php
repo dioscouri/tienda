@@ -113,7 +113,7 @@ class TiendaTableAddresses extends TiendaTable
         for( $i = 0, $c = count( $address_checks ); $i < $c; $i++ )
         {
             $current = $address_checks[$i];
-            if( isset($current ) && empty( $current[0] ) && $elements[ $current[1] ][1] )
+            if( empty( $this->$current[0] ) && $elements[ $current[1] ][1] )
             {
                 $this->setError( JText::_($current[2]) );
             }

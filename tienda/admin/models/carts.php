@@ -330,6 +330,8 @@ class TiendaModelCarts extends TiendaModelEav
 				}
 
 				$item->attributes_names = implode(', ', $attributes_names);
+				
+				$this->prepareItem( $item, 0, $refresh );
 			}
 
 			$this->_list = $items;

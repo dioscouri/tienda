@@ -1,34 +1,18 @@
-<?php
-	defined('_JEXEC') or die('Restricted access');
-
-	$display_credits = $this->defines->get( 'display_credits', '0' );
-	$guest_checkout_enabled = $this->defines->get('guest_checkout_enabled');
-	$section = $this->subtask == 'shipping' ? 'shipping' : 'payment';
-	
-	$doc = JFactory::getDocument();
-	$js = 'tiendaJQ(document).ready(function(){
-	    Pos = new TiendaPos("#pos-form-step3-'.$this->subtask.'", { guestCheckoutEnabled: '.$guest_checkout_enabled.' });';
-	$js .= 'Pos.setupSection("'.$section.'");';
-	$js .= '});';
-	$doc->addScriptDeclaration($js);
-	Tienda::load( 'TiendaHelperBase', 'helpers._base' );
-	$js_strings = array( 'COM_TIENDA_VALIDATING' );
-	TiendaHelperBase::addJsTranslationStrings( $js_strings );
-	$percent = $this->subtask == 'shipping' ? 60 : 70;
-?>
+<?php defined('_JEXEC') or die('Restricted access');?>
+<?php $display_credits = Tienda::getInstance()->get( 'display_credits', '0' ); ?>
 
 <ul class="nav nav-tabs" id="myTab">
   <li ><a href="index.php?option=com_tienda&view=pos"><?php echo JText::_('COM_TIENDA_POS_STEP1_SELECT_USER'); ?></a></li>
   <li ><a href="index.php?option=com_tienda&view=pos&nextstep=step2"><?php echo JText::_('COM_TIENDA_POS_STEP2_SELECT_PRODUCTS'); ?></a></li>
   <li class="active"><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP3_SELECT_PAYMENT_SHIPPING_METHODS'); ?></a></li>
   <li  class="disabled"><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP4_REVIEW_SUBMIT_ORDER'); ?></a></li>
-  <li  class="disabled"><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP5_PAYMENT_CONFIRMATION'); ?></a></li>
+    <li  class="disabled"><a href=""><?php echo JText::_('COM_TIENDA_POS_STEP5_PAYMENT_CONFIRMATION'); ?></a></li>
 </ul>
 <div class="progress">
-  <div class="bar" style="width: <?php echo $percent; ?>%;"></div>
+  <div class="bar" style="width: 60%;"></div>
 </div>
 
-<div id="validation_message"></div>
+  <div id="validation_message"></div>
 <div class="accordion" id="accordion2">
   <div class="accordion-group">
     <div class="accordion-heading">
@@ -65,13 +49,13 @@
     </div>
     <div id="collapseThree" class="accordion-body collapse in">
       <div class="accordion-inner">
-        <?php $coupons_enabled = $this->defines->get('coupons_enabled');?>
+        <?php $coupons_enabled = Tienda::getInstance()->get('coupons_enabled');?>
         <?php if ($coupons_enabled && !empty($this->coupons_present)) : ?>
         <!-- COUPON CODE -->
         <div id="coupon_code_area" class="address">
             <div id="coupon_code_form">
             <h3><?php echo JText::_('COM_TIENDA_COUPON_CODE');?></h3>
-            <?php $mult_enabled = $this->defines->get('multiple_usercoupons_enabled');?>
+            <?php $mult_enabled = Tienda::getInstance()->get('multiple_usercoupons_enabled');?>
             <?php $string = "COM_TIENDA_COUPON_CODE_HELP";
 				if($mult_enabled)
 				{
@@ -165,10 +149,8 @@
 					<input type="hidden" id="shipping_input_address_id" name="shipping_input_address_id" value="<?php echo $this->shippingAddress->address_id;?>" />
 					<?php else:?>
 						<?php if($this->showShipping):?>
-							<div>
-								<input class="pull-left" type="checkbox" name="sameasbilling" id="sameasbilling" onclick="Tienda.DisableShippingAddressControls(this.checked);">
-								<label class="pull-left" style="margin-left : 5px;" for="sameasbilling"><?php echo JText::_('COM_TIENDA_SAME_AS_BILLING_ADDRESS')?></label>
-							</div>
+							<input type="checkbox" name="sameasbilling" id="sameasbilling" onclick="Tienda.DisableShippingAddressControls(this.checked);">
+							<?php echo JText::_('COM_TIENDA_SAME_AS_BILLING_ADDRESS')?>
 							<?php echo $this->shippingForm;?>
 						<?php endif;?>
 					<?php endif;?>
@@ -190,11 +172,12 @@
 				<?php endif;?>
 			<div class="continue">
 				<?php if (empty($this->billingAddress)): ?>
-					<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" style="margin-bottom : 15px;" data-task="saveAddress"/>
-				<?php else:
-					$subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';
-                ?>
-                	<input id="pos_continue" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="btn btn-success" style="margin-bottom : 15px;" data-task="<?php echo $subtask; ?>"/>
+					<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', 'saveAddress', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
+					<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" />
+				<?php else:?>
+					<?php $subtask = $this->subtask == 'shipping' ? 'saveShipping' : 'display';?>
+                	<?php $onclick = "tiendaValidation( '" . $this->validation_url . "', 'validation_message', '" . $subtask . "', document.adminForm, true, '" . JText::_('COM_TIENDA_VALIDATING') . "' );";?> 
+                	<input onclick="<?php echo $onclick;?>" value="<?php echo JText::_('COM_TIENDA_CONTINUE_STEP3');?>" type="button" class="button btn btn-success" />
 				<?php endif;?>				
             </div>
 		</div>
@@ -205,16 +188,18 @@
 </div>
 
 
+
+
 <input type="hidden" id="order_total" name="order_total" value="<?php echo $this->order->order_total;?>" />
 <input type="hidden" id="currency_id" name="currency_id" value="<?php echo $this->order->currency_id;?>" />
 <?php if($this->subtask != 'shipping'):?>
-	<input type="hidden" id="shipping_plugin" name="shipping_plugin" value="<?php echo $this->session->get('shipping_plugin', '', 'tienda_pos');?>" />
-	<input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos');?>" />
-	<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos');?>" />
-	<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo $this->session->get('shipping_name', '', 'tienda_pos');?>" />
-	<input type="hidden" name="shipping_code" id="shipping_code" value="<?php echo $this->session->get('shipping_code', '', 'tienda_pos');?>" />
-	<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $this->session->get('shipping_extra', '', 'tienda_pos');?>" />
-	<input type="hidden" id="customer_note" name="customer_note" value="<?php echo $this->session->get('customer_note', '', 'tienda_pos');?>" />
+<input type="hidden" id="shipping_plugin" name="shipping_plugin" value="<?php echo $this->session->get('shipping_plugin', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_price" id="shipping_price" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_tax" id="shipping_tax" value="<?php echo $this->session->get('shipping_price', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_name" id="shipping_name" value="<?php echo $this->session->get('shipping_name', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_code" id="shipping_code" value="<?php echo $this->session->get('shipping_code', '', 'tienda_pos');?>" />
+<input type="hidden" name="shipping_extra" id="shipping_extra" value="<?php echo $this->session->get('shipping_extra', '', 'tienda_pos');?>" />
+<input type="hidden" id="customer_note" name="customer_note" value="<?php echo $this->session->get('customer_note', '', 'tienda_pos');?>" />
 <?php endif;?>
 
 <input type="hidden" name="nextstep" id="nextstep" value="step4" />

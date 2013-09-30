@@ -187,7 +187,7 @@ class TiendaSelect extends DSCSelect
 		 $db = JFactory::getDbo();
         $q = new DSCQuery();
         
-        $q->select( 'SELECT DISTINCT orderpayment_type as type' );
+        $q->select( 'DISTINCT orderpayment_type as type' );
         $q->from( '#__tienda_orderpayments' );
         
 	      $db->setQuery( $q );
@@ -736,7 +736,15 @@ class TiendaSelect extends DSCSelect
     {
 		$uid = $user_id == 0 ? JFactory::getUser( )->id : $user_id;
         $list = array();
-		$items = TiendaHelperProduct::getAvailableAttributeOptions($attribs['pid'], $productattribute_id, $attribs['changed_attr'], $attribs['changed_pao'], $opt_selected );
+        
+        $pid = !empty($attribs['pid']) ? $attribs['pid'] : null;
+        $changed_attr = !empty($attribs['changed_attr']) ? $attribs['changed_attr'] : -1;
+        $changed_pao = !empty($attribs['changed_pao']) ? $attribs['changed_pao'] : -1;
+        if (empty($pid)) {
+            $items = array();
+        } else {
+            $items = TiendaHelperProduct::getAvailableAttributeOptions($pid, $productattribute_id, $changed_attr, $changed_pao, $opt_selected );
+        }		
 
         $geozones = array();
         $shipping = false;

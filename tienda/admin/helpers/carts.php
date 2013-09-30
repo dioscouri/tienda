@@ -534,7 +534,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	{
 	    Tienda::load( "TiendaHelperCarts", 'helpers.carts' );
 	    $carthelper = new TiendaHelperCarts();
-	    
+	    	    
 		Tienda::load( "TiendaHelperProduct", 'helpers.product' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 	  
@@ -645,7 +645,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 						$orderItem->set($key,$value);
 					}
 				}
+				//adding plugin event, this is useful for editing the item before it is added for checkout from the cart. makes support for variable pricing
+				 $dispatcher = JDispatcher::getInstance();
 
+	          	 $dispatcher->trigger( "onAddOrderitemFromCart", array( $orderItem , $cartitem) );
+			
 				// TODO When do attributes for selected item get set during admin-side order creation?
 				array_push($productitems, $orderItem);
 			}
@@ -821,7 +825,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $id_type
 	 * @return unknown_type
 	 */
-	static function checkIntegrity( $cart_id, $id_type='user_id' )
+	function checkIntegrity( $cart_id, $id_type='user_id' )
 	{
 		$user_id = 0;
 		$session_id = '';
@@ -846,7 +850,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 				break;
 		}
 
-		$carthelper = new TiendaHelperCarts(); 
+		$carthelper = new TiendaHelperCarts();
 
 		// get the cart items
 		$cart_items = $model->getList( false, false);
@@ -873,7 +877,7 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $index
 	 * @return unknown_type
 	 */
-	static function getAdditionalKeyValues( $item, $posted_values, $index = null )
+	function getAdditionalKeyValues( $item, $posted_values, $index = null )
 	{
 		$keynames = array();
 		$dispatcher = JDispatcher::getInstance();

@@ -26,7 +26,7 @@ class TiendaUrl extends DSCUrl
 		
 		$document = JFactory::getDocument();
 		$js = "tiendaJQ(document).ready(function() { tiendaJQ('.tienda-modal').colorbox({current: '', iframe: true, opacity: '0.6', width: '80%', height: '80%'}); });";
-		$document->addScriptDeclaration( $js );
+		$document->addScriptDeclaration( $js );		
 		
 		if (!empty($options['update']))
 		{

@@ -5,6 +5,11 @@
 	
 	$row = @$this->product;
 	$values = @$this->values;
+	$changed_attr = isset( $values['changed_attr'] ) ? $values['changed_attr'] : -1;
+	$changed_pao = -1;
+	if( $changed_attr > -1 ) {
+		$changed_pao = $values['attribute_'.$changed_attr];
+	}
 
     Tienda::load( 'TiendaHelperBase', 'helpers._base' );
 	$js_strings = array( 'COM_TIENDA_UPDATING_ATTRIBUTES' );
@@ -36,12 +41,22 @@
             
             $key = 'attribute_'.$attribute->productattribute_id;
             $selected = (!empty($values[$key])) ? $values[$key] : $default[$attribute->productattribute_id]; 
-            $attribs = array('class' => 'inputbox', 'size' => '1', 'onchange'=>"Tienda.UpdateAddToCart(  'pos', 'product_buy', document.adminForm, true );");
+            $attribs = array('class' => 'inputbox', 
+            				'size' => '1',
+            				'onchange'=>"Tienda.UpdateChangedAttribute( document.adminForm, ".$attribute->productattribute_id.");Tienda.UpdateAddToCart(  'pos', 'product_buy', document.adminForm, true );",
+		        			'changed_attr' => $changed_attr,
+		        			'changed_pao' => $changed_pao,
+		        			'pid'	=> $row->product_id
+							);
             echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs, null, $selected_opts  );
             ?>
         </div>
         <?php
     }
+	if( count( $attributes ) ) : ?>
+    <input type="hidden" name="changed_attr" value="" />	
+	<?php
+	endif;
     ?>
     
     <?php if (!empty($this->onDisplayProductAttributeOptions)) : ?>

@@ -137,7 +137,7 @@
 				$link .= '&amp;tmpl=component';
 				?>
 				<a id="modalWindowPayment" rel="{handler:'iframe',size:{x: window.innerWidth-400, y: window.innerHeight-200}, onShow:$('sbox-window').setStyles({'padding': 0})}" href="<?php echo $link;?>" class="modal">
-					<button class="btn btn-primary" style="margin-bottom: 15px;"><?php echo JText::_('COM_TIENDA_CLICK_TO_COMPLETE_ORDER');?></button>					
+					<button><?php echo JText::_('COM_TIENDA_CLICK_TO_COMPLETE_ORDER');?></button>					
 				</a>
 			</div>
 		

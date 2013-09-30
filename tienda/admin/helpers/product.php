@@ -806,10 +806,11 @@ class TiendaHelperProduct extends TiendaHelperBase
                 
                 
                 $model = Tienda::getClass('TiendaModelProducts', 'models.products');
-                $item = $model->getItem((int)$id);
+                $model->setId((int)$id);
+                $item = $model->getItem();
+
                 $full_image = !empty($item->product_full_image) ? $item->product_full_image : null;
                 $thumb_image = !empty($item->product_thumb_image) ? $item->product_thumb_image : $full_image;
-                
                 switch ( $type )
                 {
                     case "full":
@@ -820,7 +821,7 @@ class TiendaHelperProduct extends TiendaHelperBase
                         $image_ref = $thumb_image;
                         break;
                 }
-                
+
                 if (filter_var($image_ref, FILTER_VALIDATE_URL) !== false) {
                     // $full_image contains a valid URL
                     $src = $image_ref;
@@ -964,9 +965,9 @@ class TiendaHelperProduct extends TiendaHelperBase
             JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
             $model = JModel::getInstance( 'ProductPrices', 'TiendaModel' );
             $model->setState( 'filter_id', $id );
-            $sets[$id] = $model->getList( );
-	    	$model->setState('order', 'g.ordering');
-	   	   	$model->setState( 'direction', 'ASC' );
+			$model->setState('order', 'g.ordering');
+			$model->setState( 'direction', 'ASC' );
+			
             $sets[$id] = $model->getList( );
         }
 
@@ -2379,7 +2380,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param boolean $load_eav
      * @return unknown_type
      */
-    public static function load( $id, $reset = true, $load_eav = true )
+    public function load( $id, $reset = true, $load_eav = true )
     {
         if ( empty( self::$products[$id][$load_eav] ) )
         {
@@ -2390,6 +2391,64 @@ class TiendaHelperProduct extends TiendaHelperBase
         }
         return self::$products[$id][$load_eav];
     }
+
+    /**
+     * Guesses the default options (first in the list)
+     * Enter description here ...
+     * @param unknown_type $attributes
+	 * 
+	 * DEPRECIATED
+    public static function getDefaultAttributeOptions( $attributes )
+    {
+        $default = array( );
+		if( !is_array( $attributes ) || empty( $attributes ) ) {
+			return array();
+		}
+        foreach ( @$attributes as $attribute ) {
+        	$default[ $attribute->productattribute_id ] = 0;
+        }
+
+        JModel::addIncludePath( JPATH_ADMINISTRATOR . '/components/com_tienda/models' );
+		// first, we check, if we set up quantities
+		$m_quantity = JModel::getInstance( 'ProductQuantities', 'TiendaModel' );
+		$vals = array_values( $attributes );
+		$attribute = array_shift( $vals ); // get first attribute so you can access product_id
+		$m_quantity->setState( 'filter_productid', $attribute->product_id );
+		$m_quantity->setState( 'filter_quantity_from', 1);
+        $m_quantity->setState( 'order', 'tbl.product_attributes' );
+        $m_quantity->setState( 'direction', 'ASC' );
+		$res = $m_quantity->getList();
+		if( count( $res ) && strlen( $res[0]->product_attributes ) ) {
+			// combination of product attributes with quantity in stock being higher than 0 exists
+			$opts = explode( ',', $res[0]->product_attributes );
+			for( $i = 0, $c = count( $opts ); $i < $c; $i++ ) {
+                $m_pao = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+                $m_pao->setId( $opts[$i] );
+                $attr = $m_pao->getItem();
+				
+				if( $attr ) {
+					$default[$attr->productattribute_id] = $opts[$i];
+				}
+			}
+		} else {
+	        foreach ( @$attributes as $attribute )
+	        {
+	            $model = JModel::getInstance( 'ProductAttributeOptions', 'TiendaModel' );
+	            $model->setState( 'filter_attribute', $attribute->productattribute_id );
+	            $model->setState( 'order', 'tbl.ordering' );
+	            	
+	            $items = $model->getList( );
+	            	
+	            if ( count( $items ) )
+	            {
+	                $default[$attribute->productattribute_id] = $items[0]->productattributeoption_id;
+	            }
+	        }
+		}
+
+        return $default;
+    }
+     */
 
     /**
      * Get the cart button form for a specific product
@@ -2432,13 +2491,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 		$qty = ( isset( $values['product_qty'] ) && !empty( $values['product_qty'] ) ) ? $values['product_qty'] : 1;
         $model->setState( 'filter_group', $filter_group );
 		$model->setState( 'product.qty', $qty );
-    	$model->setState( 'user.id', $user_id );
+		$model->setState( 'user.id', $user_id );
         $row = $model->getItem( false, false, false );
-
-        if ( $row->product_notforsale || Tienda::getInstance( )->get( 'shop_enabled' ) == '0' )
+      	if ( $row->product_notforsale || Tienda::getInstance( )->get( 'shop_enabled' ) == '0' )
         {
             return $html;
-
         }
         // This enable this helper method to be used outside of tienda
         if( $isPOS ) {
@@ -2595,7 +2652,6 @@ class TiendaHelperProduct extends TiendaHelperBase
         else {
             $display_cartbutton = Tienda::getInstance( )->get( 'display_category_cartbuttons', '1' );
         }
-
 
         $view->page = $page;
         $view->display_cartbutton = $display_cartbutton;

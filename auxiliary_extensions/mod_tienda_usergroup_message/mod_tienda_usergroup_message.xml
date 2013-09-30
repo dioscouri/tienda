@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" method="upgrade" client="site">
+    <name>Tienda Usergroup Messages</name>
+    <author>Dioscouri Design</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <version>0.1.0</version>
+    <creationDate>April 2012</creationDate>
+    <copyright>2012 Dioscouri.com</copyright>
+    <license>GNU General Public License</license>
+    <description></description>
+    
+    <files>
+        <filename module="mod_tienda_usergroup_message">mod_tienda_usergroup_message.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.mod_tienda_usergroup_message.ini</language>
+    </languages>
+
+    <!-- Joomla 1.6+ only -->
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="usergroup_ids" type="text" default="" label="IDs" description="A list of UserGroup ID numbers to display the message to, each one separated by a comma. If left blank, module will not display." size="35" />
+                <field type="spacer" />
+                <field name="usergroup_message" type="editor" filter="raw" default="" label="Message" description="The message to display to the usergroup" rows="5" cols="35" />
+            </fieldset>
+
+            <fieldset
+                name="advanced">
+
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                    name="moduleclass_sfx"
+                    type="text"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+                <field
+                    name="cache"
+                    type="list"
+                    default="1"
+                    label="COM_MODULES_FIELD_CACHING_LABEL"
+                    description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option
+                        value="1">JGLOBAL_USE_GLOBAL</option>
+                    <option
+                        value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+                <field
+                    name="cache_time"
+                    type="text"
+                    default="900"
+                    label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                    description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+                <field
+                    name="cachemode"
+                    type="hidden"
+                    default="itemid">
+                    <option
+                        value="itemid"></option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+    
+</extension>

@@ -9,6 +9,12 @@ JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 Tienda::load( 'TiendaUrl', 'library.url' );
 $working_image = Tienda::getInstance()->get( 'dispay_working_image_product', 1);
 $return = base64_encode( JUri::getInstance()->toString() );
+
+$changed_attr = isset( $values['changed_attr'] ) ? $values['changed_attr'] : -1;
+$changed_pao = -1;
+if( $changed_attr > -1 ) {
+    $changed_pao = $values['attribute_'.$changed_attr];
+}
 ?>
 
 <div id="product_buy_<?php echo $item->product_id; ?>" class="product_buy">
@@ -43,7 +49,21 @@ $return = base64_encode( JUri::getInstance()->toString() );
         $selected = (!empty($values[$key])) ? $values[$key] : ''; 
         
         Tienda::load('TiendaSelect', 'library.select');
-        $attribs = array('class' => 'inputbox', 'size' => '1','onchange'=>"Tienda.UpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_('COM_TIENDA_UPDATING_ATTRIBUTES')."' );");
+        /*
+        $attribs = array('class' => 'inputbox', 
+                'size' => '1',
+                'onchange'=>"Tienda.UpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image.", '".JText::_('COM_TIENDA_UPDATING_ATTRIBUTES')."' );"
+                );
+        */
+        $attribs = array('class' => 'inputbox',
+                'size' => '1',
+                'onchange'=>"Tienda.UpdateChangedAttribute( document.".$formName.", ".$attribute->productattribute_id.");
+                Tienda.UpdateAddToCart( 'product','product_buy_".$item->product_id."', document.".$formName.", ".$working_image." );",
+                'changed_attr' => $changed_attr,
+                'changed_pao' => $changed_pao,
+                'pid'	=> $item->product_id
+        );        
+        
         echo TiendaSelect::productattributeoptions( $attribute->productattribute_id, $selected, $key, $attribs  );
     
         ?>

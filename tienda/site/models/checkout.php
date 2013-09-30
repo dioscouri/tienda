@@ -59,7 +59,7 @@ class TiendaModelCheckout extends TiendaModelBase
         if( $this->defines->get('password_php_validate', '0')) {
             Tienda::load( 'TiendaHelperUser', 'helpers.user' );
             $userHelper = new TiendaHelperUser();
-            $validate_pass = $userHelper->validateUserPassword( $values['register-new-password'] );
+            $validate_pass = $userHelper->validatePassword( $values['register-new-password'] );
             if (!$validate_pass[0])
             {
                 foreach ($validate_pass[1] as $error) 

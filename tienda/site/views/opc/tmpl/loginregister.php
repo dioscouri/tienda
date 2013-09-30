@@ -49,7 +49,7 @@
                     <?php echo JText::_('COM_TIENDA_NEW_USERS'); ?>
                 </h4>
                 
-                <ul class="unstyled">
+                <ul id="guest-or-register" class="unstyled">
                     <?php if (Tienda::getInstance()->get('guest_checkout_enabled')) : ?>
                     <li class="control">
                         <label for="checkout-method-guest" class="radio">

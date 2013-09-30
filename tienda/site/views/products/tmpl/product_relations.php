@@ -2,6 +2,7 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('script', 'tienda.js', 'media/com_tienda/js/');
 $items = @$this->product_relations_data->items;
+$products_model = Tienda::getClass('TiendaModelProducts', 'models.products');
 ?>
 
     <div id="product_relations">
@@ -15,12 +16,12 @@ $items = @$this->product_relations_data->items;
         <div class="productrelation">
             <div class="productrelation_item">
                 <div class="productrelation_image">
-                    <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id . '&Itemid=' . $item->itemid ); ?>">
+                    <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id . '&Itemid=' . $products_model->getItemid( $item->product_id ) ); ?>">
                         <?php echo TiendaHelperProduct::getImage($item->product_id, 'id', $item->product_name, 'full', false, false, array( 'width'=>64 ) ); ?>
                     </a>
                 </div>
                 <div class="productrelation_name">
-                    <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id . '&Itemid=' . $item->itemid ); ?>">
+                    <a href="<?php echo JRoute::_( 'index.php?option=com_tienda&view=products&task=view&id='.$item->product_id . '&Itemid=' . $products_model->getItemid( $item->product_id ) ); ?>">
                         <?php echo $item->product_name; ?>
                     </a>
                 </div>

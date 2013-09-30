@@ -2573,7 +2573,11 @@ class TiendaControllerCheckout extends TiendaController
         // get the order_id from the session set by the prePayment
         $mainframe = JFactory::getApplication();
         $order_id = (int) $mainframe->getUserState( 'tienda.order_id' );
-        $order_link = 'index.php?option=com_tienda&view=orders&task=view&id='.$order_id;
+        $itemid_string = null; 
+        if ($itemid = $this->router->findItemid(array('view'=>'orders'))) {
+            $itemid_string = "&Itemid=" . $itemid; 
+        }
+        $order_link = 'index.php?option=com_tienda&view=orders&task=view&id=' . $order_id . $itemid_string;
 
         $pos_order = $mainframe->getUserState( 'tienda.pos_order' );
         $order = $this->_order;

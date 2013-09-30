@@ -31,7 +31,7 @@ class TiendaHelperHead extends TiendaHelperSQL
             $custom = $doc->_custom;
         }
         
-        $custom[] = htmlspecialchars( $string, ENT_QUOTES );
+        $custom[] = $string;
         $doc->_custom = $custom; 
     }
     

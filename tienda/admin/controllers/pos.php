@@ -593,7 +593,7 @@ class TiendaControllerPOS extends TiendaController
 		{
 			// if it fails check, return message
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_COULD_NOT_PROCESS_FORM'), true, false);
+			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_COULD_NOT_PROCESS_FORM'));
 			echo( json_encode($response));
 			return ;
 		}
@@ -714,7 +714,7 @@ class TiendaControllerPOS extends TiendaController
 				break;
 		}
 
-		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false, false);
+		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);
 		return $response;
 	}
 
@@ -736,7 +736,7 @@ class TiendaControllerPOS extends TiendaController
 		if(!isset($values['cid']))
 		{
 			$response['error'] = '1';
-			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_NO_ITEMS_IN_CART'), false, false);
+			$response['msg'] = $helper->generateMessage(JText::_('COM_TIENDA_NO_ITEMS_IN_CART'), false);
 		}
 
 		return $response;
@@ -806,9 +806,11 @@ class TiendaControllerPOS extends TiendaController
 				break;
 		}
 
-		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false, false);
+
+		$response['msg'] = $helper->generateMessage("<li>" . implode("</li><li>", $msg) . "</li>", false);		
 		return $response;
 	}
+
 
 	function validateAddress($values, $type="billing")
 	{
@@ -1539,6 +1541,9 @@ class TiendaControllerPOS extends TiendaController
 			}
 	$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step2");		
 }
+		
+		
+
 
 	/**
 	 * Adjusts cart quantities based on availability
@@ -1872,15 +1877,18 @@ class TiendaControllerPOS extends TiendaController
 		$billing_input_prefix = 'billing_input_';
 		$shipping_input_prefix = 'shipping_input_';
 
-		$billing_zone_id = 0;
-		$billingAddressArray = $this->filterArrayUsingPrefix($post, $billing_input_prefix, '', false );		// set the zone name
+		$session = JFactory::getSession();
+		$user_id = $session->get('user_id', '', 'tienda_pos');
+
+		$billing_zone_id = 0;	
+		$billingaddressArray = $this->filterArrayUsingPrefix($post, $billing_input_prefix, '', false );		// set the zone name
 		$bzone = JTable::getInstance('Zones', 'TiendaTable');
-		$bzone->load( @$billingAddressArray['zone_id'] );
-		$billingAddressArray['zone_name'] = $bzone->zone_name;		
+		$bzone->load( @$billingaddressArray['zone_id'] );
+		$billingaddressArray['zone_name'] = $bzone->zone_name;		
 		// set the country name
 		$billingcountry = JTable::getInstance('Countries', 'TiendaTable');
 		$billingcountry->load( @$billingaddressArray['country_id'] );
-		$billingAddressArray['country_name'] = $billingcountry->country_name;
+		$billingaddressArray['country_name'] = $billingcountry->country_name;
 		if(array_key_exists('zone_id', $billingAddressArray))
 			$billing_zone_id = $billingAddressArray['zone_id'];		
 		
@@ -1894,15 +1902,15 @@ class TiendaControllerPOS extends TiendaController
 		}
 		else
 		{			
-			$shippingAddressArray = $this->filterArrayUsingPrefix($post, $shipping_input_prefix, '', false );
+			$shippingaddressArray = $this->filterArrayUsingPrefix($post, $shipping_input_prefix, '', false );
 			// set the zone name
 			$szone = JTable::getInstance('Zones', 'TiendaTable');
-			$szone->load( @$shippingAddressArray['zone_id'] );
+			$szone->load( @$shippingaddressArray['zone_id'] );
 			$addressArray['zone_name'] = $szone->zone_name;
 			// set the country name
 			$shippingcountry = JTable::getInstance('Countries', 'TiendaTable');
-			$shippingcountry->load( @$shippingAddressArray['country_id'] );
-			$shippingAddressArray['country_name'] = $shippingcountry->country_name;
+			$shippingcountry->load( @$shippingaddressArray['country_id'] );
+			$shippingaddressArray['country_name'] = $shippingcountry->country_name;
 		}
 
 		if(array_key_exists('zone_id', $shippingAddressArray))
@@ -1914,17 +1922,16 @@ class TiendaControllerPOS extends TiendaController
 		$shippingAddress = JTable::getInstance('Addresses', 'TiendaTable');
 
 		// set the order billing address
-		$billingAddress->bind($billingAddressArray);
+		$billingAddress->bind($billingaddressArray);
 		$billingAddress->user_id = $user_id;
 		$billingAddress->save();
 			
 		// set the order billing address
-		$shippingAddress->bind($shippingAddressArray);
+		$shippingAddress->bind($shippingaddressArray);
 		$shippingAddress->user_id = $user_id;		
-		$res = $shippingAddress->save();
-		
-		$session->set('subtask', 'payment');
-		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3&subtask=payment");
+		$shippingAddress->save();				
+				
+		$this->setRedirect("index.php?option=com_tienda&view=pos&nextstep=step3");
 	}
 		
 	/**
@@ -1956,6 +1963,7 @@ class TiendaControllerPOS extends TiendaController
 		return $addressArray;
 	}
 	
+
 	/**
 	 *
 	 * @param $values
@@ -2320,15 +2328,8 @@ class TiendaControllerPOS extends TiendaController
 	}
 
 	// TODO: transfer it to the helper?
-	/**
-	 * Couldn't this use the TiendaHelperCarts->getProductsInfo() ?
-	 * @return multitype:
-	 */
 	function getProductsInfo()
 	{
-	    Tienda::load( "TiendaHelperCarts", 'helpers.carts' );
-	    $carthelper = new TiendaHelperCarts();
-	    	    
 		Tienda::load("TiendaHelperProduct", 'helpers.product');
 		$product_helper = TiendaHelperBase::getInstance('Product');
 
@@ -2390,11 +2391,11 @@ class TiendaControllerPOS extends TiendaController
 					{
 						if(empty($cartitem->user_id))
 						{
-							$carthelper->removeCartItem($session_id, $cartitem->user_id, $cartitem->product_id);
+							TiendaHelperCarts::removeCartItem($session_id, $cartitem->user_id, $cartitem->product_id);
 						}
 						else
 						{
-							$carthelper->removeCartItem($cartitem->session_id, $cartitem->user_id, $cartitem->product_id);
+							TiendaHelperCarts::removeCartItem($cartitem->session_id, $cartitem->user_id, $cartitem->product_id);
 						}
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_TIENDA_NOT_AVAILABLE') . " " . $productItem->product_name);
 						continue ;
