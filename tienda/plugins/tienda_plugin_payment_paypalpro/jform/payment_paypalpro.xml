@@ -2,9 +2,10 @@
 <form>
  <fields name="params">
 			<fieldset name="basic" label="basic">
+				<field name="api_partner" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_PARTNER" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_PARTNER_DESC"/>
+				<field name="api_merchant" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_MERCHANT" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_MERCHANT_DESC"/>
 				<field name="api_username" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_USERNAME" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_USERNAME_DESC"/>
 				<field name="api_password" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_PASSWORD" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_PASSWORD_DESC"/>
-				<field name="api_signature" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_SIGNATURE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_API_SIGNATURE_DESC"/>
 				<field name="currency" type="text" size="10" default="USD" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_CURRENCY" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_CURRENCY_DESC"/>
 				<field name="secure_post" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SECURE_POST" description="PPLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SECURE_POST_DESC">
 					<option value="0">COM_TIENDA_NO</option>
@@ -15,18 +16,15 @@
 					<option value="0">COM_TIENDA_NO</option>
 					<option value="1">COM_TIENDA_YES</option>
 				</field>
+				<field name="sandbox_api_partner" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_PARTNER" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_PARTNER_DESC"/>
+				<field name="sandbox_api_merchant" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_MERCHANT" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_MERCHANT_DESC"/>
 				<field name="sandbox_api_username" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_USERNAME" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_USERNAME_DESC"/>
 				<field name="sandbox_api_password" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_PASSWORD" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_PASSWORD_DESC"/>
-				<field name="sandbox_api_signature" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_SIGNATURE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_SANDBOX_API_SIGNATURE_DESC"/>
 				<field type="spacer" />
 				<field name="articleid" type="text" size="10" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_ARTICLE_NUMBER" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_ARTICLE_NUMBER_DESC"/>
-				<field name="display_article_title" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_DISPLAY_ARTICLE_TITLE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_DISPLAY_ARTICLE_TITLE_DESC" >
-					<option value="0">COM_TIENDA_NO</option>
-					<option value="1">COM_TIENDA_YES</option>
-				</field>
 				<field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 				<field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
-                <field name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPALPRO_LABEL" description="PLG_TIENDA_PAYMENT_PAYPALPRO_LABEL_DESC" filter="raw" />
+				<field name="cancel_order_state" type="tiendaorderstate" scope="com_tienda" default="7" label="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_CANCEL_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPALPRO_PAYPALPRO_CANCEL_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
 			</fieldset>
 		</fields>
 </form>

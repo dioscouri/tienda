@@ -105,7 +105,6 @@ $doc->addScriptDeclaration($js);
             <?php //$this->setLayout('payment'); echo $this->loadTemplate(); ?>
         </div>
         <div id="opc-payment-summary" class="opc-summary muted opc-hidden"></div>
-        <div id="opc-payment-prepayment" class="opc-hidden"></div>
     </li>
 
     <li id="opc-review" class="opc-section <?php if (empty($active)) { $active = 'opc-review'; echo 'active'; } ?>">
@@ -119,5 +118,6 @@ $doc->addScriptDeclaration($js);
             <?php //$this->setLayout('review'); echo $this->loadTemplate(); ?>
         </div>
         <div id="opc-review-summary" class="opc-summary muted opc-hidden"></div>
+        <div id="opc-payment-prepayment" class="opc-hidden"></div>
     </li>
 </ol>

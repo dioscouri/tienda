@@ -246,6 +246,7 @@ TiendaOpc = TiendaClass.extend({
         tiendaJQ('.payment-plugin').on('click', function(){
             tiendaJQ('#opc-payment-button').removeAttr('disabled');
         });
+    	tiendaJQ("#opc-payment-prepayment").addClass("opc-hidden");
     },
     
     setupReviewForm: function() {
@@ -253,6 +254,7 @@ TiendaOpc = TiendaClass.extend({
         tiendaJQ('#opc-review-button').removeAttr('disabled').on('click', function(event){
             event.preventDefault();
         });
+        this.hidePreparePaymentFormLocal();
         
         tiendaJQ('#opc-review-button').one('click', function(){
             self.submitOrder();
@@ -276,12 +278,28 @@ TiendaOpc = TiendaClass.extend({
     },
     
     submitPreparePaymentForm: function() {
-        var self = this;
-        var form = tiendaJQ("#opc-payment-prepayment form");
+        var prepayment = tiendaJQ("#opc-payment-prepayment");
+        var form = tiendaJQ("form", prepayment);
         if (form.length) {
             form.submit();
+        } else {
+        	var local = tiendaJQ( ".payment-local", prepayment );
+        	if( local.length ) { // there's form which collects data for the gateway
+        		this.setupPreparePaymentFormLocal( prepayment );
+        	}
         }
     },
+    
+    setupPreparePaymentFormLocal: function( prepayment ) { // for payment gateways which require collecting info on Tienda side after the whole order is placed
+    	// first, hide all useless UX controls except for the order summary table
+    	var par = prepayment.parent(); // that's order summary parent div
+    	tiendaJQ( ":not(#opc-payment-prepayment, #opc-payment-prepayment *, div.opc-section-title, div.opc-section-title *)", par ).hide(0);
+    	prepayment.removeClass("opc-hidden");
+    },
+
+    hidePreparePaymentFormLocal: function() { // display all order summary elements just in case somebody returned to a previous step and now is here again
+    	tiendaJQ( ":not(#opc-payment-prepayment, #opc-payment-prepayment *, div.opc-section-title, div.opc-section-title *)", "#opc-review" ).show(0);
+	},
     
     setMethod: function() {
         var form_data = tiendaJQ('#opc-checkout-method-form').serializeArray();

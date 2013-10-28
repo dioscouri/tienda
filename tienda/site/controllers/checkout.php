@@ -2568,7 +2568,7 @@ class TiendaControllerCheckout extends TiendaController
         $orderpayment_type = JRequest::getVar('orderpayment_type');
 
         // Get post values
-        $values = JRequest::get('post');
+        $values = JRequest::get();
 
         // get the order_id from the session set by the prePayment
         $mainframe = JFactory::getApplication();

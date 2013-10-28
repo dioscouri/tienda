@@ -56,11 +56,11 @@ function tiendaGetShippingRates( container, form, callback )
 
 function tiendaSetShippingRate(name, price, tax, extra, code, combined )
 {
-	$('shipping_name').value = name;
-	$('shipping_code').value = code;
-	$('shipping_price').value = price;
-	$('shipping_tax').value = tax;
-	$('shipping_extra').value = extra;
+	tiendaJQ('shipping_name').value = name;
+	tiendaJQ('shipping_code').value = code;
+	tiendaJQ('shipping_price').value = price;
+	tiendaJQ('shipping_tax').value = tax;
+	tiendaJQ('shipping_extra').value = extra;
 
 	tiendaGrayOutAjaxDiv( 'onCheckoutShipping_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_SHIPPING_RATES' ) );
 	tiendaGrayOutAjaxDiv( 'onCheckoutCart_wrapper', Joomla.JText._( 'COM_TIENDA_UPDATING_CART' ) );		
@@ -105,7 +105,7 @@ function tiendaGetCurrencyTotals()
  */
 function tiendaRefreshTotalAmountDue()
 {
-	if( $( 'payment_info' ) )
+	if( tiendaJQ( 'payment_info' ) )
 	{
 		var url = 'index.php?option=com_tienda&view=checkout&task=totalAmountDue&format=raw';
 		tiendaGrayOutAjaxDiv( 'payment_info', Joomla.JText._( 'COM_TIENDA_UPDATING_BILLING' ) ); 
@@ -167,7 +167,7 @@ function tiendaDisableShippingAddressControls(checkbox, form)
 
 function tiendaManageShippingRates()
 {
-	$('shipping_form_div').getElements('input[name=shipping_rate]').addEvent('click', function() {
+	tiendaJQ('shipping_form_div').getElements('input[name=shipping_rate]').addEvent('click', function() {
 		tiendaGetCheckoutTotals();
 	}
 	);
@@ -181,7 +181,7 @@ function tiendaDeleteAddressGrayDiv()
 	tiendaSetColorInContainer( 'billingAddress', '' );
 	el_billing.destroy();
 	
-	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
+	if( tiendaJQ( 'shippingAddress' ) && ( !tiendaJQ( 'sameasbilling' ) || ( tiendaJQ( 'sameasbilling' ) && !tiendaJQ( 'sameasbilling' ).checked ) ) )
 	{
 		tiendaSetColorInContainer( 'shippingAddress', '' );
 		$$( '#shippingAddress .tiendaAjaxGrayDiv' ).destroy();		
@@ -190,7 +190,7 @@ function tiendaDeleteAddressGrayDiv()
 
 function tiendaDeletePaymentGrayDiv()
 {
-	if( $( 'onCheckoutPayment_wrapper' ) )
+	if( tiendaJQ( 'onCheckoutPayment_wrapper' ) )
 		tiendaSetColorInContainer( 'onCheckoutPayment_wrapper', '' );
 }
 
@@ -205,7 +205,7 @@ function tiendaDeleteTotalAmountDueGrayDiv()
 
 function tiendaDeleteShippingGrayDiv()
 {
-	if( $( 'onCheckoutShipping_wrapper' ) == null )
+	if( tiendaJQ( 'onCheckoutShipping_wrapper' ) == null )
 		return;
 
 	el = $$( '#onCheckoutShipping_wrapper .tiendaAjaxGrayDiv' );
@@ -213,14 +213,14 @@ function tiendaDeleteShippingGrayDiv()
 		el.destroy();
 
 	
-	if( $( 'onCheckoutShipping_wrapper' ).getStyle( 'color' ) != '' )
+	if( tiendaJQ( 'onCheckoutShipping_wrapper' ).css( 'color' ) != '' )
 	{
 		tiendaSetColorInContainer( 'onCheckoutShipping_wrapper', '' );
 		
 		// selected shipping rate has to be checked manually
-		if( $( 'shipping_name' ) )
+		if( tiendaJQ( 'shipping_name' ) )
 		{
-			shipping_plugin = $( 'shipping_name' ).get( 'value' );
+			shipping_plugin = tiendaJQ( 'shipping_name' ).get( 'value' );
 			$$( '#onCheckoutShipping_wrapper input[type=radio]' ).each( function( e ){
 				if( e.get( 'rel' ) == shipping_plugin )
 					e.set( 'checked', true );
@@ -232,7 +232,7 @@ function tiendaDeleteShippingGrayDiv()
 
 function tiendaDeleteCartGrayDiv()
 {
-	if( $('onCheckoutCart_wrapper') )
+	if( tiendaJQ('onCheckoutCart_wrapper') )
 		tiendaSetColorInContainer( 'onCheckoutCart_wrapper', '' );
 }
 
@@ -240,7 +240,7 @@ function tiendaDeleteCombinedGrayDiv()
 {
 	tiendaDeleteAddressGrayDiv();
 
-	if( $( 'onCheckoutShipping_wrapper' ) )
+	if( tiendaJQ( 'onCheckoutShipping_wrapper' ) )
 		tiendaDeleteShippingGrayDiv();
 	else // no shipping address so delete gray div from cart
 		tiendaDeleteCartGrayDiv();
@@ -248,11 +248,11 @@ function tiendaDeleteCombinedGrayDiv()
 
 function tiendaGrayOutAddressDiv( prefix )
 {
-	if( !$( 'shippingAddress' ) )
+	if( !tiendaJQ( 'shippingAddress' ) )
 		return;
 	values = tiendaStoreFormInputs( document.adminForm );
 	tiendaGrayOutAjaxDiv( 'billingAddress', Joomla.JText._( 'COM_TIENDA_UPDATING_ADDRESS=' ), prefix );
-	if( $( 'shippingAddress' ) && ( !$( 'sameasbilling' ) || ( $( 'sameasbilling' ) && !$( 'sameasbilling' ).checked ) ) )
+	if( tiendaJQ( 'shippingAddress' ) && ( !tiendaJQ( 'sameasbilling' ) || ( tiendaJQ( 'sameasbilling' ) && !tiendaJQ( 'sameasbilling' ).checked ) ) )
 		tiendaGrayOutAjaxDiv( 'shippingAddress', Joomla.JText._( 'COM_TIENDA_UPDATING_ADDRESS=' ), prefix );
 	tiendaRestoreFormInputs( document.adminForm , values );
 }
@@ -282,7 +282,7 @@ function tiendaCheckoutAutomaticShippingRatesUpdate( obj_id )
 	    return;        
 	}		
 
-	only_shipping = !$( 'sameasbilling' ) || !$( 'sameasbilling' ).get( 'checked' );
+	only_shipping = !tiendaJQ( 'sameasbilling' ) || !tiendaJQ( 'sameasbilling' ).get( 'checked' );
 	if( only_shipping )
 	{
 		tiendaGrayOutAddressDiv();
@@ -316,7 +316,7 @@ function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alp
     val_errors = [];
 	var pass_ok = true;
 		
-	act_pass = $( psw ).get( 'value' );
+	act_pass = tiendaJQ( psw ).get( 'value' );
 	if( act_pass.length < min_length ) // password is not long enough
 	{
 	    str = Joomla.JText._('COM_TIENDA_PASSWORD_MIN_LENGTH');
@@ -387,7 +387,7 @@ function tiendaCheckPassword( container, form, psw, min_length, req_num, req_alp
  */
 function tiendaCheckPassword2( container, form, psw1, psw2 )
 {
-	if( $( psw1 ).get( 'value' ) == $( psw2 ).get( 'value' ) )
+	if( tiendaJQ( psw1 ).get( 'value' ) == tiendaJQ( psw2 ).get( 'value' ) )
 	{
 		val_img 	= 'accept_16.png';
 		val_alt	 	= Joomla.JText._( 'COM_TIENDA_SUCCESS' );
@@ -403,8 +403,8 @@ function tiendaCheckPassword2( container, form, psw1, psw2 )
 	}
 	
 	content = '<div class="tienda_validation"><img src="'+window.com_tienda.jbase+'media/com_tienda/images/'+val_img+'" alt="'+val_alt+'"><span class="'+val_class+'">'+val_text+'</span></div>';
-	if( $( container ) )
-		$( container ).set('html',  content );
+	if( tiendaJQ( container ) )
+		tiendaJQ( container ).set('html',  content );
 }
 
 
@@ -429,11 +429,11 @@ function tiendaCheckoutCheckEmail( container, form )
            var resp=JSON.decode(response, false);
             if( resp.error != '0' )
             {
-        		$(container).set('html', resp.msg);
+        		tiendaJQ(container).set('html', resp.msg);
             }
             else
        		{
-        		$( container ).set('html',  resp.msg );
+        		tiendaJQ( container ).set('html',  resp.msg );
        		}
             return true;
         }
@@ -442,8 +442,8 @@ function tiendaCheckoutCheckEmail( container, form )
 
 function tiendaHideInfoCreateAccount( )
 {	
-	$('create_account').addEvent('change', function() {
-		$('tienda_user_additional_info').toggleClass('hidden');
+	tiendaJQ('create_account').addEvent('change', function() {
+		tiendaJQ('tienda_user_additional_info').toggleClass('hidden');
 	});
 }
 
