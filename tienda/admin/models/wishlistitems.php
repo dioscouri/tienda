@@ -150,7 +150,7 @@ class TiendaModelWishlistItems extends TiendaModelEav
         parent::prepareItem( $item, $key, $refresh );
     }    
 
-	public function ___getList($refresh=false, $getEav = true, $options = array())
+	public function getList($refresh=false, $getEav = true, $options = array())
 	{
 		static $pa, $pao;
 
