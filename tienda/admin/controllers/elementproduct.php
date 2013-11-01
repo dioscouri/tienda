@@ -19,6 +19,26 @@ class TiendaControllerElementProduct extends DSCControllerAdmin
 		
 		$this->set('suffix', 'elementproduct');
 	}
+	
+    /**
+     * Sets the model's state
+     * 
+     * @return array()
+     */
+    function _setModelState()
+    {
+        $state = parent::_setModelState();      
+        $app = JFactory::getApplication();
+        $model = $this->getModel( $this->get('suffix') );
+        $ns = $this->getNamespace();
+
+        $state['filter_state']    = $app->getUserStateFromRequest($ns.'filter_state', 'product_state', '', 'string');        
+        foreach (@$state as $key=>$value)
+        {
+            $model->setState( $key, $value );   
+        }
+        return $state;
+    }
     
     function display($cachable=false, $urlparams = false)
     {

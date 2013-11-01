@@ -19,7 +19,9 @@ $model = $this->getModel();
 $page = $this->get('Pagination'); 
 ?>
 <form action="<?php echo JRoute::_( @$form['action'] .'&tmpl=component&object='.$this->object )?>" method="post" name="adminForm">
-
+<div class="pull-left">
+	<?php echo TiendaSelect::productstates(@$state->filter_state, 'product_state', array('class' => 'inputbox', 'onchange' => 'this.form.submit();' ) ); ?>
+</div>
 <?php echo TiendaGrid::searchform(@$state->filter,JText::_('COM_TIENDA_SEARCH'), JText::_('COM_TIENDA_RESET') ) ?>
 
 <table class="dsc-clear table table-striped">

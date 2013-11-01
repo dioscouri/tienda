@@ -1602,4 +1602,23 @@ class TiendaSelect extends DSCSelect
 
         return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
     }	
+	
+	/**
+    * Generates list of product states
+    *
+    * @param string The value of the HTML name attribute
+    * @param string Additional HTML attributes for the <select> tag
+    * @param mixed The key that is selected
+    * @returns string HTML for the select
+    */
+    public static function productstates( $selected, $name = 'product_states', $attribs = array('class' => 'inputbox'), $idtag = null )
+    {
+    $list = array();      
+
+        $list[] = JHTML::_('select.option',  '', JText::_("JALL"));
+        $list[] = JHTML::_('select.option',  '1', JText::_("JENABLED"));
+        $list[] = JHTML::_('select.option',  '0', JText::_("JDISABLED"));
+
+        return self::genericlist($list, $name, $attribs, 'value', 'text', $selected, $idtag );
+    }
 }
