@@ -66,6 +66,14 @@ class TiendaTableEav extends TiendaTable
 		
 		$app = JFactory::getApplication();
 		$editable_by = $app->isAdmin() ? 1 : 2;
+		
+		if( $app->isAdmin() ) {
+			$view = JRequest::getCmd('view', '' );
+			if( $view == 'pos' ) {
+				$editable_by = array( 1, 2);	
+			}
+		}
+		
 
 		// Get the custom fields for this entities
 		$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id, false, $editable_by );
@@ -296,6 +304,13 @@ class TiendaTableEav extends TiendaTable
 	{		
 		$app = JFactory::getApplication();
 		$editable_by = $app->isAdmin() ? 1 : 2;
+		if( $app->isAdmin() ) {
+			$view = JRequest::getCmd('view', '' );
+			if( $view == 'pos' ) {
+				$editable_by = array( 1, 2);	
+			}
+		}
+		
 		if (!is_array($oid))
 		{
 			// load by primary key if not array

@@ -1333,7 +1333,7 @@ class TiendaControllerPOS extends TiendaController
 		}
 
 		// Now for Eavs!!
-		$eavs = TiendaHelperEav::getAttributes('products', $item->product_id);
+		$eavs = TiendaHelperEav::getAttributes('products', $item->product_id, false, array(1, 2));
 
 		if(count($eavs))
 		{

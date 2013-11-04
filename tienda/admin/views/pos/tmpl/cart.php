@@ -44,6 +44,10 @@
 	                	<?php echo $item->attributes_names; ?>
 	                	<br/>
 	                <?php endif; ?>
+	                <?php if (!empty($this->onDisplayCartItem[$i])) : ?>
+	                	<?php echo $this->onDisplayCartItem[$i]; ?>
+	                	<br/>
+	                <?php endif; ?>
 	                    <input name="product_attributes[<?php echo $item->cart_id; ?>]" value="<?php echo $item->product_attributes; ?>" type="hidden" />   
 				</td>
 				<td style="border-bottom: 1px solid #E5E5E5; width: 50px; text-align: center;">
