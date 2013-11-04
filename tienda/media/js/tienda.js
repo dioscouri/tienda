@@ -21,6 +21,10 @@ Tienda.deleteCartItem = function(cartitem_id, prompt_text, callback_function) {
                 if ( typeof callback_function === 'function') {
                     callback_function( response );
                 }                                    
+
+                if( response.subtotal.length ) {
+                	tiendaJQ('#totalAmountDue').html(response.subtotal);
+                }
             } 
 
         }).fail(function(data){
