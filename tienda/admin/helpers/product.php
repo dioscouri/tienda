@@ -2492,7 +2492,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $model->setState( 'filter_group', $filter_group );
 		$model->setState( 'product.qty', $qty );
 		$model->setState( 'user.id', $user_id );
-        $row = $model->getItem( false, false, false );
+        $row = $model->getItem( false, true, false );
       	if ( $row->product_notforsale || Tienda::getInstance( )->get( 'shop_enabled' ) == '0' )
         {
             return $html;

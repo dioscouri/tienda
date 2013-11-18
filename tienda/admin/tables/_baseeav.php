@@ -69,8 +69,8 @@ class TiendaTableEav extends TiendaTable
 		
 		if( $app->isAdmin() ) {
 			$view = JRequest::getCmd('view', '' );
-			if( $view == 'pos' ) {
-				$editable_by = array( 1, 2);	
+			if( $view == 'pos' ) { // display all for POS
+				$editable_by = array( 0, 1, 2);	
 			}
 		}
 		
@@ -246,7 +246,7 @@ class TiendaTableEav extends TiendaTable
 				
 			// Get the custom fields for this entities
 			Tienda::load('TiendaHelperEav', 'helpers.eav');
-			$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id );
+			$eavs = TiendaHelperEav::getAttributes( $this->get('_suffix'), $id, false, '-1' );
 				
 			$error = false;
 			$msg = '';
@@ -301,12 +301,13 @@ class TiendaTableEav extends TiendaTable
 	 * @return	boolean	True if successful
 	 */
 	function load( $oid=null, $reset=true, $load_eav = true )
-	{		
+	{
+		$eavs = array();		
 		$app = JFactory::getApplication();
-		$editable_by = $app->isAdmin() ? 1 : 2;
+		$editable_by = $app->isAdmin() ? 1 : 2;		
 		if( $app->isAdmin() ) {
 			$view = JRequest::getCmd('view', '' );
-			if( $view == 'pos' ) {
+			if( $view == 'pos' ) { // display all for POS
 				$editable_by = array( 1, 2);	
 			}
 		}
@@ -333,6 +334,8 @@ class TiendaTableEav extends TiendaTable
 
 		// allow $oid to be an array of key=>values to use when loading
 		$oid = (array) $oid;
+		$this->_linked_table_key = isset( $this->_linked_table_key ) ? $this->_linked_table_key : 
+					( isset( $oid[$this->_linked_table_key_name] ) ? $oid[$this->_linked_table_key_name] : '' );
 
 		if (!empty($reset))
 		{
@@ -365,6 +368,7 @@ class TiendaTableEav extends TiendaTable
 				$mirrored_eavs = $eav_helper->getAttributes( $this->_linked_table, $this->_linked_table_key, true, $editable_by );
 				$eavs = array_merge($eavs, $mirrored_eavs);
 			}
+			
 		}
 		
 		foreach ($oid as $key=>$value)
@@ -374,7 +378,7 @@ class TiendaTableEav extends TiendaTable
 			{
 				// Check if it is a eav field
 				if($load_eav)
-				{						
+				{
 					// loop through until the key is found or the eav are finished
 					$found = false;
 					$i = 0;
@@ -426,7 +430,7 @@ class TiendaTableEav extends TiendaTable
 				$query->where( $key.' = '.$value);
 			}
 		}
-
+		
 		$db->setQuery( (string) $query );
 		if ( $result = $db->loadAssoc() )
 		{

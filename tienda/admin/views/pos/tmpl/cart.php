@@ -65,7 +65,7 @@
 				</td>
 				<td style="border-bottom: 1px solid #E5E5E5; text-align: right;">
 				<?php $product_total = ($item -> product_price) * ($item -> product_qty);?>
-				<?php echo TiendaHelperBase::currency($product_total);?>
+				<?php echo TiendaHelperBase::currency($product_total); $i++; ?>
 				</td>
 			</tr>
 			<?php $subtotal = $subtotal + $product_total;?>

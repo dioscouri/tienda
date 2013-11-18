@@ -32,7 +32,7 @@ function tiendaGetShippingRates( container, form, callback )
 		},
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
-            $( container ).set('html',  resp.msg );
+            tiendaJQ( container ).html( resp.msg );
             if( resp.default_rate && resp.default_rate != null ) { 
                 // if only one rate was found - set it as default
                 tiendaSetShippingRate(resp.default_rate['name'], resp.default_rate['price'], resp.default_rate['tax'], resp.default_rate['extra'], resp.default_rate['code'], callback != null );                

@@ -59,7 +59,7 @@ class TiendaHelperEav extends TiendaHelperBase
         // $sets[$entity][$id]
         static $sets;
         if (!is_array($sets)) { $sets = array(); }
-        
+		
         if( is_array( $editable_by ) )
         	$editable_by = implode( ',', $editable_by );
         else
@@ -99,7 +99,7 @@ class TiendaHelperEav extends TiendaHelperBase
     	// $sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]
         static $sets;
         if (!is_array($sets)) { $sets = array(); }
-        
+        		
         if (!isset($sets[$eav->eavattribute_type][$eav->eavattribute_id][$entity_type][$entity_id]))
         {
         	Tienda::load('TiendaTableEavValues', 'tables.eavvalues');
@@ -127,7 +127,9 @@ class TiendaHelperEav extends TiendaHelperBase
             		if( $table->getType() == 'text' )
             			$value = JRequest::getVar( $eav->eavattribute_alias, null, 'default','string', JREQUEST_ALLOWHTML );	
             		else
-									$value = JRequest::getVar($eav->eavattribute_alias, null);
+						{
+									$value = JRequest::getVar($eav->eavattribute_alias, null, 'POST');
+						}
             	}
 							else
 							{

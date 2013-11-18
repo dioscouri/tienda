@@ -229,6 +229,10 @@ class TiendaModelEav extends TiendaModelBase
 	    {
 	        $app = JFactory::getApplication();
 	        $editable_by = $app->isAdmin() ? 1 : 2;
+			$view = JRequest::getCmd( 'view', '' );
+			if( $app->isAdmin() && $view == 'pos' ) {
+				$editable_by = array( 1, 2 );
+			}
 	    
 	        Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 	        Tienda::load( "TiendaHelperBase", 'helpers._base' );
@@ -285,9 +289,9 @@ class TiendaModelEav extends TiendaModelBase
 	            
 	            if($add)
 	            {
-	                $value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key, true, true );
+	                $value = $eav_helper->getAttributeValue($eav, $this->getTable()->get('_suffix'), $item->$tbl_key, false, true );
 	            
-	                // Do NOT ovveride properties
+	                // Do NOT override properties
 	                if(!property_exists($item, $key))
 	                {
 	                    $item->$key = $value;
@@ -295,7 +299,6 @@ class TiendaModelEav extends TiendaModelBase
 	            }
 	        }
 	    }
-	    
 	    parent::prepareItem( $item, $key, $refresh );
 	}
 }

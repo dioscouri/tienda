@@ -183,9 +183,17 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	function onDisplayCartItem( $i, $item )
 	{
 	    $vars = new JObject();
+		$editable_by = 2;
+		$app = JFactory::getApplication();
+		if( $app->isAdmin() ) {
+			$view = JRequest::getCmd('view', '' );
+			if( $view == 'pos' ) { // display all for POS
+				$editable_by = array( 1, 2);	
+			}
+		}
 	    
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id, true, 2 );
+		$fields = $this->getCustomFields( 'products', $item->product_id, true, $editable_by );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
@@ -214,8 +222,16 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
     function onGetAdditionalCartKeyValues($item, $posted_values, $index)
     {
-    	// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id, false, 2 );
+		$editable_by = 2;
+		$app = JFactory::getApplication();
+		if( $app->isAdmin() ) {
+			$view = JRequest::getCmd('view', '' );
+			if( $view == 'pos' ) { // display all for POS
+				$editable_by = array( 1, 2);	
+			}
+		}
+    	// Get extra fields for products    	
+		$fields = $this->getCustomFields( 'products', $item->product_id, false, $editable_by );
 		
 		// If there are any extra fields, show them as an extra tab
 		if ( count( $fields ) )
@@ -265,10 +281,18 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function onDisplayProductAttributeOptions( $product_id )
 	{
+		$app = JFactory::getApplication();
+		if( $app->isAdmin() ) {
+			$view = JRequest::getCmd('view', '' );
+			if( $view == 'pos' ) { // display all for POS
+				$editable_by = array( 0, 1, 2);	
+			}
+		}
+		
 		$vars = new JObject( );
 		
 		// Get extra fields for products
-		$field_show = $this->getCustomFields( 'products', $product_id, true, 2 );
+		$field_show = $this->getCustomFields( 'products', $product_id, true, $editable_by );
 
 		if(count($field_show))
 		{
@@ -287,8 +311,16 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function onAfterCreateItemForAddToCart( $item, $values, $files )
 	{
+		$app = JFactory::getApplication();
+		if( $app->isAdmin() ) {
+			$view = JRequest::getCmd('view', '' );
+			if( $view == 'pos' ) { // display all for POS
+				$editable_by = array( 1, 2);	
+			}
+		}
+
 		// Get extra fields for products
-		$fields = $this->getCustomFields( 'products', $item->product_id, false, 2 );
+		$fields = $this->getCustomFields( 'products', $item->product_id, false, $editable_by );
 		
 		$field_save = array();
 		
