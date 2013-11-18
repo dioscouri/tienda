@@ -281,6 +281,7 @@ class plgTiendaCustomFields extends TiendaPluginBase
 	 */
 	function onDisplayProductAttributeOptions( $product_id )
 	{
+		$editable_by = 2;
 		$app = JFactory::getApplication();
 		if( $app->isAdmin() ) {
 			$view = JRequest::getCmd('view', '' );

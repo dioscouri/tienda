@@ -1021,7 +1021,7 @@ class TiendaModelProducts extends TiendaModelEav
 	 * @param unknown_type $xref_id
 	 * @param unknown_type $xref_type
 	 */
-	public function isInWishlist( $product_id, $xref_id, $xref_type='user' )
+	public function isInWishlist( $product_id, $xref_id, $xref_type='user', $attributes ='' )
 	{
 	    $query = new TiendaQuery();
 	    $query->select( "tbl.wishlistitem_id" );
@@ -1032,7 +1032,9 @@ class TiendaModelProducts extends TiendaModelEav
 	    } else {
 	        $query->where( "tbl.user_id = " . (int) $xref_id );
 	    }
-	    
+		if( !empty( $attributes ) ) {
+			$query->where( "tbl.product_attributes = ".$this->_db->Quote( $attributes ) );
+		}
 	    $db = $this->getDBO();
 	    $db->setQuery( (string) $query );
 	    if ($result = $db->loadResult())

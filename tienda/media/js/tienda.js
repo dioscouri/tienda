@@ -272,6 +272,10 @@ Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
 		
 		if ( typeof callback === 'function')
 			callback(resp);
+			
+		if( typeof resp.callback !== 'undefined' && resp.callback.length ) {
+			eval( resp.callback );
+		}
 		return true;
     });
 }

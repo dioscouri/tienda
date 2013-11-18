@@ -2456,7 +2456,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param int $product_id 	The id of the product
      * @return html	The add to cart form
      */
-    public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
+    public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ), &$callback_js = '' )
     {
 
         if( is_array( $values ) && !count( $values ) )
@@ -2673,7 +2673,9 @@ class TiendaHelperProduct extends TiendaHelperBase
         ob_end_clean( );
 
         $html = $view->loadTemplate();
-        
+		if( isset( $view->callback_js ) && !empty( $view->callback_js ) ) {
+			$callback_js = $view->callback_js;
+		}
         return $html;
     }
 
