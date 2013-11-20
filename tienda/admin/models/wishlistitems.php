@@ -162,7 +162,7 @@ class TiendaModelWishlistItems extends TiendaModelEav
 		$user_helper = TiendaHelperBase::getInstance( 'User' );
 		$product_helper = TiendaHelperBase::getInstance( 'Product' );
 
-		if (empty( $this->_list ))
+		if (empty( $this->_list )  || $refresh )
 		{
 			DSCTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 			$items = parent::getList($refresh);
