@@ -272,3 +272,7 @@ a.img_tooltip:hover span{display:block;}
 .tienda-paofilter ul {
     display: inline-block;
 }
+
+.product_share_buttons_wishlist{
+	margin: 3px 0px 0px 10px;
+}

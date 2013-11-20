@@ -24,7 +24,8 @@ class TiendaModelWishlistItems extends TiendaModelEav
 		$filter_name	= $this->getState('filter_name');
         $filter_ids	= $this->getState('filter_ids');
         $filter_wishlist	= $this->getState('filter_wishlist');
-
+		$filter_privacy = $this->getState( 'filter_privacy' );
+ 
 		if (strlen($filter_user))
 		{
 			$query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
@@ -65,7 +66,13 @@ class TiendaModelWishlistItems extends TiendaModelEav
         {
 		  $query->where('tbl.wishlist_id = '. $this->_db->Quote( (int) $filter_wishlist));
         }
-
+		if( !empty( $filter_privacy ) ) {
+			if( is_array( $filter_privacy ) ) {
+				$query->where( 'tbl.privacy IN ('.implode( ',', $filter_privacy ).')' );
+			} else {
+				$query->where( 'tbl.privacy = '. (int)$filter_privacy );        
+			}
+		}
 	}
 
 	protected function _buildQueryJoins(&$query)

@@ -131,7 +131,11 @@ class TiendaControllerWishlists extends TiendaController
         $view->setLayout('default');
 
         JRequest::setVar('layout', 'default');
-        
+		if( JRequest::getWord( 'email', '' ) == 'true' ) {
+			$this->messagetype = 'message';
+			$this->message = JText::_('COM_TIENDA_EMAILS_SENT');
+			JFactory::getApplication()->enqueueMessage( $this->message, $this->messagetype );
+		}
         parent::display( $cachable, $urlparams );
         return;
     }
@@ -145,6 +149,8 @@ class TiendaControllerWishlists extends TiendaController
         $model  = $this->getModel( $this->get('suffix') );
         $items_model = $this->getModel( 'wishlistitems' );
         $products_model = $this->getModel( 'products' );
+        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
+        $router = TiendaHelperBase::getInstance( 'Route' );
     
         // clear unecessary session ids
         $items_model->clearSessionIds();
@@ -156,6 +162,14 @@ class TiendaControllerWishlists extends TiendaController
         
         $wishlist_id = JRequest::getInt('id');
         $item = $model->getItem( $wishlist_id );
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );		
+		if( $item == null ) { // this item does not exist
+			$this->messagetype = 'error';
+			$this->message = JText::_('COM_TIENDA_WISHLIST_DOEST_EXIST');
+			$this->setRedirect( $redirect, $this->message, $this->messagetype );			
+			return;
+		}
+		
         // TODO Is this a public or the user's wishlist?  if no, fail.
         
         $items_model->setState('filter_wishlist', $wishlist_id);
@@ -164,8 +178,6 @@ class TiendaControllerWishlists extends TiendaController
     
         }
         
-        Tienda::load( "TiendaHelperRoute", 'helpers.route' );
-        $router = TiendaHelperBase::getInstance( 'Route' );
         $checkout_itemid = $router->findItemid( array('view'=>'checkout') );
         if (empty($checkout_itemid)) {
             $checkout_itemid = JRequest::getInt('Itemid');
@@ -295,8 +307,6 @@ class TiendaControllerWishlists extends TiendaController
      */
     public function share()
     {
-		JRequest::checkToken( ) or jexit( 'Invalid Token' );
-		
 		$dispatcher = JDispatcher::getInstance();
 		$model  = $this->getModel( $this->get('suffix') );
         $user = JFactory::getUser();
@@ -304,26 +314,41 @@ class TiendaControllerWishlists extends TiendaController
 
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute(); 
-        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&tmpl=component&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
        	
         // get all the items to be shared from wishlist.  if not, redirect back to wishlist with message
         if (empty($cids))
         {
-            $this->messagetype = 'notice';
-            $this->message = JText::_('COM_TIENDA_PLEASE_SELECT_ITEM_TO_SHARE');
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
-            return;            
+			echo JText::_('COM_TIENDA_PLEASE_SELECT_ITEM_TO_SHARE');
+			return;            
         }
         
         $model->setState( 'filter_ids', $cids );
-        $items = $model->getList();
-
+		$model->setState( 'filter_privacy', array( 1, 2 ) );
+		$items = $model->getList( true );
+		if( !count( $items ) ) {
+			$this->messagetype = 'error';
+			$this->message = JText::_('COM_TIENDA_CANT_SHARE_PRIVATE_WISHLIST');
+			$this->setRedirect( $redirect, $this->message, $this->messagetype );
+			return;      
+		}
+		$model_items = $this->getModel( 'wishlistitems' );
+		$wishlist_items = array();
+		
+		foreach( $items as $wishlist ) {
+			$model_items->setState( 'filter_wishlist', $wishlist->wishlist_id );
+			$w_items = $model_items->getList( true );
+			
+			$wishlist_items = array_merge( $wishlist_items, $w_items );
+		}
+ 
         $view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
-      	$view->assign( 'items', $items );      
+      	$view->assign( 'items', $wishlist_items );      
         $view->set('hidemenu', true);
         $view->set('_doTask', true);
         $view->setModel( $model, true );
         $view->setLayout('share');
+		$view->assign( 'only_redirect', false );
         $view->display();        
         $this->footer();
         return;
@@ -337,17 +362,20 @@ class TiendaControllerWishlists extends TiendaController
     public function shareitems()
     {
         JRequest::checkToken( ) or jexit( 'Invalid Token' );
+		JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );        
         
         // get the email addresses, cutting list off at 10 unique emails
         $addresses = JRequest::getVar('share_emails', '');
+        $cids = JRequest::getVar('cid', array(0), '', 'array');
         
         // explode them to an array
+        $recipients = array();
         if ($nlsv = explode("\n", $addresses))
         {
             foreach ($nlsv as $email) 
             {
                 $email = trim($email);
-                if (!in_array($email, $recipients))
+                if (!empty( $email ) && !in_array($email, $recipients))
                 {
                     $recipients[] = $email;
                 }
@@ -356,38 +384,64 @@ class TiendaControllerWishlists extends TiendaController
         
         Tienda::load( "TiendaHelperRoute", 'helpers.route' );
         $router = new TiendaHelperRoute(); 
-        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false );
+        $redirect = JRoute::_( "index.php?option=com_tienda&view=wishlists&tmpl=component&task=share&cid[]=".implode(',', $cids), false );
 
         // if no emails, fail
         if (empty($recipients))
         {
             $this->messagetype = 'notice';
             $this->message = JText::_('COM_TIENDA_PLEASE_PROVIDE_EMAIL_RECIPIENTS');
-            $this->setRedirect( $redirect, $this->message, $this->messagetype );
+			$this->setRedirect(  $redirect, $this->message, $this->messagetype );
             return;
         }
         
         // create the list of items to be shared, with name & link to each item's detail page
-        $cids = JRequest::getVar('cid', array(0), '', 'array');
         $model  = $this->getModel( $this->get('suffix') );
         $model->setState( 'filter_ids', $cids );
-        $items = $model->getList();
+        $model->setState( 'filter_privacy', array( 1, 2 ) );
+		$items = $model->getList( true );
+		if( !count( $items ) ) {
+			$this->messagetype = 'error';
+			$this->message = JText::_('COM_TIENDA_CANT_SHARE_PRIVATE_WISHLIST');
+			$this->setRedirect(  JRoute::_( "index.php?option=com_tienda&view=wishlists&Itemid=".$router->findItemid( array('view'=>'wishlists') ), false ), $this->message, $this->messagetype );
+			return;      
+		}
+		$model_items = $this->getModel( 'wishlistitems' );
+		$wishlist_items = array();
+
+		foreach( $items as $wishlist ) {
+			$model_items->setState( 'filter_wishlist', $wishlist->wishlist_id );
+			$w_items = $model_items->getList( true );
+	
+			$wishlist_items = array_merge( $wishlist_items, $w_items );
+		}
         
         $share_items_html = '';
-        if (!empty($items))
+        if (!empty($wishlist_items))
         {
-            $share_items_html .= '<ul>';
-            foreach ($items as $item)
+			Tienda::load( 'TiendaHelperProduct', 'helpers.product' );
+			$products_model = JModel::getInstance('Products', 'TiendaModel');
+ 			$share_items_html .= JText::_( 'COM_TIENDA_WISHLIST_EMAIL_LIST_ITEMS' ).'<ul>';
+            foreach ($wishlist_items as $item)
             {
                 $item->link = "index.php?option=com_tienda&view=products&task=view&id=" . $item->product_id;
-            	$item->filter_category = '';
-    	        $categories = Tienda::getClass( 'TiendaHelperProduct', 'helpers.product' )->getCategories( $item->product_id );
-                if (!empty($categories))
-                {
-                    $item->link .= "&filter_category=".$categories[0];
-                    $item->filter_category = $categories[0];
-                }
-                $item->itemid = $router->category( $item->filter_category, true );
+				$attributes = explode( ',', $item->product_attributes );
+				$tbl = JTable::getInstance('ProductAttributes', 'TiendaTable');
+				$tbl_opt = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+				$product_name = $item->product_name;
+				$attr_list = array();
+				for( $i = 0, $c = count( $attributes ); $i < $c; $i++ )
+				{
+					$tbl_opt->load( $attributes[$i] );
+					$tbl->load( $tbl_opt->productattribute_id );
+					$item->link .= '&attribute_'.$tbl_opt->productattribute_id.'='.$attributes[$i];
+					$attr_list []= $tbl->productattribute_name.': '.$tbl_opt->productattributeoption_name;
+				}
+				if( count( $attr_list ) ) {
+					$product_name .= ' ('.implode( '; ', $attr_list ).')';
+				}
+				$item->itemid = $products_model->getItemid( $item->product_id );            	
+				
                 if( empty( $item->itemid ) )
                 {
                 	$item->itemid = $router->findItemid( array('view'=>'products', 'filter_category'=>'1' ) );
@@ -396,7 +450,7 @@ class TiendaControllerWishlists extends TiendaController
                 $item->link = substr( JURI::base(), 0, -1 ) . JRoute::_( $item->link. "&Itemid=" . $item->itemid );
                 $share_items_html .= '<li>';
                 $share_items_html .= '<a href="'.$item->link.'">';
-                $share_items_html .= $item->product_name;
+                $share_items_html .= $product_name;
                 $share_items_html .= '</a>';
                 $share_items_html .= '</li>';
             }
@@ -415,9 +469,10 @@ class TiendaControllerWishlists extends TiendaController
         $fromname = $replytoname;
         
         // create body and subject of email
+        $site_email = '<a href="'.$siteurl.'" target="_blank">'.$sitename.'</a>';
         $share_message = JRequest::getVar('share_message', '');
         $subject = JText::sprintf( "COM_TIENDA_SHARE_WISHLIST_EMAIL_SUBJECT", $sitename );
-        $body = JText::sprintf( "COM_TIENDA_SHARE_WISHLIST_EMAIL_BODY", $replytoname, $siteurl );
+        $body = JText::sprintf( "COM_TIENDA_SHARE_WISHLIST_EMAIL_BODY", $replytoname, $site_email );
         $body .= JText::sprintf( "COM_TIENDA_MESSAGE_FROM_SENDER", $share_message );
         $body .= $share_items_html; 
         
@@ -441,9 +496,13 @@ class TiendaControllerWishlists extends TiendaController
         }
         
         // redirect to wishlist with message 
-        $this->messagetype = 'message';
-        $this->message = JText::_('COM_TIENDA_EMAILS_SENT');
-        $this->setRedirect( $redirect, $this->message, $this->messagetype );
+		$view   = $this->getView( $this->get('suffix'), JFactory::getDocument()->getType() );
+		$view->set('hidemenu', true);
+		$view->set('_doTask', true);
+		$view->setModel( $model, true );
+		$view->assign( 'only_redirect', true );
+		$view->setLayout('share');
+		$view->display(); 
         return;
     }
     
