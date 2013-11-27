@@ -257,7 +257,7 @@ class Tienda extends DSC
 	// since 0.10.2
 	public $pos_request_clean_hours = '24';
     public $orders_confirmation_header_code = '';
-	
+	public $use_wishlist_search = '1';
 	
 	public static function getGuestIdStart()
 	{

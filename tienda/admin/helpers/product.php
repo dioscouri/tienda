@@ -1275,6 +1275,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 				}
 				$pa_list[ $a->productattribute_id ] = $tmp;
 			}
+			if( empty( $pao ) ) {
+				$map[$id][$po] = $pao;
+				return $map[$id][$po];
+			}
+
 			// now, create map from product quantities
 			foreach ( $res as $item ) {
 				// Information about product quantity for a certain combination of options needs to be polished.

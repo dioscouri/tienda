@@ -25,6 +25,9 @@ class TiendaModelWishlistItems extends TiendaModelEav
         $filter_ids	= $this->getState('filter_ids');
         $filter_wishlist	= $this->getState('filter_wishlist');
 		$filter_privacy = $this->getState( 'filter_privacy' );
+		$filter_search  = $this->getState( 'filter_search', '' );
+		$filter_search_any  = $this->getState( 'filter_search_any', '' );
+		$filter_search_all  = $this->getState( 'filter_search_all', '' );
  
 		if (strlen($filter_user))
 		{
@@ -73,12 +76,81 @@ class TiendaModelWishlistItems extends TiendaModelEav
 				$query->where( 'tbl.privacy = '. (int)$filter_privacy );        
 			}
 		}
+		
+		if( strlen( $filter_search ) ) {
+			$key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $filter_search ) ) ) . '%' );
+			$where = array( );
+			$where[] = 'LOWER(u.last_name) LIKE ' . $key;
+			$where[] = 'LOWER(u.first_name) LIKE ' . $key;
+			$where[] = 'LOWER(u.middle_name) LIKE ' . $key;
+			$where[] = 'LOWER(uj.name) LIKE ' . $key;
+			
+			if( empty( $filter_user ) ) {
+				$query->where( '(' . implode( ' OR ', $where ) . ') AND tbl.wishlist_id = 0 ' );
+			} else {
+				$query->where( '(' . implode( ' OR ', $where ) . ') AND tbl.wishlist_id = 0  AND ( tbl.user_id <> '.$this->_db->quote((int)$filter_user).' )' );        
+			}
+		}
+		
+		if ( !empty( $filter_search_all ) )
+		{
+			$words = explode( ' ', $filter_search_all );
+			foreach ($words as $word)
+			{
+				$key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $word ) ) ) . '%' );
+				$where = array( );
+				$where[] = 'LOWER(u.last_name) LIKE ' . $key;
+				$where[] = 'LOWER(u.first_name) LIKE ' . $key;
+				$where[] = 'LOWER(u.middle_name) LIKE ' . $key;
+				$where[] = 'LOWER(uj.name) LIKE ' . $key;
+				
+				if( empty( $filter_user ) ) {
+					$query->where( '(' . implode( ' OR ', $where ) . ') AND tbl.wishlist_id = 0 ' );
+				}  else {
+					$query->where( '(' . implode( ' OR ', $where ) . ') AND tbl.wishlist_id = 0  AND ( tbl.user_id <> '.$this->_db->quote((int)$filter_user).' )' );          
+				}
+			}
+		}
+		
+		if ( !empty( $filter_search_any ) )
+		{
+			$words = explode( ' ', $filter_search_any );
+			$wheres = array( );
+			foreach ($words as $word)
+			{
+				$key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $word ) ) ) . '%' );
+				$where = array( );
+				$where[] = 'LOWER(u.last_name) LIKE ' . $key;
+				$where[] = 'LOWER(u.first_name) LIKE ' . $key;
+				$where[] = 'LOWER(u.middle_name) LIKE ' . $key;
+				$where[] = 'LOWER(uj.name) LIKE ' . $key;
+				
+				$wheres[] = '(' . implode( ' OR ', $where ) . ')';
+			}
+			
+			if (!empty($wheres)) 
+			{
+				$stmt = '(' . implode( ' OR ', $wheres ) . ') AND tbl.wishlist_id = 0 ';
+				if( !empty( $filter_user ) ) {
+					$stmt .= ' AND ( tbl.user_id <> '.$this->_db->quote((int)$filter_user).' )';
+				}
+				$query->where($stmt);
+			}
+		}
 	}
 
 	protected function _buildQueryJoins(&$query)
 	{
 		$query->join('LEFT', '#__tienda_products AS p ON tbl.product_id = p.product_id');
 		$query->join('LEFT', '#__tienda_wishlists AS wl ON tbl.wishlist_id = wl.wishlist_id');
+
+		$filter_search  = $this->getState( 'filter_search', '' );
+		$filter_search_any  = $this->getState( 'filter_search_any', '' );
+		$filter_search_all  = $this->getState( 'filter_search_all', '' );
+		if( !empty( $filter_search ) || !empty( $filter_search_all ) || !empty( $filter_search_any ) ) {
+			$query->join('LEFT', '#__tienda_userinfo AS u ON u.user_id = tbl.user_id');      
+			$query->join('LEFT', '#__users AS uj ON uj.id = tbl.user_id');      
+		}
 	}
 
 	protected function _buildQueryFields(&$query)
@@ -143,6 +215,18 @@ class TiendaModelWishlistItems extends TiendaModelEav
 			)
 		AS product_price ";
 
+		$filter_search  = $this->getState( 'filter_search', '' );
+		$filter_search_any  = $this->getState( 'filter_search_any', '' );
+		$filter_search_all  = $this->getState( 'filter_search_all', '' );
+		if( !empty( $filter_search ) || !empty( $filter_search_all ) || !empty( $filter_search_any ) ) {
+			$field[] = 'tbl.user_id';
+			$field[] = 'u.first_name';
+			$field[] = 'u.middle_name';
+			$field[] = 'u.last_name';
+			$field[] = 'uj.name AS `user_joomla_name`';
+			$field[] = 'p.created_date';
+		}
+		
 		$query->select( $this->getState( 'select', 'tbl.*' ) );
 		$query->select( $field );
 	}

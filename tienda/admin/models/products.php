@@ -996,21 +996,6 @@ class TiendaModelProducts extends TiendaModelEav
 	}
 	
 	/**
-	 * Get the list of items. If needed, loads the attributes for each item
-	 *
-	 * @param	boolean	$refresh
-	 * @param	boolean	$getEav
-	 * @param	array	$options; keys: include, exclude; includes or excludes eav attributes from loading. Use their alias
-	 */
-	public function getListRaw($refresh = false, $getEav = true, $options = array())
-	{
-		$query = $this->getQuery($refresh);
-		$list = $this->_getList( (string) $query, $this->getState('limitstart'), $this->getState('limit') );
-		
-		return $list;
-	}
-	
-	/**
 	 * Determines if a product is in a visitor's wishlist,
 	 * whether they are logged in or not
 	 * 

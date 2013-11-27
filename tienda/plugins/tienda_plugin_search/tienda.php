@@ -56,7 +56,8 @@ class plgSearchTienda extends JPlugin
         }
         
         $areas = array(
-            'tienda' => $this->params->get('title', "Tienda")
+            'tienda' => $this->params->get('title', "Tienda"),
+            'wishlist' => $this->params->get('title_wishlist', 'Wishlists')
         );
         
         return $areas;
@@ -87,12 +88,23 @@ class plgSearchTienda extends JPlugin
 	        return array();
 	    }
 	
+		$search_products = $search_wishlists = false;
 	    if ( is_array( $areas ) )
 	    {
 	        if ( !array_intersect( $areas, array_keys( $this->doSearchAreas() ) ) )
 	        {
 	            return array();
+	        } else {
+	        	if( in_array('tienda', $areas ) !== false ) {
+	        		$search_products = true;
+	        	}
+
+	        	if( in_array('wishlist', $areas ) !== false ) {
+	        		$search_wishlists = true;
+	        	}
 	        }
+	    } else {
+	    	$search_products = $search_wishlists = true;
 	    }
 	
 	    $keyword = trim( $keyword );
@@ -100,95 +112,209 @@ class plgSearchTienda extends JPlugin
 	    {
 	        return array();
 	    }
-
 	    $cache_key = base64_encode(serialize($keyword) . serialize($match) . serialize($ordering) . serialize($areas)) . '.search-results' ;
 	    $classname = strtolower( get_class($this) );
 	    $cache = JFactory::getCache( $classname . '.search-results', '' );
 	    $cache->setCaching($this->cache_enabled);
 	    $cache->setLifeTime($this->cache_lifetime);
-	    $list = $cache->get($cache_key);	    
+	    $list = $cache->get($cache_key);
 	    
 	    if (empty($list)) 
 	    {
 	        JTable::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/tables' );
 	        JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-	        $model = JModel::getInstance( 'Products', 'TiendaModel' );
-	        $model->setState( 'filter_published', 1 );
-	        $model->setState( 'filter_enabled', 1 );
-	        $model->setState( 'filter_published_date', JFactory::getDate()->toMySQL() );
+			
+			$list = array();
 	        $match = strtolower($match);
-
-	        switch ($match)
-	        {
-	            case 'any':
-	                $model->setState('filter_any', $keyword);
-	                break;
-	            case 'all':
-	                $model->setState('filter_all', $keyword);
-	                break;
-	            case 'exact':
-	            default:
-	                $model->setState('filter', $keyword);
-	                break;
-	        }
-	         
-	        // order the items according to the ordering selected in com_search
-	        switch ( $ordering )
-	        {
-	            case 'newest':
-	                $model->setState('order', 'tbl.created_date');
-	                $model->setState('direction', 'DESC');
-	                break;
-	            case 'oldest':
-	                $model->setState('order', 'tbl.created_date');
-	                $model->setState('direction', 'ASC');
-	                break;
-	            case 'alpha':
-	            case 'popular':
-	            default:
-	                $model->setState('order', 'tbl.product_name');
-	                break;
-	        }
-	         
-	        // filter according to shopper group
-	        Tienda::load( 'TiendaHelperUser', 'helpers.user' );
-	        $user_id = JFactory::getUser( )->id;
-	        $model->setState('filter_group', TiendaHelperUser::getUserGroup( $user_id ) );
-	         
-	        //display_out_of_stock
-	        if (!$this->defines->get('display_out_of_stock'))
-	        {
-	            $model->setState( 'filter_quantity_from', '1' );
-	        }
-	         
-	        $items = $model->getListRaw();
+			if( $search_products ) {
+		        $model = JModel::getInstance( 'Products', 'TiendaModel' );
+		        $model->setState( 'filter_published', 1 );
+		        $model->setState( 'filter_enabled', 1 );
+		        $model->setState( 'filter_published_date', JFactory::getDate()->toMySQL() );
+	
+		        switch ($match)
+		        {
+		            case 'any':
+		                $model->setState('filter_any', $keyword);
+		                break;
+		            case 'all':
+		                $model->setState('filter_all', $keyword);
+		                break;
+		            case 'exact':
+		            default:
+		                $model->setState('filter', $keyword);
+		                break;
+		        }
+		         
+		        // order the items according to the ordering selected in com_search
+		        switch ( $ordering )
+		        {
+		            case 'newest':
+		                $model->setState('order', 'tbl.created_date');
+		                $model->setState('direction', 'DESC');
+		                break;
+		            case 'oldest':
+		                $model->setState('order', 'tbl.created_date');
+		                $model->setState('direction', 'ASC');
+		                break;
+		            case 'alpha':
+		            case 'popular':
+		            default:
+		                $model->setState('order', 'tbl.product_name');
+		                break;
+		        }
+		         
+		        // filter according to shopper group
+		        Tienda::load( 'TiendaHelperUser', 'helpers.user' );
+		        $user_id = JFactory::getUser( )->id;
+		        $model->setState('filter_group', TiendaHelperUser::getUserGroup( $user_id ) );
+		         
+		        //display_out_of_stock
+		        if (!$this->defines->get('display_out_of_stock'))
+		        {
+		            $model->setState( 'filter_quantity_from', '1' );
+		        }
+		         
+		        $items = $model->getListRaw();
+		        
+		        if (!empty($items)) {
+			        // format the items array according to what com_search expects
+			        foreach ($items as $key => $item)
+			        {
+			            $item->itemid_string = null;
+			            $item->itemid = (int) Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, null, true );
+			            if (!empty($item->itemid)) {
+			                $item->itemid_string = "&Itemid=".$item->itemid;
+			            }
+			            $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
+			            $item->href = $item->link . $item->itemid_string;
+		                
+			            $item->title        = $item->product_name;
+			            $item->created      = $item->created_date;
+			            $item->section      = $this->params->get('title', "Tienda");
+			            $item->text         = $item->product_description;
+			            $item->browsernav   = $this->params->get('link_behaviour', "0");
+			            
+			            $item->source 		= $classname;
+						$item->type 		= 'product';
+			        }
+			        
+			        $list = array_merge( $list, $items );
+		        }
+			}
 	        
-	        if (empty($items)) {
-	            return array();
-	        }
-            
-	        // format the items array according to what com_search expects
-	        foreach ($items as $key => $item)
-	        {
-	            $item->itemid_string = null;
-	            $item->itemid = (int) Tienda::getClass( "TiendaHelperRoute", 'helpers.route' )->product( $item->product_id, null, true );
-	            if (!empty($item->itemid)) {
-	                $item->itemid_string = "&Itemid=".$item->itemid;
-	            }
-	            $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
-	            $item->href = $item->link . $item->itemid_string;
-                
-	            $item->title        = $item->product_name;
-	            $item->created      = $item->created_date;
-	            $item->section      = $this->params->get('title', "Tienda");
-	            $item->text         = $item->product_description;
-	            $item->browsernav   = $this->params->get('link_behaviour', "0");
-	            
-	            $item->source = $classname;
-	        }
-	        
-	        $list = $items;
-	        
+			if( $search_wishlists ) {
+		        $model = JModel::getInstance( 'Wishlists', 'TiendaModel' );
+		        $model->setState( 'filter_accessible', 1 );
+		        $model->setState( 'filter_user', JFactory::getUser()->id );					
+				$model_items = JModel::getInstance('WishlistItems', 'TiendaModel' );
+				if( !empty( JFactory::getUser()->id ) ) {
+			        $model_items->setState( 'filter_user', JFactory::getUser()->id );					
+				}
+	
+		        switch ($match)
+		        {
+		            case 'any':
+		                $model->setState('filter_any', $keyword);
+						$model_items->setState( 'filter_search_any', $keyword );
+		                break;
+		            case 'all':
+		                $model->setState('filter_all', $keyword);
+						$model_items->setState( 'filter_search_all', $keyword );
+		                break;
+		            case 'exact':
+		            default:
+		                $model->setState('filter', $keyword);
+						$model_items->setState( 'filter_search', $keyword );
+		                break;
+		        }
+		         
+		        // order the items according to the ordering selected in com_search
+		        switch ( $ordering )
+		        {
+		            case 'newest':
+		                $model->setState('order', 'tbl.created_date');
+		                $model->setState('direction', 'DESC');
+		                break;
+		            case 'oldest':
+		                $model->setState('order', 'tbl.created_date');
+		                $model->setState('direction', 'ASC');
+		                break;
+		            case 'alpha':
+		            case 'popular':
+		            default:
+		                $model->setState('order', 'tbl.wishlist_name');
+		                break;
+		        }
+		        $items = $model->getListRaw();
+		        
+		        if (!empty($items)) {
+			        // format the items array according to what com_search expects
+			        foreach ($items as $key => $item)
+			        {
+			            $item->href = $item->link = 'index.php?option=com_tienda&view=wishlists&task=view&id=' . $item->wishlist_id;
+		                
+			            $item->title        = $item->wishlist_name;
+			            $item->created      = $item->created_date;
+			            $item->section      = $this->params->get('title_wishlist', "Tienda");
+			            $item->text         = '';
+			            $item->browsernav   = $this->params->get('link_behaviour', "0");
+			            
+			            $item->source 		= $classname;
+						$item->type 		= 'wishlist';
+			        }
+			        
+			        $list = array_merge( $list, $items );
+				}
+				
+				// now go through wishlist items
+				$items = $model_items->getListRaw();
+		        if (!empty($items)) {
+			        // format the items array according to what com_search expects
+			        foreach ($items as $key => $item)
+			        {
+						$item->customer 	= $item->first_name.' ';
+						if( empty( $item->middle_name ) ) {
+							$item->customer .= $item->middle_name.' ';
+						}
+						$item->customer		.= $item->last_name;
+						if( !strlen( trim( $item->customer ) ) ) {
+							$item->customer = $item->user_joomla_name;
+						}
+						$item->customer_link = 'index.php?option=com_users&view=profile&id='.$item->user_id;
+						
+			            $item->href = $item->link = 'index.php?option=com_tienda&view=products&task=view&id=' . $item->product_id;
+			            $item->title        = $item->product_name;
+			            $item->created      = $item->created_date;
+			            $item->section      = $this->params->get('title_wishlist', "Tienda");
+						
+						if( strlen( $item->product_attributes ) ) {
+							$attributes = explode( ',', $item->product_attributes );
+				        	$tbl = JTable::getInstance('ProductAttributes', 'TiendaTable');
+							$tbl_opt = JTable::getInstance( 'ProductAttributeOptions', 'TiendaTable' );
+							$attr_list = array();
+					        for( $i = 0, $c = count( $attributes ); $i < $c; $i++ )
+					        {
+					        	$tbl_opt->load( $attributes[$i] );
+								$tbl->load( $tbl_opt->productattribute_id );
+			        			$item->href .= '&attribute_'.$tbl_opt->productattribute_id.'='.$attributes[$i];
+								$attr_list []= $tbl->productattribute_name.': '.$tbl_opt->productattributeoption_name;
+					        }
+							$item->text = implode( '<br>', $attr_list );	
+						} else {
+				            $item->text = $item->product_name;							
+						}
+			            $item->browsernav   = $this->params->get('link_behaviour', "0");
+			            
+			            $item->source 		= $classname;
+						$item->type 		= 'wishlistitem';
+			        }
+			        
+			        $list = array_merge( $list, $items );
+				}
+				
+			}
+			
 	        $cache->store($list, $cache_key);
 	    }
 	    
