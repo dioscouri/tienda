@@ -228,7 +228,7 @@ class TiendaModelEav extends TiendaModelBase
 	    if (!empty($getEav) || ($eavStates > 0) )
 	    {
 	        $app = JFactory::getApplication();
-	        $editable_by = $app->isAdmin() ? 1 : 2;
+	        $editable_by = (method_exists( 'isAdmin', $app ) && $app->isAdmin()) ? 1 : 2; // CLI fix
 	    
 	        Tienda::load('TiendaModelEavAttributes', 'models.eavattributes');
 	        Tienda::load( "TiendaHelperBase", 'helpers._base' );

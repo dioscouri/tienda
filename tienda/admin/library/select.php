@@ -346,7 +346,7 @@ class TiendaSelect extends DSCSelect
 		}
 
 		JModel::addIncludePath( JPATH_ADMINISTRATOR.'/components/com_tienda/models' );
-		$model = JModel::getInstance( 'Countries', 'TiendaModel' );
+		$model = Tienda::getClass('TiendaModelCountries', 'models.countries');
 		if (!empty($enabled))
 		{
             $model->setState( 'filter_enabled', '1' );

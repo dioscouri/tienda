@@ -39,10 +39,9 @@ class TiendaControllerCheckout extends TiendaController
         $cart_helper = TiendaHelperBase::getInstance( 'Carts' );
         $items = $cart_helper->getProductsInfo();
 
-        $task = JRequest::getVar('task');
-        if (empty($items) && $task != 'confirmPayment' && $task != 'poscheckout' )
+        $task = strtolower( JRequest::getVar('task') );
+        if (empty($items) && $task != 'confirmpayment' && $task != 'poscheckout' )
         {
-        	
             JFactory::getApplication()->redirect( JRoute::_( 'index.php?option=com_tienda&view=products' ), JText::_('COM_TIENDA_YOUR_CART_IS_EMPTY') );
             return;
         }
@@ -56,7 +55,7 @@ class TiendaControllerCheckout extends TiendaController
         $view = JRequest::getVar('view');
         // For now, make this redirect only when the Standard layout is chosen.  Remove this when the new OPC MVC handles all layouts 
         // also, do not make this redirect, if POS checkout is in work
-        if ($this->onepage_checkout && $this->one_page_checkout_layout == 'standard' && $view != 'opc' && $task != 'poscheckout') 
+        if ($this->onepage_checkout && $this->one_page_checkout_layout == 'standard' && $view != 'opc' && $task != 'poscheckout' && $task != 'confirmpayment') 
         {	
             $method = JRequest::getMethod();
             if ($method == 'POST')

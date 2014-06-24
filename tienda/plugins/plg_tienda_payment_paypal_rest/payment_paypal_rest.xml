@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="tienda" method="upgrade">
+    <name>Tienda - Payment - Paypal Payments - REST</name>
+    <version>0.10.1</version>
+    <creationDate>Sept 2013</creationDate>
+    <author>Dioscouri</author>
+    <authorEmail>info@dioscouri.com</authorEmail>
+    <authorUrl>http://www.dioscouri.com</authorUrl>
+    <copyright>2012 Dioscouri.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_TIENDA_PAYMENT_PAYPAL_REST_REST_PLUGINDESC</description>
+    <files>
+        <filename plugin="payment_paypal_rest">payment_paypal_rest.php</filename>
+        <folder>payment_paypal_rest</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_tienda_payment_paypal_rest.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic" label="basic">
+                <field name="merchant_email" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_EMAIL" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_EMAIL_DESC"/>
+                <field name="currency" type="text" size="10" default="USD" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_CURRENCY" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_CURRENCY_DESC"/>
+                <field name="secure_post" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_SECURE_POST" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_SECURE_POST_DESC">
+                    <option value="0">COM_TIENDA_NO</option>
+                    <option value="1">COM_TIENDA_YES</option>
+                </field>
+                <field name="img_url_std" type="text" size="100" default="https://www.paypal.com/en_US/i/btn/x-click-but20.gif" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_CHECKOUT_IMAGE" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_CHECKOUT_IMAGE_DESC"/>
+                <field name="img_url_mixed" type="text" size="100" default="https://www.paypal.com/en_US/i/btn/x-click-but02.gif" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_CHECKOUT_IMAGE_MIXED" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_CHECKOUT_IMAGE_MIXED_DESC"/>
+                <field type="spacer" />
+                <field name="sandbox" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_USE_SANDBOX" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_USE_SANDBOX_DESC">
+                    <option value="0">COM_TIENDA_NO</option>
+                    <option value="1">COM_TIENDA_YES</option>
+                </field>
+
+                <field name="sandbox_merchant_email" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_SANDBOX_MERCHANT_EMAIL" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_SANDBOX_MERCHANT_EMAIL_DESC"/>
+                <field name="sandbox_customer_email" type="text" size="50" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_SANDBOX_CUSTOMER_EMAIL" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_SANDBOX_CUSTOMER_EMAIL_DESC"/>
+                <field type="spacer" />
+                <field name="articleid" type="text" size="10" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_ARTICLE_NUMBER" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_ARTICLE_NUMBER_DESC"/>
+                <field name="display_article_title" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_DISPLAY_ARTICLE_TITLE" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_DISPLAY_ARTICLE_TITLE_DESC" >
+                    <option value="0">COM_TIENDA_NO</option>
+                    <option value="1">COM_TIENDA_YES</option>
+                </field>
+                <field name="ipn_method" type="radio" default="0" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_IPN_METHOD" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_IPN_METHOD_DESC">
+                    <option value="0">CURL</option>
+                    <option value="1">FSOCKOPEN</option>
+                </field>
+                <field name="failed_order_state" type="tiendaorderstate" scope="com_tienda" default="10" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_FAILED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_FAILED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+                <field name="payment_received_order_state" type="tiendaorderstate" scope="com_tienda" default="17" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_PAYMENT_RECEIVED_ORDER_STATE" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_PAYMENT_RECEIVED_ORDER_STATE_DESC" addfieldpath="/administrator/components/com_tienda/elements" />
+                <field name="label" type="textarea" cols="50" rows="10" default="" label="PLG_TIENDA_PAYMENT_PAYPAL_REST_LABEL" description="PLG_TIENDA_PAYMENT_PAYPAL_REST_LABEL_DESC" filter="raw" />
+            </fieldset>
+        </fields>
+    </config>
+
+</extension>
