@@ -13,6 +13,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class TiendaControllerProducts extends TiendaController
 {
+	private $_callback_js = ''; // callback jS that should be returned with the current AJAX request
+	
     /**
      * constructor
      */
@@ -532,7 +534,7 @@ class TiendaControllerProducts extends TiendaController
             $layout = $buy_layout_override;
         }
 
-        $html = TiendaHelperProduct::getCartButton( $product_id, $layout, $values );
+        $html = TiendaHelperProduct::getCartButton( $product_id, $layout, $values, $this->_callback_js );
 
         return $html;
     }
@@ -572,6 +574,18 @@ class TiendaControllerProducts extends TiendaController
         // now get the summary
         $this->display_cartbutton = true;
         $html = $this->getAddToCart( $values['product_id'], $values );
+
+		if( !empty( $this->_callback_js ) ) {
+			$response['callback'] = '';
+			if( is_array( $this->_callback_js ) ) {
+				// add all calbacks and wrap them into eval function
+				foreach( $this->_callback_js as $js ) {
+					$response['callback'] .= 'eval( \''.$js.'\');';          
+				}
+			} else { // only one string
+				$response['callback'] = 'eval( \''.$this->_callback_js.'\');';
+			}
+		}
 
         $response['msg'] = $html;
         

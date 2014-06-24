@@ -15,6 +15,7 @@
 
 <script type="text/javascript">
 tiendaJQ(document).ready(function(){
+	DisplaySharingOptions( <?php echo $this->row->privacy; ?>, 0 );
 
     tiendaJQ('.privatize-wishlist').on('change', function(){
         el = tiendaJQ(this);
@@ -25,6 +26,7 @@ tiendaJQ(document).ready(function(){
                 container.find('.confirmation').remove();
                 container.append('<p class="confirmation">'+response.html+'</p>').find('.confirmation').fadeIn().delay(1500).fadeOut().delay(3000);
             });            
+			DisplaySharingOptions( privacy, 'slow' );
         }
     });
     
@@ -52,6 +54,16 @@ tiendaJQ(document).ready(function(){
         });
     });
 });
+
+function DisplaySharingOptions( privacy, t ) {
+	var obj = tiendaJQ( '#wishlist-sharing' );
+	console.log( privacy );
+	if( privacy == 3 ) {
+		obj.hide(t);
+	} else {
+		obj.show(t);
+	}
+}
 </script>
 
 <div id="message-container" class="dsc-wrap">
@@ -201,15 +213,41 @@ tiendaJQ(document).ready(function(){
             <?php ++$i; $k = (1 - $k); ?>
             <?php endforeach; ?>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="20" style="text-align: left;">
-                        <?php /* ?>
-                        <input type="submit" class="btn" value="<?php echo JText::_('COM_TIENDA_SHARE'); ?>" name="share" />
-                        */ ?>
-                    </td>
-                </tr>
-            </tfoot>
+	            <tfoot id="wishlist-sharing">
+	                <tr>
+	                    <td colspan="20" style="text-align: left;">
+	                        <a href="<?php echo JRoute::_('index.php?option=com_tienda&view=wishlists&task=share&tmpl=component&cid[]='.$this->row->wishlist_id ); ?>" class="pull-left modal btn" rel="{handler: 'iframe', size: {x: 800, y: 500}}"><?php echo JText::_('COM_TIENDA_SHARE'); ?></a>
+							<?php
+								$display_fb = $this->defines->get( 'display_facebook_like', '1' );
+								$display_tw = $this->defines->get( 'display_tweet', '1' );
+								$display_gp = $this->defines->get( 'display_google_plus1', '1' );
+							
+								if( $display_fb || $display_gp || $display_tw ) : ?>
+							<div class="product_share_buttons_wishlist pull-left" >
+							<?php 
+								endif;
+								if ( $display_fb ) : ?>
+								<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+								<fb:like show_faces="false" width="375"></fb:like> 
+							<?php endif;
+								
+								if ( $display_tw ) : ?>
+								<a href="http://twitter.com/share" class="twitter-share-button" data-text="<?php echo Tienda::getInstance( )->get( 'display_tweet_message', 'Check this out!' ).' '.TiendaHelperProduct::getSocialBookMarkUri(); ?>" data-count="horizontal">Tweet</a>
+								<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+							<?php endif;
+							
+								if ( $display_gp ) :
+									$google_plus1_size = Tienda::getInstance( )->get( 'display_google_plus1_size', 'medium' ); ?>
+								<g:plusone <?php if( strlen( $google_plus1_size ) ) echo 'size="'.$google_plus1_size.'"' ?>></g:plusone>
+								<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+							<?php endif;
+								if( $display_fb || $display_gp || $display_tw ) : ?>
+							</div>
+							<?php endif; ?>
+							
+	                    </td>
+	                </tr>
+	            </tfoot>
         </table>
         
         <?php if (!empty($this->pagination) && method_exists($this->pagination, 'getResultsCounter')) { ?>

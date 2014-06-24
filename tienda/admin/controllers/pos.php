@@ -1263,9 +1263,7 @@ class TiendaControllerPOS extends TiendaController
 		// onAfterCreateItemForAddToCart: plugin can add values to the item before it is being validated /added
 		// once the extra field(s) have been set, they will get automatically saved
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger("onAfterCreateItemForAddToCart", array($item,
-		$post,
-		$files));
+		$results = $dispatcher->trigger("onAfterCreateItemForAddToCart", array($item, $post, $files));
 		foreach($results as $result)
 		{
 			foreach($result as $key => $value)
@@ -1277,8 +1275,7 @@ class TiendaControllerPOS extends TiendaController
 		// no matter what, fire this validation plugin event for plugins that extend the checkout workflow
 		$results = array();
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger("onBeforeAddToCart", array($item,
-		$post));
+		$results = $dispatcher->trigger("onBeforeAddToCart", array($item, $post));
 
 		for($i = 0; $i < count($results); $i++)
 		{
@@ -1311,13 +1308,13 @@ class TiendaControllerPOS extends TiendaController
 
 		// fire plugin event: onGetAdditionalCartKeyValues
 		// this event allows plugins to extend the multiple-column primary key of the carts table
-		$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues($item, null, null);
+		$additionalKeyValues = TiendaHelperCarts::getAdditionalKeyValues($item, $post, null);
 		if(!empty($additionalKeyValues))
 		{
 			$keynames = array_merge($keynames, $additionalKeyValues);
 		}
 
-		if($table->load($keynames))
+		if($table->load( $keynames ) )
 		{
 			$table->product_qty = $table->product_qty + $item->product_qty;
 		}
@@ -1333,14 +1330,14 @@ class TiendaControllerPOS extends TiendaController
 		}
 
 		// Now for Eavs!!
-		$eavs = TiendaHelperEav::getAttributes('products', $item->product_id);
+		$eavs = TiendaHelperEav::getAttributes('products', $item->product_id, false, array(1, 2));
 
 		if(count($eavs))
 		{
 			foreach($eavs as $eav)
 			{
 				// Search for user edtable fields & user submitted value
-				if($eav->editable_by == 2 && array_key_exists($eav->eavattribute_alias, $item))
+				if( in_array($eav->editable_by, array(1, 2) ) !== false && array_key_exists($eav->eavattribute_alias, $item))
 				{
 					$key = $eav->eavattribute_alias;
 					$table->set($key, $item->$key);
@@ -1371,7 +1368,6 @@ class TiendaControllerPOS extends TiendaController
 		$model = $this->getModel('Carts');
 		$model->setState('filter_user', $user_id);
 		$items = $model->getList();
-
 		if(!empty($items))
 		{
 			//trigger the onDisplayCartItem for each cartitem
@@ -1379,7 +1375,7 @@ class TiendaControllerPOS extends TiendaController
 
 			$i = 0;
 			$onDisplayCartItem = array();
-			foreach($items as $item)
+			foreach($items as $key => $item)
 			{
 				ob_start();
 				$dispatcher->trigger('onDisplayCartItem', array($i,

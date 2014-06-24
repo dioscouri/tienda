@@ -877,11 +877,11 @@ class TiendaHelperCarts extends TiendaHelperBase
 	 * @param $index
 	 * @return unknown_type
 	 */
-	function getAdditionalKeyValues( $item, $posted_values, $index = null )
+	static function getAdditionalKeyValues( $item, $posted_values, $index = null )
 	{
 		$keynames = array();
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger( "onGetAdditionalCartKeyValues", array( $item, $posted_values, $index ) );
+		$results = $dispatcher->trigger( "onGetAdditionalCartKeyValues", array( $item, $posted_values, $index ) );  
 		if (!empty($results))
 		{
 			foreach($results as $additionalKeyValues)

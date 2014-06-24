@@ -65,7 +65,8 @@ class TiendaModelElementproduct extends DSCModelElement
 		$limitstart			= $mainframe->getUserStateFromRequest('productelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('productelement.filter',				'filter',			'',	'string');
 		$search				= JString::strtolower($search);
-
+ 		$filter_state    = $mainframe->getUserStateFromRequest('productelement.filter_state', 'product_state', '', 'string');
+ 
 		$valid_ordering_options = array(
 		        'tbl.product_id', 'tbl.product_name', 'tbl.product_description'
         );
@@ -82,9 +83,15 @@ class TiendaModelElementproduct extends DSCModelElement
 		if ($search) {
 			$where[] = 'LOWER( tbl.product_id ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			$where[] = 'LOWER( tbl.product_name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER( tbl.product_sku ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		// Build the where clause of the query
-		$where = (count($where) ? ' WHERE '.implode(' OR ', $where) : '');
+		if( strlen( $filter_state ) ) {
+	    	$where = count( $where ) ?  " WHERE (".implode(' OR ', $where)  .')  AND ( tbl.product_enabled = '.$db->Quote( $db->getEscaped( $filter_state, true ), false ). ' )' :
+            ' WHERE  tbl.product_enabled = '.$db->Quote( $db->getEscaped( $filter_state, true ), false );
+   		} else {
+      		$where = (count($where) ? ' WHERE '.implode(' OR ', $where) : '');      
+	    }
 
 		// Get the total number of records
 		$query = 'SELECT COUNT(tbl.product_id)' .

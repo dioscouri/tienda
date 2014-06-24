@@ -21,6 +21,10 @@ Tienda.deleteCartItem = function(cartitem_id, prompt_text, callback_function) {
                 if ( typeof callback_function === 'function') {
                     callback_function( response );
                 }                                    
+
+                if( response.subtotal.length ) {
+                	tiendaJQ('#totalAmountDue').html(response.subtotal);
+                }
             } 
 
         }).fail(function(data){
@@ -268,6 +272,10 @@ Tienda.UpdateAddToCart = function(page, container, form, working, callback) {
 		
 		if ( typeof callback === 'function')
 			callback(resp);
+			
+		if( typeof resp.callback !== 'undefined' && resp.callback.length ) {
+			eval( resp.callback );
+		}
 		return true;
     });
 }
@@ -665,8 +673,8 @@ function tiendaAddProductToCompare(id, container, obj, doModal) {
 
 			if (doModal != false) { (function() { document.body.removeChild($('dscModal')); }).delay(500); }
 			if (resp.error == '1') {
-				if ($('validationmessage')) {
-					$('validationmessage').set('html', resp.msg);
+				if (tiendaJQ('validationmessage')) {
+					tiendaJQ('validationmessage').set('html', resp.msg);
 				}
 			} else {
 				if (document.getElementById(container)) {
@@ -705,8 +713,8 @@ function tiendaAddCoupon(form, mult_enabled) {
 				}
 
 				// Push the code into the form
-				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				if ($('coupon_codes').set('html', cc_html)) {
+				var cc_html = tiendaJQ('coupon_codes').innerHTML + resp.msg;
+				if (tiendaJQ('coupon_codes').set('html', cc_html)) {
 				    tiendaGetPaymentOptions('onCheckoutPayment_wrapper', form, '' );
 				}
 
@@ -764,7 +772,7 @@ function tiendaAddCartCoupon(form, mult_enabled) {
 
 				// Push the code into the form
 				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				$('coupon_codes').set('html', cc_html);
+				tiendaJQ('coupon_codes').set('html', cc_html);
 
 				// Clear the field
 				document.getElementById('new_coupon_code').value = '';
@@ -891,8 +899,8 @@ function tiendaRestoreFormInputs(form, values) {
 	for ( i = 0; i < form.elements.length; i++) {
 		if (form.elements[i].getAttribute('type') == 'checkbox')
 			form.elements[i].checked = values[form.elements[i].name].checked;
-		else if ($(form.elements[i].id))
-			$(form.elements[i].id).set('value', values[form.elements[i].name].value);
+		else if (tiendaJQ(form.elements[i].id))
+			tiendaJQ(form.elements[i].id).val( values[form.elements[i].name].value);
 	}
 }
 

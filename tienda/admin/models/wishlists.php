@@ -22,7 +22,57 @@ class TiendaModelWishlists extends TiendaModelBase
 		$filter_date_to		= $this->getState('filter_date_to');
 		$filter_name	= $this->getState('filter_name');
         $filter_ids	= $this->getState('filter_ids');
+		$filter        = $this->getState('filter');
+		$filter_any      = $this->getState('filter_any');
+		$filter_all      = $this->getState('filter_all');
+		$filter_privacy   = $this->getState( 'filter_privacy' );
+		$filter_acccessible = $this->getState( 'filter_accessible', '' ); // all wishlist accessible to the user
 
+		if( !empty( $filter ) ) {
+			$key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $filter ) ) ) . '%' );
+			
+			$where = array( );
+			$where[] = 'LOWER(tbl.wishlist_id) LIKE ' . $key;
+			$where[] = 'LOWER(tbl.wishlist_name) LIKE ' . $key;
+			
+			$query->where( '(' . implode( ' OR ', $where ) . ')' );
+		}
+		
+		if ( !empty( $filter_all ) )
+		{
+			$words = explode( ' ', $filter_all );
+			foreach ($words as $word)
+			{
+				$key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $word ) ) ) . '%' );
+				$where = array( );
+				$where[] = 'LOWER(tbl.wishlist_id) LIKE ' . $key;
+				$where[] = 'LOWER(tbl.wishlist_name) LIKE ' . $key;
+				
+				$query->where( '(' . implode( ' OR ', $where ) . ')' );                 
+			}
+		}
+		
+		if ( !empty( $filter_any ) )
+		{
+			$words = explode( ' ', $filter_any );
+			$wheres = array( );
+			foreach ($words as $word)
+			{
+				$key = $this->_db->Quote( '%' . $this->_db->getEscaped( trim( strtolower( $word ) ) ) . '%' );
+				$where = array( );
+				$where[] = 'LOWER(tbl.wishlist_id) LIKE ' . $key;
+				$where[] = 'LOWER(tbl.wishlist_name) LIKE ' . $key;
+				
+				$wheres[] = '(' . implode( ' OR ', $where ) . ')';
+			}
+			
+			if (!empty($wheres)) 
+			{
+				$stmt = '(' . implode( ' OR ', $wheres ) . ')';
+				$query->where($stmt);
+			}
+		}
+		
 		if (strlen($filter_user))
 		{
 			$query->where('tbl.user_id = '.$this->_db->Quote($filter_user));
@@ -53,6 +103,18 @@ class TiendaModelWishlists extends TiendaModelBase
         {
         	$query->where('tbl.wishlist_id IN('.implode(",", $filter_ids).')' );
         }
+
+		if( !empty( $filter_acccessible ) ) {
+		
+		if( empty( $filter_user ) ) {
+			$query->where( 'tbl.privacy = 1 ' );
+			} else {
+				$query->where( 
+					'( ( tbl.privacy = 1 ) '.
+					' OR ( tbl.user_id = '.$this->_db->Quote( (int)$filter_user ).' ) )'
+				);
+			}
+		}
 	}
 	
 	public function addItem( $data )

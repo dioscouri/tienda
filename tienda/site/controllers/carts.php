@@ -1058,6 +1058,32 @@ private function addCouponCodes($values)
 	        $response->html = JText::_('COM_TIENDA_INVALID_REQUEST');
 	        $response->error = true;
 	    }
+
+		// we deleted the item so we have to recalculate the subtotal
+		$response->subtotal = 0;
+		if( $response->error == false ) {
+			$show_tax= $this->defines->get('display_prices_with_tax');
+	        $model  = $this->getModel( $this->get('suffix') );
+	        $this->_setModelState();
+	        $items = $model->getList();
+
+	      	Tienda::load('TiendaHelperUser', 'helpers.user');
+    	  	Tienda::load('TiendaHelperTax', 'helpers.tax');
+      	
+			if ( $show_tax )
+		    	$taxes = TiendaHelperTax::calculateTax( $items, 2 );
+		    	
+			foreach( $items as $item )
+			{
+				if( $show_tax )
+				{
+        		   	$item->product_price += $taxes->product_taxes[$item->product_id];
+				}
+        	
+        		$response->subtotal += $item->product_price * $item->product_qty;	
+			}
+			$response->subtotal = TiendaHelperBase::currency($response->subtotal);
+		}
 	
 	    echo json_encode($response);
 	    return;

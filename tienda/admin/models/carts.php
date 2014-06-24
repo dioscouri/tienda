@@ -73,6 +73,7 @@ class TiendaModelCarts extends TiendaModelEav
 		$field = array();
 		$field[] = " p.product_name ";
 		$field[] = " p.product_sku ";
+		$field[] = " p.product_model ";	
 		$field[] = " p.product_full_image ";
 		$field[] = " p.product_ships ";
 		$field[] = " p.product_weight ";
@@ -256,6 +257,42 @@ class TiendaModelCarts extends TiendaModelEav
 							$item->product_weight = $table->productattributeoption_weight; //
 							// store the attribute's price impact
 							$item->orderitem_attributes_weight = "0.00000";
+						}
+
+						// update product values based on the selected option
+						$m_values = DSCModel::getInstance('ProductAttributeOptionValues', 'TiendaModel');
+						$m_values->setState( 'filter_option', $attrib_id );
+						$list_values = $m_values->getList();
+						if( count( $list_values ) ) {
+							foreach( $list_values as $val ) {
+								switch( $val->productattributeoptionvalue_field )
+								{
+									case 'product_model' :
+									case 'product_sku' :
+									{
+										$field = $val->productattributeoptionvalue_field;
+										switch( $val-> productattributeoptionvalue_operator )
+										{
+											case 'prepend' :
+											{
+												$item->$field = $val->productattributeoptionvalue_value . $item->$field;
+												break;
+											}
+											case 'append' :
+											{
+												$item->$field = $item->$field . $val->productattributeoptionvalue_value;
+												break;
+											}
+											case 'replace' :
+											{
+												$item->$field = $val->productattributeoptionvalue_value;
+												break;
+											}
+										}
+										break;
+									}
+								}
+							}
 						}
 
 							

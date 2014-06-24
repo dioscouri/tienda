@@ -202,7 +202,7 @@ function tiendaGetShippingRates( container, form, msg, doModal ) {
 				tiendaJQ("#"+container).html( resp.msg );
 				tiendaGetCheckoutTotals();
 			} else {
-				tiendaJQ('#validation_message').set('html', resp.msg);
+				tiendaJQ('#validation_message').html( resp.msg );
 			}
 
 			if (doModal != false) {
@@ -249,13 +249,13 @@ function tiendaAddCoupon( form, mult_enabled ) {
 		onSuccess : function(response) {
 			var resp = JSON.decode(response, false);
 			if (resp.error != '1') {
-				if ($(container)) {
-					$(container).set('html', '');
+				if (tiendaJQ(container)) {
+					tiendaJQ(container).html( '');
 				}
 
 				// Push the code into the form
-				var cc_html = $('coupon_codes').innerHTML + resp.msg;
-				$('coupon_codes').set('html',  cc_html );
+				var cc_html = tiendaJQ('coupon_codes').innerHTML + resp.msg;
+				tiendaJQ('coupon_codes').html( cc_html );
 
 				// Clear the field
 				document.getElementById('new_coupon_code').value = '';
@@ -267,8 +267,8 @@ function tiendaAddCoupon( form, mult_enabled ) {
 					tiendaShowHideDiv('coupon_code_form');
 				}
 			} else {
-				if ($(container)) {
-					$(container).set('html', resp.msg);
+				if (tiendaJQ(container)) {
+					JQ(container).html( resp.msg );
 				}
 			}
 		}
@@ -309,17 +309,17 @@ function tiendaAddCredit( form )
 			var resp = JSON.decode(response, false);
             if (resp.error != '1') 
             {
-                if ($(container)) { $(container).set('html', ''); }
-                $('applied_credit').set('html',  resp.msg );                
+                if (tiendaJQ(container)) { tiendaJQ(container).html( ''); }
+                tiendaJQ('applied_credit').html( resp.msg );
                 // Clear the field
-                $('apply_credit_amount').value = '';
+                tiendaJQ('apply_credit_amount').value = '';
                                
                  // Update the summary
                 tiendaGetCheckoutTotals();                          
             }
                 else
             {
-                if ($(container)) { $(container).set('html', resp.msg); }
+                if (tiendaJQ(container)) { tiendaJQ(container).html( resp.msg ); }
             }
         }
     }).send();

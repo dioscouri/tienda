@@ -198,8 +198,10 @@ if( $changed_attr > -1 ) {
                 $xref_id = $this->session->getId();
                 $xref_type = 'session';
             }
+			sort( $selected_opts );
+			array_shift( $selected_opts );
             ?>
-            <?php if (!$this->getModel()->isInWishlist($item->product_id, $xref_id, $xref_type)) { ?>
+            <?php if (!$this->getModel()->isInWishlist($item->product_id, $xref_id, $xref_type, implode(',', $selected_opts ))) { ?>
             <?php $onclick = "document.$formName.task.value='addtowishlist'; document.$formName.submit();"; ?>
             <a href="javascript:void(0);" onclick="<?php echo $onclick; ?>"><?php echo JText::_('COM_TIENDA_ADD_TO_WISHLIST'); ?></a>
             <?php } else { ?>

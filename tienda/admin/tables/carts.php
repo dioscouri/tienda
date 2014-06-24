@@ -82,19 +82,19 @@ class TiendaTableCarts extends TiendaTableEav
         return true;
     }
     
-		/**
-		 * Loads a row from the database and binds the fields to the object properties
-		 * If $load_eav is true, binds also the eav fields linked to this entity
-		 *
-		 * @access	public
-		 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
-		 * @param	bool	reset the object values?
-		 * @param	bool	load the eav values for this object
-		 *
-		 * @return	boolean	True if successful
-		 */
-		function load( $oid=null, $reset=true, $load_eav = true )
-		{
+	/**
+	 * Loads a row from the database and binds the fields to the object properties
+	 * If $load_eav is true, binds also the eav fields linked to this entity
+	 *
+	 * @access	public
+	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
+	 * @param	bool	reset the object values?
+	 * @param	bool	load the eav values for this object
+	 *
+	 * @return	boolean	True if successful
+	 */
+	function load( $oid=null, $reset=true, $load_eav = true )
+	{
   		$this->_linked_table_key = $this->product_id;
   		return parent::load( $oid, $reset, $load_eav );
     }

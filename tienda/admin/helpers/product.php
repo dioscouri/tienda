@@ -1275,6 +1275,11 @@ class TiendaHelperProduct extends TiendaHelperBase
 				}
 				$pa_list[ $a->productattribute_id ] = $tmp;
 			}
+			if( empty( $pao ) ) {
+				$map[$id][$po] = $pao;
+				return $map[$id][$po];
+			}
+
 			// now, create map from product quantities
 			foreach ( $res as $item ) {
 				// Information about product quantity for a certain combination of options needs to be polished.
@@ -2456,7 +2461,7 @@ class TiendaHelperProduct extends TiendaHelperBase
      * @param int $product_id 	The id of the product
      * @return html	The add to cart form
      */
-    public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ) )
+    public static function getCartButton( $product_id, $layout = 'product_buy', $values = array( ), &$callback_js = '' )
     {
 
         if( is_array( $values ) && !count( $values ) )
@@ -2492,7 +2497,7 @@ class TiendaHelperProduct extends TiendaHelperBase
         $model->setState( 'filter_group', $filter_group );
 		$model->setState( 'product.qty', $qty );
 		$model->setState( 'user.id', $user_id );
-        $row = $model->getItem( false, false, false );
+        $row = $model->getItem( false, true, false );
       	if ( $row->product_notforsale || Tienda::getInstance( )->get( 'shop_enabled' ) == '0' )
         {
             return $html;
@@ -2673,7 +2678,9 @@ class TiendaHelperProduct extends TiendaHelperBase
         ob_end_clean( );
 
         $html = $view->loadTemplate();
-        
+		if( isset( $view->callback_js ) && !empty( $view->callback_js ) ) {
+			$callback_js = $view->callback_js;
+		}
         return $html;
     }
 
